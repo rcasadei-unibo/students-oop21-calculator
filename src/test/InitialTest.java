@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
  * this class test.
  */
 public class InitialTest {
-	private final boolean test = true;
+    private static final boolean test = true;
     /**
      * test javadoc.
      */
