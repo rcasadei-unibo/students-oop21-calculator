@@ -1,9 +1,10 @@
 package test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import controller.manager.CCManager;
+import model.manager.CCManagerModel.Calculator;
+
 
 /**
  * 
@@ -16,12 +17,17 @@ public class ManagerTest {
      */
     @org.junit.Test
     public void initialize() {
+
     }
     /**
      * test javadoc.
      */
     @org.junit.Test
     public void testController() {
+
+        //cos ( 3 + 4 * 2 ) / ( 1 - 5 ) ^ 2 ^ 3 
+
+        controller.mount(Calculator.STANDARD);
 
         controller.read("cos");
         controller.read("(");
@@ -46,6 +52,6 @@ public class ManagerTest {
         controller.calculate();
         controller.printCurrentState();
         double value = 6.753079205E-8;
-        assertEquals(value, Double.valueOf(controller.getCurrentState().get(0)), 0.000001 );
+        assertEquals(value, Double.valueOf(controller.getCurrentState().get(0)), 1E-16 );
     }
 }

@@ -2,7 +2,7 @@ package controller.temp;
 
 /**
  */
-public class TempCalculator {
+public class TempCalculator extends AbstractCalculator {
 
     /**
      */
