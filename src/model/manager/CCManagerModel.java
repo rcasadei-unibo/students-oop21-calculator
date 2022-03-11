@@ -2,9 +2,10 @@ package model.manager;
 
 import java.util.List;
 
+import javax.swing.JPanel;
+
 import controller.temp.AbstractCalculator;
 import controller.temp.TempCalculator;
-
 
 import java.util.ArrayList;
 
@@ -17,20 +18,34 @@ public class CCManagerModel {
      * 
      */
     public enum Calculator {
-        
-        STANDARD(new TempCalculator()), SCIENTIFIC(new TempCalculator()), COMBINATORICS(new TempCalculator()),
-        GRAPHIC(new TempCalculator()), ADVANCED(new TempCalculator()), PROGRAMMER(new TempCalculator());
 
-        private final AbstractCalculator calc;
-        Calculator(final AbstractCalculator calc) {
-            this.calc = calc;
+        STANDARD(new TempCalculator()),SCIENTIFIC(new TempCalculator()), 
+        PROGRAMMER(new TempCalculator()), GRAPHIC(new TempCalculator()),
+        COMBINATORICS(new TempCalculator()), ADVANCED(new TempCalculator());
+
+        private final AbstractCalculator controller;
+        Calculator(final AbstractCalculator controller) {
+            this.controller = controller;
         }
-        public AbstractCalculator getCalc() {
-            return calc;
+
+        /**
+         * 
+         * @return controller of the calculator
+         */
+        public AbstractCalculator getController() {
+            return controller;
+        }
+
+        /**
+         * 
+         * @return GUI component of the calculator
+         */
+        public JPanel getGUI() {
+            return controller.getGUI();
         }
     }
 
-    private Calculator mounted = null;
+    private Calculator mounted;
     private final List<String> buffer = new ArrayList<>();
 
     /**
@@ -44,7 +59,7 @@ public class CCManagerModel {
      * @return Unmodifiable List containing the strings given in input 
      */
     public List<String> getCurrentState() {
-        return List.copyOf(this.buffer);
+        return this.buffer;
     }
 
     /**
@@ -66,15 +81,16 @@ public class CCManagerModel {
      * 
      * @return currently mounted calculator
      */
-    public AbstractCalculator getMounted() {
-        return this.mounted.getCalc();
+    public Calculator getMounted() {
+        return this.mounted;
     }
 
     /**
      * 
-     * @param calcName calculator to be mounted
+     * @param calculator calculator to be mounted
      */
-    public void setMounted(final Calculator calcName) {
-        this.mounted = calcName;
+    public void setMounted(final Calculator calculator) {
+        this.mounted = calculator;
+        System.out.println("montata " + this.mounted.name()); 
     }
 }

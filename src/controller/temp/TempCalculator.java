@@ -1,11 +1,19 @@
 package controller.temp;
 
+import javax.swing.JPanel;
+
+import controller.manager.CCManager;
+import view.components.CCDisplay;
+import view.temp.TempCalcGUI;
+
 /**
  */
 public class TempCalculator extends AbstractCalculator {
+    private CCManager manager;
+    private CCDisplay display;
+    private final JPanel view = new TempCalcGUI(this);
 
-    /**
-     */
+    @Override
     public double applyBinaryOperation(final String op, final Double a, final Double b) {
         double res = 0.0;
         switch (op) {
@@ -29,8 +37,7 @@ public class TempCalculator extends AbstractCalculator {
         return res;
     }
 
-    /**
-     */
+    @Override
     public int getPrecedence(final String o2) {
         int res = 0;
         switch (o2) {
@@ -54,9 +61,8 @@ public class TempCalculator extends AbstractCalculator {
         return res;
     }
 
-    /**
-     */
-    public String getType(String token) {
+    @Override
+    public String getType(final String token) {
         String res = "";
         switch (token) {
         case "+": 
@@ -79,10 +85,8 @@ public class TempCalculator extends AbstractCalculator {
         return res;
     }
 
-    /**
-     */
-    public Double applyUnaryOperation(final String token,final double a) {
-        // TODO Auto-generated method stub
+    @Override
+    public Double applyUnaryOperation(final String token, final double a) {
         double res = 0.0;
         switch (token) {
         case "sin": 
@@ -96,18 +100,36 @@ public class TempCalculator extends AbstractCalculator {
         return res;
     }
 
-    /**
-     */
+    @Override
     public boolean isUnaryOperator(final String token) {
-        // TODO Auto-generated method stub
         return token == "sin" || token == "cos";
     }
 
-    /**
-     */
+    @Override
     public boolean isBinaryOperator(final String token) {
-        // TODO Auto-generated method stub
-        return token == "+" || token == "-"|| token == "/"|| token == "*" || token == "^";
+        return token == "+" || token == "-" || token == "/" || token == "*" || token == "^";
     }
-    
+
+    public void read(final String text) {
+        this.manager.read(text);
+        this.display.updateText(this.manager.getCurrentState().stream().reduce("", (a, b) -> a + b));
+    }
+
+    public void calculate() {
+        // TODO Auto-generated method stub
+        this.manager.calculate();
+        this.display.updateText(this.manager.getCurrentState().stream().reduce("", (a, b) -> a + b));
+    }
+
+    public void setDisplay(final CCDisplay display) {
+        this.display = display;
+    }
+
+    public void setManager(final CCManager mng) {
+        this.manager = mng;
+    }
+
+    public JPanel getGUI() {
+        return this.view;
+    }
 }

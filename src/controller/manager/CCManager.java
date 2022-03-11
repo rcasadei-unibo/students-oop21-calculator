@@ -6,9 +6,8 @@ import java.util.List;
 import java.util.Stack;
 
 import controller.temp.AbstractCalculator;
-import controller.temp.TempCalculator;
 import model.manager.CCManagerModel;
-import view.main.CCMainGUI;
+import model.manager.CCManagerModel.Calculator;
 
 /**
  * 
@@ -17,7 +16,6 @@ import view.main.CCMainGUI;
 public class CCManager {
 
     private final CCManagerModel model = new CCManagerModel();
-    private final CCMainGUI view = new CCMainGUI();
 
     /**
      * 
@@ -25,14 +23,13 @@ public class CCManager {
      */
     public void read(final String s) {
         model.addInput(s);
-//        this.printCurrentState();
     }
 
     /**
      * 
      */
     public void printCurrentState() {
-        view.log(model.getCurrentState());
+        System.out.println(model.getCurrentState());
     }
 
     /**
@@ -54,8 +51,17 @@ public class CCManager {
      * 
      * @param calcName
      */
-    public void mount(final CCManagerModel.Calculator calcName) {
+    public void mount(final Calculator calcName) {
         this.model.setMounted(calcName);
+        this.clear();
+        this.getMounted().getController().setManager(this);
+    }
+    /**
+     * 
+     * @return ..
+     */
+    public Calculator getMounted() {
+        return this.model.getMounted();
     }
 
     /**
@@ -66,16 +72,12 @@ public class CCManager {
         List<String> rpnInput;
         try {
             rpnInput = this.parseToRPN(this.unifyTerms(input));
-//            view.log("RPN:");
-//            view.log(rpnInput);
-
             final double result = this.evaluateRPN(rpnInput);
-//            view.log("Result: ");
             model.setCurrentState(String.valueOf(result));
         } catch (EmptyStackException e) {
             model.setCurrentState("Syntax error");
         } catch (Exception e) {
-//            e.printStackTrace();
+            e.printStackTrace();
             model.setCurrentState(e.getMessage());
         }
     }
@@ -87,7 +89,6 @@ public class CCManager {
         input.forEach((s) -> {
             if (isNumber(s) || s == ".") {
                 currentNumber.add(s);
-//                view.log(currentNumber);
             } else {
                  if (!currentNumber.isEmpty()) {
                     final double actualNum = convert(currentNumber);
@@ -118,7 +119,7 @@ public class CCManager {
         final var it = infix.iterator();
         while (it.hasNext()) {
 
-            String token = it.next();
+            final String token = it.next();
             if (isNumber(token)) {
                 output.add(token);
             } else if (isFunction(token)) {
@@ -127,7 +128,7 @@ public class CCManager {
 
                 if (!stack.isEmpty()) {
                     String o2 = stack.lastElement();
-                    while (o2 != "(" && (precedence(o2) > precedence(token) || (precedence(o2) == precedence(token) && type(token) == "left"))) {
+                    while (!"(".equals(o2) && (precedence(o2) > precedence(token) || (precedence(o2) == precedence(token) && type(token) == "left"))) {
                         output.add(stack.pop());
                         if (stack.isEmpty()) {
                             break;
@@ -138,13 +139,13 @@ public class CCManager {
 
                 stack.add(token);
 
-            } else if (token == "(") {
+            } else if ("(".equals(token)) {
                 stack.add(token);
-            } else if (token == ")") {
-                while (!stack.isEmpty() && stack.lastElement() != "(") {
+            } else if (")".equals(token)) {
+                while (!stack.isEmpty() && !"(".equals(stack.lastElement())) {
                     output.add(stack.pop());
                 }
-                if (!stack.isEmpty() && stack.lastElement() == "(") {
+                if (!stack.isEmpty() && "(".equals(stack.lastElement())) {
                     stack.pop();
                 } else {
                     //errore sulle parentesi
@@ -158,7 +159,7 @@ public class CCManager {
         }
 
         while (!stack.isEmpty()) {
-            if (stack.lastElement() == "(") {
+            if ("(".equals(stack.lastElement())) {
                 //errore sulle parentesi
                 throw new Exception("Error: parenthesis mismatch");
             }
@@ -179,11 +180,11 @@ public class CCManager {
             if (isNumber(token)) {
                 stack.add(Double.valueOf(token));
             } else if (isOperator(token)) {
-                double secondOperand = Double.valueOf(stack.pop());
-                double firstOperand = Double.valueOf(stack.pop());
+                final double secondOperand = Double.valueOf(stack.pop());
+                final double firstOperand = Double.valueOf(stack.pop());
                 stack.add(getCalculator().applyBinaryOperation(token, firstOperand, secondOperand));
             } else if (isFunction(token)) {
-                double firstOperand = Double.valueOf(stack.pop());
+                final double firstOperand = Double.valueOf(stack.pop());
                 stack.add(getCalculator().applyUnaryOperation(token, firstOperand));
             }
         }
@@ -194,10 +195,8 @@ public class CCManager {
         return stack.pop();
     }
 
-
-
     private AbstractCalculator getCalculator() {
-        return model.getMounted();
+        return this.model.getMounted().getController();
     }
 
     private boolean isFunction(final String token) {
