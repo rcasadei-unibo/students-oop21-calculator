@@ -8,7 +8,6 @@ import java.util.List;
  * -Decimal to Binary
  * -Binary to Octal, Hexadecimal.
  * -Utility for negative numbers.
- * 
  */
 public final class ConversionAlgorithms {
     private ConversionAlgorithms() {
@@ -42,16 +41,7 @@ public final class ConversionAlgorithms {
         }
         return hexadecimal;
     }
-    /**
-     * 
-     * @param number
-     *        the number to be converted to string
-     * @return
-     *        the string version of the number except for hexadecimal values
-     *        10->A
-     *        11->B...
-     */
-    public static String hexadecimalLetters(int number) {
+    private static String hexadecimalLetters(final int number) {
         switch (number) {
             case 10:
                 return "A";
@@ -85,15 +75,20 @@ public final class ConversionAlgorithms {
     }
     /**
      * 
-     * @param number
-     * @return the string binary conversion of number
+     * @param base the starting base of conversion
+     * @param number to be converted
+     * @return an Integer containing the decimal conversion of the number
      */
-    public static String conversionToStringBinary(final int number) {
-        return Integer.toBinaryString(number);
+    public static int conversionToDecimal(int base,List<Integer> number) {
+        int ret = 0;
+        int i = 0;
+        for(int index = number.size()-1; index >= 0; index--) {
+            //[3,2,1,0] base 8 -> 3*8^3 + 2*8^2 + 1*8^1 + 0*1
+            ret += number.get(i)*Math.pow(base, index);
+            i++;
+        }
+        return ret;
     }
-    //TODO implement binary to hexadecimal methods and viceversa
-    
-    //TODO implement binary to octal methods and viceversa
     
     //TODO implement methods to convert to negative numbers
 }
