@@ -19,7 +19,7 @@ public class CCManagerModel {
      */
     public enum Calculator {
 
-        STANDARD(new TempCalculator()),SCIENTIFIC(new TempCalculator()), 
+        STANDARD(new TempCalculator()), SCIENTIFIC(new TempCalculator()), 
         PROGRAMMER(new TempCalculator()), GRAPHIC(new TempCalculator()),
         COMBINATORICS(new TempCalculator()), ADVANCED(new TempCalculator());
 
