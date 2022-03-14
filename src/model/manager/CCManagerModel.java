@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-import controller.temp.AbstractCalculator;
+import utils.AbstractCalculator;
 import controller.temp.TempCalculator;
 
 import java.util.ArrayList;
@@ -19,7 +19,8 @@ public class CCManagerModel {
      */
     public enum Calculator {
 
-        STANDARD(new TempCalculator()), SCIENTIFIC(new TempCalculator()), 
+        STANDARD(new TempCalculator()), 
+        SCIENTIFIC(new TempCalculator()), 
         PROGRAMMER(new TempCalculator()), GRAPHIC(new TempCalculator()),
         COMBINATORICS(new TempCalculator()), ADVANCED(new TempCalculator());
 
