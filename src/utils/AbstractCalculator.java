@@ -4,12 +4,13 @@ import java.util.Map;
 
 import javax.swing.JPanel;
 
+import controller.manager.CCManager;
 import model.calculators.CalculatorModel;
 
 /**
  * MISSING JAVADOC.
  */
-public class GeneralCalculator {
+public abstract class AbstractCalculator {
     /**
      * 
      * MISSING JAVADOC.
@@ -17,6 +18,7 @@ public class GeneralCalculator {
      */
     private CalculatorModel model;
     private JPanel panel;
+    private CCManager manager;
     /**
      * 
      * @param model
@@ -105,5 +107,7 @@ public class GeneralCalculator {
      * 
      * @param mng manager of the system
      */
-    //public abstract void setManager(final CCManager mng);
+    public void setManager(final CCManager mng) {
+        this.manager = mng;
+    }
 }
