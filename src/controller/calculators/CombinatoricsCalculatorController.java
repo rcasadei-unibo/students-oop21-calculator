@@ -14,7 +14,8 @@ import view.calculators.CombinatoricsCalculatorPanel;
  */
 public class CombinatoricsCalculatorController extends AbstractCalculator {
     @Override
-    public void setCalculator(final CalculatorModel model, final JPanel panel) {
-        super.setCalculator(new CombinatoricsCalculatorModel(), new CombinatoricsCalculatorPanel());
+    public void setCalculator() {
+       this.model = new CombinatoricsCalculatorModel();
+       this.panel = new CombinatoricsCalculatorPanel();
     }
 }
