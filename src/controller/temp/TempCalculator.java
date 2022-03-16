@@ -134,4 +134,10 @@ public class TempCalculator extends AbstractCalculator {
     public JPanel getGUI() {
         return this.view;
     }
+
+    @Override
+    public void setCalculator() {
+        // TODO Auto-generated method stub
+        
+    }
 }
