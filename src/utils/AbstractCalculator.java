@@ -53,7 +53,7 @@ public abstract class AbstractCalculator {
      * @param b second operand
      * @return result of the given operation
      */
-    protected double applyBinaryOperation(final String op, final Double a, final Double b) {
+    public double applyBinaryOperation(final String op, final Double a, final Double b) {
         return this.getBinaryOperators().get(op).apply(a, b);
     }
     /**

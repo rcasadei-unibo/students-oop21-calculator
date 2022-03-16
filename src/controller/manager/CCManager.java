@@ -5,7 +5,9 @@ import java.util.EmptyStackException;
 import java.util.List;
 import java.util.Stack;
 
-import controller.temp.AbstractCalculator;
+import utils.AbstractCalculator;
+import utils.CalcException;
+import utils.Type;
 import model.manager.CCManagerModel;
 import model.manager.CCManagerModel.Calculator;
 
@@ -18,10 +20,14 @@ public class CCManager {
     private final CCManagerModel model = new CCManagerModel();
 
     /**
-     * 
      * @param s input string to be read
      */
     public void read(final String s) {
+//        if (isOperator(s)) {
+//            if (this.getCurrentState().isEmpty() || !isNumber(this.getCurrentState().get(this.getCurrentState().size() - 1))) {
+//                model.addInput("0");
+//            }
+//        }
         model.addInput(s);
     }
 
@@ -76,7 +82,7 @@ public class CCManager {
             model.setCurrentState(String.valueOf(result));
         } catch (EmptyStackException e) {
             model.setCurrentState("Syntax error");
-        } catch (Exception e) {
+        } catch (CalcException e) {
             e.printStackTrace();
             model.setCurrentState(e.getMessage());
         }
@@ -87,7 +93,7 @@ public class CCManager {
 
         final List<String> currentNumber = new ArrayList<>();
         input.forEach((s) -> {
-            if (isNumber(s) || s == ".") {
+            if (isNumber(s) || ".".equals(s)) {
                 currentNumber.add(s);
             } else {
                  if (!currentNumber.isEmpty()) {
@@ -111,7 +117,7 @@ public class CCManager {
         return Double.valueOf(num);
     }
 
-    private List<String> parseToRPN(final List<String> infix) throws Exception {
+    private List<String> parseToRPN(final List<String> infix) throws CalcException {
 
         final List<String> output = new ArrayList<>();
         final Stack<String> stack = new Stack<>();
@@ -128,7 +134,7 @@ public class CCManager {
 
                 if (!stack.isEmpty()) {
                     String o2 = stack.lastElement();
-                    while (!"(".equals(o2) && (precedence(o2) > precedence(token) || (precedence(o2) == precedence(token) && type(token) == "left"))) {
+                    while (!"(".equals(o2) && (precedence(o2) > precedence(token) || (precedence(o2) == precedence(token) && type(token) == Type.LEFT))) {
                         output.add(stack.pop());
                         if (stack.isEmpty()) {
                             break;
@@ -148,8 +154,7 @@ public class CCManager {
                 if (!stack.isEmpty() && "(".equals(stack.lastElement())) {
                     stack.pop();
                 } else {
-                    //errore sulle parentesi
-                    throw new Exception("Error: parenthesis mismatch");
+                    throw new CalcException("Error: parenthesis mismatch");
                 }
                 if (!stack.isEmpty() && isFunction(stack.lastElement())) {
                     output.add(stack.pop());
@@ -160,8 +165,7 @@ public class CCManager {
 
         while (!stack.isEmpty()) {
             if ("(".equals(stack.lastElement())) {
-                //errore sulle parentesi
-                throw new Exception("Error: parenthesis mismatch");
+                throw new CalcException("Error: parenthesis mismatch");
             }
             output.add(stack.pop());
         }
@@ -169,7 +173,7 @@ public class CCManager {
         return output;
     }
 
-    private double evaluateRPN(final List<String> rpn) throws Exception {
+    private double evaluateRPN(final List<String> rpn) throws CalcException {
         //https://rosettacode.org/wiki/Parsing/RPN_calculator_algorithm#Java_2
         final Stack<Double> stack = new Stack<>();
 
@@ -190,7 +194,7 @@ public class CCManager {
         }
 
         if (stack.size() > 1) {
-            throw new Exception("Error: too many operands");
+            throw new CalcException("Error: too many operands");
         }
         return stack.pop();
     }
@@ -215,7 +219,7 @@ public class CCManager {
             return false;
         }
     }
-    private String type(final String token) {
+    private Type type(final String token) {
         return getCalculator().getType(token);
     }
 
