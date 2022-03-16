@@ -16,18 +16,15 @@ public abstract class AbstractCalculator {
      * MISSING JAVADOC.
      *
      */
-    private CalculatorModel model;
-    private JPanel panel;
-    private CCManager manager;
+    protected CalculatorModel model;
+    protected JPanel panel;
+    protected CCManager manager;
     /**
      * 
      * @param model
      * @param panel
      */
-    public void setCalculator(final CalculatorModel model, final JPanel panel) {
-        this.model = model;
-        this.panel = panel;
-    }
+    public abstract void setCalculator();  
     /**
      * 
      * @return a map containing all the binary operators of the mounted calculator
