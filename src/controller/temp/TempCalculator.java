@@ -3,6 +3,8 @@ package controller.temp;
 import javax.swing.JPanel;
 
 import controller.manager.CCManager;
+import utils.AbstractCalculator;
+import utils.Type;
 import view.components.CCDisplay;
 import view.temp.TempCalcGUI;
 
@@ -62,23 +64,23 @@ public class TempCalculator extends AbstractCalculator {
     }
 
     @Override
-    public String getType(final String token) {
-        String res = "";
+    public Type getType(final String token) {
+        Type res = null;
         switch (token) {
         case "+": 
-            res = "left";
+            res = Type.LEFT;
             break;
         case "-": 
-            res = "left";
+            res = Type.LEFT;
             break;
         case "*": 
-            res = "left";
+            res = Type.LEFT;
             break;
         case "/": 
-            res = "left";
+            res = Type.LEFT;
             break;
         case "^": 
-            res = "right";
+            res = Type.RIGHT;
             break;
         default:
         }
