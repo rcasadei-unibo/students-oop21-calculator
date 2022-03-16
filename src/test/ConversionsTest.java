@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
-import util.ConversionAlgorithms;
+import utils.ConversionAlgorithms;
 
 /**
  * This class tests conversions.
@@ -37,7 +37,7 @@ public class ConversionsTest {
         assertEquals(List.of(2, 0), ConversionAlgorithms.conversionToOctal(16)); 
     }
     /**
-     * Test for decimal to octal conversions.
+     * Test for base to decimal conversions.
      */
     @org.junit.Test
     public void BaseToDecimal() {
