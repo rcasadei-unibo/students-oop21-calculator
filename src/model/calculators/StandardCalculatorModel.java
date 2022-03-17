@@ -4,6 +4,7 @@ import java.util.Map;
 
 import utils.CCBinaryOperator;
 import utils.CCUnaryOperator;
+import utils.Type;
 //TODO MISSING JAVADOC.
 /**
  * 
@@ -19,16 +20,15 @@ public class StandardCalculatorModel extends CalculatorModel {
      */
     public StandardCalculatorModel() {
         //TODO change operation names'
-        this.unaryOpMap.putAll(Map.of("inverse", new CCUnaryOperator((n) -> this.inverse(n), 0, null),
-                                      "root", new CCUnaryOperator((n) -> this.root(n), 0, null),
-                                      "square", new CCUnaryOperator((n) -> this.square(n), 0, null)
+        this.unaryOpMap.putAll(Map.of("inverse", new CCUnaryOperator((n) -> this.inverse(n), 1, null),
+                                      "root", new CCUnaryOperator((n) -> this.root(n), 1, null),
+                                      "square", new CCUnaryOperator((n) -> this.square(n), 1, null)
                 ));
-        //TODO add precedence and Type
-        this.binaryOpMap.putAll(Map.of("sum", new CCBinaryOperator((n1, n2) -> this.sum(n1, n2), 0, null),
-                                       "sub", new CCBinaryOperator((n1, n2) -> this.sub(n1, n2), 0, null),
-                                       "mult", new CCBinaryOperator((n1, n2) -> this.mult(n1, n2), 0, null),
-                                       "div", new CCBinaryOperator((n1, n2) -> this.div(n1, n2), 0, null),
-                                       "modulo", new CCBinaryOperator((n1, n2) -> this.modulo(n1, n2), 0, null)
+        this.binaryOpMap.putAll(Map.of("sum", new CCBinaryOperator((n1, n2) -> this.sum(n1, n2), 1, Type.LEFT),
+                                       "sub", new CCBinaryOperator((n1, n2) -> this.sub(n1, n2), 1, Type.LEFT),
+                                       "mult", new CCBinaryOperator((n1, n2) -> this.mult(n1, n2), 2, Type.LEFT),
+                                       "div", new CCBinaryOperator((n1, n2) -> this.div(n1, n2), 3, Type.LEFT),
+                                       "modulo", new CCBinaryOperator((n1, n2) -> this.modulo(n1, n2), 3, Type.LEFT)
                                        ));
     }
     private double sum(final double n1, final double n2) {
