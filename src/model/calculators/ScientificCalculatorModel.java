@@ -14,7 +14,9 @@ import utils.CCUnaryOperator;
 
 public class ScientificCalculatorModel extends StandardCalculatorModel {
     /**
-     * 
+     * ScientificCalculatorModel contains all the operations of StandardCalculatorModel
+     * and new operations unique to a scientific calculator.
+     *
      */
     public ScientificCalculatorModel() {
         super();
@@ -30,7 +32,7 @@ public class ScientificCalculatorModel extends StandardCalculatorModel {
     /**
      * 
      * @param n is the argument of the logarithm 
-     * @return the natural logarithm of the argument
+     * @return the natural logarithm of the value n
      */
     
     private double ln(final double n) {
@@ -39,7 +41,7 @@ public class ScientificCalculatorModel extends StandardCalculatorModel {
     /**
      * 
      * @param n is the value we want to get the modulus of
-     * @return the modulus of the argument
+     * @return the modulus of the value n
      */
     
     private double abs(final double n) {
@@ -48,7 +50,7 @@ public class ScientificCalculatorModel extends StandardCalculatorModel {
     /**
      * 
      * @param n is the number we want to get the factorial of
-     * @return the factorial of the number
+     * @return the factorial of the value n
      */
     
     private long factorial(final double n) {
