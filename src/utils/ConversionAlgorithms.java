@@ -63,7 +63,7 @@ public final class ConversionAlgorithms {
      */
     public static String conversionToStringHexadecimal(final int number) {
         final String value = Integer.toHexString(Math.abs(number));
-        return number > 0 ? "0".concat(value) : "1".concat(value);
+        return number > 0 ? "0".concat(value).toUpperCase() : "1".concat(value).toUpperCase();
     }
     private static String hexadecimalLetters(final int number) {
         switch (number) {
