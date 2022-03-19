@@ -65,22 +65,22 @@ public final class ConversionAlgorithms {
         final String value = Integer.toHexString(Math.abs(number));
         return number > 0 ? "0".concat(value).toUpperCase() : "1".concat(value).toUpperCase();
     }
-    private static String hexadecimalLetters(final int number) {
-        switch (number) {
-            case 10:
-                return "A";
-            case 11:
-                return "B";
-            case 12:
-                return "C";
-            case 13:
-                return "D";
-            case 14:
-                return "E";
-            case 15:
-                return "F";
+    private static double hexadecimalLetters(final String bit) {
+        switch (bit) {
+            case "A":
+                return 10.0;
+            case "B":
+                return 11.0;
+            case "C":
+                return 12.0;
+            case "D":
+                return 13.0;
+            case "E":
+                return 14.0;
+            case "F":
+                return 15.0;
             default:
-                return String.valueOf(number);
+                return bit.equals("0") ? 0.0 : Integer.parseInt(bit);
         } 
     }
     /**
@@ -124,9 +124,19 @@ public final class ConversionAlgorithms {
             i++;
         }*/
         final var bits = number.toCharArray();
-        // "11010" -10 = (-)1010
+       // System.out.println("number is: "+number);
         for (int i = 1; i < bits.length; i++) {
-            ret += Integer.parseInt(String.valueOf(bits[bits.length - i])) * Math.pow(base, bits.length - i);
+            if(base==16) {
+                // "0FF" 255 = (+)FF
+                ret += hexadecimalLetters(String.valueOf(bits[i])) * Math.pow(base, bits.length -1 - i);
+                
+               // System.out.println("bit is: "+String.valueOf(bits[i])+" mult by "+ Math.pow(base, bits.length -1 - i));
+            }
+            else {
+             // "11010" -10 = (-)1010
+                ret += Integer.parseInt(String.valueOf(bits[i])) * Math.pow(base, bits.length -1 - i);
+            }
+            
         }
         return String.valueOf(bits[0]).equals("0") ? ret : (-1) * ret;
     }   
