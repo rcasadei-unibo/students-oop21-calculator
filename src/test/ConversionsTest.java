@@ -1,8 +1,12 @@
 package test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
+
+import org.junit.jupiter.params.shadow.com.univocity.parsers.conversions.Conversion;
 
 import utils.ConversionAlgorithms;
 
@@ -15,45 +19,52 @@ public class ConversionsTest {
      */
     @org.junit.Test
     public void decimalToBinary() {
-        assertEquals(List.of(1, 0, 1, 0), ConversionAlgorithms.conversionToBinary(10));
-        assertEquals(List.of(1, 0, 0, 0, 1), ConversionAlgorithms.conversionToBinary(17));
-     }
+        assertTrue("01010".equals(ConversionAlgorithms.conversionToStringBinary(10)));
+        assertTrue("11010".equals(ConversionAlgorithms.conversionToStringBinary(-10)));    
+        assertTrue("01011".equals(ConversionAlgorithms.conversionToStringBinary(11)));
+        assertTrue("11011".equals(ConversionAlgorithms.conversionToStringBinary(-11)));
+        //System.out.println(ConversionAlgorithms.conversionToStringBinary(Integer.MAX_VALUE));
+        //System.out.println(ConversionAlgorithms.conversionToStringBinary(Integer.MIN_VALUE));
+    }
     /**
      * Test for decimal to hexadecimal conversions.
      */
     @org.junit.Test
     public void decimalToHexadecimal() {
-        assertEquals(List.of(10), ConversionAlgorithms.conversionToHexadecimal(10));
-        assertEquals(List.of(15), ConversionAlgorithms.conversionToHexadecimal(15));
-        assertEquals(List.of(15, 15), ConversionAlgorithms.conversionToHexadecimal(255)); 
+        assertTrue("0A".equals(ConversionAlgorithms.conversionToStringHexadecimal(10)));
+        assertTrue("1A".equals(ConversionAlgorithms.conversionToStringHexadecimal(-10)));
+        assertTrue("0FF".equals(ConversionAlgorithms.conversionToStringHexadecimal(255)));
+        assertTrue("1FF".equals(ConversionAlgorithms.conversionToStringHexadecimal(-255)));
+        assertTrue("0100".equals(ConversionAlgorithms.conversionToStringHexadecimal(256)));
+        assertTrue("1100".equals(ConversionAlgorithms.conversionToStringHexadecimal(-256)));
     }
     /**
      * Test for decimal to octal conversions.
      */
     @org.junit.Test
     public void decimalToOctal() {
-        assertEquals(List.of(1, 2), ConversionAlgorithms.conversionToOctal(10));
-        assertEquals(List.of(1, 7), ConversionAlgorithms.conversionToOctal(15));
-        assertEquals(List.of(2, 0), ConversionAlgorithms.conversionToOctal(16)); 
+        assertTrue("07".equals(ConversionAlgorithms.conversionToStringOctal(7)));
+        assertTrue("17".equals(ConversionAlgorithms.conversionToStringOctal(-7)));
+        assertTrue("010".equals(ConversionAlgorithms.conversionToStringOctal(8)));
+        assertTrue("110".equals(ConversionAlgorithms.conversionToStringOctal(-8)));
+        assertTrue("070".equals(ConversionAlgorithms.conversionToStringOctal(56)));
+        assertTrue("170".equals(ConversionAlgorithms.conversionToStringOctal(-56)));
     }
     /**
      * Test for base to decimal conversions.
      */
     @org.junit.Test
-    public void BaseToDecimal() {
-       var Binary10 = ConversionAlgorithms.conversionToBinary(10);
-       var Octal10 = ConversionAlgorithms.conversionToOctal(10);
-       var Hexa10 = ConversionAlgorithms.conversionToHexadecimal(10);
-       assertEquals(10,ConversionAlgorithms.conversionToDecimal(2, Binary10));
-       assertEquals(10,ConversionAlgorithms.conversionToDecimal(8, Octal10));
-       assertEquals(10,ConversionAlgorithms.conversionToDecimal(16, Hexa10));
-       var Binary256 = ConversionAlgorithms.conversionToBinary(256);
-       var Octal256 = ConversionAlgorithms.conversionToOctal(256);
-       var Hexa256 = ConversionAlgorithms.conversionToHexadecimal(256);
-       assertEquals(256,ConversionAlgorithms.conversionToDecimal(2, Binary256));
-       assertEquals(256,ConversionAlgorithms.conversionToDecimal(8, Octal256));
-       assertEquals(256,ConversionAlgorithms.conversionToDecimal(16, Hexa256));
+    public void baseToDecimal() {
+       assertTrue(10==ConversionAlgorithms.conversionToDecimal(2, ConversionAlgorithms.conversionToStringBinary(10)));
+       //assertFalse(10==ConversionAlgorithms.conversionToDecimal(2, ConversionAlgorithms.conversionToStringBinary(-10)));
+       assertTrue(-10==ConversionAlgorithms.conversionToDecimal(2, ConversionAlgorithms.conversionToStringBinary(-10)));
+       assertTrue(-10==ConversionAlgorithms.conversionToDecimal(16, ConversionAlgorithms.conversionToStringHexadecimal(-10)));
+       //System.out.println("-10 1A is "+ConversionAlgorithms.conversionToStringHexadecimal(-10));
+        //-256 = 1100
+       //System.out.println(ConversionAlgorithms.conversionToDecimal(16, ConversionAlgorithms.conversionToStringHexadecimal(-256)));
+       //System.out.println("-256 is "+ ConversionAlgorithms.conversionToDecimal(2, ConversionAlgorithms.conversionToStringBinary(-256)));
+       assertTrue(80==ConversionAlgorithms.conversionToDecimal(8, ConversionAlgorithms.conversionToStringOctal(80)));
     }
-    
+
     
 }
