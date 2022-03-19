@@ -124,9 +124,9 @@ public final class ConversionAlgorithms {
             i++;
         }*/
         final var bits = number.toCharArray();
-        // "11010" -10 = 1010
+        // "11010" -10 = (-)1010
         for (int i = 1; i < bits.length; i++) {
-            ret += Integer.parseInt(String.valueOf(bits[bits.length - 1 - i])) * Math.pow(base, bits.length - 1 - i);
+            ret += Integer.parseInt(String.valueOf(bits[bits.length - i])) * Math.pow(base, bits.length - i);
         }
         return String.valueOf(bits[0]).equals("0") ? ret : (-1) * ret;
     }   
