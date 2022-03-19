@@ -11,9 +11,8 @@ import view.temp.TempCalcGUI;
 /**
  */
 public class TempCalculator extends AbstractCalculator {
-    private CCManager manager;
     private CCDisplay display;
-    private final JPanel view = new TempCalcGUI(this);
+    
 
     @Override
     public double applyBinaryOperation(final String op, final Double a, final Double b) {
@@ -122,17 +121,34 @@ public class TempCalculator extends AbstractCalculator {
         this.manager.calculate();
         this.display.updateText(this.manager.getCurrentState().stream().reduce("", (a, b) -> a + b));
     }
+    
+    public void show() {
+        this.display.updateText(this.manager.getCurrentState().stream().reduce("", (a, b) -> a + b));
+    }
 
     public void setDisplay(final CCDisplay display) {
         this.display = display;
     }
 
-    public void setManager(final CCManager mng) {
-        this.manager = mng;
+    public JPanel getGUI() {
+        return this.panel;
     }
 
-    public JPanel getGUI() {
-        return this.view;
+    @Override
+    public void setCalculator() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    public CCManager getManager() {
+        // TODO Auto-generated method stub
+        return this.manager;
+    }
+    
+    @Override
+    public void setManager(final CCManager mng) {
+        super.setManager(mng);
+        this.panel = new TempCalcGUI(this);
     }
 
     @Override
