@@ -150,4 +150,10 @@ public class TempCalculator extends AbstractCalculator {
         super.setManager(mng);
         this.panel = new TempCalcGUI(this);
     }
+
+    @Override
+    public void setCalculator() {
+        // TODO Auto-generated method stub
+        
+    }
 }
