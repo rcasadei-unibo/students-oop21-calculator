@@ -23,12 +23,21 @@ public class CCManager {
      * @param s input string to be read
      */
     public void read(final String s) {
-//        if (isOperator(s)) {
-//            if (this.getCurrentState().isEmpty() || !isNumber(this.getCurrentState().get(this.getCurrentState().size() - 1))) {
-//                model.addInput("0");
-//            }
-//        }
+        if ("-".equals(s)) {
+            final var buffer = model.getCurrentState();
+            if (buffer.isEmpty() || buffer.get(buffer.size() - 1) == "(") {
+                model.addInput("0");
+            }
+        }
         model.addInput(s);
+    }
+
+    /**
+     * 
+     * @param list
+     */
+    public void readAll(final List<String> list) {
+        list.forEach(s -> this.read(s));
     }
 
     /**
@@ -83,7 +92,7 @@ public class CCManager {
         } catch (EmptyStackException e) {
             model.setCurrentState("Syntax error");
         } catch (CalcException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
             model.setCurrentState(e.getMessage());
         }
     }

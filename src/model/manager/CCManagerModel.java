@@ -34,7 +34,7 @@ public class CCManagerModel {
          * @return controller of the calculator
          */
         public AbstractCalculator getController() {
-            return controller;
+            return this.controller;
         }
 
         /**
@@ -42,7 +42,7 @@ public class CCManagerModel {
          * @return GUI component of the calculator
          */
         public JPanel getGUI() {
-            return controller.getGUI();
+            return this.controller.getGUI();
         }
     }
 
@@ -50,7 +50,8 @@ public class CCManagerModel {
     private final List<String> buffer = new ArrayList<>();
 
     /**
-     * @param s String to be added to the input list
+     * Appends a string to the input list used for the calculation.
+     * @param s String to be added
      */
     public void addInput(final String s) {
         this.buffer.add(s);
@@ -60,7 +61,7 @@ public class CCManagerModel {
      * @return Unmodifiable List containing the strings given in input 
      */
     public List<String> getCurrentState() {
-        return this.buffer;
+        return List.copyOf(this.buffer);
     }
 
     /**
