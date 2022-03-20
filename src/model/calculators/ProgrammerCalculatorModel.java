@@ -3,7 +3,6 @@ package model.calculators;
 import java.util.Map;
 
 import utils.CCBinaryOperator;
-import utils.CCUnaryOperator;
 import utils.ConversionAlgorithms;
 import utils.Type;
 //TODO MISSING JAVADOC.
@@ -35,19 +34,17 @@ public class ProgrammerCalculatorModel extends CalculatorModel {
        private double xor(final double n1, final double n2) {
            return (int) n1 ^ (int) n2;
        }
-       //TODO add tests
        private double shiftR(final double n1, final double n2) {
            return (int) n1 >> (int) n2;
        }
        private double shiftL(final double n1, final double n2) {
            return (int) n1 << (int) n2;
        }
-       //TODO approx to the nearest byte
-       //as of this version 11111 becomes 00000
-       //to approx to 00011111 becomes 11100000
        private double not(final double n1, final double base) {
-           final var bits = ConversionAlgorithms.conversionToStringBinary((int) n1).toCharArray();
+           var stringBits = ConversionAlgorithms.conversionToStringBinary((int) n1);
+           stringBits=addLeadingZerosToByte(stringBits);
            
+           final var bits = stringBits.toCharArray();
            String toConvert = String.valueOf(bits[0]);
            for (int i = 1; i < bits.length; i++) {
                if (String.valueOf(bits[i]).equals("1")) {
@@ -60,4 +57,14 @@ public class ProgrammerCalculatorModel extends CalculatorModel {
            return ConversionAlgorithms.conversionToDecimal((int) base, toConvert);
        }
        //TODO ror, rol, nand, nor
+
+    private String addLeadingZerosToByte(String stringBits) {
+        //1100 = -4 0100 = 4        1.0000.0100 = -4 0.0000.0100 = 4
+        final var sign = stringBits.charAt(0);
+        stringBits = stringBits.substring(1);
+        while(stringBits.length()%8!=0) {
+            stringBits = "0".concat(stringBits);
+        }
+        return String.valueOf(sign).concat(stringBits);
+    }
 }
