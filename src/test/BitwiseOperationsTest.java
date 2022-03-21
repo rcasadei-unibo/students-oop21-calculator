@@ -25,6 +25,21 @@ public class BitwiseOperationsTest {
     private double shiftL(final double n1, final double n2) {
         return (int) n1 << (int) n2;
     }
+    private double not(final double n1) {
+        var stringBits = ConversionAlgorithms.conversionToStringBinary((int) n1);
+        stringBits=addLeadingZerosToByte(stringBits);
+        
+        final var bits = stringBits.toCharArray();
+        String toConvert = String.valueOf(bits[0]);
+        for (int i = 1; i < bits.length; i++) {
+            if (String.valueOf(bits[i]).equals("1")) {
+                toConvert = toConvert.concat("0");
+            } else {
+                toConvert = toConvert.concat("1");
+            }
+        }
+        return ConversionAlgorithms.conversionToDecimal(2, toConvert);
+    }
     private double not(final double n1, final double base) {
         var stringBits = ConversionAlgorithms.conversionToStringBinary((int) n1);
         stringBits=addLeadingZerosToByte(stringBits);
@@ -68,9 +83,10 @@ public class BitwiseOperationsTest {
     public void testNot() {
         
         //TODO add test
-        
-        assertEquals("011111011",ConversionAlgorithms.conversionToStringBinary((int)not(4.0,2)));
-        
+        assertEquals("111111011",ConversionAlgorithms.conversionToStringBinary((int)not(-4.0)));
+        assertEquals("011111011",ConversionAlgorithms.conversionToStringBinary((int)not(4.0)));
+        assertEquals("111111111",ConversionAlgorithms.conversionToStringBinary((int)not(0.0)));
+
     }
     /**
      * Test for "and" operation.
