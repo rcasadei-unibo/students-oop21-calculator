@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 
 import controller.manager.CCManager;
 import model.calculators.CalculatorModel;
+import view.components.CCDisplay;
 
 /**
  * MISSING JAVADOC.
@@ -19,6 +20,7 @@ public abstract class AbstractCalculator {
     protected CalculatorModel model;
     protected JPanel panel;
     protected CCManager manager;
+    protected CCDisplay display;
     /**
      * 
      * @param model
@@ -106,5 +108,19 @@ public abstract class AbstractCalculator {
      */
     public void setManager(final CCManager mng) {
         this.manager = mng;
+    }
+    /**
+     * 
+     * @param display
+     */
+    public void setDisplay(final CCDisplay display) {
+        this.display = display;
+    }
+    /**
+     * 
+     * @return
+     */
+    public CCManager getManager() {
+        return this.manager;
     }
 }
