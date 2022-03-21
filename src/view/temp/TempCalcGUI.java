@@ -24,10 +24,11 @@ public class TempCalcGUI extends JPanel {
      */
     public TempCalcGUI(final TempCalculator controller) {
         this.setLayout(new BorderLayout());
-        this.add(new CCNumPad(controller), BorderLayout.CENTER);
         final var display = new CCDisplay();
         this.add(display, BorderLayout.NORTH);
         controller.setDisplay(display);
+        this.add(new CCNumPad(display, controller.getManager()), BorderLayout.CENTER);
+
 
     }
 }
