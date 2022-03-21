@@ -34,6 +34,7 @@ public final class ConversionAlgorithms {
      *         Whereas: 
      *         "10" would become "01010"
      *         "-10" would become "11010"
+     *         "0" is converted to "10" meaning it's "-0"
      */
     public static String conversionToStringBinary(final int number) {
         final String value = Integer.toBinaryString(Math.abs(number));
@@ -124,13 +125,10 @@ public final class ConversionAlgorithms {
             i++;
         }*/
         final var bits = number.toCharArray();
-       // System.out.println("number is: "+number);
         for (int i = 1; i < bits.length; i++) {
             if(base==16) {
                 // "0FF" 255 = (+)FF
                 ret += hexadecimalLetters(String.valueOf(bits[i])) * Math.pow(base, bits.length -1 - i);
-                
-               // System.out.println("bit is: "+String.valueOf(bits[i])+" mult by "+ Math.pow(base, bits.length -1 - i));
             }
             else {
              // "11010" -10 = (-)1010
