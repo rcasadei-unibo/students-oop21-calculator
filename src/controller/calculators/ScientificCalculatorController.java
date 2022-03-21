@@ -6,12 +6,14 @@ import view.calculators.ScientificCalculatorPanel;
 
 /**
  * 
- * MISSING JAVADOC
+ * MISSING JAVADOC.
  *
  */
 public class ScientificCalculatorController extends AbstractCalculator {
-    @Override
-    public void setCalculator() {
+    /**
+     * 
+     */
+    public ScientificCalculatorController() {
         this.model = new ScientificCalculatorModel();
         this.panel = new ScientificCalculatorPanel();
     }

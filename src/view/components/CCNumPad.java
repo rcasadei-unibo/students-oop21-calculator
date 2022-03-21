@@ -43,7 +43,13 @@ public class CCNumPad extends JPanel {
         this.add(createBtn("(", al));
         this.add(createBtn(")", al));
         this.add(createBtn("-", al));
-        for (int k = 1; k <= 9; k++){
+        for (int k = 7; k <=9; k++){
+            this.add(createBtn(String.valueOf(k), al));
+        }
+        for (int k = 4; k <=6; k++){
+            this.add(createBtn(String.valueOf(k), al));
+        }
+        for (int k = 1; k <=3; k++){
             this.add(createBtn(String.valueOf(k), al));
         }
         this.add(createBtn(".", al));

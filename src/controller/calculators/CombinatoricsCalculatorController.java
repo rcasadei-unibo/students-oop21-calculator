@@ -11,11 +11,14 @@ import view.calculators.CombinatoricsCalculatorPanel;
  *
  */
 public class CombinatoricsCalculatorController extends AbstractCalculator {
-    @Override
-    public void setCalculator() {
-       this.model = new CombinatoricsCalculatorModel();
-       this.panel = new CombinatoricsCalculatorPanel(this);
+    /**
+     * 
+     */
+    public CombinatoricsCalculatorController() {
+        this.model = new CombinatoricsCalculatorModel();
+        this.panel = new CombinatoricsCalculatorPanel(this);
     }
+
     @Override
     public void setManager(final CCManager mng) {
         super.setManager(mng);

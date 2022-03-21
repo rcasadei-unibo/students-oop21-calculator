@@ -26,7 +26,6 @@ public abstract class AbstractCalculator {
      * @param model
      * @param panel
      */
-    public abstract void setCalculator();  
     /**
      * 
      * @return a map containing all the binary operators of the mounted calculator

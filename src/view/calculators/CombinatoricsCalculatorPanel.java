@@ -1,9 +1,12 @@
 package view.calculators;
 
 import java.awt.BorderLayout;
+import java.awt.GridLayout;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import controller.manager.CCManager;
 import utils.AbstractCalculator;
 import view.components.CCDisplay;
 import view.components.CCNumPad;
@@ -28,9 +31,30 @@ public class CombinatoricsCalculatorPanel extends JPanel {
         controller.setDisplay(display);
         final var numpad = new CCNumPad(display, controller.getManager());
         numpad.getButtons().get("-").setEnabled(false);
-        numpad.getButtons().get("(").setEnabled(false);
-        numpad.getButtons().get(")").setEnabled(false);
         numpad.getButtons().get(".").setEnabled(false);
         this.add(numpad, BorderLayout.CENTER);
+        this.add(new OperationsPanel(controller.getManager(), display), BorderLayout.EAST);
+    }
+    static class OperationsPanel extends JPanel {
+        /**
+         * 
+         */
+        private static final long serialVersionUID = 1L;
+
+        OperationsPanel(final CCManager ccManager, final CCDisplay display) {
+            this.setLayout(new GridLayout(2, 1));
+            final var part = new JButton("Partizioni");
+            part.addActionListener(e -> {
+                ccManager.read("Bell number");
+                display.updateText(ccManager.getCurrentState().stream().reduce("", (a, b) -> a + b));
+            });
+            this.add(part);
+            final var fact = new JButton("Factorial");
+            fact.addActionListener(e -> {
+                ccManager.read("factorial");
+                display.updateText(ccManager.getCurrentState().stream().reduce("", (a, b) -> a + b));
+            });
+            this.add(fact);
+        }
     }
 }
