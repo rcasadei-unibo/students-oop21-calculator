@@ -56,15 +56,26 @@ public class ProgrammerCalculatorModel extends CalculatorModel {
            }
            return ConversionAlgorithms.conversionToDecimal(2, toConvert);
        }
-       //TODO ror, rol, nand, nor
-
-    private String addLeadingZerosToByte(String stringBits) {
-        //1100 = -4 0100 = 4        1.0000.0100 = -4 0.0000.0100 = 4
-        final var sign = stringBits.charAt(0);
-        stringBits = stringBits.substring(1);
-        while(stringBits.length()%8!=0) {
-            stringBits = "0".concat(stringBits);
-        }
-        return String.valueOf(sign).concat(stringBits);
-    }
+       private String addLeadingZerosToByte(String stringBits) {
+           //1100 = -4 0100 = 4        1.0000.0100 = -4 0.0000.0100 = 4
+           final var sign = stringBits.charAt(0);
+           stringBits = stringBits.substring(1);
+           while(stringBits.length()%8!=0) {
+               stringBits = "0".concat(stringBits);
+           }
+           return String.valueOf(sign).concat(stringBits);
+       }
+       private double nand(final double n1, final double n2) {
+           return not(and(n1, n2));
+       }
+       private double nor(final double n1, final double n2) {
+           return not(or(n1,n2));
+       }
+       //TODO ror, rol,
+       private double roR(final double n1, final double n2) {
+           return 0.0;
+       }
+       private double roL(final double n1, final double n2) {
+           return 0.0;
+       }
 }
