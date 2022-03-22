@@ -93,6 +93,6 @@ public class CCManagerModel {
      */
     public void setMounted(final Calculator calculator) {
         this.mounted = calculator;
-        System.out.println("montata " + this.mounted.name()); 
+//        System.out.println("montata " + this.mounted.name()); 
     }
 }
