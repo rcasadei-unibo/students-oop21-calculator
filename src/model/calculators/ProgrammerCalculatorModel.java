@@ -23,7 +23,10 @@ public class ProgrammerCalculatorModel extends CalculatorModel {
                                           "or", new CCBinaryOperator((n1, n2) -> this.or(n1, n2), 1, null), //Or has no left to right order
                                           "xor", new CCBinaryOperator((n1, n2) -> this.xor(n1, n2), 1, Type.LEFT), 
                                           "shiftR", new CCBinaryOperator((n1, n2) -> this.shiftR(n1, n2), 1, Type.LEFT), 
-                                          "shiftL", new CCBinaryOperator((n1, n2) -> this.shiftL(n1, n2), 1, Type.LEFT)
+                                          "shiftL", new CCBinaryOperator((n1, n2) -> this.shiftL(n1, n2), 1, Type.LEFT),
+                                          "nand",  new CCBinaryOperator((n1, n2) -> this.nand(n1, n2), 1, Type.LEFT),
+                                          "nor",  new CCBinaryOperator((n1, n2) -> this.nor(n1, n2), 1, Type.LEFT),
+                                          "roR",  new CCBinaryOperator((n1, n2) -> this.roR(n1, n2), 1, Type.LEFT)
                                   )); 
        }
        private double and(final double n1, final double n2) {
