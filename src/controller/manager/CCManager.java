@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.EmptyStackException;
 import java.util.List;
 import java.util.Stack;
+import java.util.stream.IntStream;
 
 import utils.AbstractCalculator;
 import utils.CalcException;
@@ -18,6 +19,15 @@ import model.manager.CCManagerModel.Calculator;
 public class CCManager {
 
     private final CCManagerModel model = new CCManagerModel();
+
+    /**
+     * MISSING JAVADOC.
+     */
+    public CCManager() {
+        for (final Calculator calc : Calculator.values()) {
+            calc.getController().setManager(this);
+        }
+    }
 
     /**
      * @param s input string to be read
@@ -69,7 +79,7 @@ public class CCManager {
     public void mount(final Calculator calcName) {
         this.model.setMounted(calcName);
         this.clear();
-        this.getMounted().getController().setManager(this);
+//        this.getMounted().getController().setManager(this);
     }
     /**
      * 
@@ -77,6 +87,15 @@ public class CCManager {
      */
     public Calculator getMounted() {
         return this.model.getMounted();
+    }
+
+    /**
+     * 
+     */
+    public void deleteLast() {
+        final var newState = this.model.getCurrentState();
+        this.clear();
+        IntStream.range(0, newState.size() - 1).forEach(i -> this.read(newState.get(i)));
     }
 
     /**
@@ -235,5 +254,7 @@ public class CCManager {
     private int precedence(final String token) {
         return getCalculator().getPrecedence(token);
     }
+
+    
 
 }
