@@ -67,6 +67,19 @@ public class BitwiseOperationsTest {
      }
      return String.valueOf(sign).concat(stringBits);
  }
+ private double roR(final double n1, final double n2) {
+     String bits = ConversionAlgorithms.conversionToStringBinary((int) n1);
+     final String sign = String.valueOf(bits.charAt(0));
+     bits = bits.substring(1);
+     System.out.println("abs : " + bits + " roll of :" + n2);
+     System.out.println("roll: " + bits.substring(bits.length() - (int) n2));
+     System.out.println("conc: " + bits.substring(0, bits.length() - (int) n2));
+     System.out.println("res : " + bits.substring(bits.length() - (int) n2).concat(bits.substring(0, bits.length() - (int) n2)));
+     //110011 = abs(10011) = roR(x,3) = "011" 10
+     
+     bits = bits.substring(bits.length() - (int) n2).concat(bits.substring(0, bits.length() - (int) n2));
+     return ConversionAlgorithms.conversionToDecimal(2, sign.concat(bits));
+ }
     /**
      * private test for leadingZeros
      */
@@ -111,6 +124,8 @@ public class BitwiseOperationsTest {
         assertEquals(33.0, or(33.0, 32.0), TOLERANCE);
         //(100001 33 or 100010 34) = 100011 35
         assertEquals(35.0, or(33.0, 34.0), TOLERANCE);
+        //
+        assertEquals(255, or(128,127), TOLERANCE);
     }
     /**
      * Test for "or" operation.
@@ -142,5 +157,18 @@ public class BitwiseOperationsTest {
         assertEquals((int)25/16,this.shiftR(25, 4),TOLERANCE);
         //0
         assertEquals((int)25/32,this.shiftR(25, 5),TOLERANCE);
+        //0
+        assertEquals((int)25/64,this.shiftR(25, 6),TOLERANCE);
+    }
+    //TODO nand nor roL tests
+    @org.junit.Test
+    public void testroR() {
+        // ror(-11,3) = - 7
+        // -1011,3 = - (011)(1) = -7 
+        assertEquals(-7,this.roR(-11, 3),TOLERANCE);
+        assertEquals(-11,this.roR(-11, 0),TOLERANCE);
+        // -1011,1 = - (1)(101) = -13 
+        assertEquals(-13,this.roR(-11, 1),TOLERANCE);
+        
     }
 }
