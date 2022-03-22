@@ -134,12 +134,6 @@ public class TempCalculator extends AbstractCalculator {
         return this.panel;
     }
 
-    @Override
-    public void setCalculator() {
-        // TODO Auto-generated method stub
-        
-    }
-
     public CCManager getManager() {
         // TODO Auto-generated method stub
         return this.manager;
@@ -149,11 +143,5 @@ public class TempCalculator extends AbstractCalculator {
     public void setManager(final CCManager mng) {
         super.setManager(mng);
         this.panel = new TempCalcGUI(this);
-    }
-
-    @Override
-    public void setCalculator() {
-        // TODO Auto-generated method stub
-        
     }
 }

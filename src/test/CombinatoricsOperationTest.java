@@ -2,8 +2,10 @@ package test;
 
 import static org.junit.Assert.assertEquals;
 
+import controller.calculators.CombinatoricsCalculatorController;
 import model.calculators.CalculatorModel;
 import model.calculators.CombinatoricsCalculatorModel;
+import utils.AbstractCalculator;
 
 /**
  * 
@@ -12,6 +14,7 @@ import model.calculators.CombinatoricsCalculatorModel;
  */
 public class CombinatoricsOperationTest {
     private final CalculatorModel calculator = new CombinatoricsCalculatorModel();
+    private final AbstractCalculator controller = new CombinatoricsCalculatorController();
     /**
      * 
      */
@@ -19,6 +22,7 @@ public class CombinatoricsOperationTest {
     public void fibonacciTest() {
         final var op = this.calculator.getUnaryOpMap().get("fibonacci");
         assertEquals(5.0, op.apply(5.0), 0);
+        assertEquals(5.0, controller.applyUnaryOperation("fibonacci", 5.0), 0);
         assertEquals(10946.0, op.apply(21.0), 0);
         assertEquals(1.0, op.apply(2.0), 0);
         assertEquals(0.0, op.apply(0.0), 0);
