@@ -23,11 +23,6 @@ public abstract class AbstractCalculator {
     protected CCDisplay display;
     /**
      * 
-     * @param model
-     * @param panel
-     */
-    /**
-     * 
      * @return a map containing all the binary operators of the mounted calculator
      */
     private Map<String, CCBinaryOperator> getBinaryOperators() {
@@ -117,7 +112,7 @@ public abstract class AbstractCalculator {
     }
     /**
      * 
-     * @return
+     * @return MISSING.
      */
     public CCManager getManager() {
         return this.manager;

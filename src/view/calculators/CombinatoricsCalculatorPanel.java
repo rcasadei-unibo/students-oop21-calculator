@@ -46,13 +46,13 @@ public class CombinatoricsCalculatorPanel extends JPanel {
             final var part = new JButton("Partizioni");
             part.addActionListener(e -> {
                 ccManager.read("Bell number");
-                display.updateText(ccManager.getCurrentState().stream().reduce("", (a, b) -> a + b));
+                display.updateText("Bell(" + ccManager.getCurrentState().get(0));
             });
             this.add(part);
             final var fact = new JButton("Factorial");
             fact.addActionListener(e -> {
                 ccManager.read("factorial");
-                display.updateText(ccManager.getCurrentState().stream().reduce("", (a, b) -> a + b));
+                display.updateText("Fact(" + ccManager.getCurrentState().stream().reduce("", (a, b) -> a + " " + b) + ", ");
             });
             this.add(fact);
         }
