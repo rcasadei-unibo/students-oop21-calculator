@@ -5,6 +5,7 @@ import java.util.List;
 import javax.swing.JPanel;
 
 import utils.AbstractCalculator;
+import controller.calculators.CombinatoricsCalculatorController;
 import controller.temp.TempCalculator;
 
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public class CCManagerModel {
         STANDARD(new TempCalculator()), 
         SCIENTIFIC(new TempCalculator()), 
         PROGRAMMER(new TempCalculator()), GRAPHIC(new TempCalculator()),
-        COMBINATORICS(new TempCalculator()), ADVANCED(new TempCalculator());
+        COMBINATORICS(new CombinatoricsCalculatorController()), ADVANCED(new TempCalculator());
 
         private final AbstractCalculator controller;
         Calculator(final AbstractCalculator controller) {

@@ -10,15 +10,21 @@ import utils.CCUnaryOperator;
  * MISSING JAVADOC.
  *
  */
-public class CalculatorModel {
+public abstract class CalculatorModel {
     /**
      * 
      */
-    protected Map<String, CCBinaryOperator> binaryOpMap = new HashMap<>();
+    private final Map<String, CCBinaryOperator> binaryOpMap = new HashMap<>();
+    private final Map<String, CCUnaryOperator> unaryOpMap = new HashMap<>();
     /**
      * 
+     * @param binaryOpMap
+     * @param unaryOpMap
      */
-    protected Map<String, CCUnaryOperator> unaryOpMap = new HashMap<>();
+    protected CalculatorModel(final Map<String, CCBinaryOperator> binaryOpMap, final Map<String, CCUnaryOperator> unaryOpMap) {
+        this.binaryOpMap.putAll(binaryOpMap);
+        this.unaryOpMap.putAll(unaryOpMap);
+    }
     /**
      * 
      * @return a map containing all the binary operators

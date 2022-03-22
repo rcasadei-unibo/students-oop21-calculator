@@ -8,6 +8,8 @@ import utils.AbstractCalculator;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 
@@ -15,6 +17,8 @@ import java.awt.event.ActionListener;
 public class CCNumPad extends JPanel {
 
     private static final long serialVersionUID = -464468621586492647L;
+
+    private final Map<String, JButton> buttons = new HashMap<>();
 
     /**
      * Numeric keypad component of a calculator.
@@ -43,7 +47,10 @@ public class CCNumPad extends JPanel {
     private JButton createBtn(final String s, final ActionListener al) {
         final var btn = new JButton(s);
         btn.addActionListener(al);
+        this.buttons.put(s, btn);
         return btn;
     }
-
+    public Map<String, JButton> getButtons(){
+        return this.buttons;
+    }
 }

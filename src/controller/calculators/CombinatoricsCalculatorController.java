@@ -1,5 +1,6 @@
 package controller.calculators;
 
+import controller.manager.CCManager;
 import model.calculators.CombinatoricsCalculatorModel;
 import utils.AbstractCalculator;
 import view.calculators.CombinatoricsCalculatorPanel;
@@ -10,9 +11,17 @@ import view.calculators.CombinatoricsCalculatorPanel;
  *
  */
 public class CombinatoricsCalculatorController extends AbstractCalculator {
+    /**
+     * 
+     */
+    public CombinatoricsCalculatorController() {
+        this.model = new CombinatoricsCalculatorModel();
+        this.panel = new CombinatoricsCalculatorPanel(this);
+    }
+
     @Override
-    public void setCalculator() {
-       this.model = new CombinatoricsCalculatorModel();
-       this.panel = new CombinatoricsCalculatorPanel();
+    public void setManager(final CCManager mng) {
+        super.setManager(mng);
+        this.panel = new CombinatoricsCalculatorPanel(this);
     }
 }
