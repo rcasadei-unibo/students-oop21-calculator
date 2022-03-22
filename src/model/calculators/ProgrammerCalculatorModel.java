@@ -73,7 +73,12 @@ public class ProgrammerCalculatorModel extends CalculatorModel {
        }
        //TODO ror, rol,
        private double roR(final double n1, final double n2) {
-           return 0.0;
+           String bits = ConversionAlgorithms.conversionToStringBinary((int) n1);
+           final String sign = String.valueOf(bits.charAt(0));
+           bits = bits.substring(1);
+           //110011 = abs(10011) = roR(x,3) = "011" 10
+           bits = bits.substring(bits.length() -1 -(int)n2).concat(bits.substring(0, bits.length() -1 -(int) n2));
+           return ConversionAlgorithms.conversionToDecimal(2, sign.concat(bits));
        }
        private double roL(final double n1, final double n2) {
            return 0.0;
