@@ -107,7 +107,7 @@ public class BitwiseOperationsTest {
         //0
         assertEquals((int)25/64,op.apply(25, 6),TOLERANCE);
     }
-    //TODO nand roL tests
+    //TODO nand  tests
     @org.junit.Test
     public void testroR() {
         final var op = this.calculator.getBinaryOpMap().get("roR");
@@ -119,4 +119,23 @@ public class BitwiseOperationsTest {
         assertEquals(-13,op.apply(-11, 1),TOLERANCE);
         
     }
+    @org.junit.Test
+    public void testroL() {
+        final var op = this.calculator.getBinaryOpMap().get("roL");
+        
+    }
+    @org.junit.Test
+    public void testNor() {
+        final var op = this.calculator.getBinaryOpMap().get("nor");
+        //10111 or 01111 = 11111 = (111)00000
+        assertEquals(128+64+32, op.apply(23,15) ,TOLERANCE);
+    }
+    @org.junit.Test
+    public void testNand() {
+        final var op = this.calculator.getBinaryOpMap().get("nand");
+        //10111 and 01111 = 00111 (111)11000
+        assertEquals(255-7, op.apply(23, 15), TOLERANCE);
+    }
+    
+    
 }
