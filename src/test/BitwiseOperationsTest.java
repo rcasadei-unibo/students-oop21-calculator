@@ -107,21 +107,22 @@ public class BitwiseOperationsTest {
         //0
         assertEquals((int)25/64,op.apply(25, 6),TOLERANCE);
     }
-    //TODO nand  tests
     @org.junit.Test
     public void testroR() {
         final var op = this.calculator.getBinaryOpMap().get("roR");
-        // ror(-11,3) = - 7
-        // -1011,3 = - (011)(1) = -7 
-        assertEquals(-7,op.apply(-11, 3),TOLERANCE);
+
+        assertEquals(-64-32-1,op.apply(-11, 3),TOLERANCE);
         assertEquals(-11,op.apply(-11, 0),TOLERANCE);
         // -1011,1 = - (1)(101) = -13 
-        assertEquals(-13,op.apply(-11, 1),TOLERANCE);
+        assertEquals(-128-4-1,op.apply(-11, 1),TOLERANCE);
+        assertEquals(-128-4-1,op.apply(-11, 9),TOLERANCE);
         
     }
     @org.junit.Test
     public void testroL() {
         final var op = this.calculator.getBinaryOpMap().get("roL");
+        
+        assertEquals(88,op.apply(11, 3),TOLERANCE);
         
     }
     @org.junit.Test
