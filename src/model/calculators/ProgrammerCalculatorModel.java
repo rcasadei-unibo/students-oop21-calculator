@@ -24,7 +24,8 @@ public class ProgrammerCalculatorModel extends CalculatorModel {
                                           "shiftL", new CCBinaryOperator((n1, n2) -> shiftL(n1, n2), 1, Type.LEFT),
                                           "nand",  new CCBinaryOperator((n1, n2) -> nand(n1, n2), 1, Type.LEFT),
                                           "nor",  new CCBinaryOperator((n1, n2) -> nor(n1, n2), 1, Type.LEFT),
-                                          "roR",  new CCBinaryOperator((n1, n2) -> roR(n1, n2), 1, Type.LEFT)
+                                          "roR",  new CCBinaryOperator((n1, n2) -> roR(n1, n2), 1, Type.LEFT),
+                                          "roL",  new CCBinaryOperator((n1, n2) -> roL(n1, n2), 1, Type.LEFT)
                                   ),
                  Map.of("not", new CCUnaryOperator((n1) -> not(n1), 1, null))); 
        }
@@ -73,9 +74,11 @@ public class ProgrammerCalculatorModel extends CalculatorModel {
        private static double nor(final double n1, final double n2) {
            return not(or(n1,n2));
        }
-       //TODO ror, rol,
-       private static double roR(final double n1, final double n2) {
-           String bits = ConversionAlgorithms.conversionToStringBinary((int) n1);
+       private static double roR(final double n1, double n2) {
+           String bits = addLeadingZerosToByte(ConversionAlgorithms.conversionToStringBinary((int) n1));
+           if(bits.length()-1<n2) {
+               n2 = n2%8;   //in case it is asked to roll 9 on a byte it rolls 9-8    
+           }
            final String sign = String.valueOf(bits.charAt(0));
            bits = bits.substring(1);
            //110011 = abs(10011) = roR(x,3) = "011" 10
@@ -83,7 +86,20 @@ public class ProgrammerCalculatorModel extends CalculatorModel {
            bits = bits.substring(bits.length() - (int) n2).concat(bits.substring(0, bits.length() - (int) n2));
            return ConversionAlgorithms.conversionToDecimal(2, sign.concat(bits));
        }
-       private static double roL(final double n1, final double n2) {
-           return 0.0;
+       
+       private static double roL(final double n1, double n2) {
+           String bits = addLeadingZerosToByte(ConversionAlgorithms.conversionToStringBinary((int) n1));
+           if(bits.length()-1<n2) {
+               n2 = n2%8;   //in case it is asked to roll 9 on a byte it rolls 9-8    
+           }
+           
+           final String sign = String.valueOf(bits.charAt(0));
+           bits = bits.substring(1);
+           //110011 = abs(10011) = roL(x,3) = "100" 11 = 11"100"
+           //10011 = 10'011'
+           bits = bits.substring((int) n2).concat(bits.substring(0,(int) n2));
+                   
+           //bits.substring(0, (int) n2).concat(bits.substring((int) n2));
+           return ConversionAlgorithms.conversionToDecimal(2, sign.concat(bits));
        }
 }
