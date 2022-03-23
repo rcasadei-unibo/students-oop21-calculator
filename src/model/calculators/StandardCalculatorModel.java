@@ -19,7 +19,6 @@ public class StandardCalculatorModel extends CalculatorModel {
      *
      */
     public StandardCalculatorModel() {
-        //TODO change operation names'
         super(Map.of("sum", new CCBinaryOperator((n1, n2) -> sum(n1, n2), 1, Type.LEFT),
                      "sub", new CCBinaryOperator((n1, n2) -> sub(n1, n2), 1, Type.LEFT),
                      "mult", new CCBinaryOperator((n1, n2) -> mult(n1, n2), 2, Type.LEFT),
