@@ -1,7 +1,9 @@
 package view.temp;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import controller.temp.TempCalculator;
@@ -27,8 +29,49 @@ public class TempCalcGUI extends JPanel {
         final var display = new CCDisplay();
         this.add(display, BorderLayout.NORTH);
         controller.setDisplay(display);
-        this.add(new CCNumPad(display, controller.getManager()), BorderLayout.CENTER);
+        
+        final ActionListener al1 = e -> {
+            final var btn = (JButton) e.getSource();
+            controller.getManager().read(btn.getText());
+            display.updateText(controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a+b));
+        };
+        final ActionListener al2 = (e) -> {
+            display.updateUpperText(controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + " " + b) + " =");
+            controller.getManager().calculate();
+            display.updateText(controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a+b));
+        };
+        final ActionListener al3 = (e) -> {
+            controller.getManager().deleteLast();
+            display.updateText(controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a+b));
+        };
+        
+        this.add(new CCNumPad(al1,al2,al3), BorderLayout.CENTER);
 
+        final JPanel left = new JPanel();
+        left.add(createBtn("+", (e) -> {
+            controller.getManager().read("+");
+            display.updateText(controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b));
+        }));
+        left.add(createBtn("-", (e) -> {
+            controller.getManager().read("-");
+            display.updateText(controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b));
+        }));
+        left.add(createBtn("*", (e) -> {
+            controller.getManager().read("*");
+            display.updateText(controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b));
+        }));
+        left.add(createBtn("/", (e) -> {
+            controller.getManager().read("/");
+            display.updateText(controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b));
+        }));
+        this.add(left, BorderLayout.EAST);
 
     }
+
+    private JButton createBtn(final String s, final ActionListener al) {
+        final var btn = new JButton(s);
+        btn.addActionListener(al);
+        return btn;
+    }
+    
 }
