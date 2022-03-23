@@ -17,34 +17,33 @@ public class ProgrammerCalculatorModel extends CalculatorModel {
      * MISSING JAVADOC. 
      */
        public ProgrammerCalculatorModel() {
-           this.unaryOpMap.putAll(Map.of("not", new CCUnaryOperator((n1) -> this.not(n1), 1, null)));
-           
-           this.binaryOpMap.putAll(Map.of("and", new CCBinaryOperator((n1, n2) -> this.and(n1, n2), 1, Type.LEFT),
-                                          "or", new CCBinaryOperator((n1, n2) -> this.or(n1, n2), 1, null), //Or has no left to right order
-                                          "xor", new CCBinaryOperator((n1, n2) -> this.xor(n1, n2), 1, Type.LEFT), 
-                                          "shiftR", new CCBinaryOperator((n1, n2) -> this.shiftR(n1, n2), 1, Type.LEFT), 
-                                          "shiftL", new CCBinaryOperator((n1, n2) -> this.shiftL(n1, n2), 1, Type.LEFT),
-                                          "nand",  new CCBinaryOperator((n1, n2) -> this.nand(n1, n2), 1, Type.LEFT),
-                                          "nor",  new CCBinaryOperator((n1, n2) -> this.nor(n1, n2), 1, Type.LEFT),
-                                          "roR",  new CCBinaryOperator((n1, n2) -> this.roR(n1, n2), 1, Type.LEFT)
-                                  )); 
+           super(Map.of("and", new CCBinaryOperator((n1, n2) -> and(n1, n2), 1, Type.LEFT),
+                                          "or", new CCBinaryOperator((n1, n2) -> or(n1, n2), 1, null), //Or has no left to right order
+                                          "xor", new CCBinaryOperator((n1, n2) -> xor(n1, n2), 1, Type.LEFT), 
+                                          "shiftR", new CCBinaryOperator((n1, n2) -> shiftR(n1, n2), 1, Type.LEFT), 
+                                          "shiftL", new CCBinaryOperator((n1, n2) -> shiftL(n1, n2), 1, Type.LEFT),
+                                          "nand",  new CCBinaryOperator((n1, n2) -> nand(n1, n2), 1, Type.LEFT),
+                                          "nor",  new CCBinaryOperator((n1, n2) -> nor(n1, n2), 1, Type.LEFT),
+                                          "roR",  new CCBinaryOperator((n1, n2) -> roR(n1, n2), 1, Type.LEFT)
+                                  ),
+                 Map.of("not", new CCUnaryOperator((n1) -> not(n1), 1, null))); 
        }
-       private double and(final double n1, final double n2) {
+       private static double and(final double n1, final double n2) {
            return (int) n1 & (int) n2;
        }
-       private double or(final double n1, final double n2) {
+       private static double or(final double n1, final double n2) {
            return (int) n1 | (int) n2;
        }
-       private double xor(final double n1, final double n2) {
+       private static double xor(final double n1, final double n2) {
            return (int) n1 ^ (int) n2;
        }
-       private double shiftR(final double n1, final double n2) {
+       private static double shiftR(final double n1, final double n2) {
            return (int) n1 >> (int) n2;
        }
-       private double shiftL(final double n1, final double n2) {
+       private static double shiftL(final double n1, final double n2) {
            return (int) n1 << (int) n2;
        }
-       private double not(final double n1) {
+       private static double not(final double n1) {
            var stringBits = ConversionAlgorithms.conversionToStringBinary((int) n1);
            stringBits=addLeadingZerosToByte(stringBits);
            
@@ -59,7 +58,7 @@ public class ProgrammerCalculatorModel extends CalculatorModel {
            }
            return ConversionAlgorithms.conversionToDecimal(2, toConvert);
        }
-       private String addLeadingZerosToByte(String stringBits) {
+       private static String addLeadingZerosToByte(String stringBits) {
            //1100 = -4 0100 = 4        1.0000.0100 = -4 0.0000.0100 = 4
            final var sign = stringBits.charAt(0);
            stringBits = stringBits.substring(1);
@@ -68,14 +67,14 @@ public class ProgrammerCalculatorModel extends CalculatorModel {
            }
            return String.valueOf(sign).concat(stringBits);
        }
-       private double nand(final double n1, final double n2) {
+       private static double nand(final double n1, final double n2) {
            return not(and(n1, n2));
        }
-       private double nor(final double n1, final double n2) {
+       private static double nor(final double n1, final double n2) {
            return not(or(n1,n2));
        }
        //TODO ror, rol,
-       private double roR(final double n1, final double n2) {
+       private static double roR(final double n1, final double n2) {
            String bits = ConversionAlgorithms.conversionToStringBinary((int) n1);
            final String sign = String.valueOf(bits.charAt(0));
            bits = bits.substring(1);
@@ -84,7 +83,7 @@ public class ProgrammerCalculatorModel extends CalculatorModel {
            bits = bits.substring(bits.length() - (int) n2).concat(bits.substring(0, bits.length() - (int) n2));
            return ConversionAlgorithms.conversionToDecimal(2, sign.concat(bits));
        }
-       private double roL(final double n1, final double n2) {
+       private static double roL(final double n1, final double n2) {
            return 0.0;
        }
 }
