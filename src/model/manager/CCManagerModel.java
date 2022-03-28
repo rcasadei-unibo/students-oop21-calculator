@@ -6,7 +6,9 @@ import javax.swing.JPanel;
 
 import utils.AbstractCalculator;
 import controller.calculators.CombinatoricsCalculatorController;
+import controller.calculators.StandardCalculatorController;
 import controller.temp.TempCalculator;
+import model.calculators.StandardCalculatorModel;
 
 import java.util.ArrayList;
 
@@ -20,7 +22,7 @@ public class CCManagerModel {
      */
     public enum Calculator {
 
-        STANDARD(new TempCalculator()), 
+        STANDARD(new StandardCalculatorController()), 
         SCIENTIFIC(new TempCalculator()), 
         PROGRAMMER(new TempCalculator()), GRAPHIC(new TempCalculator()),
         COMBINATORICS(new CombinatoricsCalculatorController()), ADVANCED(new TempCalculator());
