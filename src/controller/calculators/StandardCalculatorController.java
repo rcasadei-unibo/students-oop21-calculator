@@ -16,7 +16,7 @@ public class StandardCalculatorController extends AbstractCalculator{
      */
     public StandardCalculatorController() {
         this.model = new StandardCalculatorModel();
-        this.panel = new StandardCalculatorPanel();
+        this.panel = new StandardCalculatorPanel(this);
     }
         
     
