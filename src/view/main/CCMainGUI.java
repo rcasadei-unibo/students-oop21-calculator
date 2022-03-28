@@ -19,6 +19,7 @@ import java.awt.BorderLayout;
 
 import controller.manager.CCManager;
 import model.manager.CCManagerModel.Calculator;
+import view.components.CCNumPad;
 
 /**
  * 
@@ -33,7 +34,7 @@ public class CCMainGUI extends JFrame {
     private final CCManager controller = new CCManager();
     private final JPanel outer = new JPanel();
     private JPanel mountedCalc;
-    private final Dimension menuDims = new Dimension(600, 500);
+    private final Dimension menuDims = new Dimension(800, 600);
 
     /**
      * 
@@ -67,6 +68,7 @@ public class CCMainGUI extends JFrame {
         pEastInternal.add(this.createMenuButton("Advanced", Calculator.ADVANCED), cnst);
         outer.add(pEastInternal, BorderLayout.WEST);
 
+        
         this.setVisible(true);
     }
 

@@ -6,6 +6,7 @@ import java.util.List;
 
 import controller.manager.CCManager;
 import model.manager.CCManagerModel.Calculator;
+import utils.NumberFormatter;
 
 
 /**
@@ -28,7 +29,6 @@ public class ManagerTest {
     public void testController() {
 
         //cos ( 3 + 4 * 2 ) / ( 1 - 5 ) ^ 2 ^ 3 
-
         controller.mount(Calculator.STANDARD);
 
         controller.read("cos");
@@ -53,8 +53,7 @@ public class ManagerTest {
 //        controller.printCurrentState();
         controller.calculate();
 //        controller.printCurrentState();
-        final double value = 6.753_079_205E-8;
-        assertEquals(value, Double.valueOf(controller.getCurrentState().get(0)), 1E-16 );
+        assertEquals("6.7530792054E-8", controller.getCurrentState().get(0));
     }
 
     /**

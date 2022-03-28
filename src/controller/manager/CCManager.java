@@ -8,6 +8,7 @@ import java.util.stream.IntStream;
 
 import utils.AbstractCalculator;
 import utils.CalcException;
+import utils.NumberFormatter;
 import utils.Type;
 import model.manager.CCManagerModel;
 import model.manager.CCManagerModel.Calculator;
@@ -107,7 +108,11 @@ public class CCManager {
         try {
             rpnInput = this.parseToRPN(this.unifyTerms(input));
             final double result = this.evaluateRPN(rpnInput);
-            model.setCurrentState(String.valueOf(result));
+
+            final int maxIntDigits = 7;
+            final int maxDecDigits = 10;
+            final int decimalThreshold = 5;
+            model.setCurrentState(NumberFormatter.format(result, maxIntDigits, maxDecDigits, decimalThreshold));
         } catch (EmptyStackException e) {
             model.setCurrentState("Syntax error");
         } catch (CalcException e) {
@@ -158,7 +163,7 @@ public class CCManager {
                 output.add(token);
             } else if (isFunction(token)) {
                 stack.add(token);
-            } else if (isOperator(token)) {
+            } else if (isBinaryOperator(token)) {
 
                 if (!stack.isEmpty()) {
                     String o2 = stack.lastElement();
@@ -211,7 +216,7 @@ public class CCManager {
 
             if (isNumber(token)) {
                 stack.add(Double.valueOf(token));
-            } else if (isOperator(token)) {
+            } else if (isBinaryOperator(token)) {
                 final double secondOperand = Double.valueOf(stack.pop());
                 final double firstOperand = Double.valueOf(stack.pop());
                 stack.add(getCalculator().applyBinaryOperation(token, firstOperand, secondOperand));
@@ -235,7 +240,7 @@ public class CCManager {
         return getCalculator().isUnaryOperator(token);
     }
 
-    private boolean isOperator(final String token) {
+    private boolean isBinaryOperator(final String token) {
         return getCalculator().isBinaryOperator(token);
     }
 
@@ -254,7 +259,5 @@ public class CCManager {
     private int precedence(final String token) {
         return getCalculator().getPrecedence(token);
     }
-
-    
 
 }
