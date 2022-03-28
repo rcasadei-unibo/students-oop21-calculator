@@ -36,8 +36,10 @@ public class CCNumPad extends JPanel {
         this.add(createBtn("(", al));
         this.add(createBtn(")", al));
         this.add(createBtn("🡄", backspaceAl));
-        for (int k = 1; k <= 9; k++){
-            this.add(createBtn(String.valueOf(k), al));
+        for(int j = 2; j >= 0; j --) {
+            for (int k = 1; k <= 3; k++){
+                this.add(createBtn(String.valueOf(3 * j + k), al));
+            }
         }
         this.add(createBtn(".", al));
         this.add(createBtn("0", al));
