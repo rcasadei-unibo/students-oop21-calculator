@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
 
 import utils.AbstractCalculator;
 import view.components.CCDisplay;
@@ -35,43 +34,21 @@ public class CombinatoricsCalculatorPanel extends JPanel {
         final ActionListener btnAl = e -> {
             final var btn = (JButton) e.getSource();
             controller.getManager().read(btn.getText());
-            String text;
-            if (!opFormat.isBlank()) {
-                if (!opString.isBlank() && controller.isBinaryOperator(opString)) {
-                    text = opFormat + controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b).split(opString)[1];
-                } else {
-                    text = opFormat + controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b);
-                }
-            } else {
-                text = controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b);
-            }
-            display.updateText(text);
+            display.updateText(this.getDisplayText(controller));
         };
         final ActionListener calculateAl = e -> {
             final String adder = controller.isBinaryOperator(opString) ? controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b).split(opString)[1] : "";
             display.updateUpperText(opFormat + adder + ") =");
             controller.getManager().calculate();
             display.updateText(controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b));
-            opFormat = "";
-            opString = "";
+            this.clearStrings();
         };
         final ActionListener backspaceAl = e -> {
             if (controller.getManager().getCurrentState().get(controller.getManager().getCurrentState().size() - 1).length() > 1) {
-                opFormat = "";
-                opString = "";
+                this.clearStrings();
             }
             controller.getManager().deleteLast();
-            String text;
-            if (!opFormat.isBlank()) {
-                if (!opString.isBlank() && controller.isBinaryOperator(opString)) {
-                    text = opFormat + controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b).split(opString)[1];
-                } else {
-                    text = opFormat + controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b);
-                }
-            } else {
-                text = controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b);
-            }
-            display.updateText(text);
+            display.updateText(this.getDisplayText(controller));
         };
         final var numpad = new CCNumPad(btnAl, calculateAl, backspaceAl);
         numpad.getButtons().get("(").setEnabled(false);
@@ -80,6 +57,21 @@ public class CombinatoricsCalculatorPanel extends JPanel {
         this.add(numpad, BorderLayout.WEST);
         this.add(new OperationsPanel(controller, display), BorderLayout.CENTER);
         this.add(new ExplainationPanel(), BorderLayout.EAST);
+    }
+    private String getDisplayText(final AbstractCalculator controller) {
+        if (!opFormat.isBlank()) {
+            if (!opString.isBlank() && controller.isBinaryOperator(opString)) {
+                return opFormat + controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b).split(opString)[1];
+            } else {
+                return opFormat + controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b);
+            }
+        } else {
+            return controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b);
+        }
+    }
+    private void clearStrings() {
+        CombinatoricsCalculatorPanel.opFormat = "";
+        CombinatoricsCalculatorPanel.opString = "";
     }
     static class OperationsPanel extends JPanel {
         /**
@@ -122,37 +114,19 @@ public class CombinatoricsCalculatorPanel extends JPanel {
         private static final long serialVersionUID = 1L;
         ExplainationPanel() {
             this.setLayout(new GridLayout(8, 1));
-            final var btn1 = createButton("sequencesNumber");
-            btn1.setToolTipText("NUMERO DI SEQUENZE");
-            this.add(btn1);
-            final var btn2 = createButton("factorial");
-            btn2.setToolTipText("FATTORIALE DISCENDENTE");
-            this.add(btn2);
-            final var btn3 = createButton("binomialCoefficient");
-            btn3.setToolTipText("COEFFICIENTE BINOMIALE");
-            this.add(btn3);
-            final var btn4 = createButton("scombussolamento");
-            btn4.setToolTipText("SCOMBUSSOLAMENTO");
-            this.add(btn4);
-            final var btn5 = createButton("bellNumber");
-            btn5.setToolTipText("NUMERO DI BELL");
-            this.add(btn5);
-            final var btn6 = createButton("stirlingNumber");
-            btn6.setToolTipText("NUMERO DI STIRLING");
-            this.add(btn6);
-            final var btn7 = createButton("fibonacci");
-            btn7.setToolTipText("NUMERO DI FIBONACCI");
-            this.add(btn7);
-            final var btn8 = createButton("binaryFibonacci");
-            btn8.setToolTipText("SEQUENZE DI FIBONACCI");
-            this.add(btn8);
+            this.createButton("sequencesNumber");
+            this.createButton("factorial");
+            this.createButton("binomialCoefficient");
+            this.createButton("scombussolamento");
+            this.createButton("bellNumber");
+            this.createButton("stirlingNumber");
+            this.createButton("fibonacci");
+            this.createButton("binaryFibonacci");
         }
-        private JButton createButton(final String opName) {
+        private void createButton(final String opName) {
             final var btn = new JButton("?");
-            btn.addActionListener(e -> {
-                this.add(new JTextArea(opName));
-            });
-            return btn;
+            btn.setToolTipText(opName);
+            this.add(btn);
         }
     }
 }
