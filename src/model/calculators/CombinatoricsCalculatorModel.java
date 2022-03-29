@@ -1,6 +1,8 @@
 package model.calculators;
 
 import java.util.Map;
+import java.util.function.BinaryOperator;
+import java.util.function.UnaryOperator;
 
 import utils.CCBinaryOperator;
 import utils.CCUnaryOperator;
@@ -14,16 +16,23 @@ public class CombinatoricsCalculatorModel extends CalculatorModel {
      * 
      */
     public CombinatoricsCalculatorModel() {
-        super(Map.of(
-                "factorial", new CCBinaryOperator((n, m) -> fallingFactorial(n, m), 0, null),
-                "binomial coefficient", new CCBinaryOperator((a, b) -> binomialCoefficient(a, b), 0, null),
-                "sequencesNumber", new CCBinaryOperator((n, m) -> sequencesNumber(n, m), 0, null),
-                "binaryFibonacci", new CCBinaryOperator((n, k) -> binaryFibonacci(n, k), 0, null),
-                "Stirling number", new CCBinaryOperator((n, k) -> stirlingNumber(n, k), 0, null)),
+        super(
                 Map.of(
-                "fibonacci", new CCUnaryOperator((n) -> fibonacci(n), 0, null),
-                "scombussolamento", new CCUnaryOperator((n) -> scombussolamento(n), 0, null),
-                "Bell number", new CCUnaryOperator((n) -> bellNumber(n), 0, null)));
+                "factorial", createBinaryFunction((n, m) -> fallingFactorial(n, m)),
+                "binomialCoefficient", createBinaryFunction((a, b) -> binomialCoefficient(a, b)),
+                "sequencesNumber", createBinaryFunction((n, m) -> sequencesNumber(n, m)),
+                "binaryFibonacci", createBinaryFunction((n, k) -> binaryFibonacci(n, k)),
+                "stirlingNumber", createBinaryFunction((n, k) -> stirlingNumber(n, k))),
+                Map.of(
+                "fibonacci", createUnaryFunction((n) -> fibonacci(n)),
+                "scombussolamento", createUnaryFunction((n) -> scombussolamento(n)),
+                "bellNumber", createUnaryFunction((n) -> bellNumber(n))));
+    }
+    private static CCBinaryOperator createBinaryFunction(final BinaryOperator<Double> op) {
+        return new CCBinaryOperator(op, 0, null);
+    }
+    private static CCUnaryOperator createUnaryFunction(final UnaryOperator<Double> op) {
+        return new CCUnaryOperator(op, 0, null);
     }
     /**
      * 
