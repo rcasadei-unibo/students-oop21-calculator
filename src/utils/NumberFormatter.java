@@ -14,7 +14,7 @@ public final class NumberFormatter {
     private NumberFormatter() { };
 
     /**
-     * Removes trailing zeros from the decimal part of the number.
+     * Removes trailing zeros from the decimal part of the number and eventual leading zeros from exponent.
      * 
      * @param value String value of the number
      * @return Trimmed string
@@ -41,13 +41,23 @@ public final class NumberFormatter {
      * If the number of integer digits of the number exceeds the maximum, the number will be formatted in exponential notation.
      * If the number of decimal digits of the number exceeds the maximum, the number will be rounded and, when necessary, formatted in exponential notation. 
      * 
-     * @param number Double value to format
-     * @param maxIntegerDigits Maximum number of digits for the integer part of the number
-     * @param maxDecimalDigits Maximum number of digits for the decimal part of the number
-     * @return Formatted string representation of the number
+     * @param number Double value to format.
+     * @param maxIntegerDigits Maximum number of digits for the integer part of the number.
+     * @param maxDecimalDigits Maximum number of digits for the decimal part of the number.
+     * @param decimalThreshold Integer value indicating the smallest number to represent without exponential notation. (e.g. a value of 5 puts the threshold at 0.00001, or 1E-5) 
+     * @return Formatted string representation of the number.
      */
-    public static String format(final double number, final int maxIntegerDigits, final int maxDecimalDigits, final int decimalThreshold) {
-        final String value = trimZeros(String.format("%.200f", number).replace(',', '.'));
+    public static String format(final double number, final int maxIntegerDigits, final int maxDecimalDigits, final int decimalThreshold) throws CalcException {
+
+        final double precision = 320;
+        if (number < Math.pow(10, -precision)) {
+            return "0";
+        }
+        if (Double.isInfinite(number)) {
+            throw new CalcException("Out of range");
+        }
+
+        final String value = trimZeros(String.format("%.323f", number).replace(',', '.'));
 
         final DecimalFormatSymbols symbols = new DecimalFormatSymbols();
         symbols.setDecimalSeparator('.');
@@ -61,10 +71,10 @@ public final class NumberFormatter {
 
         if (integerDigits(value) > maxIntegerDigits) {
             //number too big, format in scientific notation 
-            df.applyPattern(pattern + "E0000"); 
+            df.applyPattern(pattern + "E000"); 
         } else if (Math.abs(number) < Math.pow(10, -decimalThreshold) && number != 0.0) {
             //number smaller than the given threshold, format in scientific notation
-            df.applyPattern(pattern + "E0000");
+            df.applyPattern(pattern + "E000");
         } else if (decimalDigits(value) > maxDecimalDigits) {
             //number with too many decimal digits, round to the maximum amount
             df.applyPattern(pattern); 
