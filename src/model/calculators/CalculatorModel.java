@@ -39,4 +39,13 @@ public abstract class CalculatorModel {
     public Map<String, CCUnaryOperator> getUnaryOpMap() {
         return this.unaryOpMap;
     }
+    /**
+     * 
+     * @param unary
+     * @param binary
+     */
+    protected void addOperations(final Map<String, CCUnaryOperator> unary, final Map<String, CCBinaryOperator> binary) {
+        this.binaryOpMap.putAll(binary);
+        this.unaryOpMap.putAll(unary);
+    }
 }

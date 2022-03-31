@@ -1,15 +1,15 @@
 package view.components;
 
-import javax.swing.*;
-
-import controller.manager.CCManager;
-import utils.AbstractCalculator;
-
 
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+
 
 /**
  * 
@@ -22,26 +22,32 @@ public class CCNumPad extends JPanel {
 
     /**
      * Numeric keypad component of a calculator.
-     * It contains numbers from 0 to 9, decimal point and brackets.
-     * @param btnAl
-     * @param calculateAl
-     * @param backspaceAl
+     * It contains numbers from 0 to 9, decimal point, brackets, backspace and equal.
+     * @param btnAl Action fired by clicking a number, decimal point or brackets
+     * @param calculateAl Action fired by clicking the equal button
+     * @param backspaceAl Action fired by clicking the backspace button
      */
     public CCNumPad(final ActionListener btnAl, final ActionListener calculateAl, final ActionListener backspaceAl) {
+        final int rows = 5;
+        final int cols = 3;
+        this.setLayout(new BorderLayout());
 
-        this.setLayout(new GridLayout(5, 3));
+        final JPanel grid = new JPanel(new GridLayout(rows, cols));
 
         final ActionListener al = btnAl;
 
-        this.add(createBtn("(", al));
-        this.add(createBtn(")", al));
-        this.add(createBtn("🡄", backspaceAl));
-        for (int k = 1; k <= 9; k++){
-            this.add(createBtn(String.valueOf(k), al));
+        grid.add(createBtn("(", al));
+        grid.add(createBtn(")", al));
+        grid.add(createBtn("🡄", backspaceAl));
+        for (int j = 2; j >= 0; j--) {
+            for (int k = 1; k <= 3; k++) {
+                grid.add(createBtn(String.valueOf(3 * j + k), al));
+            }
         }
-        this.add(createBtn(".", al));
-        this.add(createBtn("0", al));
-        this.add(createBtn("=", calculateAl));
+        grid.add(createBtn(".", al));
+        grid.add(createBtn("0", al));
+        grid.add(createBtn("=", calculateAl));
+        this.add(grid, BorderLayout.CENTER);
 
     }
     private JButton createBtn(final String s, final ActionListener al) {
@@ -50,7 +56,11 @@ public class CCNumPad extends JPanel {
         this.buttons.put(s, btn);
         return btn;
     }
-    public Map<String, JButton> getButtons(){
+    /**
+     * Returns the mapping from a string to the button that has that string as text.
+     * @return Map from a string to a button
+     */
+    public Map<String, JButton> getButtons() {
         return this.buttons;
     }
 }

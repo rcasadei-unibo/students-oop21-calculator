@@ -5,7 +5,7 @@ import static org.junit.Assert.assertEquals;
 import java.util.List;
 
 import controller.manager.CCManager;
-import model.manager.CCManagerModel.Calculator;
+import model.manager.ManagerModelInterface.Calculator;
 
 
 /**
@@ -28,7 +28,6 @@ public class ManagerTest {
     public void testController() {
 
         //cos ( 3 + 4 * 2 ) / ( 1 - 5 ) ^ 2 ^ 3 
-
         controller.mount(Calculator.STANDARD);
 
         controller.read("cos");
@@ -50,11 +49,9 @@ public class ManagerTest {
         controller.read("^");
         controller.read("3");
 
-//        controller.printCurrentState();
         controller.calculate();
-//        controller.printCurrentState();
-        final double value = 6.753_079_205E-8;
-        assertEquals(value, Double.valueOf(controller.getCurrentState().get(0)), 1E-16 );
+        assertEquals("6.7530792054E-8", controller.getCurrentState().stream().reduce("", (a, b) -> a + b));
+
     }
 
     /**
@@ -64,24 +61,22 @@ public class ManagerTest {
     public void testNegativeNumbers() {
         controller.mount(Calculator.STANDARD);
         controller.readAll(List.of("9", "-", "(", "-", "3", ")"));
-//        controller.printCurrentState();
         controller.calculate();
-//        controller.printCurrentState();
-        assertEquals(12.0, Double.valueOf(controller.getCurrentState().get(0)), 0);
+        assertEquals("12", controller.getCurrentState().stream().reduce("", (a, b) -> a + b));
 
         controller.clear();
         controller.readAll(List.of("-", "3"));
         controller.calculate();
-        assertEquals(-3.0, Double.valueOf(controller.getCurrentState().get(0)), 0);
+        assertEquals("-3", controller.getCurrentState().stream().reduce("", (a, b) -> a + b));
 
         controller.clear();
         controller.readAll(List.of("(", "5", ")", "-", "(", "3", ")"));
         controller.calculate();
-        assertEquals(2.0, Double.valueOf(controller.getCurrentState().get(0)), 0);
+        assertEquals("2", controller.getCurrentState().stream().reduce("", (a, b) -> a + b));
 
         controller.clear();
         controller.readAll(List.of("(", "5", ")", "-", "3"));
         controller.calculate();
-        assertEquals(2.0, Double.valueOf(controller.getCurrentState().get(0)), 0);
+        assertEquals("2", controller.getCurrentState().stream().reduce("", (a, b) -> a + b));
     }
 }

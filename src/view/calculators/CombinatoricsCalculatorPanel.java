@@ -2,11 +2,11 @@ package view.calculators;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import controller.manager.CCManager;
 import utils.AbstractCalculator;
 import view.components.CCDisplay;
 import view.components.CCNumPad;
@@ -20,41 +20,113 @@ public class CombinatoricsCalculatorPanel extends JPanel {
      * 
      */
     private static final long serialVersionUID = 1L;
+    private static String opFormat = "";
+    private static String opString = "";
     /**
      * 
      * @param controller
      */
     public CombinatoricsCalculatorPanel(final AbstractCalculator controller) {
-        this.setLayout(new BorderLayout());
         final var display = new CCDisplay();
+        this.setLayout(new BorderLayout());
         this.add(display, BorderLayout.NORTH);
         controller.setDisplay(display);
-        final var numpad = new CCNumPad(display, controller.getManager());
-        numpad.getButtons().get("-").setEnabled(false);
+        final ActionListener btnAl = e -> {
+            final var btn = (JButton) e.getSource();
+            controller.getManager().read(btn.getText());
+            display.updateText(this.getDisplayText(controller));
+        };
+        final ActionListener calculateAl = e -> {
+            final String adder = controller.isBinaryOperator(opString) ? controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b).split(opString)[1] : "";
+            display.updateUpperText(opFormat + adder + ") =");
+            controller.getManager().calculate();
+            display.updateText(controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b));
+            this.clearStrings();
+        };
+        final ActionListener backspaceAl = e -> {
+            if (controller.getManager().getCurrentState().get(controller.getManager().getCurrentState().size() - 1).length() > 1) {
+                this.clearStrings();
+            }
+            controller.getManager().deleteLast();
+            display.updateText(this.getDisplayText(controller));
+        };
+        final var numpad = new CCNumPad(btnAl, calculateAl, backspaceAl);
+        numpad.getButtons().get("(").setEnabled(false);
+        numpad.getButtons().get(")").setEnabled(false);
         numpad.getButtons().get(".").setEnabled(false);
-        this.add(numpad, BorderLayout.CENTER);
-        this.add(new OperationsPanel(controller.getManager(), display), BorderLayout.EAST);
+        this.add(numpad, BorderLayout.WEST);
+        this.add(new OperationsPanel(controller, display), BorderLayout.CENTER);
+        this.add(new ExplainationPanel(), BorderLayout.EAST);
+    }
+    private String getDisplayText(final AbstractCalculator controller) {
+        if (!opFormat.isBlank()) {
+            if (!opString.isBlank() && controller.isBinaryOperator(opString)) {
+                return opFormat + controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b).split(opString)[1];
+            } else {
+                return opFormat + controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b);
+            }
+        } else {
+            return controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b);
+        }
+    }
+    private void clearStrings() {
+        CombinatoricsCalculatorPanel.opFormat = "";
+        CombinatoricsCalculatorPanel.opString = "";
     }
     static class OperationsPanel extends JPanel {
         /**
          * 
          */
         private static final long serialVersionUID = 1L;
+        private final AbstractCalculator controller;
+        private final CCDisplay display;
 
-        OperationsPanel(final CCManager ccManager, final CCDisplay display) {
-            this.setLayout(new GridLayout(2, 1));
-            final var part = new JButton("Partizioni");
-            part.addActionListener(e -> {
-                ccManager.read("Bell number");
-                display.updateText("Bell(" + ccManager.getCurrentState().get(0));
+        OperationsPanel(final AbstractCalculator controller, final CCDisplay display) {
+            this.display = display;
+            this.controller = controller;
+            this.setLayout(new GridLayout(8, 1));
+            this.createButton("Sequences", "sequencesNumber");
+            this.createButton("Factorial", "factorial");
+            this.createButton("Binomial Coefficient", "binomialCoefficient");
+            this.createButton("Scombussolamento", "scombussolamento");
+            this.createButton("Partitions", "bellNumber");
+            this.createButton("Partitions(binary)", "stirlingNumber");
+            this.createButton("Fibonacci", "fibonacci");
+            this.createButton("Fibonacci(binary)", "binaryFibonacci");
+        }
+        private void createButton(final String btnName, final String opName) {
+            final var btn = new JButton(btnName);
+            btn.addActionListener(e -> {
+                final String closer = controller.isBinaryOperator(opName) ? ", " : "";
+                opFormat = btnName + "(" + controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b) + closer;
+                display.updateText(opFormat);
+                controller.getManager().read(opName);
+                opString = opName;
             });
-            this.add(part);
-            final var fact = new JButton("Factorial");
-            fact.addActionListener(e -> {
-                ccManager.read("factorial");
-                display.updateText("Fact(" + ccManager.getCurrentState().stream().reduce("", (a, b) -> a + " " + b) + ", ");
-            });
-            this.add(fact);
+            this.add(btn);
+        }
+    }
+    static class ExplainationPanel extends JPanel {
+
+        /**
+         * 
+         */
+        private static final long serialVersionUID = 1L;
+        ExplainationPanel() {
+            this.setLayout(new GridLayout(8, 1));
+            this.createButton("sequencesNumber");
+            this.createButton("factorial");
+            this.createButton("binomialCoefficient");
+            this.createButton("scombussolamento");
+            this.createButton("bellNumber");
+            this.createButton("stirlingNumber");
+            this.createButton("fibonacci");
+            this.createButton("binaryFibonacci");
+        }
+        private void createButton(final String opName) {
+            final var btn = new JButton("?");
+            btn.setToolTipText(opName);
+            this.add(btn);
         }
     }
 }
