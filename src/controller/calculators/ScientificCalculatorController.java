@@ -1,7 +1,6 @@
 package controller.calculators;
 
 import model.calculators.ScientificCalculatorModel;
-import utils.AbstractCalculator;
 import view.calculators.ScientificCalculatorPanel;
 
 /**
@@ -9,13 +8,12 @@ import view.calculators.ScientificCalculatorPanel;
  * MISSING JAVADOC.
  *
  */
-public class ScientificCalculatorController extends AbstractCalculator {
+public class ScientificCalculatorController extends CalculatorTemplate {
     /**
      * 
      */
     public ScientificCalculatorController() {
-        this.model = new ScientificCalculatorModel();
-        this.panel = new ScientificCalculatorPanel();
+        this.setController(new ScientificCalculatorModel(), new ScientificCalculatorPanel());
     }
 
 }

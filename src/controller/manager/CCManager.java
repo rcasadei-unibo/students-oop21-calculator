@@ -72,8 +72,10 @@ public class CCManager implements ManagerInterface {
     @Override
     public void deleteLast() {
         final var newState = this.model.getCurrentState();
-        this.clear();
-        IntStream.range(0, newState.size() - 1).forEach(i -> this.read(newState.get(i)));
+        if (!newState.isEmpty()) {
+            this.clear();
+            IntStream.range(0, newState.size() - 1).forEach(i -> this.read(newState.get(i)));
+        }
     }
 
     @Override

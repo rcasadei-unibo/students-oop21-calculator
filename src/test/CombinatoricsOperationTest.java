@@ -2,10 +2,10 @@ package test;
 
 import static org.junit.Assert.assertEquals;
 
+import controller.calculators.CalculatorTemplate;
 import controller.calculators.CombinatoricsCalculatorController;
 import model.calculators.CalculatorModel;
 import model.calculators.CombinatoricsCalculatorModel;
-import utils.AbstractCalculator;
 
 /**
  * 
@@ -14,7 +14,7 @@ import utils.AbstractCalculator;
  */
 public class CombinatoricsOperationTest {
     private final CalculatorModel calculator = new CombinatoricsCalculatorModel();
-    private final AbstractCalculator controller = new CombinatoricsCalculatorController();
+    private final CalculatorTemplate controller = new CombinatoricsCalculatorController().getController();
     /**
      * 
      */
@@ -45,7 +45,7 @@ public class CombinatoricsOperationTest {
      */
     @org.junit.Test
     public void binomailCoeffTest() {
-        final var op = this.calculator.getBinaryOpMap().get("binomial coefficient");
+        final var op = this.calculator.getBinaryOpMap().get("binomialCoefficient");
         assertEquals(56.0, op.apply(8, 3), 0);
         assertEquals(200.0, op.apply(200, 199), 0);
         assertEquals(1, op.apply(6000, 6000), 0);
@@ -66,7 +66,7 @@ public class CombinatoricsOperationTest {
      */
     @org.junit.Test
     public void bellTest() {
-        final var op = this.calculator.getUnaryOpMap().get("Bell number");
+        final var op = this.calculator.getUnaryOpMap().get("bellNumber");
         assertEquals(52.0, op.apply(5), 0);
         assertEquals(877, op.apply(7), 0);
         assertEquals(1.382_958_545E9, op.apply(15), 0);
@@ -76,7 +76,7 @@ public class CombinatoricsOperationTest {
      */
     @org.junit.Test
     public void stirlingTest() {
-        final var op = this.calculator.getBinaryOpMap().get("Stirling number");
+        final var op = this.calculator.getBinaryOpMap().get("stirlingNumber");
         assertEquals(1.0, op.apply(5, 5), 0);
         assertEquals(301.0, op.apply(7, 3), 0);
         assertEquals(1, op.apply(300, 1), 0);

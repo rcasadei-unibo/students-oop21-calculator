@@ -2,15 +2,15 @@ package controller.temp;
 
 import javax.swing.JPanel;
 
+import controller.calculators.CalculatorTemplate;
 import controller.manager.CCManager;
-import utils.AbstractCalculator;
 import utils.Type;
 import view.components.CCDisplay;
 import view.temp.TempCalcGUI;
 
 /**
  */
-public class TempCalculator extends AbstractCalculator {
+public class TempCalculator extends CalculatorTemplate {
     private CCDisplay display;
     
     public TempCalculator() {

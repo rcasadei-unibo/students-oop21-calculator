@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-import utils.AbstractCalculator;
+import controller.calculators.CalculatorTemplate;
 import utils.CalcException;
 import utils.Type;
 
@@ -13,13 +13,13 @@ import utils.Type;
  */
 public class CCEngine implements EngineInterface {
 
-    private final AbstractCalculator calcController;
+    private final CalculatorTemplate calcController;
 
     /**
      * 
      * @param calcController
      */
-    public CCEngine(final AbstractCalculator calcController) {
+    public CCEngine(final CalculatorTemplate calcController) {
         this.calcController = calcController;
     }
 
@@ -155,7 +155,7 @@ public class CCEngine implements EngineInterface {
         return stack.pop();
     }
 
-    private AbstractCalculator getCalculator() {
+    private CalculatorTemplate getCalculator() {
         return this.calcController;
     }
 

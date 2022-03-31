@@ -4,8 +4,9 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-import controller.temp.TempCalculator;
-import utils.AbstractCalculator;
+import controller.calculators.CalculatorTemplate;
+import controller.calculators.CalculatorController;
+import controller.calculators.CombinatoricsCalculatorController;
 
 /**
  * 
@@ -21,38 +22,38 @@ public interface ManagerModelInterface {
         /**
          * Standard calculator. Contains a reference to the standard calculator controller.
          */
-        STANDARD(new TempCalculator()), 
+        STANDARD(new CombinatoricsCalculatorController()), 
         /**
          * Scientific calculator. Contains a reference to the scientific calculator controller.
          */
-        SCIENTIFIC(new TempCalculator()), 
+        SCIENTIFIC(new CombinatoricsCalculatorController()), 
         /**
          * Programmer calculator. Contains a reference to the programmer calculator controller.
          */
-        PROGRAMMER(new TempCalculator()),
+        PROGRAMMER(new CombinatoricsCalculatorController()),
         /**
          * Graphic calculator. Contains a reference to the graphic calculator controller.
          */
-        GRAPHIC(new TempCalculator()),
+        GRAPHIC(new CombinatoricsCalculatorController()),
         /**
          * Combinatorics calculator. Contains a reference to the combinatorics calculator controller.
          */
-        COMBINATORICS(new TempCalculator()),
+        COMBINATORICS(new CombinatoricsCalculatorController()),
         /**
          * Advanced calculator. Contains a reference to the scientific calculator controller.
          */
-        ADVANCED(new TempCalculator());
+        ADVANCED(new CombinatoricsCalculatorController());
 
-        private final AbstractCalculator controller;
-        Calculator(final AbstractCalculator controller) {
-            this.controller = controller;
+        private final CalculatorTemplate controller;
+        Calculator(final CalculatorController controller) {
+            this.controller = controller.getController();
         }
 
         /**
          * Returns the AbstractCalculator controller of the calculator.
          * @return controller of the calculator
          */
-        public AbstractCalculator getController() {
+        public CalculatorTemplate getController() {
             return this.controller;
         }
 

@@ -1,4 +1,4 @@
-package utils;
+package controller.calculators;
 
 import java.util.Map;
 
@@ -6,21 +6,32 @@ import javax.swing.JPanel;
 
 import controller.manager.CCManager;
 import model.calculators.CalculatorModel;
+import utils.CCBinaryOperator;
+import utils.CCUnaryOperator;
+import utils.Type;
+import view.calculators.CombinatoricsCalculatorPanel;
 import view.components.CCDisplay;
 
 /**
  * MISSING JAVADOC.
  */
-public abstract class AbstractCalculator {
+public final class CalculatorTemplate {
     /**
      * 
      * MISSING JAVADOC.
      *
      */
-    protected CalculatorModel model;
-    protected JPanel panel;
-    protected CCManager manager;
-    protected CCDisplay display;
+    private final CalculatorModel model;
+    private JPanel panel;
+    private CCManager manager;
+    private CCDisplay display;
+    /**
+     * 
+     * @param model
+     */
+    public CalculatorTemplate(final CalculatorModel model) {
+        this.model = model;
+    }
     /**
      * 
      * @return a map containing all the binary operators of the mounted calculator
@@ -102,6 +113,7 @@ public abstract class AbstractCalculator {
      */
     public void setManager(final CCManager mng) {
         this.manager = mng;
+        this.panel = new CombinatoricsCalculatorPanel(this);
     }
     /**
      * 

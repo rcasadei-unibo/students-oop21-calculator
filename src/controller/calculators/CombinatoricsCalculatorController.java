@@ -1,20 +1,28 @@
 package controller.calculators;
 
 import model.calculators.CombinatoricsCalculatorModel;
-import utils.AbstractCalculator;
-import view.calculators.CombinatoricsCalculatorPanel;
 
 /**
  * 
  * MISSING JAVADOC.
  *
  */
-public class CombinatoricsCalculatorController extends AbstractCalculator {
+public class CombinatoricsCalculatorController implements CalculatorController {
+    /**
+     * 
+     */
+    private final CalculatorTemplate controller;
     /**
      * 
      */
     public CombinatoricsCalculatorController() {
-        this.model = new CombinatoricsCalculatorModel();
-        this.panel = new CombinatoricsCalculatorPanel(this);
+        this.controller = new CalculatorTemplate(new CombinatoricsCalculatorModel());
+    }
+    /**
+     * 
+     * @return ciao.
+     */
+    public CalculatorTemplate getController() {
+        return this.controller;
     }
 }
