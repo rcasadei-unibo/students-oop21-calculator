@@ -11,12 +11,13 @@ import utils.CCUnaryOperator;
  * MISSING JAVADOC.
  *
  */
-public class CombinatoricsCalculatorModel extends CalculatorModel {
+public class CombinatoricsCalculatorModelBuilder implements CalculatorModelBuilder {
+    private final CalculatorModel model;
     /**
      * 
      */
-    public CombinatoricsCalculatorModel() {
-        super(
+    public CombinatoricsCalculatorModelBuilder() {
+        model = new CalculatorModelTemplate(
                 Map.of(
                 "factorial", createBinaryFunction((n, m) -> fallingFactorial(n, m)),
                 "binomialCoefficient", createBinaryFunction((a, b) -> binomialCoefficient(a, b)),
@@ -33,6 +34,10 @@ public class CombinatoricsCalculatorModel extends CalculatorModel {
     }
     private static CCUnaryOperator createUnaryFunction(final UnaryOperator<Double> op) {
         return new CCUnaryOperator(op, 0, null);
+    }
+    @Override
+    public CalculatorModel getModel() {
+        return this.model;
     }
     /**
      * 

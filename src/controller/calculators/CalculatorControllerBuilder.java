@@ -5,7 +5,7 @@ package controller.calculators;
  * MISSING JAVADOC.
  *
  */
-public interface CalculatorBuilder {
+public interface CalculatorControllerBuilder {
     /**
      * 
      * @return MISSING JAVADOC.

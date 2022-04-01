@@ -3,9 +3,9 @@ package test;
 import static org.junit.Assert.assertEquals;
 
 import controller.calculators.CalculatorControllerTemplate;
-import controller.calculators.CombinatoricsCalculatorBuilder;
+import controller.calculators.CombinatoricsCalculatorControllerBuilder;
 import model.calculators.CalculatorModel;
-import model.calculators.CombinatoricsCalculatorModel;
+import model.calculators.CombinatoricsCalculatorModelBuilder;
 
 /**
  * 
@@ -13,8 +13,8 @@ import model.calculators.CombinatoricsCalculatorModel;
  *
  */
 public class CombinatoricsOperationTest {
-    private final CalculatorModel calculator = new CombinatoricsCalculatorModel();
-    private final CalculatorControllerTemplate controller = new CombinatoricsCalculatorBuilder().getController();
+    private final CalculatorModel calculator = new CombinatoricsCalculatorModelBuilder().getModel();
+    private final CalculatorControllerTemplate controller = new CombinatoricsCalculatorControllerBuilder().getController();
     /**
      * 
      */

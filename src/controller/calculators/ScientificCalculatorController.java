@@ -8,7 +8,7 @@ import view.calculators.ScientificCalculatorPanel;
  * MISSING JAVADOC.
  *
  */
-public class ScientificCalculatorController implements CalculatorBuilder {
+public class ScientificCalculatorController implements CalculatorControllerBuilder {
     /**
      * 
      */

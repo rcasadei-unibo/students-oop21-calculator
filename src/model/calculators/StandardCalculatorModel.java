@@ -11,7 +11,7 @@ import utils.Type;
  * MISSING JAVADOC.
  *
  */
-public class StandardCalculatorModel extends CalculatorModel {
+public class StandardCalculatorModel extends CalculatorModelTemplate {
     /**
      * Contains the following operations:
      * -sum, subtraction, multiplication, division, modulo.

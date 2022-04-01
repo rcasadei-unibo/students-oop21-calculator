@@ -5,8 +5,8 @@ import java.util.List;
 import javax.swing.JPanel;
 
 import controller.calculators.CalculatorControllerTemplate;
-import controller.calculators.CalculatorBuilder;
-import controller.calculators.CombinatoricsCalculatorBuilder;
+import controller.calculators.CalculatorControllerBuilder;
+import controller.calculators.CombinatoricsCalculatorControllerBuilder;
 
 /**
  * 
@@ -22,30 +22,30 @@ public interface ManagerModelInterface {
         /**
          * Standard calculator. Contains a reference to the standard calculator controller.
          */
-        STANDARD(new CombinatoricsCalculatorBuilder()), 
+        STANDARD(new CombinatoricsCalculatorControllerBuilder()), 
         /**
          * Scientific calculator. Contains a reference to the scientific calculator controller.
          */
-        SCIENTIFIC(new CombinatoricsCalculatorBuilder()), 
+        SCIENTIFIC(new CombinatoricsCalculatorControllerBuilder()), 
         /**
          * Programmer calculator. Contains a reference to the programmer calculator controller.
          */
-        PROGRAMMER(new CombinatoricsCalculatorBuilder()),
+        PROGRAMMER(new CombinatoricsCalculatorControllerBuilder()),
         /**
          * Graphic calculator. Contains a reference to the graphic calculator controller.
          */
-        GRAPHIC(new CombinatoricsCalculatorBuilder()),
+        GRAPHIC(new CombinatoricsCalculatorControllerBuilder()),
         /**
          * Combinatorics calculator. Contains a reference to the combinatorics calculator controller.
          */
-        COMBINATORICS(new CombinatoricsCalculatorBuilder()),
+        COMBINATORICS(new CombinatoricsCalculatorControllerBuilder()),
         /**
          * Advanced calculator. Contains a reference to the scientific calculator controller.
          */
-        ADVANCED(new CombinatoricsCalculatorBuilder());
+        ADVANCED(new CombinatoricsCalculatorControllerBuilder());
 
         private final CalculatorControllerTemplate controller;
-        Calculator(final CalculatorBuilder controller) {
+        Calculator(final CalculatorControllerBuilder controller) {
             this.controller = controller.getController();
         }
 
