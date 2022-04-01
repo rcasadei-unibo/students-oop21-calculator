@@ -1,7 +1,5 @@
 package utils;
 
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * This class contains methods for conversions, such as:

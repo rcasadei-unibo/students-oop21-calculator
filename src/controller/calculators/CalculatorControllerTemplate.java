@@ -17,7 +17,7 @@ import view.components.CCDisplay;
 /**
  * MISSING JAVADOC.
  */
-public final class CalculatorControllerTemplate {
+public final class CalculatorControllerTemplate implements CalculatorController {
     /**
      * 
      * MISSING JAVADOC.
@@ -51,71 +51,35 @@ public final class CalculatorControllerTemplate {
     private Map<String, CCUnaryOperator> getUnaryOperators() {
         return this.model.getUnaryOpMap();
     }
-    /**
-     * 
-     * @return view component of the calculator
-     */
+    @Override
     public JPanel getGUI() {
         return this.panel;
     }
-    /**
-     * 
-     * @param op string representing the operation
-     * @param a first operand
-     * @param b second operand
-     * @return result of the given operation
-     */
+    @Override
     public double applyBinaryOperation(final String op, final Double a, final Double b) {
         return this.getBinaryOperators().get(op).apply(a, b);
     }
-    /**
-     * @param op string representing the operation
-     * @return precedence
-     */
+    @Override
     public int getPrecedence(final String op) {
         return this.getBinaryOperators().get(op).getPrecedence();
     }
-
-    /**
-     * @param op string representing the operation
-     * @return the type of association of the operation(LEFT or RIGHT)
-     */
+    @Override
     public Type getType(final String op) {
         return this.getBinaryOperators().get(op).getType();
     }
-
-    /**
-     * 
-     * @param op string representing the operation
-     * @param a first operand
-     * @return result of the given operation
-     */
-    public Double applyUnaryOperation(final String op, final double a) {
+    @Override
+    public double applyUnaryOperation(final String op, final double a) {
         return this.getUnaryOperators().get(op).apply(a);
     }
-
-    /**
-     * 
-     * @param op string representing the operation
-     * @return whether the given operation is unary
-     */
+    @Override
     public boolean isUnaryOperator(final String op) {
         return this.getUnaryOperators().containsKey(op);
     }
-
-    /**
-     * 
-     * @param op string representing the operation
-     * @return whether the given operation is binary
-     */
+    @Override
     public boolean isBinaryOperator(final String op) {
         return this.getBinaryOperators().containsKey(op);
     }
-
-    /**
-     * 
-     * @param mng manager of the system
-     */
+    @Override
     public void setManager(final CCManager mng) {
         this.manager = mng;
         this.selectGUI();
@@ -140,24 +104,15 @@ public final class CalculatorControllerTemplate {
             break;
         }
     }
-    /**
-     * 
-     * @param display
-     */
+    @Override
     public void setDisplay(final CCDisplay display) {
         this.display = display;
     }
-    /**
-     * 
-     * @return display
-     */
+    @Override
     public CCDisplay getDisplay() {
         return this.display;
     }
-    /**
-     * 
-     * @return MISSING.
-     */
+    @Override
     public CCManager getManager() {
         return this.manager;
     }
