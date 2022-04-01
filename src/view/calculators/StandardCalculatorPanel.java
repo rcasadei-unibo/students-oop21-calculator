@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
+
+import controller.calculators.CalculatorControllerTemplate;
 //TODO MISSING JAVADOC.
 /**
  * 
@@ -31,8 +33,9 @@ public class StandardCalculatorPanel extends JPanel {
     //TODO MISSING JAVADOC.
     /**
      * MISSING JAVADOC.
+     * @param calculatorTemplate 
      */
-    public StandardCalculatorPanel() {
+    public StandardCalculatorPanel(CalculatorControllerTemplate calculatorTemplate) {
         this.add(output, new BorderLayout().NORTH);
         this.numbers.setLayout(new GridLayout(3, 4));
         this.setNumbers();

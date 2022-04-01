@@ -2,8 +2,8 @@ package test;
 
 import static org.junit.Assert.assertEquals;
 
-import controller.calculators.CalculatorTemplate;
-import controller.calculators.CombinatoricsCalculatorController;
+import controller.calculators.CalculatorControllerTemplate;
+import controller.calculators.CombinatoricsCalculatorBuilder;
 import model.calculators.CalculatorModel;
 import model.calculators.CombinatoricsCalculatorModel;
 
@@ -14,7 +14,7 @@ import model.calculators.CombinatoricsCalculatorModel;
  */
 public class CombinatoricsOperationTest {
     private final CalculatorModel calculator = new CombinatoricsCalculatorModel();
-    private final CalculatorTemplate controller = new CombinatoricsCalculatorController().getController();
+    private final CalculatorControllerTemplate controller = new CombinatoricsCalculatorBuilder().getController();
     /**
      * 
      */

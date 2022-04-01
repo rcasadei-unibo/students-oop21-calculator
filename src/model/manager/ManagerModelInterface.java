@@ -4,9 +4,9 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-import controller.calculators.CalculatorTemplate;
-import controller.calculators.CalculatorController;
-import controller.calculators.CombinatoricsCalculatorController;
+import controller.calculators.CalculatorControllerTemplate;
+import controller.calculators.CalculatorBuilder;
+import controller.calculators.CombinatoricsCalculatorBuilder;
 
 /**
  * 
@@ -22,30 +22,30 @@ public interface ManagerModelInterface {
         /**
          * Standard calculator. Contains a reference to the standard calculator controller.
          */
-        STANDARD(new CombinatoricsCalculatorController()), 
+        STANDARD(new CombinatoricsCalculatorBuilder()), 
         /**
          * Scientific calculator. Contains a reference to the scientific calculator controller.
          */
-        SCIENTIFIC(new CombinatoricsCalculatorController()), 
+        SCIENTIFIC(new CombinatoricsCalculatorBuilder()), 
         /**
          * Programmer calculator. Contains a reference to the programmer calculator controller.
          */
-        PROGRAMMER(new CombinatoricsCalculatorController()),
+        PROGRAMMER(new CombinatoricsCalculatorBuilder()),
         /**
          * Graphic calculator. Contains a reference to the graphic calculator controller.
          */
-        GRAPHIC(new CombinatoricsCalculatorController()),
+        GRAPHIC(new CombinatoricsCalculatorBuilder()),
         /**
          * Combinatorics calculator. Contains a reference to the combinatorics calculator controller.
          */
-        COMBINATORICS(new CombinatoricsCalculatorController()),
+        COMBINATORICS(new CombinatoricsCalculatorBuilder()),
         /**
          * Advanced calculator. Contains a reference to the scientific calculator controller.
          */
-        ADVANCED(new CombinatoricsCalculatorController());
+        ADVANCED(new CombinatoricsCalculatorBuilder());
 
-        private final CalculatorTemplate controller;
-        Calculator(final CalculatorController controller) {
+        private final CalculatorControllerTemplate controller;
+        Calculator(final CalculatorBuilder controller) {
             this.controller = controller.getController();
         }
 
@@ -53,7 +53,7 @@ public interface ManagerModelInterface {
          * Returns the AbstractCalculator controller of the calculator.
          * @return controller of the calculator
          */
-        public CalculatorTemplate getController() {
+        public CalculatorControllerTemplate getController() {
             return this.controller;
         }
 

@@ -8,14 +8,16 @@ import controller.manager.CCManager;
 import model.calculators.CalculatorModel;
 import utils.CCBinaryOperator;
 import utils.CCUnaryOperator;
+import utils.Calculators;
 import utils.Type;
 import view.calculators.CombinatoricsCalculatorPanel;
+import view.calculators.StandardCalculatorPanel;
 import view.components.CCDisplay;
 
 /**
  * MISSING JAVADOC.
  */
-public final class CalculatorTemplate {
+public final class CalculatorControllerTemplate {
     /**
      * 
      * MISSING JAVADOC.
@@ -25,12 +27,15 @@ public final class CalculatorTemplate {
     private JPanel panel;
     private CCManager manager;
     private CCDisplay display;
+    private final Calculators calcType;
     /**
      * 
      * @param model
+     * @param calcType
      */
-    public CalculatorTemplate(final CalculatorModel model) {
+    public CalculatorControllerTemplate(final CalculatorModel model, final Calculators calcType) {
         this.model = model;
+        this.calcType = calcType;
     }
     /**
      * 
@@ -113,7 +118,27 @@ public final class CalculatorTemplate {
      */
     public void setManager(final CCManager mng) {
         this.manager = mng;
-        this.panel = new CombinatoricsCalculatorPanel(this);
+        this.selectGUI();
+    }
+    private void selectGUI() {
+        switch (this.calcType) {
+        case STANDARD:
+            this.panel = new StandardCalculatorPanel(this);
+            break;
+        case ADVANCED:
+            break;
+        case COMBINATORICS:
+            this.panel = new CombinatoricsCalculatorPanel(this);
+            break;
+        case GRAPHIC:
+            break;
+        case PROGRAMMER:
+            break;
+        case SCIENTIFIC:
+            break;
+        default:
+            break;
+        }
     }
     /**
      * 
@@ -121,6 +146,13 @@ public final class CalculatorTemplate {
      */
     public void setDisplay(final CCDisplay display) {
         this.display = display;
+    }
+    /**
+     * 
+     * @return display
+     */
+    public CCDisplay getDisplay() {
+        return this.display;
     }
     /**
      * 

@@ -2,7 +2,7 @@ package controller.temp;
 
 import javax.swing.JPanel;
 
-import controller.calculators.CalculatorTemplate;
+import controller.calculators.CalculatorControllerTemplate;
 import controller.manager.CCManager;
 import utils.Type;
 import view.components.CCDisplay;
@@ -10,7 +10,7 @@ import view.temp.TempCalcGUI;
 
 /**
  */
-public class TempCalculator extends CalculatorTemplate {
+public class TempCalculator extends CalculatorControllerTemplate {
     private CCDisplay display;
     
     public TempCalculator() {

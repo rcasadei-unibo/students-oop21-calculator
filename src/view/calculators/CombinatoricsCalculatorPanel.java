@@ -8,7 +8,7 @@ import java.util.Map;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import controller.calculators.CalculatorTemplate;
+import controller.calculators.CalculatorControllerTemplate;
 import view.components.CCDisplay;
 import view.components.CCNumPad;
 /**
@@ -30,7 +30,7 @@ public class CombinatoricsCalculatorPanel extends JPanel {
      * 
      * @param controller
      */
-    public CombinatoricsCalculatorPanel(final CalculatorTemplate controller) {
+    public CombinatoricsCalculatorPanel(final CalculatorControllerTemplate controller) {
         final var display = new CCDisplay();
         this.setLayout(new BorderLayout());
         this.add(display, BorderLayout.NORTH);
@@ -62,7 +62,7 @@ public class CombinatoricsCalculatorPanel extends JPanel {
         this.add(new OperationsPanel(controller, display), BorderLayout.CENTER);
         this.add(new ExplainationPanel(), BorderLayout.EAST);
     }
-    private String getDisplayText(final CalculatorTemplate controller) {
+    private String getDisplayText(final CalculatorControllerTemplate controller) {
         if (!opFormat.isBlank()) {
             if (!opString.isBlank() && controller.isBinaryOperator(opString)) {
                 return opFormat + controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b).split(opString)[1];
@@ -82,10 +82,10 @@ public class CombinatoricsCalculatorPanel extends JPanel {
          * 
          */
         private static final long serialVersionUID = 1L;
-        private final CalculatorTemplate controller;
+        private final CalculatorControllerTemplate controller;
         private final CCDisplay display;
 
-        OperationsPanel(final CalculatorTemplate controller, final CCDisplay display) {
+        OperationsPanel(final CalculatorControllerTemplate controller, final CCDisplay display) {
             this.display = display;
             this.controller = controller;
             this.setLayout(new GridLayout(8, 1));
