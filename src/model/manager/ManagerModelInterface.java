@@ -6,8 +6,8 @@ import javax.swing.JPanel;
 
 import controller.calculators.CalculatorController;
 import controller.calculators.ControllerFactoryImpl;
-import model.calculators.CalculatorModelBuilder;
-import model.calculators.CombinatoricsCalculatorModelBuilder;
+import model.calculators.CalculatorModel;
+import model.calculators.CombinatoricsCalculatorModelFactory;
 
 /**
  * 
@@ -23,30 +23,30 @@ public interface ManagerModelInterface {
         /**
          * Standard calculator. Contains a reference to the standard calculator controller.
          */
-        STANDARD(new CombinatoricsCalculatorModelBuilder()), 
+        STANDARD(CombinatoricsCalculatorModelFactory.create()), 
         /**
          * Scientific calculator. Contains a reference to the scientific calculator controller.
          */
-        SCIENTIFIC(new CombinatoricsCalculatorModelBuilder()), 
+        SCIENTIFIC(CombinatoricsCalculatorModelFactory.create()), 
         /**
          * Programmer calculator. Contains a reference to the programmer calculator controller.
          */
-        PROGRAMMER(new CombinatoricsCalculatorModelBuilder()),
+        PROGRAMMER(CombinatoricsCalculatorModelFactory.create()),
         /**
          * Graphic calculator. Contains a reference to the graphic calculator controller.
          */
-        GRAPHIC(new CombinatoricsCalculatorModelBuilder()),
+        GRAPHIC(CombinatoricsCalculatorModelFactory.create()),
         /**
          * Combinatorics calculator. Contains a reference to the combinatorics calculator controller.
          */
-        COMBINATORICS(new CombinatoricsCalculatorModelBuilder()),
+        COMBINATORICS(CombinatoricsCalculatorModelFactory.create()),
         /**
          * Advanced calculator. Contains a reference to the scientific calculator controller.
          */
-        ADVANCED(new CombinatoricsCalculatorModelBuilder());
+        ADVANCED(CombinatoricsCalculatorModelFactory.create());
 
         private final CalculatorController controller;
-        Calculator(final CalculatorModelBuilder model) {
+        Calculator(final CalculatorModel model) {
             this.controller = new ControllerFactoryImpl().createController(model, this);
         }
 

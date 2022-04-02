@@ -3,7 +3,7 @@ package test;
 import static org.junit.Assert.assertEquals;
 
 import model.calculators.CalculatorModel;
-import model.calculators.CombinatoricsCalculatorModelBuilder;
+import model.calculators.CombinatoricsCalculatorModelFactory;
 
 /**
  * 
@@ -11,7 +11,7 @@ import model.calculators.CombinatoricsCalculatorModelBuilder;
  *
  */
 public class CombinatoricsOperationTest {
-    private final CalculatorModel calculator = new CombinatoricsCalculatorModelBuilder().getModel();
+    private final CalculatorModel calculator = new CombinatoricsCalculatorModelFactory().create();
     /**
      * 
      */

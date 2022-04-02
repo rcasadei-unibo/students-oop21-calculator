@@ -1,6 +1,6 @@
 package controller.calculators;
 
-import model.calculators.CalculatorModelBuilder;
+import model.calculators.CalculatorModel;
 import model.manager.ManagerModelInterface.Calculator;
 
 /**
@@ -15,5 +15,5 @@ public interface ControllerFactory {
      * @param calcName
      * @return MISSING JAVADOC.
      */
-    CalculatorController createController(CalculatorModelBuilder model, Calculator calcName);
+    CalculatorController createController(CalculatorModel model, Calculator calcName);
 }

@@ -11,23 +11,11 @@ import utils.CCUnaryOperator;
  * MISSING JAVADOC.
  *
  */
-public class CombinatoricsCalculatorModelBuilder implements CalculatorModelBuilder {
-    private final CalculatorModel model;
+public final class CombinatoricsCalculatorModelFactory {
     /**
      * 
      */
-    public CombinatoricsCalculatorModelBuilder() {
-        model = new CalculatorModelTemplate(
-                Map.of(
-                "factorial", createBinaryFunction((n, m) -> fallingFactorial(n, m)),
-                "binomialCoefficient", createBinaryFunction((a, b) -> binomialCoefficient(a, b)),
-                "sequencesNumber", createBinaryFunction((n, m) -> sequencesNumber(n, m)),
-                "binaryFibonacci", createBinaryFunction((n, k) -> binaryFibonacci(n, k)),
-                "stirlingNumber", createBinaryFunction((n, k) -> stirlingNumber(n, k))),
-                Map.of(
-                "fibonacci", createUnaryFunction((n) -> fibonacci(n)),
-                "scombussolamento", createUnaryFunction((n) -> scombussolamento(n)),
-                "bellNumber", createUnaryFunction((n) -> bellNumber(n))));
+    private CombinatoricsCalculatorModelFactory() {
     }
     private static CCBinaryOperator createBinaryFunction(final BinaryOperator<Double> op) {
         return new CCBinaryOperator(op, 0, null);
@@ -35,9 +23,22 @@ public class CombinatoricsCalculatorModelBuilder implements CalculatorModelBuild
     private static CCUnaryOperator createUnaryFunction(final UnaryOperator<Double> op) {
         return new CCUnaryOperator(op, 0, null);
     }
-    @Override
-    public CalculatorModel getModel() {
-        return this.model;
+    /**
+     * 
+     * @return MISSING JAVADOC.
+     */
+    public static CalculatorModel create() {
+        final Map<String, CCBinaryOperator> binaryOpMap = Map.of(
+                "factorial", createBinaryFunction((n, m) -> fallingFactorial(n, m)),
+                "binomialCoefficient", createBinaryFunction((a, b) -> binomialCoefficient(a, b)),
+                "sequencesNumber", createBinaryFunction((n, m) -> sequencesNumber(n, m)),
+                "binaryFibonacci", createBinaryFunction((n, k) -> binaryFibonacci(n, k)),
+                "stirlingNumber", createBinaryFunction((n, k) -> stirlingNumber(n, k)));
+        final Map<String, CCUnaryOperator> unaryOpMap = Map.of(
+                "fibonacci", createUnaryFunction((n) -> fibonacci(n)),
+                "scombussolamento", createUnaryFunction((n) -> scombussolamento(n)),
+                "bellNumber", createUnaryFunction((n) -> bellNumber(n)));
+        return new CalculatorModelTemplate(binaryOpMap, unaryOpMap);
     }
     /**
      * 
