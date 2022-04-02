@@ -14,13 +14,14 @@ import model.manager.ManagerModelInterface.Calculator;
  */
 public class CCManager implements ManagerInterface {
 
-    private final CCManagerModel model = new CCManagerModel();
+    private final CCManagerModel model;
 
     /**
      * Construct a new system manager. 
      * Note: the same CCManager instance must be referenced by all calculators in the system. 
      */
     public CCManager() {
+        this.model = new CCManagerModel();
         for (final Calculator calc : Calculator.values()) {
             calc.getController().setManager(this);
         }
@@ -72,8 +73,10 @@ public class CCManager implements ManagerInterface {
     @Override
     public void deleteLast() {
         final var newState = this.model.getCurrentState();
-        this.clear();
-        IntStream.range(0, newState.size() - 1).forEach(i -> this.read(newState.get(i)));
+        if (!newState.isEmpty()) {
+            this.clear();
+            IntStream.range(0, newState.size() - 1).forEach(i -> this.read(newState.get(i)));
+        }
     }
 
     @Override
