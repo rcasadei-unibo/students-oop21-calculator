@@ -11,7 +11,7 @@ import model.calculators.CombinatoricsCalculatorModelFactory;
  *
  */
 public class CombinatoricsOperationTest {
-    private final CalculatorModel calculator = new CombinatoricsCalculatorModelFactory().create();
+    private final CalculatorModel calculator = CombinatoricsCalculatorModelFactory.create();
     /**
      * 
      */
