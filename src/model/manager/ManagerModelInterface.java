@@ -4,9 +4,10 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-import controller.calculators.CalculatorControllerTemplate;
-import controller.calculators.CalculatorControllerBuilder;
-import controller.calculators.CombinatoricsCalculatorControllerBuilder;
+import controller.calculators.CalculatorController;
+import controller.calculators.ControllerFactoryImpl;
+import model.calculators.CalculatorModelBuilder;
+import model.calculators.CombinatoricsCalculatorModelBuilder;
 
 /**
  * 
@@ -22,38 +23,38 @@ public interface ManagerModelInterface {
         /**
          * Standard calculator. Contains a reference to the standard calculator controller.
          */
-        STANDARD(new CombinatoricsCalculatorControllerBuilder()), 
+        STANDARD(new CombinatoricsCalculatorModelBuilder()), 
         /**
          * Scientific calculator. Contains a reference to the scientific calculator controller.
          */
-        SCIENTIFIC(new CombinatoricsCalculatorControllerBuilder()), 
+        SCIENTIFIC(new CombinatoricsCalculatorModelBuilder()), 
         /**
          * Programmer calculator. Contains a reference to the programmer calculator controller.
          */
-        PROGRAMMER(new CombinatoricsCalculatorControllerBuilder()),
+        PROGRAMMER(new CombinatoricsCalculatorModelBuilder()),
         /**
          * Graphic calculator. Contains a reference to the graphic calculator controller.
          */
-        GRAPHIC(new CombinatoricsCalculatorControllerBuilder()),
+        GRAPHIC(new CombinatoricsCalculatorModelBuilder()),
         /**
          * Combinatorics calculator. Contains a reference to the combinatorics calculator controller.
          */
-        COMBINATORICS(new CombinatoricsCalculatorControllerBuilder()),
+        COMBINATORICS(new CombinatoricsCalculatorModelBuilder()),
         /**
          * Advanced calculator. Contains a reference to the scientific calculator controller.
          */
-        ADVANCED(new CombinatoricsCalculatorControllerBuilder());
+        ADVANCED(new CombinatoricsCalculatorModelBuilder());
 
-        private final CalculatorControllerTemplate controller;
-        Calculator(final CalculatorControllerBuilder controller) {
-            this.controller = controller.getController();
+        private final CalculatorController controller;
+        Calculator(final CalculatorModelBuilder model) {
+            this.controller = new ControllerFactoryImpl().createController(model, this);
         }
 
         /**
          * Returns the AbstractCalculator controller of the calculator.
          * @return controller of the calculator
          */
-        public CalculatorControllerTemplate getController() {
+        public CalculatorController getController() {
             return this.controller;
         }
 

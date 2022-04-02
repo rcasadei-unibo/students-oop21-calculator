@@ -8,7 +8,7 @@ import controller.manager.CCManager;
 import model.calculators.CalculatorModel;
 import utils.CCBinaryOperator;
 import utils.CCUnaryOperator;
-import utils.Calculators;
+import model.manager.ManagerModelInterface.Calculator;
 import utils.Type;
 import view.calculators.CombinatoricsCalculatorPanel;
 import view.calculators.StandardCalculatorPanel;
@@ -27,13 +27,13 @@ public final class CalculatorControllerTemplate implements CalculatorController 
     private JPanel panel;
     private CCManager manager;
     private CCDisplay display;
-    private final Calculators calcType;
+    private final Calculator calcType;
     /**
      * 
      * @param model
      * @param calcType
      */
-    public CalculatorControllerTemplate(final CalculatorModel model, final Calculators calcType) {
+    public CalculatorControllerTemplate(final CalculatorModel model, final Calculator calcType) {
         this.model = model;
         this.calcType = calcType;
     }
