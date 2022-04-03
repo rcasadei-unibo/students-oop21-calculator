@@ -4,8 +4,10 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-import controller.temp.TempCalculator;
-import utils.AbstractCalculator;
+import controller.calculators.CalculatorController;
+import controller.calculators.ControllerFactoryImpl;
+import model.calculators.CalculatorModel;
+import model.calculators.CombinatoricsCalculatorModelFactory;
 
 /**
  * 
@@ -21,38 +23,38 @@ public interface ManagerModelInterface {
         /**
          * Standard calculator. Contains a reference to the standard calculator controller.
          */
-        STANDARD(new TempCalculator()), 
+        STANDARD(CombinatoricsCalculatorModelFactory.create()), 
         /**
          * Scientific calculator. Contains a reference to the scientific calculator controller.
          */
-        SCIENTIFIC(new TempCalculator()), 
+        SCIENTIFIC(CombinatoricsCalculatorModelFactory.create()), 
         /**
          * Programmer calculator. Contains a reference to the programmer calculator controller.
          */
-        PROGRAMMER(new TempCalculator()),
+        PROGRAMMER(CombinatoricsCalculatorModelFactory.create()),
         /**
          * Graphic calculator. Contains a reference to the graphic calculator controller.
          */
-        GRAPHIC(new TempCalculator()),
+        GRAPHIC(CombinatoricsCalculatorModelFactory.create()),
         /**
          * Combinatorics calculator. Contains a reference to the combinatorics calculator controller.
          */
-        COMBINATORICS(new TempCalculator()),
+        COMBINATORICS(CombinatoricsCalculatorModelFactory.create()),
         /**
          * Advanced calculator. Contains a reference to the scientific calculator controller.
          */
-        ADVANCED(new TempCalculator());
+        ADVANCED(CombinatoricsCalculatorModelFactory.create());
 
-        private final AbstractCalculator controller;
-        Calculator(final AbstractCalculator controller) {
-            this.controller = controller;
+        private final CalculatorController controller;
+        Calculator(final CalculatorModel model) {
+            this.controller = new ControllerFactoryImpl().createController(model, this);
         }
 
         /**
          * Returns the AbstractCalculator controller of the calculator.
          * @return controller of the calculator
          */
-        public AbstractCalculator getController() {
+        public CalculatorController getController() {
             return this.controller;
         }
 

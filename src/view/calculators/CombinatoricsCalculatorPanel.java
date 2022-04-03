@@ -3,11 +3,12 @@ package view.calculators;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import utils.AbstractCalculator;
+import controller.calculators.CalculatorControllerTemplate;
 import view.components.CCDisplay;
 import view.components.CCNumPad;
 /**
@@ -22,11 +23,14 @@ public class CombinatoricsCalculatorPanel extends JPanel {
     private static final long serialVersionUID = 1L;
     private static String opFormat = "";
     private static String opString = "";
+    private static final Map<String, String> OPERATIONS = Map.of("Sequences", "sequencesNumber", "Factorial", "factorial",
+            "Binomial Coefficient", "binomialCoefficient", "Scombussolamento", "scombussolamento", "Partitions", "bellNumber",
+            "Partitions(binary)", "stirlingNumber", "Fibonacci", "fibonacci", "Fibonacci(binary)", "binaryFibonacci");
     /**
      * 
      * @param controller
      */
-    public CombinatoricsCalculatorPanel(final AbstractCalculator controller) {
+    public CombinatoricsCalculatorPanel(final CalculatorControllerTemplate controller) {
         final var display = new CCDisplay();
         this.setLayout(new BorderLayout());
         this.add(display, BorderLayout.NORTH);
@@ -58,7 +62,7 @@ public class CombinatoricsCalculatorPanel extends JPanel {
         this.add(new OperationsPanel(controller, display), BorderLayout.CENTER);
         this.add(new ExplainationPanel(), BorderLayout.EAST);
     }
-    private String getDisplayText(final AbstractCalculator controller) {
+    private String getDisplayText(final CalculatorControllerTemplate controller) {
         if (!opFormat.isBlank()) {
             if (!opString.isBlank() && controller.isBinaryOperator(opString)) {
                 return opFormat + controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b).split(opString)[1];
@@ -78,21 +82,14 @@ public class CombinatoricsCalculatorPanel extends JPanel {
          * 
          */
         private static final long serialVersionUID = 1L;
-        private final AbstractCalculator controller;
+        private final CalculatorControllerTemplate controller;
         private final CCDisplay display;
 
-        OperationsPanel(final AbstractCalculator controller, final CCDisplay display) {
+        OperationsPanel(final CalculatorControllerTemplate controller, final CCDisplay display) {
             this.display = display;
             this.controller = controller;
             this.setLayout(new GridLayout(8, 1));
-            this.createButton("Sequences", "sequencesNumber");
-            this.createButton("Factorial", "factorial");
-            this.createButton("Binomial Coefficient", "binomialCoefficient");
-            this.createButton("Scombussolamento", "scombussolamento");
-            this.createButton("Partitions", "bellNumber");
-            this.createButton("Partitions(binary)", "stirlingNumber");
-            this.createButton("Fibonacci", "fibonacci");
-            this.createButton("Fibonacci(binary)", "binaryFibonacci");
+            OPERATIONS.forEach((str1, str2) -> this.createButton(str1, str2));
         }
         private void createButton(final String btnName, final String opName) {
             final var btn = new JButton(btnName);
@@ -107,21 +104,13 @@ public class CombinatoricsCalculatorPanel extends JPanel {
         }
     }
     static class ExplainationPanel extends JPanel {
-
         /**
          * 
          */
         private static final long serialVersionUID = 1L;
         ExplainationPanel() {
             this.setLayout(new GridLayout(8, 1));
-            this.createButton("sequencesNumber");
-            this.createButton("factorial");
-            this.createButton("binomialCoefficient");
-            this.createButton("scombussolamento");
-            this.createButton("bellNumber");
-            this.createButton("stirlingNumber");
-            this.createButton("fibonacci");
-            this.createButton("binaryFibonacci");
+            OPERATIONS.forEach((str1, str2) -> this.createButton(str1));
         }
         private void createButton(final String opName) {
             final var btn = new JButton("?");
