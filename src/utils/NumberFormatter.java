@@ -32,7 +32,7 @@ public final class NumberFormatter {
     }
 
     private static String trimLeadingZeros(final String s) {
-        return s.replaceFirst("0+", "");
+        return s.replaceFirst("0+(?!$)", "");
     }
 
     /**
@@ -48,16 +48,14 @@ public final class NumberFormatter {
      * @return Formatted string representation of the number.
      */
     public static String format(final double number, final int maxIntegerDigits, final int maxDecimalDigits, final int decimalThreshold) throws CalcException {
-
         final double precision = 320;
-        if (number < Math.pow(10, -precision)) {
+        if (Math.abs(number) < Math.pow(10, -precision)) {
             return "0";
         }
         if (Double.isInfinite(number)) {
             throw new CalcException("Out of range");
         }
-
-        final String value = trimZeros(String.format("%.323f", number).replace(',', '.'));
+        final String value = trimZeros(String.format("%.330f", number).replace(',', '.'));
 
         final DecimalFormatSymbols symbols = new DecimalFormatSymbols();
         symbols.setDecimalSeparator('.');

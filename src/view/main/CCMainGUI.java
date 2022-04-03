@@ -1,6 +1,7 @@
 package view.main;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -12,6 +13,7 @@ import java.awt.Dimension;
 import java.awt.BorderLayout;
 
 import controller.manager.CCManager;
+import controller.manager.ManagerInterface;
 import model.manager.ManagerModelInterface.Calculator;
 
 /**
@@ -26,9 +28,10 @@ public class CCMainGUI extends JFrame {
      * 
      */
     private static final long serialVersionUID = -4510924334938545109L;
-    private final CCManager controller = new CCManager();
+    private final transient ManagerInterface controller = new CCManager();
     private final JPanel outer = new JPanel();
     private JPanel mountedCalc;
+    private final JLabel title = new JLabel("");
     /**
      * 
      */
@@ -45,6 +48,7 @@ public class CCMainGUI extends JFrame {
         final JMenuBar menuBar = new JMenuBar();
         final JMenu menu = new JMenu("Select Calculator");
         menuBar.add(menu);
+        menuBar.add(title);
 
         menu.add(this.createMenuItem("Standard Calculator", Calculator.STANDARD));
         menu.add(this.createMenuItem("Scientific Calculator", Calculator.SCIENTIFIC));
@@ -66,6 +70,7 @@ public class CCMainGUI extends JFrame {
 
     private void mount(final Calculator calc) {
         controller.mount(calc);
+        title.setText(calc.name());
 
         if (mountedCalc != null) {
             outer.remove(this.mountedCalc);
