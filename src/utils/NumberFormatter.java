@@ -25,14 +25,14 @@ public final class NumberFormatter {
         if (value.contains("E")) {
             final int expPos = value.indexOf('E');
             s = value.substring(0, expPos);
-            exp = trimLeadingZeros(value.substring(expPos));
+            exp = "E" + trimLeadingZeros(value.substring(expPos + 1));
         }
 
         return s.contains(".") ? s.replaceAll("0*$", "").replaceAll("\\.$", "").concat(exp) : s.concat(exp);
     }
 
     private static String trimLeadingZeros(final String s) {
-        return s.replaceFirst("0+(?!$)", "");
+        return String.valueOf(Integer.parseInt(s));
     }
 
     /**
