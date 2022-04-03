@@ -11,7 +11,7 @@ import utils.Type;
  * MISSING JAVADOC.
  *
  */
-public class ProgrammerCalculatorModel extends CalculatorModel {
+public class ProgrammerCalculatorModel extends CalculatorModelTemplate {
     //TODO MISSING JAVADOC.
     /**
      * MISSING JAVADOC. 

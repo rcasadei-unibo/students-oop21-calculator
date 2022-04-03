@@ -2,7 +2,7 @@ package test;
 
 import static org.junit.Assert.assertEquals;
 
-import model.calculators.CalculatorModel;
+import model.calculators.CalculatorModelTemplate;
 import model.calculators.ScientificCalculatorModel;
 
 /**
@@ -12,7 +12,7 @@ import model.calculators.ScientificCalculatorModel;
  */
 
 public class ScientificCalculatorOperationsTest {
-    private final CalculatorModel calc = new ScientificCalculatorModel();
+    private final CalculatorModelTemplate calc = new ScientificCalculatorModel();
     /**
      * 
      */
