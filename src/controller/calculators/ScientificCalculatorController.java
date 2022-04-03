@@ -15,7 +15,7 @@ public class ScientificCalculatorController extends AbstractCalculator {
      */
     public ScientificCalculatorController() {
         this.model = new ScientificCalculatorModel();
-        this.panel = new ScientificCalculatorPanel(this);
+        this.panel = new ScientificCalculatorPanel();
     }
 
 }
