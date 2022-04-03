@@ -17,7 +17,7 @@ public class ScientificCalculatorModel extends CalculatorModel {
      * and new operations unique to a scientific calculator.
      *
      */
-    private StandardCalculatorModel standard = new StandardCalculatorModel();
+    private final StandardCalculatorModel standard = new StandardCalculatorModel();
     /**
      * 
      */
