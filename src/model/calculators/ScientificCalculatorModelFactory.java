@@ -5,6 +5,7 @@ import java.util.stream.LongStream;
 
 import utils.CCBinaryOperator;
 import utils.CCUnaryOperator;
+
 /**
  * 
  * MISSING JAVADOC.
@@ -35,6 +36,8 @@ public final class ScientificCalculatorModelFactory {
                      "csc", new CCUnaryOperator((n) -> 1 / Math.sin(n), 0, null),
                      "sec", new CCUnaryOperator((n) -> 1 / Math.cos(n), 0, null),
                      "cot", new CCUnaryOperator((n) -> Math.cos(n) / Math.sin(n), 0, null));
+        binaryOpMap.putAll(StandardCalculatorModelFactory.create().getBinaryOpMap());
+        unaryOpMap.putAll(StandardCalculatorModelFactory.create().getUnaryOpMap());
 
         return new CalculatorModelTemplate(binaryOpMap, unaryOpMap);
     }
