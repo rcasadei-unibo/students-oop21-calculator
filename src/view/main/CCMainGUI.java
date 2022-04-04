@@ -1,27 +1,23 @@
 package view.main;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-
-import javax.swing.border.TitledBorder;
+import java.awt.Toolkit;
 
 import java.awt.Dimension;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.awt.GridBagConstraints;
 
 import java.awt.BorderLayout;
 
-
-
-
-
 import controller.manager.CCManager;
-import model.manager.CCManagerModel.Calculator;
+import model.manager.ManagerModelInterface.Calculator;
 
 /**
- * 
+ * TODO: min size of frame, menu, numpad.
+ * TODO: update font size when tall enough
+ * TODO: display size changes on resize
  *
  */
 public class CCMainGUI extends JFrame {
@@ -33,8 +29,6 @@ public class CCMainGUI extends JFrame {
     private final CCManager controller = new CCManager();
     private final JPanel outer = new JPanel();
     private JPanel mountedCalc;
-    private final Dimension menuDims = new Dimension(600, 500);
-
     /**
      * 
      */
@@ -42,31 +36,31 @@ public class CCMainGUI extends JFrame {
 
         this.setTitle("Calculator Collection");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(menuDims);
+
+        final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        final double width = screenSize.getWidth() / 3;
+        final double height = screenSize.getHeight() * 2 / 3;
+        this.setSize(new Dimension((int) width, (int) height));
+
+        final JMenuBar menuBar = new JMenuBar();
+        final JMenu menu = new JMenu("Select Calculator");
+        menuBar.add(menu);
+
+        menu.add(this.createMenuItem("Standard Calculator", Calculator.STANDARD));
+        menu.add(this.createMenuItem("Scientific Calculator", Calculator.SCIENTIFIC));
+        menu.add(this.createMenuItem("Graphic Calculator", Calculator.GRAPHIC));
+        menu.add(this.createMenuItem("Programmer Calculator", Calculator.PROGRAMMER));
+        menu.add(this.createMenuItem("Combinatorics Calculator", Calculator.COMBINATORICS));
+        menu.add(this.createMenuItem("Advanced Calculator", Calculator.ADVANCED));
+        this.setJMenuBar(menuBar);
+
+
+
 
         outer.setLayout(new BorderLayout());
         this.getContentPane().add(outer);
 
-        final JPanel pEastInternal = new JPanel(new GridBagLayout());
-        pEastInternal.setPreferredSize(new Dimension(180, menuDims.height));
-        pEastInternal.setBorder(new TitledBorder("SELECT CALCULATOR"));
-        final GridBagConstraints cnst = new GridBagConstraints();
-        cnst.gridy = 0;
-        cnst.insets = new Insets(3, 3, 3, 3); 
-        cnst.fill = GridBagConstraints.HORIZONTAL; 
-        pEastInternal.add(this.createMenuButton("Standard", Calculator.STANDARD), cnst);
-        cnst.gridy++; 
-        pEastInternal.add(this.createMenuButton("Scientific", Calculator.SCIENTIFIC), cnst);
-        cnst.gridy++;
-        pEastInternal.add(this.createMenuButton("Programmer", Calculator.PROGRAMMER), cnst);
-        cnst.gridy++;
-        pEastInternal.add(this.createMenuButton("Graphic", Calculator.GRAPHIC), cnst);
-        cnst.gridy++;
-        pEastInternal.add(this.createMenuButton("Combinatorics", Calculator.COMBINATORICS), cnst);
-        cnst.gridy++;
-        pEastInternal.add(this.createMenuButton("Advanced", Calculator.ADVANCED), cnst);
-        outer.add(pEastInternal, BorderLayout.WEST);
-
+        this.mount(Calculator.STANDARD);
         this.setVisible(true);
     }
 
@@ -84,10 +78,10 @@ public class CCMainGUI extends JFrame {
         outer.repaint();
     }
 
-    private JButton createMenuButton(final String text, final Calculator calcName) {
-        final var btn = new JButton(text);
-        btn.addActionListener((e) -> this.mount(calcName));
-        return btn;
+    private JMenuItem createMenuItem(final String text, final Calculator calcName) {
+        final JMenuItem menuItem = new JMenuItem(text);
+        menuItem.addActionListener(e -> this.mount(calcName));
+        return menuItem;
     }
 
 }

@@ -1,10 +1,12 @@
 package view.calculators;
-
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import view.components.CCDisplay;
+import view.components.CCNumPad;
 import javax.swing.*;
 
 import model.calculators.StandardCalculatorModel;
@@ -16,6 +18,7 @@ import view.components.CCNumPad;
  * MISSING JAVADOC.
  *
  */
+
 public class StandardCalculatorPanel extends JPanel {
 
     /**
@@ -34,6 +37,7 @@ public class StandardCalculatorPanel extends JPanel {
     //TODO MISSING JAVADOC.
     /**
      * MISSING JAVADOC.
+     * @param controller 
      */
     public StandardCalculatorPanel() {
         this.setLayout(new BorderLayout());

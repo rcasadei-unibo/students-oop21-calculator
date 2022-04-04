@@ -11,7 +11,7 @@ import utils.CCUnaryOperator;
  *
  */
 
-public class ScientificCalculatorModel extends CalculatorModel {
+public class ScientificCalculatorModel extends CalculatorModelTemplate {
     /**
      * ScientificCalculatorModel contains all the operations of StandardCalculatorModel
      * and new operations unique to a scientific calculator.

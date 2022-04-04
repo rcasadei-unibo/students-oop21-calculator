@@ -1,51 +1,24 @@
 package model.calculators;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import utils.CCBinaryOperator;
 import utils.CCUnaryOperator;
+
 /**
  * 
  * MISSING JAVADOC.
  *
  */
-public abstract class CalculatorModel {
-    /**
-     * 
-     */
-    private final Map<String, CCBinaryOperator> binaryOpMap = new HashMap<>();
-    private final Map<String, CCUnaryOperator> unaryOpMap = new HashMap<>();
-    /**
-     * 
-     * @param binaryOpMap
-     * @param unaryOpMap
-     */
-    protected CalculatorModel(final Map<String, CCBinaryOperator> binaryOpMap, final Map<String, CCUnaryOperator> unaryOpMap) {
-        this.binaryOpMap.putAll(binaryOpMap);
-        this.unaryOpMap.putAll(unaryOpMap);
-    }
+public interface CalculatorModel {
     /**
      * 
      * @return a map containing all the binary operators
      */
-    public Map<String, CCBinaryOperator> getBinaryOpMap() {
-        return this.binaryOpMap;
-    }
+    Map<String, CCBinaryOperator> getBinaryOpMap();
     /**
      * 
      * @return a map containing all the unary operators
      */
-    public Map<String, CCUnaryOperator> getUnaryOpMap() {
-        return this.unaryOpMap;
-    }
-    /**
-     * 
-     * @param unary
-     * @param binary
-     */
-    protected void addOperations(final Map<String, CCUnaryOperator> unary, final Map<String, CCBinaryOperator> binary) {
-        this.binaryOpMap.putAll(binary);
-        this.unaryOpMap.putAll(unary);
-    }
+    Map<String, CCUnaryOperator> getUnaryOpMap();
 }
