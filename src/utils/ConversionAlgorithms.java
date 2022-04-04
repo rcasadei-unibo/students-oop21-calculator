@@ -120,7 +120,7 @@ public final class ConversionAlgorithms {
         case 2:
             return conversionToStringBinary(number);
         case 8:
-            return conversionToStringHexadecimal(number);
+            return conversionToStringOctal(number);
         case 16:
             return conversionToStringHexadecimal(number);
         default:
