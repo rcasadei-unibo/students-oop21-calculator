@@ -31,15 +31,19 @@ public final class ProgrammerCalculatorModelFactory {
                 "roR",  new CCBinaryOperator((n1, n2) -> roR(n1, n2), 1, Type.LEFT),
                 "roL",  new CCBinaryOperator((n1, n2) -> roL(n1, n2), 1, Type.LEFT)
                 ));
-        final Map<String, CCBinaryOperator> x = StandardCalculatorModelFactory.create().getBinaryOpMap();
-        x.remove("modulo");
-        binaryOpMap.putAll(x);
+        
+        binaryOpMap.putAll(getBasicOperators());
 
         final Map<String, CCUnaryOperator> unaryOpMap = new HashMap<>(
                 Map.of("not", new CCUnaryOperator((n1) -> not(n1), 1, null), 
                        "neg", new CCUnaryOperator((n1) -> neg(n1), 1, null)
                   ));
         return new CalculatorModelTemplate(binaryOpMap, unaryOpMap);
+    }
+    public static Map<String, CCBinaryOperator> getBasicOperators() {
+        final Map<String, CCBinaryOperator> x = StandardCalculatorModelFactory.create().getBinaryOpMap();
+        x.remove("modulo");
+        return x;
     }
     private static double and(final double n1, final double n2) {
         return (int) n1 & (int) n2;
