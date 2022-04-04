@@ -8,6 +8,8 @@ import controller.calculators.CalculatorController;
 import controller.calculators.ControllerFactoryImpl;
 import model.calculators.CalculatorModel;
 import model.calculators.CombinatoricsCalculatorModelFactory;
+import model.calculators.ProgrammerCalculatorModelFactory;
+import model.calculators.StandardCalculatorModelFactory;
 
 /**
  * 
@@ -23,7 +25,7 @@ public interface ManagerModelInterface {
         /**
          * Standard calculator. Contains a reference to the standard calculator controller.
          */
-        STANDARD(CombinatoricsCalculatorModelFactory.create()), 
+        STANDARD(StandardCalculatorModelFactory.create()), 
         /**
          * Scientific calculator. Contains a reference to the scientific calculator controller.
          */
@@ -31,7 +33,7 @@ public interface ManagerModelInterface {
         /**
          * Programmer calculator. Contains a reference to the programmer calculator controller.
          */
-        PROGRAMMER(CombinatoricsCalculatorModelFactory.create()),
+        PROGRAMMER(ProgrammerCalculatorModelFactory.create()),
         /**
          * Graphic calculator. Contains a reference to the graphic calculator controller.
          */
