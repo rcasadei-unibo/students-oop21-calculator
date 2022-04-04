@@ -2,17 +2,16 @@ package test;
 
 import static org.junit.Assert.assertEquals;
 
-import model.calculators.CalculatorModelTemplate;
-import model.calculators.ScientificCalculatorModel;
+import model.calculators.CalculatorModel;
+import model.calculators.ScientificCalculatorModelFactory;
 
 /**
  * 
  * 
  *
  */
-
 public class ScientificCalculatorOperationsTest {
-    private final CalculatorModelTemplate calc = new ScientificCalculatorModel();
+    private final CalculatorModel calc = ScientificCalculatorModelFactory.create();
     /**
      * 
      */
@@ -67,6 +66,5 @@ public class ScientificCalculatorOperationsTest {
         assertEquals(-1.0, pot.apply(-1, 3), 0);
         assertEquals(1.0, pot.apply(-1.0, 20), 0);
     }
-    
 
 }
