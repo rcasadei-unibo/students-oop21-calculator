@@ -2,7 +2,8 @@ package test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import model.calculators.ProgrammerCalculatorModel;
+import model.calculators.CalculatorModel;
+import model.calculators.ProgrammerCalculatorModelFactory;
 import utils.ConversionAlgorithms;
 /**
  * 
@@ -11,7 +12,7 @@ import utils.ConversionAlgorithms;
  */
 public class BitwiseOperationsTest {
     final private static double TOLERANCE = 0.01;
-    final private ProgrammerCalculatorModel calculator = new ProgrammerCalculatorModel();
+    final private CalculatorModel calculator = ProgrammerCalculatorModelFactory.create();
     private String addLeadingZerosToByte(String stringBits) {
         //1100 = -4 0100 = 4        1.0000.0100 = -4 0.0000.0100 = 4
         final var sign = stringBits.charAt(0);
