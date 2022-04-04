@@ -64,7 +64,7 @@ public final class ProgrammerCalculatorModelFactory {
         return (int) ~(int) n1;
     }
     private static double not(final double n1) {
-        var stringBits = ConversionAlgorithms.conversionToStringBinary((int) n1);
+        var stringBits = ConversionAlgorithms.conversionToStringBase(2, (int) n1);
         stringBits = addLeadingZerosToByte(stringBits);
         final var bits = stringBits.toCharArray();
         String toConvert = String.valueOf(bits[0]);
@@ -100,7 +100,7 @@ public final class ProgrammerCalculatorModelFactory {
         return (int) (n);
     }
     private static double roR(final double n1, final double n2) {
-        String bits = addLeadingZerosToByte(ConversionAlgorithms.conversionToStringBinary((int) n1));
+        String bits = addLeadingZerosToByte(ConversionAlgorithms.conversionToStringBase(2, (int) n1));
         final int rorOf = rollingCheck(bits.length(), n2);
         final String sign = String.valueOf(bits.charAt(0));
         bits = bits.substring(1);
@@ -109,7 +109,7 @@ public final class ProgrammerCalculatorModelFactory {
         return ConversionAlgorithms.conversionToDecimal(2, sign.concat(bits));
     }
     private static double roL(final double n1, final double n2) {
-        String bits = addLeadingZerosToByte(ConversionAlgorithms.conversionToStringBinary((int) n1));
+        String bits = addLeadingZerosToByte(ConversionAlgorithms.conversionToStringBase(2, (int) n1));
         final int rolOf = rollingCheck(bits.length(), n2);
         final String sign = String.valueOf(bits.charAt(0));
         bits = bits.substring(1);
