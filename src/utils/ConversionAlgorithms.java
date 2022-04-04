@@ -34,7 +34,7 @@ public final class ConversionAlgorithms {
      *         "-10" would become "11010"
      *         "0" is converted to "10" meaning it's "-0"
      */
-    public static String conversionToStringBinary(final int number) {
+    private static String conversionToStringBinary(final int number) {
         final String value = Integer.toBinaryString(Math.abs(number));
         return number > 0 ? "0".concat(value) : "1".concat(value);
     }
@@ -60,7 +60,7 @@ public final class ConversionAlgorithms {
      *         "10" would become "0A"
      *         "-10" would become "1A"
      */
-    public static String conversionToStringHexadecimal(final int number) {
+    private static String conversionToStringHexadecimal(final int number) {
         final String value = Integer.toHexString(Math.abs(number));
         return number > 0 ? "0".concat(value).toUpperCase() : "1".concat(value).toUpperCase();
     }
@@ -104,9 +104,28 @@ public final class ConversionAlgorithms {
      *         "10" would become "012"
      *         "-10" would become "112"
      */
-    public static String conversionToStringOctal(final int number) {
+    private static String conversionToStringOctal(final int number) {
         final String value = Integer.toOctalString(Math.abs(number));
         return number > 0 ? "0".concat(value) : "1".concat(value);
+    }
+    /**
+     * Generic conversion algorithms that accepts base2, base8 and base10.
+     * @param number the number to be converted
+     * @param base in which the number will be converted
+     * @return the string form of the converted number.
+     * 
+     */
+    public static String conversionToStringBase(final int base, final int number) {
+        switch (base) {
+        case 2:
+            return conversionToStringBinary(number);
+        case 8:
+            return conversionToStringHexadecimal(number);
+        case 16:
+            return conversionToStringHexadecimal(number);
+        default:
+            return null;
+        }
     }
     /**
      * 
@@ -124,16 +143,14 @@ public final class ConversionAlgorithms {
         }*/
         final var bits = number.toCharArray();
         for (int i = 1; i < bits.length; i++) {
-            if(base==16) {
+            if (base == 16) {
                 // "0FF" 255 = (+)FF
-                ret += hexadecimalLetters(String.valueOf(bits[i])) * Math.pow(base, bits.length -1 - i);
-            }
-            else {
+                ret += hexadecimalLetters(String.valueOf(bits[i])) * Math.pow(base, bits.length - 1 - i);
+            } else {
              // "11010" -10 = (-)1010
-                ret += Integer.parseInt(String.valueOf(bits[i])) * Math.pow(base, bits.length -1 - i);
+                ret += Integer.parseInt(String.valueOf(bits[i])) * Math.pow(base, bits.length - 1 - i);
             }
-            
         }
         return String.valueOf(bits[0]).equals("0") ? ret : (-1) * ret;
-    }   
+    }
 }
