@@ -81,7 +81,7 @@ public class Tokenizer {
 
     private Token getNumberToken() {
         double num;
-        int ind = this.index;
+        final int ind = this.index;
         while (Character.isDigit(this.expr.charAt(index)) && index < this.lenExpr - 1)
             index++;
         if (this.expr.charAt(index) == '.')

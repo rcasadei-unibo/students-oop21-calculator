@@ -13,9 +13,7 @@ public class Derivate {
 		expression.setExpr(expr);
 		var result = expression.getDerivative().toString();
 		expression.setExpr(result);
-		
 		return expression.getResult().toString();
-		
 	}
 	
 	public static void main(String[] args) {
