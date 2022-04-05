@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import controller.calculators.CalculatorController;
 import model.calculators.ProgrammerCalculatorModelFactory;
 import utils.ConversionAlgorithms;
+import utils.ProgrammerCalculatorFormatter;
 import view.components.CCDisplay;
 import view.components.CCNumPad;
 
@@ -32,13 +33,15 @@ public class ProgrammerCalculatorPanel extends JPanel {
     private final CalculatorController controller;
     private final CCDisplay display = new CCDisplay();
     private HexadecimalLettersPanel hexaLetters;
+    //private final ProgrammerCalculatorFormatter formatter = new ProgrammerCalculatorFormatter(10);
     private final CCNumPad numpad;
     private ActionListener opAl;
     {
         final ActionListener btnAl = new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                controller.getManager().read(((JButton) e.getSource()).getText());
+                final String text = ((JButton) e.getSource()).getText();
+                controller.getManager().read(text);
                 display.updateText(controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b));
             }
         };
@@ -58,6 +61,25 @@ public class ProgrammerCalculatorPanel extends JPanel {
             }
         };
         this.numpad = new CCNumPad(btnAl, calcAl, backspaceAl);
+        
+        this.opAl = new ActionListener() {
+            
+            @Override
+            public void actionPerformed(final ActionEvent e) {
+                final String text = ((JButton) e.getSource()).getText();
+                
+                final var temp = ProgrammerCalculatorModelFactory.create().getBinaryOpMap();
+                if (temp.get(text) == null) {
+                    display.updateText(((JButton) e.getSource()).getText() + controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b));
+                    controller.getManager().read(((JButton) e.getSource()).getText());
+                }
+                else {
+                    controller.getManager().read(((JButton) e.getSource()).getText());
+                    display.updateText(controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b));
+                }
+                
+            }
+        };
     }
 
     /**
@@ -229,6 +251,8 @@ public class ProgrammerCalculatorPanel extends JPanel {
         
         private final Map<String, CCDisplay> map = new HashMap<>();
         
+        
+        
         private final CCDisplay decDisplay;
         ConversionPanel(final ActionListener conv) {
           //TODO fix
@@ -276,11 +300,11 @@ public class ProgrammerCalculatorPanel extends JPanel {
          * 
          * @param text string to show for base10 display.
          */
-        void updateDecDisplay(String text) {
+        void updateDecDisplay(final String text) {
             this.decDisplay.updateText(text);
         }
         private int textToBase(final String text) {
-            switch(text) {
+            switch (text) {
             case "HEX":
                 return 16;
             case "DEC":
@@ -301,13 +325,11 @@ public class ProgrammerCalculatorPanel extends JPanel {
         private static final long serialVersionUID = -2613278018688810576L;
 
         private final List<JButton> hexadecimalLetters = new ArrayList<>();
-        private final ActionListener al;
         /**
          * 
          * @param al
          */
         HexadecimalLettersPanel(final ActionListener al) {
-            this.al = al;
             this.setLayout(new GridLayout(6, 1));
             final JButton a = new JButton("A");
             a.addActionListener(al);
