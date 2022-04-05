@@ -56,13 +56,10 @@ public class Tokenizer {
             }
             return getNumberToken();
         } else if (c == '(') {
-            if (lastToken != null) {
-                if (lastToken.getTypeToken() != TokenType.OPENPAR && lastToken.getTypeToken() != TokenType.OPERATOR
+            if (lastToken != null && lastToken.getTypeToken() != TokenType.OPENPAR && lastToken.getTypeToken() != TokenType.OPERATOR
                         && lastToken.getTypeToken() != TokenType.FUNCTION) {
-                    lastToken = new OperatorToken(new Operator("*", 2, true));
-
-                    return lastToken;
-                }
+                lastToken = new OperatorToken(new Operator("*", 2, true));
+                return lastToken;
             }
             index++;
             return new OpenParToken();
