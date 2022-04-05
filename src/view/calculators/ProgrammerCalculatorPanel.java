@@ -32,7 +32,8 @@ public class ProgrammerCalculatorPanel extends JPanel {
     private final CalculatorController controller;
     private final CCDisplay display = new CCDisplay();
     private HexadecimalLettersPanel hexaLetters;
-    private String numberBuffer;
+    private ConversionPanel convPanel;
+    private String numberBuffer = "";
     private final CCNumPad numpad;
     private ActionListener opAl;
     {
@@ -40,21 +41,25 @@ public class ProgrammerCalculatorPanel extends JPanel {
             @Override
             public void actionPerformed(final ActionEvent e) {
                 final String text = ((JButton) e.getSource()).getText();
+                numberBuffer = numberBuffer.concat(text);
                 controller.getManager().read(text);
                 display.updateText(controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b));
+                convPanel.updateConvDisplays(numberBuffer);
             }
         };
         final ActionListener calcAl = new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
                 controller.getManager().calculate();
-                display.updateText(controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b));
+                numberBuffer = controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b);
+                display.updateText(numberBuffer);
             }
         };
         final ActionListener backspaceAl = new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
                 controller.getManager().deleteLast();
+                numberBuffer = controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b);
                 display.updateText(controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b));
 
             }
@@ -68,13 +73,16 @@ public class ProgrammerCalculatorPanel extends JPanel {
                 final String text = ((JButton) e.getSource()).getText();
                 
                 final var temp = ProgrammerCalculatorModelFactory.create().getBinaryOpMap();
-                if (temp.get(text) == null) {
-                    display.updateText(((JButton) e.getSource()).getText() + controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b));
+                if (temp.get(text) == null) { //unary operator
+                    
+                    display.updateText(((JButton) e.getSource()).getText() + "(" +controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b) + ")");
                     controller.getManager().read(((JButton) e.getSource()).getText());
+                    numberBuffer = "";
                 }
                 else {
                     controller.getManager().read(((JButton) e.getSource()).getText());
                     display.updateText(controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b));
+                    numberBuffer = "";
                 }
                 
             }
@@ -104,27 +112,29 @@ public class ProgrammerCalculatorPanel extends JPanel {
                 final JButton btn = (JButton) e.getSource();
                 switch (btn.getText()) {
                 case "HEX":
-                    hexaLetters.enableAll();
-                    enableButtons(10);
+                    
+                    //hexaLetters.enableAll();
+                    //enableButtons(10);
                     break;
                 case "DEC":
-                    hexaLetters.disableAll();
-                    enableButtons(10);
+                    //hexaLetters.disableAll();
+                    //enableButtons(10);
                     break;
                 case "OCT":
-                    hexaLetters.disableAll();
-                    enableButtons(8);
+                    //hexaLetters.disableAll();
+                    //enableButtons(8);
                     break;
                 case "BIN":
-                    hexaLetters.disableAll();
-                    enableButtons(2);
+                    //hexaLetters.disableAll();
+                    //enableButtons(2);
                     break;
                 default:
                     break;
                 }
             }
         };
-        this.add(new ConversionPanel(conv), BorderLayout.CENTER);
+        this.convPanel = new ConversionPanel(conv);
+        this.add(this.convPanel, BorderLayout.CENTER);
     }
 
     private JPanel getBitwiseOperators() {
@@ -189,6 +199,7 @@ public class ProgrammerCalculatorPanel extends JPanel {
         numpad.setLayout(new GridLayout(1, 3));
         // TODO add ActionListener for hexadecimal letters
         this.hexaLetters = new HexadecimalLettersPanel(null);
+        this.hexaLetters.disableAll();
         numpad.add(this.hexaLetters);
         numpad.add(this.getMiddleNumpad());
         numpad.add(this.getRightNumpad());
@@ -300,9 +311,9 @@ public class ProgrammerCalculatorPanel extends JPanel {
         private String textToBase(final String text) {
             switch (text) {
             case "HEX":
-                return ConversionAlgorithms.conversionToStringBase(16, 69);//TODO add  ConversionAlgorithms.conversionToStringBase(16, controller.getManager().getCurrentState().lastInput());
+                return ConversionAlgorithms.conversionToStringBase(16, Integer.parseInt(numberBuffer));//TODO add  ConversionAlgorithms.conversionToStringBase(16, controller.getManager().getCurrentState().lastInput());
             case "DEC":
-                return ""; //TODO controller.getManager().getCurrentState().lastInput();
+                return numberBuffer; //TODO controller.getManager().getCurrentState().lastInput();
             case "OCT":
                 return ConversionAlgorithms.conversionToStringBase(8, 69);
             case "BIN":
