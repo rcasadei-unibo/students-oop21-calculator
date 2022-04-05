@@ -6,12 +6,14 @@ import java.util.function.UnaryOperator;
 
 import utils.CCBinaryOperator;
 import utils.CCUnaryOperator;
+import utils.CalcException;
 /**
  * 
  * MISSING JAVADOC.
  *
  */
 public final class CombinatoricsCalculatorModelFactory {
+    private static final double BELLNUMBERMAX = 30;
     /**
      * 
      */
@@ -37,7 +39,13 @@ public final class CombinatoricsCalculatorModelFactory {
         final Map<String, CCUnaryOperator> unaryOpMap = Map.of(
                 "fibonacci", createUnaryFunction((n) -> fibonacci(n)),
                 "scombussolamento", createUnaryFunction((n) -> scombussolamento(n)),
-                "bellNumber", createUnaryFunction((n) -> bellNumber(n)));
+                "bellNumber", createUnaryFunction((n) -> {
+                    try {
+                        return bellNumber(n);
+                    } catch (CalcException e) {
+                        return -1.0;
+                    }
+                }));
         return new CalculatorModelTemplate(binaryOpMap, unaryOpMap);
     }
     /**
@@ -118,8 +126,12 @@ public final class CombinatoricsCalculatorModelFactory {
      * 
      * @param n the cardinality of the set A
      * @return the number of partitions of the set A which equals Bell(n)
+     * @throws CalcException 
      */
-    private static double bellNumber(final double n) {
+    private static double bellNumber(final double n) throws CalcException {
+        if (n > BELLNUMBERMAX) {
+            throw new CalcException("Overflow");
+        }
         if (n == 0) {
             return 1;
         }

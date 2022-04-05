@@ -42,12 +42,21 @@ public class CombinatoricsCalculatorPanel extends JPanel {
             try {
                 display.updateText(this.getDisplayText(controller));
             } catch (CalcException e1) {
+                this.clearStrings();
+                controller.getManager().clear();
                 display.updateText("Invalid Operation");
             }
         };
         final ActionListener calculateAl = e -> {
-            final String adder = controller.isBinaryOperator(opString) ? controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b).split(opString)[1] : "";
-            display.updateUpperText(opFormat + adder + ") =");
+            String adder = "";
+            try {
+                adder = controller.isBinaryOperator(opString) ? controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b).split(opString)[1] : "";
+            } catch (ArrayIndexOutOfBoundsException e2) {
+                this.clearStrings();
+                controller.getManager().clear();
+            }
+            adder += opString.isBlank() ? "" : ") =";
+            display.updateUpperText(opFormat + adder);
             controller.getManager().calculate();
             display.updateText(controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b));
             this.clearStrings();
@@ -75,7 +84,11 @@ public class CombinatoricsCalculatorPanel extends JPanel {
     private String getDisplayText(final CalculatorController controller) throws CalcException {
         if (!opFormat.isBlank()) {
             if (!opString.isBlank() && controller.isBinaryOperator(opString)) {
-                return opFormat + controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b).split(opString)[1];
+                try {
+                    return opFormat + controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b).split(opString)[1];
+                } catch (ArrayIndexOutOfBoundsException e3) {
+                    return opFormat;
+                }
             } else {
                 throw new CalcException("Invalid operation");
             }
@@ -101,7 +114,7 @@ public class CombinatoricsCalculatorPanel extends JPanel {
             this.setLayout(new GridLayout(8, 1));
             OPERATIONS.forEach((str1, str2) -> {
                 this.createOpButton(str1, str2);
-                this.createExplButton(str2);
+                this.createExplButton(str1);
             });
         }
         private void createOpButton(final String btnName, final String opName) {
