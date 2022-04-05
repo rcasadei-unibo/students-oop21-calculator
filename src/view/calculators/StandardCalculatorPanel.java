@@ -1,6 +1,5 @@
 package view.calculators;
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -30,46 +29,17 @@ public class StandardCalculatorPanel extends JPanel {
     /**
      * MISSING JAVADOC.
      * @param controller 
+     * 
      */
     public StandardCalculatorPanel(final CalculatorController controller) {
         this.controller = controller;
         this.setLayout(new BorderLayout());
         this.add(display, BorderLayout.NORTH);
-        this.add(this.getNumpad(), BorderLayout.CENTER);
-        this.add(this.getOperators(), BorderLayout.EAST);
+
+        this.setNumbers();
+        this.setOperators();
     }
-    private JPanel getOperators() {
-        final ActionListener unaryOpAl = new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent e) {
-                final JButton btn = (JButton) e.getSource();
-                display.updateText(btn.getText() + controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b));
-                controller.getManager().read(btn.getText());
-            }
-        };
-        final ActionListener binaryOpAl = new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent e) {
-                final JButton btn = (JButton) e.getSource();
-                controller.getManager().read(btn.getText());
-                display.updateText(controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b));
-            }
-        };
-        final JPanel operators = new JPanel();
-        operators.setLayout(new GridLayout(4, 2));
-        for (final var entry : StandardCalculatorModelFactory.create().getBinaryOpMap().entrySet()) {
-            final var btn = new JButton(entry.getKey());
-            btn.addActionListener(binaryOpAl);
-            operators.add(btn);
-        }
-        for (final var entry : StandardCalculatorModelFactory.create().getUnaryOpMap().entrySet()) {
-            final var btn = new JButton(entry.getKey());
-            btn.addActionListener(unaryOpAl);
-            operators.add(btn);
-        }
-        return operators;
-    }
-    private CCNumPad getNumpad() {
+    private void setNumbers() {
         final ActionListener btnAl = new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
@@ -92,6 +62,39 @@ public class StandardCalculatorPanel extends JPanel {
 
             }
         };
-        return new CCNumPad(btnAl, calcAl, backspaceAl);
+        final JPanel numbers = new CCNumPad(btnAl, calcAl, backspaceAl);
+
+        this.add(numbers, BorderLayout.CENTER);
+    }
+    private void setOperators() {
+        final  ActionListener binaryAl = new ActionListener() {
+
+            @Override
+            public void actionPerformed(final ActionEvent e) {
+                controller.getManager().read(((JButton) e.getSource()).getText());
+                display.updateText(controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b));
+            }
+        };
+        final  ActionListener unaryAl = new ActionListener() {
+
+            @Override
+            public void actionPerformed(final ActionEvent e) {
+                display.updateText(((JButton) e.getSource()).getText() + controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b));
+                controller.getManager().read(((JButton) e.getSource()).getText());
+            }
+        };
+        final JPanel operator = new JPanel();
+        operator.setLayout(new GridLayout(4, 2));
+        for (final var entry : StandardCalculatorModelFactory.create().getUnaryOpMap().entrySet()) {
+            final var btn = new JButton(entry.getKey());
+            btn.addActionListener(unaryAl);
+            operator.add(btn);
+        }
+        for (final var entry : StandardCalculatorModelFactory.create().getBinaryOpMap().entrySet()) {
+            final var btn = new JButton(entry.getKey());
+            btn.addActionListener(binaryAl);
+            operator.add(btn);
+        }
+        this.add(operator, BorderLayout.EAST);
     }
 }
