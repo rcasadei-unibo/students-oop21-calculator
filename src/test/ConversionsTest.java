@@ -45,7 +45,6 @@ public class ConversionsTest {
     public void decimalToOctal() {
         assertTrue("07".equals(ConversionAlgorithms.conversionToStringBase(8,(7))));
         assertTrue("17".equals(ConversionAlgorithms.conversionToStringBase(8,(-7))));
-        System.out.println(ConversionAlgorithms.conversionToStringBase(8,(8)));
         assertTrue("010".equals(ConversionAlgorithms.conversionToStringBase(8,(8))));
         assertTrue("110".equals(ConversionAlgorithms.conversionToStringBase(8,(-8))));
         assertTrue("070".equals(ConversionAlgorithms.conversionToStringBase(8,(56))));
