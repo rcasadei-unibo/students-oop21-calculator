@@ -15,7 +15,6 @@ import javax.swing.JPanel;
 import controller.calculators.CalculatorController;
 import model.calculators.ProgrammerCalculatorModelFactory;
 import utils.ConversionAlgorithms;
-import utils.ProgrammerCalculatorFormatter;
 import view.components.CCDisplay;
 import view.components.CCNumPad;
 
@@ -33,7 +32,7 @@ public class ProgrammerCalculatorPanel extends JPanel {
     private final CalculatorController controller;
     private final CCDisplay display = new CCDisplay();
     private HexadecimalLettersPanel hexaLetters;
-    //private final ProgrammerCalculatorFormatter formatter = new ProgrammerCalculatorFormatter(10);
+    private String numberBuffer;
     private final CCNumPad numpad;
     private ActionListener opAl;
     {
@@ -271,7 +270,7 @@ public class ProgrammerCalculatorPanel extends JPanel {
             this.add(dec);
             this.decDisplay = new CCDisplay();
             this.add(decDisplay);
-            //this.map.put(dec.getText(), decDisplay);
+            this.map.put(dec.getText(), decDisplay);
             //not needed since it's linked to the main display
             
             final JButton oct = new JButton("OCT");
@@ -291,30 +290,25 @@ public class ProgrammerCalculatorPanel extends JPanel {
         /**
          * @param value for base2 base8 and base16.
          */
-        void updateConvDisplays(int value) {
-            for (final var entry : this.map.entrySet()) {
-                entry.getValue().updateText(ConversionAlgorithms.conversionToStringBase(textToBase(entry.getKey()), value));
-            }
+        void updateConvDisplays(final String input) {
+            this.map.entrySet().stream().forEach((entry) -> entry.getValue().updateText(textToBase(entry.getKey())));
         }
         /**
          * 
          * @param text string to show for base10 display.
          */
-        void updateDecDisplay(final String text) {
-            this.decDisplay.updateText(text);
-        }
-        private int textToBase(final String text) {
+        private String textToBase(final String text) {
             switch (text) {
             case "HEX":
-                return 16;
+                return ConversionAlgorithms.conversionToStringBase(16, 69);//TODO add  ConversionAlgorithms.conversionToStringBase(16, controller.getManager().getCurrentState().lastInput());
             case "DEC":
-                return 10;
+                return ""; //TODO controller.getManager().getCurrentState().lastInput();
             case "OCT":
-                return 8;
+                return ConversionAlgorithms.conversionToStringBase(8, 69);
             case "BIN":
-                return 2;
+                return ConversionAlgorithms.conversionToStringBase(2, 69);
             default:
-                return 10;
+                 return null;
             }
         }
     }
