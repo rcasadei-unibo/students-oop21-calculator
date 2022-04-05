@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import controller.calculators.CalculatorController;
+import utils.CalcException;
 import view.components.CCDisplay;
 import view.components.CCNumPad;
 /**
@@ -38,7 +39,11 @@ public class CombinatoricsCalculatorPanel extends JPanel {
         final ActionListener btnAl = e -> {
             final var btn = (JButton) e.getSource();
             controller.getManager().read(btn.getText());
-            display.updateText(this.getDisplayText(controller));
+            try {
+                display.updateText(this.getDisplayText(controller));
+            } catch (CalcException e1) {
+                display.updateText("Invalid Operation");
+            }
         };
         final ActionListener calculateAl = e -> {
             final String adder = controller.isBinaryOperator(opString) ? controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b).split(opString)[1] : "";
@@ -52,22 +57,27 @@ public class CombinatoricsCalculatorPanel extends JPanel {
                 this.clearStrings();
             }
             controller.getManager().deleteLast();
-            display.updateText(this.getDisplayText(controller));
+            try {
+                display.updateText(this.getDisplayText(controller));
+            } catch (CalcException e1) {
+                this.clearStrings();
+                controller.getManager().clear();
+                display.updateText(" ");
+            }
         };
         final var numpad = new CCNumPad(btnAl, calculateAl, backspaceAl);
         numpad.getButtons().get("(").setEnabled(false);
         numpad.getButtons().get(")").setEnabled(false);
         numpad.getButtons().get(".").setEnabled(false);
-        this.add(numpad, BorderLayout.WEST);
-        this.add(new OperationsPanel(controller, display), BorderLayout.CENTER);
-        this.add(new ExplainationPanel(), BorderLayout.EAST);
+        this.add(numpad, BorderLayout.CENTER);
+        this.add(new OperationsPanel(controller, display), BorderLayout.EAST);
     }
-    private String getDisplayText(final CalculatorController controller) {
+    private String getDisplayText(final CalculatorController controller) throws CalcException {
         if (!opFormat.isBlank()) {
             if (!opString.isBlank() && controller.isBinaryOperator(opString)) {
                 return opFormat + controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b).split(opString)[1];
             } else {
-                return opFormat + controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b);
+                throw new CalcException("Invalid operation");
             }
         } else {
             return controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b);
@@ -89,9 +99,12 @@ public class CombinatoricsCalculatorPanel extends JPanel {
             this.display = display;
             this.controller = controller;
             this.setLayout(new GridLayout(8, 1));
-            OPERATIONS.forEach((str1, str2) -> this.createButton(str1, str2));
+            OPERATIONS.forEach((str1, str2) -> {
+                this.createOpButton(str1, str2);
+                this.createExplButton(str2);
+            });
         }
-        private void createButton(final String btnName, final String opName) {
+        private void createOpButton(final String btnName, final String opName) {
             final var btn = new JButton(btnName);
             btn.addActionListener(e -> {
                 final String closer = controller.isBinaryOperator(opName) ? ", " : "";
@@ -102,17 +115,7 @@ public class CombinatoricsCalculatorPanel extends JPanel {
             });
             this.add(btn);
         }
-    }
-    static class ExplainationPanel extends JPanel {
-        /**
-         * 
-         */
-        private static final long serialVersionUID = 1L;
-        ExplainationPanel() {
-            this.setLayout(new GridLayout(8, 1));
-            OPERATIONS.forEach((str1, str2) -> this.createButton(str1));
-        }
-        private void createButton(final String opName) {
+        private void createExplButton(final String opName) {
             final var btn = new JButton("?");
             btn.setToolTipText(opName);
             this.add(btn);
