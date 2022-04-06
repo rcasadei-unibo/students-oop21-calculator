@@ -43,7 +43,8 @@ public class ProgrammerCalculatorPanel extends JPanel {
                 final String text = ((JButton) e.getSource()).getText();
                 numberBuffer = numberBuffer.concat(text);
                 controller.getManager().read(text);
-                display.updateText(controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b));
+                //numberBuffer = controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b);
+                display.updateText(numberBuffer);
                 convPanel.updateConvDisplays(numberBuffer);
             }
         };
@@ -79,6 +80,7 @@ public class ProgrammerCalculatorPanel extends JPanel {
                     display.updateText(((JButton) e.getSource()).getText() + "(" +controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b) + ")");
                     controller.getManager().read(((JButton) e.getSource()).getText());
                     numberBuffer = "";
+                    
                 }
                 else {
                     controller.getManager().read(((JButton) e.getSource()).getText());
@@ -300,21 +302,23 @@ public class ProgrammerCalculatorPanel extends JPanel {
             this.map.put(bin.getText(), binDisplay);
         }
         /**
-         * @param value for base2 base8 and base16.
+         * @param input for base2 base8 and base16.
          */
         void updateConvDisplays(final String input) {
-            this.map.entrySet().stream().forEach((entry) -> entry.getValue().updateText(textToBase(entry.getKey())));
+            if (!input.isEmpty()) {
+                this.map.entrySet().stream().forEach((entry) -> entry.getValue().updateText(textToBase(entry.getKey())));
+            }
         }
         private String textToBase(final String text) {
             switch (text) {
             case "HEX":
-                return ConversionAlgorithms.conversionToStringBase(16, Integer.parseInt(numberBuffer)); //TODO add  ConversionAlgorithms.conversionToStringBase(16, controller.getManager().getCurrentState().lastInput());
+                return ConversionAlgorithms.conversionToStringBase(16, Integer.parseInt(integerParser(numberBuffer))); //TODO add  ConversionAlgorithms.conversionToStringBase(16, controller.getManager().getCurrentState().lastInput());
             case "DEC":
-                return numberBuffer; //TODO controller.getManager().getCurrentState().lastInput();
+                return integerParser(numberBuffer);
             case "OCT":
-                return ConversionAlgorithms.conversionToStringBase(8, Integer.parseInt(numberBuffer));
+                return ConversionAlgorithms.conversionToStringBase(8, Integer.parseInt(integerParser(numberBuffer)));
             case "BIN":
-                return ConversionAlgorithms.conversionToStringBase(2, Integer.parseInt(numberBuffer));
+                return ConversionAlgorithms.conversionToStringBase(2, Integer.parseInt(integerParser(numberBuffer)));
             default:
                  return null;
             }
@@ -370,6 +374,9 @@ public class ProgrammerCalculatorPanel extends JPanel {
         void enableAll() {
             this.hexadecimalLetters.forEach((btn) -> btn.setEnabled(true));
         }
+    }
+    private String integerParser(final String input) {
+        return input.contains(".") ? input.replace(".", "") : input;
     }
 
 }
