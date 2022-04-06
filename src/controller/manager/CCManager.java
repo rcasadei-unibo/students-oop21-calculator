@@ -6,6 +6,7 @@ import java.util.stream.IntStream;
 import utils.CalcException;
 import utils.NumberFormatter;
 import model.manager.CCManagerModel;
+import model.manager.ManagerModelInterface;
 import model.manager.ManagerModelInterface.Calculator;
 
 /**
@@ -14,7 +15,7 @@ import model.manager.ManagerModelInterface.Calculator;
  */
 public class CCManager implements ManagerInterface {
 
-    private final CCManagerModel model;
+    private final ManagerModelInterface model;
 
     /**
      * Construct a new system manager. 
