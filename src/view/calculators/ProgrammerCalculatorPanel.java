@@ -53,6 +53,7 @@ public class ProgrammerCalculatorPanel extends JPanel {
                 controller.getManager().calculate();
                 numberBuffer = controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b);
                 display.updateText(numberBuffer);
+                convPanel.updateConvDisplays(numberBuffer);
             }
         };
         final ActionListener backspaceAl = new ActionListener() {
@@ -60,8 +61,8 @@ public class ProgrammerCalculatorPanel extends JPanel {
             public void actionPerformed(final ActionEvent e) {
                 controller.getManager().deleteLast();
                 numberBuffer = controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b);
-                display.updateText(controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b));
-
+                display.updateText(numberBuffer);
+                convPanel.updateConvDisplays(numberBuffer);
             }
         };
         this.numpad = new CCNumPad(btnAl, calcAl, backspaceAl);
@@ -304,14 +305,10 @@ public class ProgrammerCalculatorPanel extends JPanel {
         void updateConvDisplays(final String input) {
             this.map.entrySet().stream().forEach((entry) -> entry.getValue().updateText(textToBase(entry.getKey())));
         }
-        /**
-         * 
-         * @param text string to show for base10 display.
-         */
         private String textToBase(final String text) {
             switch (text) {
             case "HEX":
-                return ConversionAlgorithms.conversionToStringBase(16, Integer.parseInt(numberBuffer));//TODO add  ConversionAlgorithms.conversionToStringBase(16, controller.getManager().getCurrentState().lastInput());
+                return ConversionAlgorithms.conversionToStringBase(16, Integer.parseInt(numberBuffer)); //TODO add  ConversionAlgorithms.conversionToStringBase(16, controller.getManager().getCurrentState().lastInput());
             case "DEC":
                 return numberBuffer; //TODO controller.getManager().getCurrentState().lastInput();
             case "OCT":
