@@ -1,12 +1,14 @@
 package utils.calculate;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import utils.tokens.SpecialToken;
 import utils.tokens.Token;
 import utils.tokens.TokenType;
 import utils.tokens.TokensFactory;
-
 
 /**
  * @author pesic
@@ -17,10 +19,10 @@ public class Tokenizer {
     private String expr;
     private int index = 0;
     private Token lastToken = null;
-    private int lenExpr;
-    private String variable;
-    private Set<String> constants;
-    private ExternData data = new ExternData();
+    private final int lenExpr;
+    private final String variable;
+    private final Set<String> constants;
+    private final ExternData data = new ExternData();
 
     Tokenizer(final String expr) {
         this.expr = expr;
@@ -29,10 +31,16 @@ public class Tokenizer {
         this.constants = data.getConstants();
     }
 
+    /**
+     * @return c
+     */
     public boolean hasNextToken() {
         return this.index <= this.lenExpr - 1;
     }
 
+    /**
+     * @return c
+     */
     public Token getNextToken() {
         System.out.println("Index: " + index);
         if (!hasNextToken()) {
@@ -56,14 +64,14 @@ public class Tokenizer {
             System.out.println("The first character of the expression is a number");
             return getNumberToken();
         } else if (c == '(') {
-            if (lastToken != null) {
-                if (lastToken.getTypeToken() != TokenType.OPENPAR && lastToken.getTypeToken() != TokenType.OPERATOR
-                        && lastToken.getTypeToken() != TokenType.FUNCTION) {
+            if (lastToken != null
+                && lastToken.getTypeToken() != TokenType.OPENPAR && lastToken.getTypeToken() != TokenType.OPERATOR
+                && lastToken.getTypeToken() != TokenType.FUNCTION) {
                     lastToken = TokensFactory.operatorToken(new Operator("*", 2, true));
 
                     return lastToken;
-                }
-            }
+             }
+
             index++;
             return TokensFactory.openParToken();
         } else if (c == ')') {
@@ -86,6 +94,40 @@ public class Tokenizer {
             return getFunctionOrVariableToken();
         }
         throw new IllegalArgumentException("the character: " + c + " wasn't recognized ");
+    }
+
+    /**
+     * @return c
+     */
+    public List<Token> getListToken() {
+        final List<Token> out = new LinkedList<>();
+        while (this.hasNextToken()) {
+            out.add(this.getNextToken());
+        }
+        return out;
+    }
+
+    /**
+     * @return c
+     */
+    public List<String> getListSymbol() {
+        final List<Token> out = this.getListToken();
+        return out.stream().map(t -> t.getSymbol()).collect(Collectors.toList());
+    }
+    
+    public List<Token> convertToTokens(List<String> expression) {
+        String newExpr = expression.stream().reduce("", (String res, String c)-> res+c);
+        this.reset(newExpr);
+        return this.getListToken();
+    }
+
+    /**
+     * @param expr
+     */
+    public void reset(final String expr) {
+        this.index = 0;
+        this.lastToken = null;
+        this.expr = expr;
     }
 
     private Token getNumberToken() {
@@ -161,7 +203,7 @@ public class Tokenizer {
     }
 
     private Token getOperationToken() {
-        char c = this.expr.charAt(this.index++);
+        final char c = this.expr.charAt(this.index++);
         int arguments = 2;
 
         if (lastToken == null) {
@@ -172,19 +214,19 @@ public class Tokenizer {
             } else if (lastToken.getTypeToken() == TokenType.OPERATOR) {
                 @SuppressWarnings("unchecked")
                 final Operator op = ((SpecialToken<Operator>) lastToken).getObjectToken();
-                if (op.getNumOperands() == 2 || (op.getNumOperands() == 1 && !op.isLeftAssociative())) {
+                if (op.getNumOperands() == 2 || op.getNumOperands() == 1 && !op.isLeftAssociative()) {
                     arguments = 1;
                 }
             }
         }
 
-        var newOp = Operator.getOperatorBySymbolAndArgs(String.valueOf(c), arguments);
+        final var newOp = Operator.getOperatorBySymbolAndArgs(String.valueOf(c), arguments);
         lastToken = TokensFactory.operatorToken(newOp);
         return lastToken;
     }
 
     public static void main(String[] args) {
-        var tok = new Tokenizer("5+5+5++6x+sin(5)");
+        var tok = new Tokenizer("sin(5)");
         while (tok.hasNextToken()) {
             Token t = tok.getNextToken();
             System.out.println(t.getTypeToken());

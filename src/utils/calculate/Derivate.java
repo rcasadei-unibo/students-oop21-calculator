@@ -11,7 +11,7 @@ public class Derivate {
 	
 	public String SymbolicDerivate(String expr) {
 		expression.setExpr(expr);
-		var result = expression.getDerivative().toString();
+		final var result = expression.getDerivative().toString();
 		expression.setExpr(result);
 		return expression.getResult().toString();
 	}

@@ -2,8 +2,6 @@ package utils.calculate;
 
 import java.util.function.Predicate;
 
-import utils.tokens.NumberToken;
-import utils.tokens.OperatorToken;
 import utils.tokens.SpecialToken;
 import utils.tokens.Token;
 import utils.tokens.TokenType;
@@ -18,7 +16,7 @@ public class SimplifyingEngine {
     
     
     public AbstractSyntaxNode binaryOperator( final Token t, final AbstractSyntaxNode left, final AbstractSyntaxNode right) {
-        SpecialToken<Operator> operator = (SpecialToken<Operator>) t;
+        final SpecialToken<Operator> operator = (SpecialToken<Operator>) t;
         switch (operator.getSymbol()) {
         case "+":
             return simplifySumOperation(t, left, right);
@@ -36,7 +34,7 @@ public class SimplifyingEngine {
     private boolean verifyNumberValue(final AbstractSyntaxNode source, final Predicate<SpecialToken<Double>> filter) {
         if (source.getToken().getTypeToken().equals(TokenType.NUMBER)) {
             @SuppressWarnings("unchecked")
-            SpecialToken<Double> num = (SpecialToken<Double>) source.getToken();
+            final SpecialToken<Double> num = (SpecialToken<Double>) source.getToken();
             return filter.test(num);
         }
         return false;
@@ -76,7 +74,7 @@ public class SimplifyingEngine {
         boolean flag = false;
         if (verifyNumberValue(left, (num) -> num.getObjectToken() == 0.0) && !flag) {
             flag = true;
-            return new AbstractSyntaxNode(new OperatorToken(Operator.getOperatorBySymbolAndArgs("-", 1)), right);
+            return new AbstractSyntaxNode(TokensFactory.operatorToken(Operator.getOperatorBySymbolAndArgs("-", 1)), right);
 
         } else if (verifyNumberValue(right, (num) -> num.getObjectToken() == 0.0) && !flag) {
             return left;
