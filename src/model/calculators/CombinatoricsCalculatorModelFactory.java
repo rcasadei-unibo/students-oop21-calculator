@@ -43,7 +43,7 @@ public final class CombinatoricsCalculatorModelFactory {
                     try {
                         return bellNumber(n);
                     } catch (CalcException e) {
-                        return -1.0;
+                        return Double.POSITIVE_INFINITY;
                     }
                 }));
         return new CalculatorModelTemplate(binaryOpMap, unaryOpMap);
@@ -101,10 +101,10 @@ public final class CombinatoricsCalculatorModelFactory {
         if (n < 1) {
             return 0;
         }
-        if (n < 3) {
-            return 1;
-        }
         double result = 0.0;
+        if (n <= 3) {
+            result++;
+        }
         for (double k = 0; k < n - 2; k++) {
             result += binaryFibonacci(n - 2, k);
         }

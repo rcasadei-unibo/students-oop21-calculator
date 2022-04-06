@@ -3,9 +3,11 @@ package view.calculators;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import controller.calculators.CalculatorController;
@@ -24,9 +26,11 @@ public class CombinatoricsCalculatorPanel extends JPanel {
     private static final long serialVersionUID = 1L;
     private static String opFormat = "";
     private static String opString = "";
-    private static final Map<String, String> OPERATIONS = Map.of("Sequences", "sequencesNumber", "Factorial", "factorial",
-            "Binomial Coefficient", "binomialCoefficient", "Scombussolamento", "scombussolamento", "Partitions", "bellNumber",
+    private static final Map<String, String> OPERATIONS = Map.of("Sequences", "sequencesNumber", "Dispositions", "factorial",
+            "Subsets", "binomialCoefficient", "Derangements", "scombussolamento", "Partitions", "bellNumber",
             "Partitions(binary)", "stirlingNumber", "Fibonacci", "fibonacci", "Fibonacci(binary)", "binaryFibonacci");
+    private static final List<String> OPERATIONSLIST = List.of("Sequences", "Dispositions", "Subsets",
+            "Derangements", "Partitions", "Partitions(binary)", "Fibonacci", "Fibonacci(binary)");
     /**
      * 
      * @param controller
@@ -79,7 +83,10 @@ public class CombinatoricsCalculatorPanel extends JPanel {
         numpad.getButtons().get(")").setEnabled(false);
         numpad.getButtons().get(".").setEnabled(false);
         this.add(numpad, BorderLayout.CENTER);
-        this.add(new OperationsPanel(controller, display), BorderLayout.EAST);
+        final var explLabel = new JLabel();
+        this.add(explLabel, BorderLayout.SOUTH);
+        this.add(new OperationsPanel(controller, display, explLabel), BorderLayout.EAST);
+
     }
     private String getDisplayText(final CalculatorController controller) throws CalcException {
         if (!opFormat.isBlank()) {
@@ -107,14 +114,16 @@ public class CombinatoricsCalculatorPanel extends JPanel {
         private static final long serialVersionUID = 1L;
         private final CalculatorController controller;
         private final CCDisplay display;
+        private final JLabel explLabel;
 
-        OperationsPanel(final CalculatorController controller, final CCDisplay display) {
+        OperationsPanel(final CalculatorController controller, final CCDisplay display, final JLabel explLabel) {
             this.display = display;
+            this.explLabel = explLabel;
             this.controller = controller;
-            this.setLayout(new GridLayout(8, 1));
-            OPERATIONS.forEach((str1, str2) -> {
-                this.createOpButton(str1, str2);
-                this.createExplButton(str1);
+            this.setLayout(new GridLayout(8, 2));
+            OPERATIONSLIST.forEach(str -> {
+                this.createOpButton(str, OPERATIONS.get(str));
+                this.createExplButton(str);
             });
         }
         private void createOpButton(final String btnName, final String opName) {
@@ -131,6 +140,9 @@ public class CombinatoricsCalculatorPanel extends JPanel {
         private void createExplButton(final String opName) {
             final var btn = new JButton("?");
             btn.setToolTipText(opName);
+            btn.addActionListener(e -> {
+                explLabel.setText("TEST");
+            });
             this.add(btn);
         }
     }
