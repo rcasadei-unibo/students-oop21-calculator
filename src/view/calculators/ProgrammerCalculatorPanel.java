@@ -387,9 +387,14 @@ public class ProgrammerCalculatorPanel extends JPanel {
             this.hexadecimalLetters.forEach((btn) -> btn.setEnabled(true));
         }
     }
-
     private String integerParser(final String input) {
-        return input.contains(".") ? input.substring(0, input.indexOf('.')) : input;
+        if (input.contains(".")) {
+            if (input.contains("E")) {
+               return "0";
+            }
+            return input.substring(0, input.indexOf('.'));
+        }
+        return input;
     }
 
 }
