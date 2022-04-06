@@ -19,10 +19,10 @@ public class ConversionsTest {
      */
     @org.junit.Test
     public void decimalToBinary() {
-        assertTrue("01010".equals(ConversionAlgorithms.conversionToStringBase(2,(10))));
-        assertTrue("11010".equals(ConversionAlgorithms.conversionToStringBase(2,(-10))));    
-        assertTrue("01011".equals(ConversionAlgorithms.conversionToStringBase(2,(11))));
-        assertTrue("11011".equals(ConversionAlgorithms.conversionToStringBase(2,(-11))));
+        assertTrue("+1010".equals(ConversionAlgorithms.conversionToStringBase(2,(10))));
+        assertTrue("-1010".equals(ConversionAlgorithms.conversionToStringBase(2,(-10))));    
+        assertTrue("+1011".equals(ConversionAlgorithms.conversionToStringBase(2,(11))));
+        assertTrue("-1011".equals(ConversionAlgorithms.conversionToStringBase(2,(-11))));
         //System.out.println(ConversionAlgorithms.conversionToStringBase(2,(Integer.MAX_VALUE));
         //System.out.println(ConversionAlgorithms.conversionToStringBase(2,(Integer.MIN_VALUE));
     }
@@ -31,24 +31,24 @@ public class ConversionsTest {
      */
     @org.junit.Test
     public void decimalToHexadecimal() {
-        assertTrue("0A".equals(ConversionAlgorithms.conversionToStringBase(16,(10))));
-        assertTrue("1A".equals(ConversionAlgorithms.conversionToStringBase(16,(-10))));
-        assertTrue("0FF".equals(ConversionAlgorithms.conversionToStringBase(16,(255))));
-        assertTrue("1FF".equals(ConversionAlgorithms.conversionToStringBase(16,(-255))));
-        assertTrue("0100".equals(ConversionAlgorithms.conversionToStringBase(16,(256))));
-        assertTrue("1100".equals(ConversionAlgorithms.conversionToStringBase(16,(-256))));
+        assertTrue("+A".equals(ConversionAlgorithms.conversionToStringBase(16,(10))));
+        assertTrue("-A".equals(ConversionAlgorithms.conversionToStringBase(16,(-10))));
+        assertTrue("+FF".equals(ConversionAlgorithms.conversionToStringBase(16,(255))));
+        assertTrue("-FF".equals(ConversionAlgorithms.conversionToStringBase(16,(-255))));
+        assertTrue("+100".equals(ConversionAlgorithms.conversionToStringBase(16,(256))));
+        assertTrue("-100".equals(ConversionAlgorithms.conversionToStringBase(16,(-256))));
     }
     /**
      * Test for decimal to octal conversions.
      */
     @org.junit.Test
     public void decimalToOctal() {
-        assertTrue("07".equals(ConversionAlgorithms.conversionToStringBase(8,(7))));
-        assertTrue("17".equals(ConversionAlgorithms.conversionToStringBase(8,(-7))));
-        assertTrue("010".equals(ConversionAlgorithms.conversionToStringBase(8,(8))));
-        assertTrue("110".equals(ConversionAlgorithms.conversionToStringBase(8,(-8))));
-        assertTrue("070".equals(ConversionAlgorithms.conversionToStringBase(8,(56))));
-        assertTrue("170".equals(ConversionAlgorithms.conversionToStringBase(8,(-56))));
+        assertTrue("+7".equals(ConversionAlgorithms.conversionToStringBase(8,(7))));
+        assertTrue("-7".equals(ConversionAlgorithms.conversionToStringBase(8,(-7))));
+        assertTrue("+10".equals(ConversionAlgorithms.conversionToStringBase(8,(8))));
+        assertTrue("-10".equals(ConversionAlgorithms.conversionToStringBase(8,(-8))));
+        assertTrue("+70".equals(ConversionAlgorithms.conversionToStringBase(8,(56))));
+        assertTrue("-70".equals(ConversionAlgorithms.conversionToStringBase(8,(-56))));
     }
     /**
      * Test for base to decimal conversions.
