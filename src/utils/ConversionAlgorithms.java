@@ -15,9 +15,9 @@ public final class ConversionAlgorithms {
      * @param number
      * @return the string correspoding to the binary conversion of the number.
      *         Whereas: 
-     *         "10" would become "01010"
-     *         "-10" would become "11010"
-     *         "0" is converted to "00" meaning it's "+0"
+     *         "10" would become "+1010"
+     *         "-10" would become "-1010"
+     *         "0" is converted to "+0" 
      */
     private static String conversionToStringBinary(final int number) {
         final String value = Integer.toBinaryString(Math.abs(number));
@@ -29,7 +29,7 @@ public final class ConversionAlgorithms {
      * @return the string correspoding to the hexadecimal conversion of the number.
      *         Whereas: 
      *         "10" would become "0A"
-     *         "-10" would become "1A"
+     *         "-10" would become "-A"
      */
     private static String conversionToStringHexadecimal(final int number) {
         final String value = Integer.toHexString(Math.abs(number));
@@ -103,5 +103,20 @@ public final class ConversionAlgorithms {
             }
         }
         return String.valueOf(bits[0]).equals("+") ? ret : (-1) * ret;
+    }
+    
+    private static int unsignedConversionToDecimal(final int base, final String number) {
+        int ret = 0;
+        final var bits = number.toCharArray();
+        for (int i = 1; i < bits.length; i++) {
+            if (base == 16) {
+                // "0FF" 255 = (+)FF
+                ret += hexadecimalLetters(String.valueOf(bits[i])) * Math.pow(base, bits.length - 1 - i);
+            } else {
+             // "11010" -10 = (-)1010
+                ret += Integer.parseInt(String.valueOf(bits[i])) * Math.pow(base, bits.length - 1 - i);
+            }
+        }
+        return ret;
     }
 }
