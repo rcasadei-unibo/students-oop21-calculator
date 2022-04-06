@@ -315,9 +315,9 @@ public class ProgrammerCalculatorPanel extends JPanel {
             case "DEC":
                 return numberBuffer; //TODO controller.getManager().getCurrentState().lastInput();
             case "OCT":
-                return ConversionAlgorithms.conversionToStringBase(8, 69);
+                return ConversionAlgorithms.conversionToStringBase(8, Integer.parseInt(numberBuffer));
             case "BIN":
-                return ConversionAlgorithms.conversionToStringBase(2, 69);
+                return ConversionAlgorithms.conversionToStringBase(2, Integer.parseInt(numberBuffer));
             default:
                  return null;
             }
