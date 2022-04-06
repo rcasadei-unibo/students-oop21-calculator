@@ -104,16 +104,21 @@ public final class ConversionAlgorithms {
         }
         return String.valueOf(bits[0]).equals("+") ? ret : (-1) * ret;
     }
-    
-    private static int unsignedConversionToDecimal(final int base, final String number) {
+    /**
+     * 
+     * @param base
+     * @param number
+     * @return
+     */
+    public static int unsignedConversionToDecimal(final int base, final String number) {
         int ret = 0;
         final var bits = number.toCharArray();
-        for (int i = 1; i < bits.length; i++) {
+        for (int i = 0; i < bits.length; i++) {
             if (base == 16) {
-                // "0FF" 255 = (+)FF
+             
                 ret += hexadecimalLetters(String.valueOf(bits[i])) * Math.pow(base, bits.length - 1 - i);
             } else {
-             // "11010" -10 = (-)1010
+             
                 ret += Integer.parseInt(String.valueOf(bits[i])) * Math.pow(base, bits.length - 1 - i);
             }
         }
