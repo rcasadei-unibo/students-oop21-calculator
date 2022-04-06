@@ -18,6 +18,6 @@ public class Derivate {
 	
 	public static void main(String[] args) {
 		var derivative = new Derivate();
-		System.out.println(derivative.SymbolicDerivate("5x+7x"));
+		System.out.println(derivative.SymbolicDerivate("5+sin(x)"));
 	}
 }

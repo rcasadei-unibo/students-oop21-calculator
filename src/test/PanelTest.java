@@ -25,7 +25,7 @@ public class PanelTest extends JFrame {
         final Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
         this.setSize((int) (screen.getWidth() / 1.75), (int) (screen.getHeight() / 1.75));
         this.setLocationByPlatform(true);
-        this.add(new StandardCalculatorPanel());
+       // this.add(new StandardCalculatorPanel());
         this.setVisible(true);
     }
     /**
