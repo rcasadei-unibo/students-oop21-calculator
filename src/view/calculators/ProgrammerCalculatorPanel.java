@@ -376,7 +376,7 @@ public class ProgrammerCalculatorPanel extends JPanel {
         }
     }
     private String integerParser(final String input) {
-        return input.contains(".") ? input.replace(".", "") : input;
+        return input.contains(".") ? input.substring(0, input.indexOf('.')) : input;
     }
 
 }
