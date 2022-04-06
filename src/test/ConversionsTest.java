@@ -65,6 +65,19 @@ public class ConversionsTest {
        //System.out.println("-256 is "+ ConversionAlgorithms.conversionToDecimal(2, ConversionAlgorithms.conversionToStringBase(2,(-256)));
        assertTrue(80==ConversionAlgorithms.conversionToDecimal(8, ConversionAlgorithms.conversionToStringBase(8,(80))));
     }
+    /**
+     * Test for base to decimal conversions.
+     */
+    @org.junit.Test
+    public void baseToUnsignedDecimal() {
+       
+       assertTrue(15==ConversionAlgorithms.unsignedConversionToDecimal(2, "1111"));
+       assertTrue(63==ConversionAlgorithms.unsignedConversionToDecimal(8, "77"));
+       assertTrue(255==ConversionAlgorithms.unsignedConversionToDecimal(8, "FF"));
+       
+    }
+    
+    
 
     
 }
