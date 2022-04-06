@@ -3,6 +3,11 @@ package view.calculators;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -115,6 +120,9 @@ public class CombinatoricsCalculatorPanel extends JPanel {
         private final CalculatorController controller;
         private final CCDisplay display;
         private final JLabel explLabel;
+        private String labelText = "";
+        public static final String SEP = File.separator;
+        public static final String DIRECTORY = System.getProperty("user.dir") + SEP + "src" + SEP + "utils" + SEP + "combOpExpl" + SEP;
 
         OperationsPanel(final CalculatorController controller, final CCDisplay display, final JLabel explLabel) {
             this.display = display;
@@ -141,7 +149,20 @@ public class CombinatoricsCalculatorPanel extends JPanel {
             final var btn = new JButton("?");
             btn.setToolTipText(opName);
             btn.addActionListener(e -> {
-                explLabel.setText("TEST");
+                final var file = DIRECTORY + opName + ".txt";
+                try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+                    String str = br.readLine();
+                    while (str != null) {
+                        this.labelText += str;
+                        str = br.readLine();
+                    }
+                } catch (FileNotFoundException e1) {
+                    this.labelText = "FILE NOT FOUND" + file;
+                } catch (IOException e1) {
+                    this.labelText = "I/O ERROR";
+                }
+                explLabel.setText(this.labelText);
+                this.labelText = "";
             });
             this.add(btn);
         }
