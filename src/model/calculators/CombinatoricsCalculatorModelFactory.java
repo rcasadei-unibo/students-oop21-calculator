@@ -6,12 +6,14 @@ import java.util.function.UnaryOperator;
 
 import utils.CCBinaryOperator;
 import utils.CCUnaryOperator;
+import utils.CalcException;
 /**
  * 
  * MISSING JAVADOC.
  *
  */
 public final class CombinatoricsCalculatorModelFactory {
+    private static final double BELLNUMBERMAX = 30;
     /**
      * 
      */
@@ -37,7 +39,13 @@ public final class CombinatoricsCalculatorModelFactory {
         final Map<String, CCUnaryOperator> unaryOpMap = Map.of(
                 "fibonacci", createUnaryFunction((n) -> fibonacci(n)),
                 "scombussolamento", createUnaryFunction((n) -> scombussolamento(n)),
-                "bellNumber", createUnaryFunction((n) -> bellNumber(n)));
+                "bellNumber", createUnaryFunction((n) -> {
+                    try {
+                        return bellNumber(n);
+                    } catch (CalcException e) {
+                        return Double.POSITIVE_INFINITY;
+                    }
+                }));
         return new CalculatorModelTemplate(binaryOpMap, unaryOpMap);
     }
     /**
@@ -93,10 +101,10 @@ public final class CombinatoricsCalculatorModelFactory {
         if (n < 1) {
             return 0;
         }
-        if (n < 3) {
-            return 1;
-        }
         double result = 0.0;
+        if (n <= 3) {
+            result++;
+        }
         for (double k = 0; k < n - 2; k++) {
             result += binaryFibonacci(n - 2, k);
         }
@@ -118,8 +126,12 @@ public final class CombinatoricsCalculatorModelFactory {
      * 
      * @param n the cardinality of the set A
      * @return the number of partitions of the set A which equals Bell(n)
+     * @throws CalcException 
      */
-    private static double bellNumber(final double n) {
+    private static double bellNumber(final double n) throws CalcException {
+        if (n > BELLNUMBERMAX) {
+            throw new CalcException("Overflow");
+        }
         if (n == 0) {
             return 1;
         }
