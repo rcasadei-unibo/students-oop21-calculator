@@ -1,23 +1,22 @@
 package utils.calculate;
 
+import java.util.List;
 
 /**
  * @author pesic
  *
  */
-public class Derivate {
-	
-	private Expression expression = new Expression();
-	
-	public String SymbolicDerivate(String expr) {
-		expression.setExpr(expr);
-		final var result = expression.getDerivative().toString();
-		expression.setExpr(result);
-		return expression.getResult().toString();
-	}
-	
-	public static void main(String[] args) {
-		var derivative = new Derivate();
-		System.out.println(derivative.SymbolicDerivate("5+sin(x)"));
-	}
+public class Derivate implements Algorithm<String> {
+
+    @Override
+    public void setParameters(final List<String> parameters) {
+    }
+
+    @Override
+    public String calculate(final Expression expr) {
+        final Expression expression = expr;
+        final var result = expression.getDerivative().toString();
+        expression.setExpr(result);
+        return expression.getResult().toString();
+    }
 }

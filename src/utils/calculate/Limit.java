@@ -1,21 +1,24 @@
 package utils.calculate;
 
+import java.util.List;
+
 /**
  * @author pesic
  *
  */
-public class Limit {
-	private Expression expression = new Expression();
-	private double distance = 5;
-	//it could be refactored a ttemplate method
-	private double calculateLimitBelow(String expr, double x0) {
-		for (double x = x0 - distance; x <= x0; x = x0- ((x0 - x) / 10)) {
+public class Limit implements Algorithm<Double> {
+    private Expression expression;
+	private static final double DISTANCE = 5;
+	private double x0;
+	//it could be refactored a template method
+	private double calculateLimitBelow() {
+		for (double x = x0 - DISTANCE; x <= x0; x = x0 - ((x0 - x) / DISTANCE)) {
             if (expression.getResult().getNumericResult(x) == Double.POSITIVE_INFINITY) {
                 return Double.POSITIVE_INFINITY;
             } else if (expression.getResult().getNumericResult(x) == Double.NEGATIVE_INFINITY) {
                 return Double.NEGATIVE_INFINITY;
             } else if (Double.isNaN(expression.getResult().getNumericResult(x))) {
-                return expression.getResult().getNumericResult(x0 + ((x0 - x) * 10));
+                return expression.getResult().getNumericResult(x0 + ((x0 - x) * DISTANCE));
             } else {
                 if (x == x0) {
                     return expression.getResult().getNumericResult(x);
@@ -28,14 +31,14 @@ public class Limit {
         return Double.NaN;
 	}
 	
-	private double calculateLimitAbove(String expr, double x0) {
-		for (double x = x0 + 10; x >= x0; x = x0- ((x0 - x) / 10)) {
+	private double calculateLimitAbove() {
+		for (double x = x0 + DISTANCE; x >= x0; x = x0 - ((x0 - x) / DISTANCE)) {
             if (expression.getResult().getNumericResult(x) == Double.POSITIVE_INFINITY) {
                 return Double.POSITIVE_INFINITY;
             } else if (expression.getResult().getNumericResult(x) == Double.NEGATIVE_INFINITY) {
                 return Double.NEGATIVE_INFINITY;
             } else if (Double.isNaN(expression.getResult().getNumericResult(x))) {
-                return expression.getResult().getNumericResult(x0 + ((x0 - x) * 10));
+                return expression.getResult().getNumericResult(x0 + ((x0 - x) * DISTANCE));
             } else {
                 if (x == x0) {
                     return expression.getResult().getNumericResult(x);
@@ -48,16 +51,19 @@ public class Limit {
         return Double.NaN;
 	}
 	
-	public double calculateLimit(String expr, double x0) {
-		expression.setExpr(expr);
-		double aroundBelow = calculateLimitBelow(expr, x0);
-	    double aroundAbove = calculateLimitAbove(expr, x0);
-	    return aroundBelow == aroundAbove ? aroundAbove : Double.NaN;
-	}
-	
-	public static void main(String[] args) {
-		var limit = new Limit();
-		System.out.println(limit.calculateLimit("sin(x)/x", 100000));
-		
-	}
+    @Override
+    public void setParameters(final List<String> parameters) {
+        if (parameters.isEmpty()) {
+            throw new IllegalStateException("Not enough parameters");
+        }
+        this.x0 = Double.parseDouble(parameters.get(0));
+    }
+
+    @Override
+    public Double calculate(final Expression expr) {
+        expression = expr;
+        final double aroundBelow = calculateLimitBelow();
+        final double aroundAbove = calculateLimitAbove();
+        return aroundBelow == aroundAbove ? aroundAbove : Double.NaN;
+    }
 }

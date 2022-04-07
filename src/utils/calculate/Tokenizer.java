@@ -22,6 +22,7 @@ public class Tokenizer {
     private final int lenExpr;
     private final String variable;
     private final Set<String> constants;
+    private boolean implicitMultiplication = true;
     private final ExternData data = new ExternData();
 
     Tokenizer(final String expr) {
@@ -42,7 +43,6 @@ public class Tokenizer {
      * @return c
      */
     public Token getNextToken() {
-        System.out.println("Index: " + index);
         if (!hasNextToken()) {
             return null;
         }
@@ -50,21 +50,20 @@ public class Tokenizer {
         final char c = this.expr.charAt(index);
         if (Character.isDigit(c)) {
             if (lastToken != null) {
-                System.out.println("a number");
                 if (lastToken.getTypeToken().equals(TokenType.NUMBER)) {
                     throw new IllegalArgumentException("2 numbers can't stay near");
                 }
-                if (lastToken.getTypeToken() != TokenType.OPENPAR && lastToken.getTypeToken() != TokenType.FUNCTION
+                if (implicitMultiplication && lastToken.getTypeToken() != TokenType.OPENPAR && lastToken.getTypeToken() != TokenType.FUNCTION
                         && lastToken.getTypeToken() != TokenType.OPERATOR) {
                     lastToken = TokensFactory.operatorToken(new Operator("*", 2, true));
 
                     return lastToken;
                 }
             }
-            System.out.println("The first character of the expression is a number");
             return getNumberToken();
         } else if (c == '(') {
             if (lastToken != null
+                && implicitMultiplication
                 && lastToken.getTypeToken() != TokenType.OPENPAR && lastToken.getTypeToken() != TokenType.OPERATOR
                 && lastToken.getTypeToken() != TokenType.FUNCTION) {
                     lastToken = TokensFactory.operatorToken(new Operator("*", 2, true));
@@ -80,17 +79,14 @@ public class Tokenizer {
         } else if (Operator.isAllowedOperator(String.valueOf(c))) {
             return getOperationToken();
         } else if (Character.isLetter(c)) {
-            System.out.println("a function or a variable");
             if (lastToken != null) {
-                System.out.println("a function or a variable with something before it");
-                if (lastToken.getTypeToken() != TokenType.OPERATOR && lastToken.getTypeToken() != TokenType.FUNCTION
+                if (implicitMultiplication && lastToken.getTypeToken() != TokenType.OPERATOR && lastToken.getTypeToken() != TokenType.FUNCTION
                         && lastToken.getTypeToken() != TokenType.OPENPAR) {
                     lastToken = TokensFactory.operatorToken(Operator.getOperatorBySymbolAndArgs("*", 2));
 
                     return lastToken;
                 }
             }
-            System.out.println("the first element of the expression is a function or a variable");
             return getFunctionOrVariableToken();
         }
         throw new IllegalArgumentException("the character: " + c + " wasn't recognized ");
@@ -114,10 +110,22 @@ public class Tokenizer {
         final List<Token> out = this.getListToken();
         return out.stream().map(t -> t.getSymbol()).collect(Collectors.toList());
     }
-    
-    public List<Token> convertToTokens(List<String> expression) {
-        String newExpr = expression.stream().reduce("", (String res, String c)-> res+c);
+
+    /**
+     * @param flag
+     */
+    public void setImplicitMultiplication(final boolean flag) {
+        this.implicitMultiplication = flag;
+    }
+
+    /**
+     * @param expression
+     * @return c
+     */
+    public List<Token> convertToTokens(final List<String> expression) {
+        final String newExpr = expression.stream().reduce("", (String res, String c) -> res + c);
         this.reset(newExpr);
+        this.setImplicitMultiplication(false);
         return this.getListToken();
     }
 
