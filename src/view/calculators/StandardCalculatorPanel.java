@@ -1,16 +1,18 @@
 package view.calculators;
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
+import javax.swing.JPanel;
+
 import view.components.CCDisplay;
 import view.components.CCNumPad;
-import javax.swing.*;
 
 import controller.calculators.CalculatorController;
 import model.calculators.StandardCalculatorModelFactory;
+import utils.OpTypeListener;
 //TODO MISSING JAVADOC.
 /**
  * 
@@ -39,32 +41,16 @@ public class StandardCalculatorPanel extends JPanel {
         this.add(this.getOperators(), BorderLayout.EAST);
     }
     private JPanel getOperators() {
-        final ActionListener unaryOpAl = new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent e) {
-                final JButton btn = (JButton) e.getSource();
-                display.updateText(btn.getText() + controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b));
-                controller.getManager().read(btn.getText());
-            }
-        };
-        final ActionListener binaryOpAl = new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent e) {
-                final JButton btn = (JButton) e.getSource();
-                controller.getManager().read(btn.getText());
-                display.updateText(controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b));
-            }
-        };
         final JPanel operators = new JPanel();
         operators.setLayout(new GridLayout(4, 2));
         for (final var entry : StandardCalculatorModelFactory.create().getBinaryOpMap().entrySet()) {
             final var btn = new JButton(entry.getKey());
-            btn.addActionListener(binaryOpAl);
+            btn.addActionListener(OpTypeListener.getBinaryListener(display, controller));
             operators.add(btn);
         }
         for (final var entry : StandardCalculatorModelFactory.create().getUnaryOpMap().entrySet()) {
             final var btn = new JButton(entry.getKey());
-            btn.addActionListener(unaryOpAl);
+            btn.addActionListener(OpTypeListener.getUnaryListener(display, controller));
             operators.add(btn);
         }
         return operators;
@@ -93,5 +79,21 @@ public class StandardCalculatorPanel extends JPanel {
             }
         };
         return new CCNumPad(btnAl, calcAl, backspaceAl);
+    }
+    /**
+     * 
+     * @return controller
+     */
+
+    public CalculatorController getController() {
+        return this.controller;
+    }
+    /**
+     * 
+     * @return display
+     */
+
+    public CCDisplay getDisplay() {
+        return this.display;
     }
 }

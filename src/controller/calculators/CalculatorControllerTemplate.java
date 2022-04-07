@@ -11,6 +11,7 @@ import utils.CCUnaryOperator;
 import model.manager.ManagerModelInterface.Calculator;
 import utils.Type;
 import view.calculators.CombinatoricsCalculatorPanel;
+import view.calculators.ScientificCalculatorPanel;
 import view.calculators.StandardCalculatorPanel;
 import view.components.CCDisplay;
 
@@ -99,6 +100,7 @@ public final class CalculatorControllerTemplate implements CalculatorController 
         case PROGRAMMER:
             break;
         case SCIENTIFIC:
+            this.panel = new ScientificCalculatorPanel(this);
             break;
         default:
             break;
