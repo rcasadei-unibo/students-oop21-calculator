@@ -4,8 +4,12 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
+import controller.calculators.ControllerFactoryImpl;
+import controller.manager.CCEngine;
 import controller.manager.CCManager;
+import model.calculators.StandardCalculatorModelFactory;
 import model.manager.ManagerModelInterface.Calculator;
+import utils.CalcException;
 
 
 /**
@@ -78,5 +82,19 @@ public class ManagerTest {
         controller.readAll(List.of("(", "5", ")", "-", "3"));
         controller.calculate();
         assertEquals("2", controller.getCurrentState().stream().reduce("", (a, b) -> a + b));
+    }
+    /**
+     * 
+     */
+    @org.junit.Test
+    public void testVariables() {
+        final var engine = new CCEngine(new ControllerFactoryImpl().createController(StandardCalculatorModelFactory.create(), Calculator.STANDARD));
+        final List<String> in = List.of("3", "mult", "x", "sum", "2");
+        try {
+            final List<String> rpn = engine.parseToRPN(in);
+            System.out.println(rpn);
+        } catch (CalcException e) {
+            e.printStackTrace();
+        }
     }
 }

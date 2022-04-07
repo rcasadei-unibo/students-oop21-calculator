@@ -31,15 +31,19 @@ public final class ProgrammerCalculatorModelFactory {
                 "roR",  new CCBinaryOperator((n1, n2) -> roR(n1, n2), 1, Type.LEFT),
                 "roL",  new CCBinaryOperator((n1, n2) -> roL(n1, n2), 1, Type.LEFT)
                 ));
-        final Map<String, CCBinaryOperator> x = StandardCalculatorModelFactory.create().getBinaryOpMap();
-        x.remove("modulo");
-        binaryOpMap.putAll(x);
+        
+        binaryOpMap.putAll(getBasicOperators());
 
         final Map<String, CCUnaryOperator> unaryOpMap = new HashMap<>(
                 Map.of("not", new CCUnaryOperator((n1) -> not(n1), 1, null), 
                        "neg", new CCUnaryOperator((n1) -> neg(n1), 1, null)
                   ));
         return new CalculatorModelTemplate(binaryOpMap, unaryOpMap);
+    }
+    public static Map<String, CCBinaryOperator> getBasicOperators() {
+        final Map<String, CCBinaryOperator> x = StandardCalculatorModelFactory.create().getBinaryOpMap();
+        x.remove("modulo");
+        return x;
     }
     private static double and(final double n1, final double n2) {
         return (int) n1 & (int) n2;
@@ -60,7 +64,7 @@ public final class ProgrammerCalculatorModelFactory {
         return (int) ~(int) n1;
     }
     private static double not(final double n1) {
-        var stringBits = ConversionAlgorithms.conversionToStringBinary((int) n1);
+        var stringBits = ConversionAlgorithms.conversionToStringBase(2, (int) n1);
         stringBits = addLeadingZerosToByte(stringBits);
         final var bits = stringBits.toCharArray();
         String toConvert = String.valueOf(bits[0]);
@@ -96,7 +100,7 @@ public final class ProgrammerCalculatorModelFactory {
         return (int) (n);
     }
     private static double roR(final double n1, final double n2) {
-        String bits = addLeadingZerosToByte(ConversionAlgorithms.conversionToStringBinary((int) n1));
+        String bits = addLeadingZerosToByte(ConversionAlgorithms.conversionToStringBase(2, (int) n1));
         final int rorOf = rollingCheck(bits.length(), n2);
         final String sign = String.valueOf(bits.charAt(0));
         bits = bits.substring(1);
@@ -105,7 +109,7 @@ public final class ProgrammerCalculatorModelFactory {
         return ConversionAlgorithms.conversionToDecimal(2, sign.concat(bits));
     }
     private static double roL(final double n1, final double n2) {
-        String bits = addLeadingZerosToByte(ConversionAlgorithms.conversionToStringBinary((int) n1));
+        String bits = addLeadingZerosToByte(ConversionAlgorithms.conversionToStringBase(2, (int) n1));
         final int rolOf = rollingCheck(bits.length(), n2);
         final String sign = String.valueOf(bits.charAt(0));
         bits = bits.substring(1);
