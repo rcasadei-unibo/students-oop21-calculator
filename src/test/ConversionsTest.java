@@ -73,7 +73,7 @@ public class ConversionsTest {
        
        assertTrue(15==ConversionAlgorithms.unsignedConversionToDecimal(2, "1111"));
        assertTrue(63==ConversionAlgorithms.unsignedConversionToDecimal(8, "77"));
-       assertTrue(255==ConversionAlgorithms.unsignedConversionToDecimal(8, "FF"));
+       assertTrue(255==ConversionAlgorithms.unsignedConversionToDecimal(16, "FF"));
        
     }
     
