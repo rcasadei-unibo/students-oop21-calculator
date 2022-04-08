@@ -34,11 +34,9 @@ public final class CreateButton {
            } else {
                if (opName.equals("x²")) {
                    display.updateText("(" + controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b) + ")" + appearance);
-               }
-               else {
+               } else {
                    display.updateText(appearance + "(" + controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b) + ")");
                }
-               
            }
            controller.getManager().read(opName);
        });
