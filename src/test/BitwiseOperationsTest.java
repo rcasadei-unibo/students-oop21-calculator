@@ -2,7 +2,8 @@ package test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import model.calculators.ProgrammerCalculatorModel;
+import model.calculators.CalculatorModel;
+import model.calculators.ProgrammerCalculatorModelFactory;
 import utils.ConversionAlgorithms;
 /**
  * 
@@ -11,7 +12,7 @@ import utils.ConversionAlgorithms;
  */
 public class BitwiseOperationsTest {
     final private static double TOLERANCE = 0.01;
-    final private ProgrammerCalculatorModel calculator = new ProgrammerCalculatorModel();
+    final private CalculatorModel calculator = ProgrammerCalculatorModelFactory.create();
     private String addLeadingZerosToByte(String stringBits) {
         //1100 = -4 0100 = 4        1.0000.0100 = -4 0.0000.0100 = 4
         final var sign = stringBits.charAt(0);
@@ -26,8 +27,8 @@ public class BitwiseOperationsTest {
      */
     @org.junit.Test
     public void testByte() {
-        assertTrue("000000100".equals(this.addLeadingZerosToByte(ConversionAlgorithms.conversionToStringBinary(4))));
-        assertTrue("100000100".equals(this.addLeadingZerosToByte(ConversionAlgorithms.conversionToStringBinary(-4))));
+        assertTrue("000000100".equals(this.addLeadingZerosToByte(ConversionAlgorithms.conversionToStringBase(2,4))));
+        assertTrue("100000100".equals(this.addLeadingZerosToByte(ConversionAlgorithms.conversionToStringBase(2,-4))));
         
     }
     /**
@@ -37,9 +38,9 @@ public class BitwiseOperationsTest {
     public void testNot() {
         final var op = this.calculator.getUnaryOpMap().get("not");
         //TODO add test
-        assertEquals("111111011",ConversionAlgorithms.conversionToStringBinary((int)op.apply(-4.0)));
-        assertEquals("011111011",ConversionAlgorithms.conversionToStringBinary((int)op.apply(4.0)));
-        assertEquals("111111111",ConversionAlgorithms.conversionToStringBinary((int)op.apply(0.0)));
+        assertEquals("111111011",ConversionAlgorithms.conversionToStringBase(2,(int)op.apply(-4.0)));
+        assertEquals("011111011",ConversionAlgorithms.conversionToStringBase(2,(int)op.apply(4.0)));
+        assertEquals("111111111",ConversionAlgorithms.conversionToStringBase(2,(int)op.apply(0.0)));
 
     }
     /**

@@ -9,7 +9,6 @@ import java.util.ArrayList;
  * Contains the currently mounted calculator and the input buffer.
  */
 public class CCManagerModel implements ManagerModelInterface {
-
     private Calculator mounted;
     private final List<String> buffer = new ArrayList<>();
 

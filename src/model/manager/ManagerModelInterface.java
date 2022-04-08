@@ -7,6 +7,7 @@ import controller.calculators.ControllerFactoryImpl;
 import model.calculators.CalculatorModel;
 import model.calculators.CombinatoricsCalculatorModelFactory;
 import model.calculators.ProgrammerCalculatorModelFactory;
+import model.calculators.ScientificCalculatorModelFactory;
 import model.calculators.StandardCalculatorModelFactory;
 
 /**
@@ -27,7 +28,7 @@ public interface ManagerModelInterface {
         /**
          * Scientific calculator. Contains a reference to the scientific calculator controller.
          */
-        SCIENTIFIC(CombinatoricsCalculatorModelFactory.create()), 
+        SCIENTIFIC(ScientificCalculatorModelFactory.create()), 
         /**
          * Programmer calculator. Contains a reference to the programmer calculator controller.
          */

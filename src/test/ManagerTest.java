@@ -33,7 +33,7 @@ public class ManagerTest {
     public void testController() {
 
         //cos ( 3 + 4 * 2 ) / ( 1 - 5 ) ^ 2 ^ 3 
-        controller.mount(Calculator.STANDARD);
+        controller.mount(Calculator.COMBINATORICS);
 
         controller.read("cos");
         controller.read("(");
