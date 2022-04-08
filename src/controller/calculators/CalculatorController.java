@@ -1,7 +1,5 @@
 package controller.calculators;
 
-import javax.swing.JPanel;
-
 import controller.manager.CCManager;
 import utils.Type;
 import view.components.CCDisplay;
@@ -12,11 +10,7 @@ import view.components.CCDisplay;
  *
  */
 public interface CalculatorController {
-    /**
-     * 
-     * @return view component of the calculator
-     */
-    JPanel getGUI();
+
     /**
      * 
      * @param op string representing the operation
