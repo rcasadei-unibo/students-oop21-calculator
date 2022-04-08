@@ -11,6 +11,7 @@ import utils.CCUnaryOperator;
 import model.manager.ManagerModelInterface.Calculator;
 import utils.Type;
 import view.calculators.CombinatoricsCalculatorPanel;
+import view.calculators.GraphicCalculatorPanel;
 import view.calculators.ProgrammerCalculatorPanel;
 import view.calculators.ScientificCalculatorPanel;
 import view.calculators.StandardCalculatorPanel;
@@ -97,6 +98,7 @@ public final class CalculatorControllerTemplate implements CalculatorController 
             this.panel = new CombinatoricsCalculatorPanel(this);
             break;
         case GRAPHIC:
+            this.panel = new GraphicCalculatorPanel(this);
             break;
         case PROGRAMMER:
             this.panel = new ProgrammerCalculatorPanel(this);
