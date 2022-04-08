@@ -72,7 +72,7 @@ public class StandardCalculatorPanel extends JPanel {
   
     private void setOperators() {      
         final JPanel operator = new JPanel();
-        operators.setLayout(new GridLayout(4, 2));
+        operator.setLayout(new GridLayout(4, 2));
         for (final var entry : StandardCalculatorModelFactory.create().getBinaryOpMap().entrySet()) {
             final var btn = new JButton(entry.getKey());
             btn.addActionListener(OpTypeListener.getBinaryListener(display, controller));
