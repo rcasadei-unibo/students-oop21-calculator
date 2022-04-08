@@ -30,7 +30,7 @@ public final class CreateButton {
        final boolean isBinary = controller.isBinaryOperator(opName);
        btn.addActionListener(e -> {
            if (isBinary) {
-               display.updateText(controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b) + btnName + " ");
+               display.updateText(controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b) + appearance + " ");
            } else {
                if (opName.equals("x²")) {
                    display.updateText("(" + controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b) + ")" + appearance);
