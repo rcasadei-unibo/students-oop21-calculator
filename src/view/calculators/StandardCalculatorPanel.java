@@ -12,7 +12,7 @@ import view.components.CCNumPad;
 
 import controller.calculators.CalculatorController;
 import model.calculators.StandardCalculatorModelFactory;
-import utils.OpTypeListener;
+import utils.CreateButton;
 //TODO MISSING JAVADOC.
 /**
  * 
@@ -69,19 +69,16 @@ public class StandardCalculatorPanel extends JPanel {
         final JPanel numbers = new CCNumPad(btnAl, calcAl, backspaceAl);
         this.add(numbers, BorderLayout.CENTER);
     }
-  
-    private void setOperators() {      
+
+    private void setOperators() {
         final JPanel operator = new JPanel();
-        operators.setLayout(new GridLayout(4, 2));
+        operator.setLayout(new GridLayout(4, 2));
         for (final var entry : StandardCalculatorModelFactory.create().getBinaryOpMap().entrySet()) {
-            final var btn = new JButton(entry.getKey());
-            btn.addActionListener(OpTypeListener.getBinaryListener(display, controller));
-            operator.add(btn);
+            operator.add(CreateButton.createOpButton(entry.getKey(), entry.getKey(), controller, display));
+
         }
         for (final var entry : StandardCalculatorModelFactory.create().getUnaryOpMap().entrySet()) {
-            final var btn = new JButton(entry.getKey());
-            btn.addActionListener(OpTypeListener.getUnaryListener(display, controller));
-            operator.add(btn);
+            operator.add(CreateButton.createOpButton(entry.getKey(), entry.getKey(), controller, display));
         }
         this.add(operator, BorderLayout.EAST);
     }

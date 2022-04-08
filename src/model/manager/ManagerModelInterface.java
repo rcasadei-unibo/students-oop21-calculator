@@ -2,8 +2,6 @@ package model.manager;
 
 import java.util.List;
 
-import javax.swing.JPanel;
-
 import controller.calculators.CalculatorController;
 import controller.calculators.ControllerFactoryImpl;
 import model.calculators.CalculatorModel;
@@ -50,7 +48,7 @@ public interface ManagerModelInterface {
 
         private final CalculatorController controller;
         Calculator(final CalculatorModel model) {
-            this.controller = new ControllerFactoryImpl().createController(model, this);
+            this.controller = new ControllerFactoryImpl().createController(model);
         }
 
         /**
@@ -61,13 +59,6 @@ public interface ManagerModelInterface {
             return this.controller;
         }
 
-        /**
-         * Return the view component of the calculator.
-         * @return GUI component of the calculator
-         */
-        public JPanel getGUI() {
-            return this.controller.getGUI();
-        }
     }
 
     /**

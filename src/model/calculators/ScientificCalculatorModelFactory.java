@@ -38,6 +38,8 @@ public final class ScientificCalculatorModelFactory {
                      "csc", new CCUnaryOperator((n) -> 1 / Math.sin(n), 1, null),
                      "sec", new CCUnaryOperator((n) -> 1 / Math.cos(n), 1, null),
                      "cot", new CCUnaryOperator((n) -> Math.cos(n) / Math.sin(n), 1, null)));
+        binaryOpMap.putAll(StandardCalculatorModelFactory.create().getBinaryOpMap());
+        unaryOpMap.putAll(StandardCalculatorModelFactory.create().getUnaryOpMap());
         return new CalculatorModelTemplate(binaryOpMap, unaryOpMap);
     }
 }
