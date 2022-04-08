@@ -20,7 +20,7 @@ public final class StandardCalculatorModelFactory {
     public static CalculatorModel create() {
         final Map<String, CCBinaryOperator> binaryOpMap = Map.of("+", new CCBinaryOperator((n1, n2) -> sum(n1, n2), 1, Type.LEFT),
                 "-", new CCBinaryOperator((n1, n2) -> sub(n1, n2), 1, Type.LEFT),
-                "*", new CCBinaryOperator((n1, n2) -> mult(n1, n2), 2, Type.LEFT),
+                "×", new CCBinaryOperator((n1, n2) -> mult(n1, n2), 2, Type.LEFT),
                 "/", new CCBinaryOperator((n1, n2) -> div(n1, n2), 3, Type.LEFT),
                 "%", new CCBinaryOperator((n1, n2) -> modulo(n1, n2), 3, Type.LEFT)
                           );
