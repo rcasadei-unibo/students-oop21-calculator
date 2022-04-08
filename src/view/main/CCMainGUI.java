@@ -7,7 +7,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import java.awt.Toolkit;
-
+import java.util.Map;
+import java.util.Optional;
 import java.awt.Dimension;
 
 import java.awt.BorderLayout;
@@ -15,6 +16,8 @@ import java.awt.BorderLayout;
 import controller.manager.CCManager;
 import controller.manager.ManagerInterface;
 import model.manager.ManagerModelInterface.Calculator;
+import view.calculators.CombinatoricsCalculatorPanel;
+import view.calculators.StandardCalculatorPanel;
 
 /**
  * TODO: min size of frame, menu, numpad.
@@ -22,16 +25,25 @@ import model.manager.ManagerModelInterface.Calculator;
  * TODO: display size changes on resize
  *
  */
-public class CCMainGUI extends JFrame {
+public class CCMainGUI extends JFrame implements View {
 
     /**
      * 
      */
     private static final long serialVersionUID = -4510924334938545109L;
-    private final transient ManagerInterface controller = new CCManager();
+    private final transient ManagerInterface controller = new CCManager(this);
     private final JPanel outer = new JPanel();
-    private JPanel mountedCalc;
+    private transient Optional<JPanel> mountedPanel = Optional.empty();
     private final JLabel title = new JLabel("");
+
+    private final Map<Calculator, JPanel> views = Map.of(
+            Calculator.STANDARD, new StandardCalculatorPanel(Calculator.STANDARD.getController()),
+            Calculator.SCIENTIFIC, new StandardCalculatorPanel(Calculator.STANDARD.getController()),
+            Calculator.PROGRAMMER, new StandardCalculatorPanel(Calculator.STANDARD.getController()),
+            Calculator.GRAPHIC, new StandardCalculatorPanel(Calculator.STANDARD.getController()),
+            Calculator.ADVANCED, new StandardCalculatorPanel(Calculator.STANDARD.getController()),
+            Calculator.COMBINATORICS, new CombinatoricsCalculatorPanel(Calculator.COMBINATORICS.getController())
+            );
     /**
      * 
      */
@@ -58,35 +70,30 @@ public class CCMainGUI extends JFrame {
         menu.add(this.createMenuItem("Advanced Calculator", Calculator.ADVANCED));
         this.setJMenuBar(menuBar);
 
-
-
-
         outer.setLayout(new BorderLayout());
         this.getContentPane().add(outer);
 
-        this.mount(Calculator.STANDARD);
+        this.controller.mount(Calculator.STANDARD);
         this.setVisible(true);
-    }
-
-    private void mount(final Calculator calc) {
-        controller.mount(calc);
-        title.setText(calc.name());
-
-        if (mountedCalc != null) {
-            outer.remove(this.mountedCalc);
-        }
-
-        outer.add(controller.getMounted().getGUI(), BorderLayout.CENTER);
-
-        this.mountedCalc = controller.getMounted().getGUI();
-        outer.revalidate();
-        outer.repaint();
     }
 
     private JMenuItem createMenuItem(final String text, final Calculator calcName) {
         final JMenuItem menuItem = new JMenuItem(text);
-        menuItem.addActionListener(e -> this.mount(calcName));
+        menuItem.addActionListener(e -> this.controller.mount(calcName));
         return menuItem;
+    }
+
+    @Override
+    public void show(final Calculator calc) {
+        title.setText(calc.name());
+
+        this.mountedPanel.ifPresent((mounted) -> outer.remove(mounted));
+        final JPanel panel = this.views.get(calc);
+        outer.add(panel, BorderLayout.CENTER);
+        this.mountedPanel = Optional.of(panel);
+
+        outer.revalidate();
+        outer.repaint();
     }
 
 }

@@ -10,13 +10,14 @@ import controller.manager.CCManager;
 import model.calculators.StandardCalculatorModelFactory;
 import model.manager.ManagerModelInterface.Calculator;
 import utils.CalcException;
+import view.main.CCMainGUI;
 
 
 /**
  * 
  */
 public class ManagerTest {
-    private final CCManager controller = new CCManager();
+    private final CCManager controller = new CCManager(new CCMainGUI());
 
     /**
      * test javadoc.
@@ -88,7 +89,7 @@ public class ManagerTest {
      */
     @org.junit.Test
     public void testVariables() {
-        final var engine = new CCEngine(new ControllerFactoryImpl().createController(StandardCalculatorModelFactory.create(), Calculator.STANDARD));
+        final var engine = new CCEngine(new ControllerFactoryImpl().createController(StandardCalculatorModelFactory.create()));
         final List<String> in = List.of("3", "mult", "x", "sum", "2");
         try {
             final List<String> rpn = engine.parseToRPN(in);

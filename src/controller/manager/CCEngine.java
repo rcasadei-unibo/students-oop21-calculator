@@ -14,7 +14,7 @@ import utils.Type;
 public class CCEngine implements EngineInterface {
 
     private final CalculatorController calcController;
-    private String variable = "x";
+    private static final String VARIABLE = "x";
 
     /**
      * 
@@ -84,7 +84,7 @@ public class CCEngine implements EngineInterface {
         while (it.hasNext()) {
 
             final String token = it.next();
-            if (isNumber(token) || token.equals(this.variable)) {
+            if (isNumber(token) || VARIABLE.equals(token)) {
                 output.add(token);
             } else if (isUnaryOperator(token)) {
                 stack.add(token);

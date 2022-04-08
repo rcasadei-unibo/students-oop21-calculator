@@ -1,6 +1,5 @@
 package controller.calculators;
 import model.calculators.CalculatorModel;
-import model.manager.ManagerModelInterface.Calculator;
 /**
  * 
  * MISSING JAVADOC.
@@ -9,8 +8,8 @@ import model.manager.ManagerModelInterface.Calculator;
 public class ControllerFactoryImpl implements ControllerFactory {
 
     @Override
-    public CalculatorController createController(final CalculatorModel model, final Calculator calcName) {
-        return new CalculatorControllerTemplate(model, calcName);
+    public CalculatorController createController(final CalculatorModel model) {
+        return new CalculatorControllerTemplate(model);
     }
 
 }
