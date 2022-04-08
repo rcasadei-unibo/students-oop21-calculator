@@ -39,9 +39,14 @@ public final class ProgrammerCalculatorModelFactory {
                   ));
         return new CalculatorModelTemplate(binaryOpMap, unaryOpMap);
     }
+    //TODO missing javadoc.
+    /**
+     * 
+     * @return MISSING JAVADOC.
+     */
     public static Map<String, CCBinaryOperator> getBasicOperators() {
         final Map<String, CCBinaryOperator> x = StandardCalculatorModelFactory.create().getBinaryOpMap();
-        x.remove("modulo");
+        x.remove("%");
         return x;
     }
     private static double and(final double n1, final double n2) {
