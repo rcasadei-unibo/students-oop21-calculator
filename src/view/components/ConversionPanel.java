@@ -22,7 +22,11 @@ public class ConversionPanel extends JPanel {
     private final Map<String, CCDisplay> map = new HashMap<>();
 
     private final CCDisplay decDisplay;
-
+    //TODO add javadoc.
+    /**
+     * MISSING JAVADOC.
+     * @param conv
+     */
     public ConversionPanel(final ActionListener conv) {
         this.setLayout(new GridLayout(4, 2));
 
