@@ -1,8 +1,10 @@
 package utils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import controller.calculators.CalculatorController;
+import model.calculators.ProgrammerCalculatorModelFactory;
 
 //TODO javadoc.
 /**
@@ -10,10 +12,10 @@ import controller.calculators.CalculatorController;
  *
  */
 public class InputFormatter{
-    
     private int conversionBase = 10;
     private CalculatorController controller;
-    private String buffer = "";
+    private final List<String> buffer;
+    private final List<String> tokens;
     //TODO MISSING JAVADOC.
     /**
      * missing javadoc.
@@ -21,6 +23,18 @@ public class InputFormatter{
      */
     public InputFormatter(final CalculatorController controller) {
         this.controller = controller;
+        this.buffer = new ArrayList<>();
+        this.tokens = new ArrayList<>();
+        this.addTokens();
+    }
+    /**
+     * i token comprendono tutte le stringhe che non sono valori alphanumerici utilizzati per le conversioni
+     */
+    private void addTokens() {
+        tokens.add("(");
+        tokens.add(")");
+        ProgrammerCalculatorModelFactory.create().getBinaryOpMap().entrySet().stream().forEach((entry) -> tokens.add(entry.getKey()));
+        ProgrammerCalculatorModelFactory.create().getUnaryOpMap().entrySet().stream().forEach((entry) -> tokens.add(entry.getKey()));
     }
     /**
      * 
@@ -32,37 +46,52 @@ public class InputFormatter{
     public void read(final String input) {
         if (this.conversionBase == 10) {
             controller.getManager().read(input);
-        }
-        else {
-            this.buffer = this.buffer.concat(input);
+        } else {
+            this.buffer.add(input);
         }
     }
     /**
-     * 
+     * usually called when switching from a conversion base to another
      * @param base will be the new conversionBase.
-     *  buffer = "";
+     *  buffer.clear();
      *  controller.clear().
      * 
      */
     public void reset(final int base) {
+        if (this.conversionBase == 10) {
+            this.controller.getManager().clear();
+        }
         this.conversionBase = base;
-        this.buffer = "";
-        controller.getManager().clear();
+        this.buffer.clear();
     }
     /**
-     * RIFARE.
-     */
-    public void format() {
-        final String conv = String.valueOf(ConversionAlgorithms.unsignedConversionToDecimal(conversionBase, buffer));
-        controller.getManager().readAll(List.of(conv.split("")));
-    }
-    /**
+     * questo metodo cerca all'interno di tutto il buffer per "(" ")" "operatori" e converte
+     * ogni possibile codice alfanumerico in un numero intero da poi passare al controller.
+     * 
+     * ["(","F","F","+","0","1",")","="]
+     * ["(","255","+","1",")","="]
+     * 
+     * 
      * 
      */
+    
+    /**
+     * 
+     * @return a.
+     */
+    private int format() {
+        int value = 0;
+        value++;
+        return value;
+    }
+    /**
+     * esattamente come il getManager().deleteLast() cancella l'ultimo valore inserito nel buffer
+     * quando si cambia base di conversione si cancella tutto.
+     */
     public void deleteLast() {
-        /*if (buffer.length() != 0) {
-            buffer = buffer.substring(0, buffer.length() - 1);
-        }*/
+        if (!this.buffer.isEmpty()) {
+            this.buffer.remove(this.buffer.size() - 1);
+        }
     }
     /**
      * 
@@ -70,26 +99,12 @@ public class InputFormatter{
      *          otherwise it return the controller's current state
      */
     public String getOutput() {
-        return this.conversionBase != 10 ? this.buffer : this.controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b);
+        return this.buffer.stream().reduce("", (a, b) -> a + b);
     }
-    /**
-     * buffer = "".
-     */
-    public void clearBuffer() {
-        this.buffer = "";
-    }
-    
     /**
      * 
      * @return the int of the last current value of input 
      */
-    public int getCurrentValue() {
-        if (this.conversionBase == 10) {
-            return Integer.parseInt(this.getOutput());
-        } else {
-            return ConversionAlgorithms.conversionToDecimal(conversionBase, buffer);
-        }
-    }
 
     private String integerParser(final String input) {
         if (input.contains(".")) {
@@ -105,7 +120,19 @@ public class InputFormatter{
         //and then make it calculate it.
      */
     public void calculate() {
+        this.format();
+        this.controller.getManager().readAll(buffer);
+        this.controller.getManager().calculate();
+    }
+    /**
+     * 
+     * @return the last input value
+     * 
+     * if input = "A2" it will convert it and return 162
+     * if input = "A2+F" it will return the conversion of F=>15
+     */
+    public int getLastValue() {
         
-        
+        return 0;
     }
 }
