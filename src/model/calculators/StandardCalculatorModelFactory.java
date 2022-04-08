@@ -25,9 +25,9 @@ public final class StandardCalculatorModelFactory {
                 "%", new CCBinaryOperator((n1, n2) -> modulo(n1, n2), 3, Type.LEFT)
                           );
         final Map<String, CCUnaryOperator> unaryOpMap = Map.of(
-                "1/x", new CCUnaryOperator((n) -> inverse(n), 1, null),
-                "√", new CCUnaryOperator((n) -> root(n), 1, null),
-                "x²", new CCUnaryOperator((n) -> square(n), 1, null)
+                "1/x", new CCUnaryOperator((n) -> inverse(n), 1, Type.RIGHT),
+                "√", new CCUnaryOperator((n) -> root(n), 1, Type.RIGHT),
+                "x²", new CCUnaryOperator((n) -> square(n), 1, Type.RIGHT)
                   );
         return new CalculatorModelTemplate(binaryOpMap, unaryOpMap);
     }
