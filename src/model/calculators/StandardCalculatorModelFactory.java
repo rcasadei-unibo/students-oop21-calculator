@@ -18,15 +18,16 @@ public final class StandardCalculatorModelFactory {
      * @return x
      */
     public static CalculatorModel create() {
-        final Map<String, CCBinaryOperator> binaryOpMap = Map.of("sum", new CCBinaryOperator((n1, n2) -> sum(n1, n2), 1, Type.LEFT),
-                "sub", new CCBinaryOperator((n1, n2) -> sub(n1, n2), 1, Type.LEFT),
-                "mult", new CCBinaryOperator((n1, n2) -> mult(n1, n2), 2, Type.LEFT),
-                "div", new CCBinaryOperator((n1, n2) -> div(n1, n2), 3, Type.LEFT),
-                "modulo", new CCBinaryOperator((n1, n2) -> modulo(n1, n2), 3, Type.LEFT)
+        final Map<String, CCBinaryOperator> binaryOpMap = Map.of("+", new CCBinaryOperator((n1, n2) -> sum(n1, n2), 1, Type.LEFT),
+                "-", new CCBinaryOperator((n1, n2) -> sub(n1, n2), 1, Type.LEFT),
+                "*", new CCBinaryOperator((n1, n2) -> mult(n1, n2), 2, Type.LEFT),
+                "/", new CCBinaryOperator((n1, n2) -> div(n1, n2), 3, Type.LEFT),
+                "%", new CCBinaryOperator((n1, n2) -> modulo(n1, n2), 3, Type.LEFT)
                           );
-        final Map<String, CCUnaryOperator> unaryOpMap = Map.of("inverse", new CCUnaryOperator((n) -> inverse(n), 1, null),
-                "root", new CCUnaryOperator((n) -> root(n), 1, null),
-                "square", new CCUnaryOperator((n) -> square(n), 1, null)
+        final Map<String, CCUnaryOperator> unaryOpMap = Map.of(
+                "1/x", new CCUnaryOperator((n) -> inverse(n), 1, null),
+                "√", new CCUnaryOperator((n) -> root(n), 1, null),
+                "x²", new CCUnaryOperator((n) -> square(n), 1, null)
                   );
         return new CalculatorModelTemplate(binaryOpMap, unaryOpMap);
     }
