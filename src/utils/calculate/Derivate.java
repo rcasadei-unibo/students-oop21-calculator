@@ -1,15 +1,17 @@
 package utils.calculate;
 
 import java.util.List;
+import java.util.stream.IntStream;
 
 /**
  * @author pesic
  *
  */
-public class Derivate implements Algorithm<String> {
+public class Derivate implements Algorithm{
 
     @Override
-    public void setParameters(final List<String> parameters) {
+    public String setParameters(final List<String> parameters) {
+        return parameters.stream().reduce("", (res, s) -> res + s);
     }
 
     @Override
@@ -19,4 +21,9 @@ public class Derivate implements Algorithm<String> {
         expression.setExpr(result);
         return expression.getResult().toString();
     }
+
+    @Override
+    public void unsetParameters() {
+    }
+
 }

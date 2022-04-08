@@ -40,7 +40,7 @@ public class ParserAST {
         }
         final AbstractSyntaxNode right = stack.pop();
         final AbstractSyntaxNode left = stack.pop();
-
+        //System.out.println("Stack size: " + stack.size());
         return createBinaryOperatorNode(token, left, right);
     }
 
@@ -60,21 +60,26 @@ public class ParserAST {
     public AbstractSyntaxNode parseToAST(String expression) {
         tok = new Tokenizer(expression);
         try {
-            this.output = tok.convertToTokens(this.engine.parseToRPN(tok.getListSymbol()));
+            final List<String> l = tok.getListSymbol();
+            final List<String> l1 = this.engine.parseToRPN(l);
+            this.output = tok.convertToTokens(l1);
         } catch (CalcException e) {
             System.out.println(e);
         }
         output.forEach(token -> {
             if (token.getTypeToken().equals(TokenType.NUMBER) || token.getTypeToken().equals(TokenType.VARIABLE)
                     || token.getTypeToken().equals(TokenType.CONSTANT)) {
+
                 stack.push(createNumberOrVariableNode(token));
             } else if (token.getTypeToken().equals(TokenType.OPERATOR)) {
                 @SuppressWarnings("unchecked")
                 final SpecialToken<Operator> opT = (SpecialToken<Operator>) token;
                 if (((Operator) opT.getObjectToken()).getNumOperands() == 2) {
+                    //System.out.println("Binary Operator: " + opT.getSymbol());
                     final var newToken = parseBinaryOperator(token);
                     stack.push(newToken);
                 } else if (((Operator) opT.getObjectToken()).getNumOperands() == 1) {
+                    //System.out.println("Unary Operator: " + opT.getSymbol());
                     final var newToken = parseUnaryOperatorOrFunction(token);
                     stack.push(newToken);
                 }
@@ -84,7 +89,7 @@ public class ParserAST {
             }
 
         });
-
+        //stack.forEach(n->System.out.println(n.getToken().getSymbol()));
         if (stack.size() != 1) {
             throw new IllegalStateException("Something went wrong during the parsing");
         }

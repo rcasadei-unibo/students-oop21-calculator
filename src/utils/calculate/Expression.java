@@ -20,6 +20,7 @@ public class Expression {
 	
 	public void setExpr(String expr) {
 		this.expr = expr;
+		result = Optional.empty();
 	}
 	
 	public void setEngine( final CCEngine engine) {

@@ -19,7 +19,8 @@ public class Tokenizer {
     private String expr;
     private int index = 0;
     private Token lastToken = null;
-    private final int lenExpr;
+    private  int lenExpr;
+    private boolean isRPN = false;
     private final String variable;
     private final Set<String> constants;
     private boolean implicitMultiplication = true;
@@ -46,12 +47,11 @@ public class Tokenizer {
         if (!hasNextToken()) {
             return null;
         }
-
         final char c = this.expr.charAt(index);
         if (Character.isDigit(c)) {
             if (lastToken != null) {
-                if (lastToken.getTypeToken().equals(TokenType.NUMBER)) {
-                    throw new IllegalArgumentException("2 numbers can't stay near");
+                if (lastToken.getTypeToken().equals(TokenType.NUMBER) && !isRPN) {
+                    throw new IllegalArgumentException("2 numbers can't stay near: "+c);
                 }
                 if (implicitMultiplication && lastToken.getTypeToken() != TokenType.OPENPAR && lastToken.getTypeToken() != TokenType.FUNCTION
                         && lastToken.getTypeToken() != TokenType.OPERATOR) {
@@ -70,7 +70,6 @@ public class Tokenizer {
 
                     return lastToken;
              }
-
             index++;
             return TokensFactory.openParToken();
         } else if (c == ')') {
@@ -123,42 +122,54 @@ public class Tokenizer {
      * @return c
      */
     public List<Token> convertToTokens(final List<String> expression) {
-        final String newExpr = expression.stream().reduce("", (String res, String c) -> res + c);
-        this.reset(newExpr);
+        final List<Token> out = new LinkedList<>();
         this.setImplicitMultiplication(false);
-        return this.getListToken();
+        expression.forEach(s -> {
+            this.reset(s, true, true);
+            out.addAll(this.getListToken());
+        });
+        this.setImplicitMultiplication(true);
+        return out;
     }
 
     /**
      * @param expr
+     * @param residualExpression
+     * @param isRPN
      */
-    public void reset(final String expr) {
+    public void reset(final String expr, final boolean residualExpression, final boolean isRPN) {
         this.index = 0;
-        this.lastToken = null;
+        if (!residualExpression) {
+            this.lastToken = null;
+        }
+        this.isRPN = isRPN;
         this.expr = expr;
+        this.lenExpr = expr.length();
     }
 
     private Token getNumberToken() {
         double num;
         final int ind = this.index;
-        while (Character.isDigit(this.expr.charAt(index)) && index < this.lenExpr - 1) {
+        while (index < this.lenExpr && Character.isDigit(this.expr.charAt(index))) {
             index++;
         }
-        if (this.expr.charAt(index) == '.') {
+        if (index < this.lenExpr && this.expr.charAt(index) == '.') {
             index++;
         }
-        while (Character.isDigit(this.expr.charAt(index)) && index < this.lenExpr - 1) {
+        while (index < this.lenExpr && Character.isDigit(this.expr.charAt(index))) {
             index++;
         }
 
         if (this.index - ind == 0) {
             num = Double.parseDouble(this.expr.substring(ind));
         } else {
+            //System.out.println("the number: "+this.expr.substring(ind, index));
             num = Double.parseDouble(this.expr.substring(ind, index));
         }
 
         final var number = TokensFactory.numberToken(num);
         lastToken = number;
+        //System.out.println(index);
         if (this.index == this.lenExpr - 1 && ind == this.index) {
             index++;
         }
@@ -216,7 +227,7 @@ public class Tokenizer {
 
         if (lastToken == null) {
             arguments = 1;
-        } else {
+        } else if(!isRPN){
             if (lastToken.getTypeToken() == TokenType.OPENPAR) {
                 arguments = 1;
             } else if (lastToken.getTypeToken() == TokenType.OPERATOR) {
@@ -234,7 +245,7 @@ public class Tokenizer {
     }
 
     public static void main(String[] args) {
-        var tok = new Tokenizer("sin(5)");
+        var tok = new Tokenizer("5.0");
         while (tok.hasNextToken()) {
             Token t = tok.getNextToken();
             System.out.println(t.getTypeToken());

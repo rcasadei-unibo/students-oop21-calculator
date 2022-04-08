@@ -5,18 +5,21 @@ import java.util.List;
 /**
  * @author pesic
  *
- * @param <O>
+ * 
  */
-public interface Algorithm<O> {
+public interface Algorithm {
 
     /**
      * @param parameters
      */
-    void setParameters(List<String> parameters);
+    String setParameters(List<String> parameters);
+    
+    void unsetParameters();
 
     /**
      * @param expr
-     * @return c
+     * @return s
      */
-    O calculate(Expression expr);
+    String calculate(Expression expr);
+
 }

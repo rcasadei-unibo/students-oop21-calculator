@@ -36,7 +36,7 @@ public class OperationsFactory {
 
             @Override
             public Operation getDerivative() {
-                return negate(product(sin(op), op.getDerivative()));
+                return subtraction(constant("0.0"),product(sin(op), op.getDerivative()));
             }
 
             @Override
@@ -180,9 +180,9 @@ public class OperationsFactory {
 
             @Override
             public Operation getDerivative() {
-                var firstTerm = pow(left, right);
-                var secondTerm = product(right.getDerivative(), log(left));
-                var thirdTerm = division(product(right, left.getDerivative()), left);
+                final var firstTerm = pow(left, right);
+                final var secondTerm = product(right.getDerivative(), log(left));
+                final var thirdTerm = division(product(right, left.getDerivative()), left);
                 return product(firstTerm, addition(secondTerm, thirdTerm));
             }
 
@@ -243,7 +243,7 @@ public class OperationsFactory {
 
             @Override
             public Operation getDerivative() {
-                return negate(division(op.getDerivative(), sqrt(subtraction(constant("1"), pow(op, constant("2"))))));
+                return subtraction(constant("0.0"),division(op.getDerivative(), sqrt(subtraction(constant("1"), pow(op, constant("2"))))));
             }
 
             public String toString() {

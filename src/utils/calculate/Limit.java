@@ -1,15 +1,23 @@
 package utils.calculate;
 
 import java.util.List;
+import java.util.stream.IntStream;
 
 /**
  * @author pesic
  *
  */
-public class Limit implements Algorithm<Double> {
+public class Limit implements Algorithm {
     private Expression expression;
 	private static final double DISTANCE = 5;
-	private double x0;
+	private Double x0;
+	
+	private void  parameterDefined() {
+	    if(x0.equals(null)) {
+	        throw new IllegalArgumentException("Argument should be defined");
+	    }
+	}
+	
 	//it could be refactored a template method
 	private double calculateLimitBelow() {
 		for (double x = x0 - DISTANCE; x <= x0; x = x0 - ((x0 - x) / DISTANCE)) {
@@ -52,18 +60,29 @@ public class Limit implements Algorithm<Double> {
 	}
 	
     @Override
-    public void setParameters(final List<String> parameters) {
+    public String setParameters(final List<String> parameters) {
         if (parameters.isEmpty()) {
             throw new IllegalStateException("Not enough parameters");
         }
         this.x0 = Double.parseDouble(parameters.get(0));
+        return IntStream.range(1, parameters.size()).mapToObj(i -> parameters.get(i)).reduce("", (res, s) -> res + s);
     }
 
-    @Override
-    public Double calculate(final Expression expr) {
+    private Double calc(final Expression expr) {
         expression = expr;
         final double aroundBelow = calculateLimitBelow();
         final double aroundAbove = calculateLimitAbove();
         return aroundBelow == aroundAbove ? aroundAbove : Double.NaN;
+    }
+
+    @Override
+    public String calculate(final Expression expr) {
+        parameterDefined();
+        return calc(expr).toString();
+    }
+
+    @Override
+    public void unsetParameters() {
+        this.x0 = null;
     }
 }

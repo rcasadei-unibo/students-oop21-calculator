@@ -2,19 +2,25 @@ package utils.calculate;
 
 import java.util.List;
 import java.util.stream.IntStream;
-
+import java.util.stream.IntStream;
 import utils.ast.Operation;
 
 /**
  * @author pesic
  *
  */
-public class Integrator implements Algorithm<Double> {
+public class Integrator implements Algorithm{
 	
 	private Expression expression;
-	private double lowBound;
-	private double upperBound;
+	private Double lowBound;
+	private Double upperBound;
 	private static final int STEPS = 500;
+	
+	private void  parameterDefined() {
+        if (lowBound == null || upperBound == null) {
+            throw new IllegalArgumentException("Argument should be defined");
+        }
+	}
 	
 	private double trapezoidalAlgorithm() {
         final double h = (upperBound - lowBound) / STEPS;
@@ -26,20 +32,32 @@ public class Integrator implements Algorithm<Double> {
     }
 	
     @Override
-    public void setParameters(final List<String> parameters) {
-        if(parameters.size() < 2 ) {
+    public String setParameters(final List<String> parameters) {
+        if (parameters.size() < 2 ) {
             throw new IllegalStateException("Not enough parameters");
         }
         this.lowBound = Double.parseDouble(parameters.get(0));
         this.upperBound = Double.parseDouble(parameters.get(1));
-        parameters.remove(0);
-        parameters.remove(1);
+        return IntStream.range(2, parameters.size()).mapToObj(i -> parameters.get(i)).reduce("", (res, s) -> res + s);
     }
 
-    @Override
-    public Double calculate(final Expression expr) {
+
+    private Double calc(final Expression expr) {
         expression = expr;
         return trapezoidalAlgorithm();
     }
+
+    @Override
+    public String calculate(final Expression expr) {
+        parameterDefined();
+        return calc(expr).toString();
+    }
+
+    @Override
+    public void unsetParameters() {
+        this.lowBound = null;
+        this.upperBound = null;
+    }
+
 	
 }
