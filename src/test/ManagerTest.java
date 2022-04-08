@@ -4,15 +4,20 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
+import controller.calculators.ControllerFactoryImpl;
+import controller.manager.CCEngine;
 import controller.manager.CCManager;
+import model.calculators.StandardCalculatorModelFactory;
 import model.manager.ManagerModelInterface.Calculator;
+import utils.CalcException;
+import view.main.CCMainGUI;
 
 
 /**
  * 
  */
 public class ManagerTest {
-    private final CCManager controller = new CCManager();
+    private final CCManager controller = new CCManager(new CCMainGUI());
 
     /**
      * test javadoc.
@@ -28,7 +33,7 @@ public class ManagerTest {
     public void testController() {
 
         //cos ( 3 + 4 * 2 ) / ( 1 - 5 ) ^ 2 ^ 3 
-        controller.mount(Calculator.STANDARD);
+        controller.mount(Calculator.COMBINATORICS);
 
         controller.read("cos");
         controller.read("(");
@@ -78,5 +83,19 @@ public class ManagerTest {
         controller.readAll(List.of("(", "5", ")", "-", "3"));
         controller.calculate();
         assertEquals("2", controller.getCurrentState().stream().reduce("", (a, b) -> a + b));
+    }
+    /**
+     * 
+     */
+    @org.junit.Test
+    public void testVariables() {
+        final var engine = new CCEngine(new ControllerFactoryImpl().createController(StandardCalculatorModelFactory.create()));
+        final List<String> in = List.of("3", "mult", "x", "sum", "2");
+        try {
+            final List<String> rpn = engine.parseToRPN(in);
+            System.out.println(rpn);
+        } catch (CalcException e) {
+            e.printStackTrace();
+        }
     }
 }

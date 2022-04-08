@@ -2,17 +2,12 @@ package controller.calculators;
 
 import java.util.Map;
 
-import javax.swing.JPanel;
 
 import controller.manager.CCManager;
 import model.calculators.CalculatorModel;
 import utils.CCBinaryOperator;
 import utils.CCUnaryOperator;
-import model.manager.ManagerModelInterface.Calculator;
 import utils.Type;
-import view.calculators.CombinatoricsCalculatorPanel;
-import view.calculators.ProgrammerCalculatorPanel;
-import view.calculators.StandardCalculatorPanel;
 import view.components.CCDisplay;
 
 /**
@@ -25,18 +20,14 @@ public final class CalculatorControllerTemplate implements CalculatorController 
      *
      */
     private final CalculatorModel model;
-    private JPanel panel;
     private CCManager manager;
     private CCDisplay display;
-    private final Calculator calcType;
     /**
      * 
      * @param model
-     * @param calcType
      */
-    public CalculatorControllerTemplate(final CalculatorModel model, final Calculator calcType) {
+    public CalculatorControllerTemplate(final CalculatorModel model) {
         this.model = model;
-        this.calcType = calcType;
     }
     /**
      * 
@@ -51,10 +42,6 @@ public final class CalculatorControllerTemplate implements CalculatorController 
      */
     private Map<String, CCUnaryOperator> getUnaryOperators() {
         return this.model.getUnaryOpMap();
-    }
-    @Override
-    public JPanel getGUI() {
-        return this.panel;
     }
     @Override
     public double applyBinaryOperation(final String op, final Double a, final Double b) {
@@ -83,28 +70,6 @@ public final class CalculatorControllerTemplate implements CalculatorController 
     @Override
     public void setManager(final CCManager mng) {
         this.manager = mng;
-        this.selectGUI();
-    }
-    private void selectGUI() {
-        switch (this.calcType) {
-        case STANDARD:
-            this.panel = new StandardCalculatorPanel(this);
-            break;
-        case ADVANCED:
-            break;
-        case COMBINATORICS:
-            this.panel = new CombinatoricsCalculatorPanel(this);
-            break;
-        case GRAPHIC:
-            break;
-        case PROGRAMMER:
-            this.panel = new ProgrammerCalculatorPanel(this);
-            break;
-        case SCIENTIFIC:
-            break;
-        default:
-            break;
-        }
     }
     @Override
     public void setDisplay(final CCDisplay display) {

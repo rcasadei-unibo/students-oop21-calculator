@@ -39,7 +39,7 @@ public class FormatterTest {
         assertEquals("1.2301E18", NumberFormatter.format(1230100000000000000.0, 7, 5, 5));//numero molto grande
         assertEquals("4.56E120", NumberFormatter.format(4562315E114, 10, 2, 2));
         assertEquals("4.56E106", NumberFormatter.format(4562315E100, 10, 2, 2));
-        assertEquals("4.56E10", NumberFormatter.format(4562315E94, 10, 2, 2));
+        assertEquals("4.56E100", NumberFormatter.format(4562315E94, 10, 2, 2));
         assertEquals("4.56E-120", NumberFormatter.format(4562315E-126, 10, 2, 2)); //numero troppo piccolo diventa 0
         assertEquals("6.7530792054E-8", NumberFormatter.format(0.0000000675307920539, 7, 10, 4));
 

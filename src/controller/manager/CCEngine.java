@@ -14,6 +14,7 @@ import utils.Type;
 public class CCEngine implements EngineInterface {
 
     private final CalculatorController calcController;
+    private static final String VARIABLE = "x";
 
     /**
      * 
@@ -67,7 +68,14 @@ public class CCEngine implements EngineInterface {
 
     }
 
-    private List<String> parseToRPN(final List<String> infix) throws CalcException {
+    /**
+     * Parses an expression in infix notation, stored as a list of strings, to an equivalent expression in reverse polish notation.
+     * 
+     * @param infix List of strings representing the expression in infix notation to parse.
+     * @return List of strings representing the reverse polish notation of the input
+     * @throws CalcException
+     */
+    public List<String> parseToRPN(final List<String> infix) throws CalcException {
 
         final List<String> output = new ArrayList<>();
         final Stack<String> stack = new Stack<>();
@@ -76,7 +84,7 @@ public class CCEngine implements EngineInterface {
         while (it.hasNext()) {
 
             final String token = it.next();
-            if (isNumber(token)) {
+            if (isNumber(token) || VARIABLE.equals(token)) {
                 output.add(token);
             } else if (isUnaryOperator(token)) {
                 stack.add(token);

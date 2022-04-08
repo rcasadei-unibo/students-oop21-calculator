@@ -5,7 +5,9 @@ import java.util.stream.IntStream;
 
 import utils.CalcException;
 import utils.NumberFormatter;
+import view.main.View;
 import model.manager.CCManagerModel;
+import model.manager.ManagerModelInterface;
 import model.manager.ManagerModelInterface.Calculator;
 
 /**
@@ -14,13 +16,16 @@ import model.manager.ManagerModelInterface.Calculator;
  */
 public class CCManager implements ManagerInterface {
 
-    private final CCManagerModel model;
+    private final ManagerModelInterface model;
+    private final View frame;
 
     /**
      * Construct a new system manager. 
      * Note: the same CCManager instance must be referenced by all calculators in the system. 
+     * @param frame
      */
-    public CCManager() {
+    public CCManager(final View frame) {
+        this.frame = frame;
         this.model = new CCManagerModel();
         for (final Calculator calc : Calculator.values()) {
             calc.getController().setManager(this);
@@ -63,6 +68,7 @@ public class CCManager implements ManagerInterface {
     public void mount(final Calculator calcName) {
         this.model.setMounted(calcName);
         this.clear();
+        this.frame.show(calcName);
     }
 
     @Override
