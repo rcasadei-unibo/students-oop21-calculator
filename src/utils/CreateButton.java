@@ -19,6 +19,7 @@ public final class CreateButton {
     * 
     * @param btnName
     * @param opName
+    * @param appearance
     * @param controller
     * @param display
     * @return aaaa
@@ -31,7 +32,13 @@ public final class CreateButton {
            if (isBinary) {
                display.updateText(controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b) + btnName + " ");
            } else {
-               display.updateText(appearance + "(" + controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b) + ")");
+               if (opName.equals("x²")) {
+                   display.updateText("(" + controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b) + ")" + appearance);
+               }
+               else {
+                   display.updateText(appearance + "(" + controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b) + ")");
+               }
+               
            }
            controller.getManager().read(opName);
        });
