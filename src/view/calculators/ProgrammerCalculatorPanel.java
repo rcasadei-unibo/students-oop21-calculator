@@ -4,9 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.swing.JButton;
@@ -14,7 +12,6 @@ import javax.swing.JPanel;
 
 import controller.calculators.CalculatorController;
 import model.calculators.ProgrammerCalculatorModelFactory;
-import utils.ConversionAlgorithms;
 import utils.InputFormatter;
 import view.components.CCDisplay;
 import view.components.CCNumPad;
@@ -36,7 +33,6 @@ public class ProgrammerCalculatorPanel extends JPanel {
     private final CCDisplay display = new CCDisplay();
     private HexadecimalLettersPanel hexaLetters;
     private ConversionPanel convPanel;
-    private String numberBuffer = "";
     private final CCNumPad numpad;
     private ActionListener opAl;
     private final InputFormatter formatter;
@@ -45,29 +41,22 @@ public class ProgrammerCalculatorPanel extends JPanel {
             @Override
             public void actionPerformed(final ActionEvent e) {
                 final String text = ((JButton) e.getSource()).getText();
-                numberBuffer = numberBuffer.concat(text);
-                //controller.getManager().read(text);   TODO remove
                 formatter.read(text);
-                display.updateText(numberBuffer);
-                convPanel.updateConvDisplays(numberBuffer);
+                updateDisplays();
             }
         };
         final ActionListener calcAl = new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                controller.getManager().calculate();
-                numberBuffer = controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b);
-                display.updateText(numberBuffer);
-                convPanel.updateConvDisplays(numberBuffer);
+                formatter.calculate();
+                updateDisplays();
             }
         };
         final ActionListener backspaceAl = new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                controller.getManager().deleteLast();
-                numberBuffer = controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b);
-                display.updateText(numberBuffer);
-                convPanel.updateConvDisplays(numberBuffer);
+                formatter.deleteLast();
+                updateDisplays();
             }
         };
         this.numpad = new CCNumPad(btnAl, calcAl, backspaceAl);
@@ -79,19 +68,15 @@ public class ProgrammerCalculatorPanel extends JPanel {
                 final String text = ((JButton) e.getSource()).getText();
 
                 final var temp = ProgrammerCalculatorModelFactory.create().getBinaryOpMap();
-                if (temp.get(text) == null) { // unary operator
+                if (temp.get(text) == null) { //text is unary operator
 
                     display.updateText(((JButton) e.getSource()).getText() + "("
                             + controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b) + ")");
-                    controller.getManager().read(text);
-                    numberBuffer = "";
-                    formatter.format();
+                    formatter.read(text);
 
                 } else {
-                    controller.getManager().read(text);
                     display.updateText(controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b));
-                    numberBuffer = "";
-                    formatter.format();
+                    formatter.read(text);
                 }
 
             }
@@ -102,7 +87,6 @@ public class ProgrammerCalculatorPanel extends JPanel {
      * @param controller
      */
     public ProgrammerCalculatorPanel(final CalculatorController controller) {
-        
         this.controller = controller;
         this.formatter = new InputFormatter(controller);
         this.setPanels();
@@ -125,21 +109,25 @@ public class ProgrammerCalculatorPanel extends JPanel {
                     formatter.reset(16);
                     hexaLetters.enableAll();
                     enableButtons(10);
+                    formatter.reset(16);
                     break;
                 case "DEC":
                     formatter.reset(10);
                     hexaLetters.disableAll();
                     enableButtons(10);
+                    formatter.reset(10);
                     break;
                 case "OCT":
                     formatter.reset(8);
                     hexaLetters.disableAll();
                     enableButtons(8);
+                    formatter.reset(8);
                     break;
                 case "BIN":
                     formatter.reset(2);
                     hexaLetters.disableAll();
                     enableButtons(2);
+                    formatter.reset(2);
                     break;
                 default:
                     break;
@@ -275,5 +263,9 @@ public class ProgrammerCalculatorPanel extends JPanel {
         topMiddleNumpad.add(xor);
         panel.add(topMiddleNumpad, BorderLayout.NORTH);
         return panel;
+    }
+    private void updateDisplays() {
+        display.updateText(formatter.getOutput());
+        convPanel.updateConvDisplays(formatter.getCurrentValue());
     }
 }
