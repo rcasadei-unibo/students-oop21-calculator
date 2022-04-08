@@ -2,13 +2,11 @@ package view.calculators;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
-
-import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import controller.calculators.CalculatorController;
-import model.calculators.ScientificCalculatorModelFactory;
-import utils.OpTypeListener;
+import utils.CreateButton;
+
 /**
  * 
  * MISSING JAVADOC.
@@ -34,16 +32,18 @@ public class ScientificCalculatorPanel extends StandardCalculatorPanel {
     private JPanel getScientificOperators() {
        final JPanel scientificOperators = new JPanel();
        scientificOperators.setLayout(new GridLayout(4, 3));
-       for (final var entry : ScientificCalculatorModelFactory.create().getBinaryOpMap().entrySet()) {
-           final var btn = new JButton(entry.getKey());
-           btn.addActionListener(OpTypeListener.getBinaryListener(this.getDisplay(), this.getController()));
-           scientificOperators.add(btn);
-       }
-       for (final var entry : ScientificCalculatorModelFactory.create().getUnaryOpMap().entrySet()) {
-           final var btn = new JButton(entry.getKey());
-           btn.addActionListener(OpTypeListener.getUnaryListener(this.getDisplay(), this.getController()));
-           scientificOperators.add(btn);
-       }
+       scientificOperators.add(CreateButton.createOpButton("^", "potenza", getController(), getDisplay()));
+       scientificOperators.add(CreateButton.createOpButton("nthRoot", "nthRoot", getController(), getDisplay()));
+       scientificOperators.add(CreateButton.createOpButton("ln", "ln", getController(), getDisplay()));
+       scientificOperators.add(CreateButton.createOpButton("log", "log", getController(), getDisplay()));
+       scientificOperators.add(CreateButton.createOpButton("Abs", "abs", getController(), getDisplay()));
+       scientificOperators.add(CreateButton.createOpButton("!", "factorial", getController(), getDisplay()));
+       scientificOperators.add(CreateButton.createOpButton("sin", "sin", getController(), getDisplay()));
+       scientificOperators.add(CreateButton.createOpButton("cos", "cos", getController(), getDisplay()));
+       scientificOperators.add(CreateButton.createOpButton("tan", "tan", getController(), getDisplay()));
+       scientificOperators.add(CreateButton.createOpButton("csc", "csc", getController(), getDisplay()));
+       scientificOperators.add(CreateButton.createOpButton("sec", "sec", getController(), getDisplay()));
+       scientificOperators.add(CreateButton.createOpButton("cot", "cot", getController(), getDisplay()));
        return scientificOperators;
     }
 
