@@ -60,6 +60,11 @@ public class ProgrammerCalculatorPanel extends JPanel {
             }
         };
         this.numpad = new CCNumPad(btnAl, calcAl, backspaceAl);
+        this.numpad.getButtons().entrySet().forEach((entry) -> {
+            if (entry.getKey().equals(".")) {
+                entry.getValue().setEnabled(false);
+            }
+        });
 
         this.opAl = new ActionListener() {
 
@@ -266,6 +271,6 @@ public class ProgrammerCalculatorPanel extends JPanel {
     }
     private void updateDisplays() {
         display.updateText(formatter.getOutput());
-        convPanel.updateConvDisplays(formatter.getCurrentValue());
+        convPanel.updateConvDisplays(formatter.getLastValue());
     }
 }
