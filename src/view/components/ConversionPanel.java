@@ -60,37 +60,23 @@ public class ConversionPanel extends JPanel {
      * @param input
      *            for base2 base8 and base16.
      */
-    public void updateConvDisplays(final String input) {
-        if (!input.isEmpty()) {
+    public void updateConvDisplays(final int input) {
             this.map.entrySet().stream().forEach((entry) -> entry.getValue().updateText(textToBase(entry.getKey(), input)));
-        }
     }
 
-    private String textToBase(final String text, final String toFormat) {
+    private String textToBase(final String text, final int toConvert) {
         switch (text) {
         case "HEX":
-            return ConversionAlgorithms.conversionToStringBase(16, Integer.parseInt(integerParser(toFormat))); // TODO
-                                                                                                                   // add
-                                                                                                                   // ConversionAlgorithms.conversionToStringBase(16,
-                                                                                                                   // controller.getManager().getCurrentState().lastInput());
+            return ConversionAlgorithms.conversionToStringBase(16, toConvert);
         case "DEC":
-            return integerParser(toFormat);
+            return String.valueOf(toConvert);
         case "OCT":
-            return ConversionAlgorithms.conversionToStringBase(8, Integer.parseInt(integerParser(toFormat)));
+            return ConversionAlgorithms.conversionToStringBase(8, toConvert);
         case "BIN":
-            return ConversionAlgorithms.conversionToStringBase(2, Integer.parseInt(integerParser(toFormat)));
+            return ConversionAlgorithms.conversionToStringBase(2, toConvert);
         default:
             return null;
         }
     }
 
-    private String integerParser(final String input) {
-        if (input.contains(".")) {
-            if (input.contains("E")) {
-                return "0";
-            }
-            return input.substring(0, input.indexOf('.'));
-        }
-        return input;
-    }
 }
