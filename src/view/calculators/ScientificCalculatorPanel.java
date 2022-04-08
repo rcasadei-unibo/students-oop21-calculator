@@ -32,18 +32,18 @@ public class ScientificCalculatorPanel extends StandardCalculatorPanel {
     private JPanel getScientificOperators() {
        final JPanel scientificOperators = new JPanel();
        scientificOperators.setLayout(new GridLayout(4, 3));
-       scientificOperators.add(CreateButton.createOpButton("^", "potenza", getController(), getDisplay()));
-       scientificOperators.add(CreateButton.createOpButton("nthRoot", "nthRoot", getController(), getDisplay()));
-       scientificOperators.add(CreateButton.createOpButton("ln", "ln", getController(), getDisplay()));
-       scientificOperators.add(CreateButton.createOpButton("log", "log", getController(), getDisplay()));
-       scientificOperators.add(CreateButton.createOpButton("Abs", "abs", getController(), getDisplay()));
-       scientificOperators.add(CreateButton.createOpButton("!", "factorial", getController(), getDisplay()));
-       scientificOperators.add(CreateButton.createOpButton("sin", "sin", getController(), getDisplay()));
-       scientificOperators.add(CreateButton.createOpButton("cos", "cos", getController(), getDisplay()));
-       scientificOperators.add(CreateButton.createOpButton("tan", "tan", getController(), getDisplay()));
-       scientificOperators.add(CreateButton.createOpButton("csc", "csc", getController(), getDisplay()));
-       scientificOperators.add(CreateButton.createOpButton("sec", "sec", getController(), getDisplay()));
-       scientificOperators.add(CreateButton.createOpButton("cot", "cot", getController(), getDisplay()));
+       scientificOperators.add(CreateButton.createOpButton("^", "potenza", "^", getController(), getDisplay()));
+       scientificOperators.add(CreateButton.createOpButton("nthRoot", "nthRoot", "nthRoot", getController(), getDisplay()));
+       scientificOperators.add(CreateButton.createOpButton("ln", "ln", "ln", getController(), getDisplay()));
+       scientificOperators.add(CreateButton.createOpButton("log", "log", "log", getController(), getDisplay()));
+       scientificOperators.add(CreateButton.createOpButton("Abs", "abs", "abs", getController(), getDisplay()));
+       scientificOperators.add(CreateButton.createOpButton("!", "factorial", "!", getController(), getDisplay()));
+       scientificOperators.add(CreateButton.createOpButton("sin", "sin", "sin", getController(), getDisplay()));
+       scientificOperators.add(CreateButton.createOpButton("cos", "cos", "cos", getController(), getDisplay()));
+       scientificOperators.add(CreateButton.createOpButton("tan", "tan", "tan", getController(), getDisplay()));
+       scientificOperators.add(CreateButton.createOpButton("csc", "csc", "csc", getController(), getDisplay()));
+       scientificOperators.add(CreateButton.createOpButton("sec", "sec", "sec", getController(), getDisplay()));
+       scientificOperators.add(CreateButton.createOpButton("cot", "cot", "cot", getController(), getDisplay()));
        return scientificOperators;
     }
 
