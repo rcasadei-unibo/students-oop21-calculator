@@ -6,7 +6,6 @@ import javax.swing.JPanel;
 
 import controller.calculators.CalculatorController;
 import utils.CreateButton;
-
 /**
  * 
  * MISSING JAVADOC.
@@ -27,12 +26,13 @@ public class ScientificCalculatorPanel extends StandardCalculatorPanel {
     public ScientificCalculatorPanel(final CalculatorController controller) {
         super(controller);
         this.add(this.getScientificOperators(), BorderLayout.WEST);
+        this.add(getScientificOperators());
     }
 
     private JPanel getScientificOperators() {
        final JPanel scientificOperators = new JPanel();
        scientificOperators.setLayout(new GridLayout(4, 3));
-       scientificOperators.add(CreateButton.createOpButton("^", "potenza", getController(), getDisplay()));
+       scientificOperators.add(CreateButton.createOpButton("^", "^", getController(), getDisplay()));
        scientificOperators.add(CreateButton.createOpButton("nthRoot", "nthRoot", getController(), getDisplay()));
        scientificOperators.add(CreateButton.createOpButton("ln", "ln", getController(), getDisplay()));
        scientificOperators.add(CreateButton.createOpButton("log", "log", getController(), getDisplay()));
