@@ -44,45 +44,46 @@ public class InputFormatter{
      *  altrimenti lo concatena nel buffer
      */
     public void read(final String input) {
-        if (this.conversionBase == 10) {
-            controller.getManager().read(input);
-        } else {
-            this.buffer.add(input);
-        }
+        this.buffer.add(input);
     }
     /**
-     * usually called when switching from a conversion base to another
+     * usually called when switching from a conversion base to another.
      * @param base will be the new conversionBase.
      *  buffer.clear();
      *  controller.clear().
      * 
      */
     public void reset(final int base) {
-        if (this.conversionBase == 10) {
-            this.controller.getManager().clear();
-        }
         this.conversionBase = base;
         this.buffer.clear();
+        this.controller.getManager().clear();
     }
     /**
      * questo metodo cerca all'interno di tutto il buffer per "(" ")" "operatori" e converte
      * ogni possibile codice alfanumerico in un numero intero da poi passare al controller.
-     * 
-     * ["(","F","F","+","0","1",")","="]
-     * ["(","255","+","1",")","="]
-     * 
-     * 
-     * 
-     */
-    
-    /**
+     * ["(","F","F","+","0","1",")"]
+     * ["(","255","+","1",")"]
      * 
      * @return a.
      */
-    private int format() {
-        int value = 0;
-        value++;
-        return value;
+    private List<String> format() {
+        String strNumber = "";
+        int intNumber = 0;
+        final List<String> formattedList = new ArrayList<>();
+        for (final var str : this.buffer) {
+            if (!this.tokens.contains(str)) {
+                strNumber = strNumber.concat(str);
+            } else {
+                if (!strNumber.isBlank()) {
+                    intNumber = ConversionAlgorithms.unsignedConversionToDecimal(conversionBase, strNumber);
+                    strNumber = String.valueOf(intNumber);
+                    List.of(strNumber.split("")).stream().forEach((dec) -> formattedList.add(dec));
+                    strNumber = "";
+                }
+                    formattedList.add(str);
+            }
+        }
+        return formattedList;
     }
     /**
      * esattamente come il getManager().deleteLast() cancella l'ultimo valore inserito nel buffer
@@ -132,7 +133,6 @@ public class InputFormatter{
      * if input = "A2+F" it will return the conversion of F=>15
      */
     public int getLastValue() {
-        
         return 0;
     }
 }
