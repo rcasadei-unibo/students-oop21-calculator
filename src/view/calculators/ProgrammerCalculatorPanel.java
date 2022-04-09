@@ -29,13 +29,13 @@ public class ProgrammerCalculatorPanel extends JPanel {
      * 
      */
     private static final long serialVersionUID = -8342823219976507443L;
-    private final CalculatorController controller;
+    private final transient  CalculatorController controller;
     private final CCDisplay display = new CCDisplay();
     private HexadecimalLettersPanel hexaLetters;
     private ConversionPanel convPanel;
     private final CCNumPad numpad;
-    private ActionListener opAl;
-    private final InputFormatter formatter;
+    private transient ActionListener opAl;
+    private final transient InputFormatter formatter;
     {
         final ActionListener btnAl = new ActionListener() {
             @Override
@@ -72,18 +72,21 @@ public class ProgrammerCalculatorPanel extends JPanel {
             public void actionPerformed(final ActionEvent e) {
                 final String text = ((JButton) e.getSource()).getText();
 
-                final var temp = ProgrammerCalculatorModelFactory.create().getBinaryOpMap();
-                if (temp.get(text) == null) { //text is unary operator
+                //final var temp = ProgrammerCalculatorModelFactory.create().getBinaryOpMap();
+                /**if (temp.get(text) == null) { //text is unary operator
 
-                    display.updateText(((JButton) e.getSource()).getText() + "("
-                            + controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b) + ")");
                     formatter.read(text);
+
+                    display.updateText(formatter.getOutput());
 
                 } else {
-                    display.updateText(controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b));
                     formatter.read(text);
-                }
 
+                    display.updateText(formatter.getOutput());
+                }*/
+                formatter.read(text);
+
+                display.updateText(formatter.getOutput());
             }
         };
     }
@@ -137,7 +140,10 @@ public class ProgrammerCalculatorPanel extends JPanel {
                 default:
                     break;
                 }
+                display.updateText("0");
+                convPanel.updateConvDisplays(0);
             }
+            
         };
         this.convPanel = new ConversionPanel(conv);
         this.add(this.convPanel, BorderLayout.CENTER);
@@ -211,6 +217,7 @@ public class ProgrammerCalculatorPanel extends JPanel {
             public void actionPerformed(final ActionEvent e) {
                 final String text = ((JButton) e.getSource()).getText();
                 formatter.read(text);
+                display.updateText(formatter.getOutput());
             }
         };
         this.hexaLetters = new HexadecimalLettersPanel(letterActionListener);

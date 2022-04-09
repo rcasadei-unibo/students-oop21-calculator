@@ -13,9 +13,16 @@ import model.calculators.ProgrammerCalculatorModelFactory;
  */
 public class InputFormatter{
     private int conversionBase = 10;
-    private CalculatorController controller;
-    private final List<String> buffer;
+    private final CalculatorController controller;
+    private List<String> buffer;
     private final List<String> tokens;
+    private String lastNumBuffer = "";
+    //TODO Pressing C in hexadecimal does not change the conversionPanel output altho upon deletingLast() it updates
+    
+    //TODO no hexadecimal operation works
+    
+    //TODO 30x3 delete delete 30x3 displays 27090 not working correctly
+    
     //TODO MISSING JAVADOC.
     /**
      * missing javadoc.
@@ -28,7 +35,7 @@ public class InputFormatter{
         this.addTokens();
     }
     /**
-     * i token comprendono tutte le stringhe che non sono valori alphanumerici utilizzati per le conversioni
+     * i token comprendono tutte le stringhe che non sono valori alphanumerici utilizzati per le conversioni.
      */
     private void addTokens() {
         tokens.add("(");
@@ -44,6 +51,11 @@ public class InputFormatter{
      *  altrimenti lo concatena nel buffer
      */
     public void read(final String input) {
+        if (!this.tokens.contains(input)) {
+            this.lastNumBuffer = this.lastNumBuffer.concat(input);
+        } else {
+            this.lastNumBuffer = "";
+        }
         this.buffer.add(input);
     }
     /**
@@ -57,6 +69,7 @@ public class InputFormatter{
         this.conversionBase = base;
         this.buffer.clear();
         this.controller.getManager().clear();
+        this.lastNumBuffer = "";
     }
     /**
      * questo metodo cerca all'interno di tutto il buffer per "(" ")" "operatori" e converte
@@ -67,6 +80,9 @@ public class InputFormatter{
      * @return a.
      */
     private List<String> format() {
+        if (this.conversionBase == 10) {
+            return this.buffer;
+        }
         String strNumber = "";
         int intNumber = 0;
         final List<String> formattedList = new ArrayList<>();
@@ -92,7 +108,13 @@ public class InputFormatter{
     public void deleteLast() {
         if (!this.buffer.isEmpty()) {
             this.buffer.remove(this.buffer.size() - 1);
+            if (this.lastNumBuffer.length() > 1) {
+                this.lastNumBuffer = this.lastNumBuffer.substring(0, this.lastNumBuffer.length() - 1);
+            } else {
+                this.lastNumBuffer = "";
+            }
         }
+        //TODO 
     }
     /**
      * 
@@ -117,13 +139,13 @@ public class InputFormatter{
         return input;
     }
     /**
-     * // TODO format every string to a decimal make the controller read it
-        //and then make it calculate it.
+     * dopo aver formattato tutto calcola il risultato e diventa il lastNumBuffer che poi verrà mostrato.
      */
     public void calculate() {
-        this.format();
-        this.controller.getManager().readAll(buffer);
+        this.controller.getManager().readAll(this.format());
         this.controller.getManager().calculate();
+        this.buffer.clear();
+        this.buffer.addAll(this.controller.getManager().getCurrentState());
     }
     /**
      * 
@@ -133,6 +155,9 @@ public class InputFormatter{
      * if input = "A2+F" it will return the conversion of F=>15
      */
     public int getLastValue() {
+        if (!this.lastNumBuffer.isBlank()) {
+            return ConversionAlgorithms.unsignedConversionToDecimal(conversionBase, lastNumBuffer); 
+        }
         return 0;
     }
 }
