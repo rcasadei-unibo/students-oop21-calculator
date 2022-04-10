@@ -14,6 +14,7 @@ import java.util.Map;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.ToolTipManager;
 
 import model.manager.ManagerModelInterface.Calculator;
 import view.components.CCDisplay;
@@ -94,7 +95,8 @@ public class CombinatoricsCalculatorPanel extends JPanel {
         private void createExplButton(final String opName) {
             final var file = DIRECTORY + opName;
             final var btn = new JButton("?");
-            btn.setToolTipText(this.readFromFile(file + "(TT)" + ".txt"));
+            ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
+            btn.setToolTipText(this.readFromFile(file + "(TT)"));
             btn.addActionListener(e -> {
                 explLabel.setText(this.readFromFile(file));
             });
@@ -105,7 +107,7 @@ public class CombinatoricsCalculatorPanel extends JPanel {
             try (BufferedReader br = new BufferedReader(new FileReader(file + ".txt"))) {
                 String str = br.readLine();
                 while (str != null) {
-                    result = result.concat(str);
+                    result = result.concat(str + "\n");
                     str = br.readLine();
                 }
             } catch (FileNotFoundException e1) {
