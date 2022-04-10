@@ -15,7 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import controller.calculators.CalculatorController;
+import model.manager.ManagerModelInterface.Calculator;
 import view.components.CCDisplay;
 import view.components.CCNumPad;
 /**
@@ -33,27 +33,25 @@ public class CombinatoricsCalculatorPanel extends JPanel {
             "Partitions(binary)", "stirlingNumber", "Fibonacci", "fibonacci", "Fibonacci(binary)", "binaryFibonacci");
     private static final List<String> OPERATIONSLIST = List.of("Sequences", "Dispositions", "Subsets",
             "Derangements", "Partitions", "Partitions(binary)", "Fibonacci", "Fibonacci(binary)");
-    private final CombinatoricsLogics logics;
     /**
      * 
-     * @param controller
      */
-    public CombinatoricsCalculatorPanel(final CalculatorController controller) {
-        this.logics = new CombinatoricsLogicsImpl();
+    public CombinatoricsCalculatorPanel() {
+        final CombinatoricsLogics logics = new CombinatoricsLogicsImpl();
         final var display = new CCDisplay();
         this.setLayout(new BorderLayout());
         this.add(display, BorderLayout.NORTH);
-        controller.setDisplay(display);
+        Calculator.COMBINATORICS.getController().setDisplay(display);
         final ActionListener btnAl = e -> {
             final var btn = (JButton) e.getSource();
-            display.updateText(this.logics.numberAction(btn.getText()));
+            display.updateText(logics.numberAction(btn.getText()));
         };
         final ActionListener calculateAl = e -> {
-            display.updateUpperText(this.logics.calculateAction());
-            display.updateText(this.logics.getStream());
+            display.updateUpperText(logics.calculateAction());
+            display.updateText(logics.getStream());
         };
         final ActionListener backspaceAl = e -> {
-            display.updateText(this.logics.backspaceAction());
+            display.updateText(logics.backspaceAction());
         };
         final var numpad = new CCNumPad(btnAl, calculateAl, backspaceAl);
         numpad.getButtons().get("(").setEnabled(false);
@@ -73,7 +71,6 @@ public class CombinatoricsCalculatorPanel extends JPanel {
         private final CombinatoricsLogics logics;
         private final CCDisplay display;
         private final JLabel explLabel;
-        private String labelText = "";
         public static final String SEP = File.separator;
         public static final String DIRECTORY = System.getProperty("user.dir") + SEP + "src" + SEP + "utils" + SEP + "combOpExpl" + SEP;
 
@@ -95,25 +92,28 @@ public class CombinatoricsCalculatorPanel extends JPanel {
             this.add(btn);
         }
         private void createExplButton(final String opName) {
+            final var file = DIRECTORY + opName;
             final var btn = new JButton("?");
-            btn.setToolTipText(opName);
+            btn.setToolTipText(this.readFromFile(file + "(TT)" + ".txt"));
             btn.addActionListener(e -> {
-                final var file = DIRECTORY + opName + ".txt";
-                try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-                    String str = br.readLine();
-                    while (str != null) {
-                        this.labelText += str;
-                        str = br.readLine();
-                    }
-                } catch (FileNotFoundException e1) {
-                    this.labelText = "FILE NOT FOUND" + file;
-                } catch (IOException e1) {
-                    this.labelText = "I/O ERROR";
-                }
-                explLabel.setText(this.labelText);
-                this.labelText = "";
+                explLabel.setText(this.readFromFile(file));
             });
             this.add(btn);
+        }
+        private String readFromFile(final String file) {
+            String result = "";
+            try (BufferedReader br = new BufferedReader(new FileReader(file + ".txt"))) {
+                String str = br.readLine();
+                while (str != null) {
+                    result = result.concat(str);
+                    str = br.readLine();
+                }
+            } catch (FileNotFoundException e1) {
+                return "FILE NOT FOUND " + file;
+            } catch (IOException e1) {
+                return "I/O ERROR";
+            }
+            return result;
         }
     }
 }

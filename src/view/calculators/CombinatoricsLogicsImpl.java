@@ -8,12 +8,9 @@ import utils.CalcException;
  *
  */
 public class CombinatoricsLogicsImpl implements CombinatoricsLogics {
-    private final CalculatorController controller;
+    private final CalculatorController controller = Calculator.COMBINATORICS.getController();
     private String opString = "";
     private String opFormat = "";
-    CombinatoricsLogicsImpl() {
-        this.controller = Calculator.COMBINATORICS.getController();
-    }
     @Override
     public String numberAction(final String btnText) {
         controller.getManager().read(btnText);
