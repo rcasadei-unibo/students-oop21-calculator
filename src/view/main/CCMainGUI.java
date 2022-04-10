@@ -15,7 +15,7 @@ import java.awt.BorderLayout;
 
 import controller.manager.CCManager;
 import controller.manager.ManagerInterface;
-import model.manager.ManagerModelInterface.Calculator;
+import model.manager.EngineModelInterface.Calculator;
 import view.calculators.CombinatoricsCalculatorPanel;
 import view.calculators.ProgrammerCalculatorPanel;
 import view.calculators.ScientificCalculatorPanel;
@@ -33,7 +33,9 @@ public class CCMainGUI extends JFrame implements View {
      * 
      */
     private static final long serialVersionUID = -4510924334938545109L;
-    private final transient ManagerInterface controller = new CCManager(this);
+    private final transient ManagerInterface manager = new CCManager();
+    private final transient ViewLogics logics = new ViewLogicsImpl(this);
+
     private final JPanel outer = new JPanel();
     private transient Optional<JPanel> mountedPanel = Optional.empty();
     private final JLabel title = new JLabel("");
@@ -75,13 +77,17 @@ public class CCMainGUI extends JFrame implements View {
         outer.setLayout(new BorderLayout());
         this.getContentPane().add(outer);
 
-        this.controller.mount(Calculator.STANDARD);
+        this.manager.engine().mount(Calculator.STANDARD);
+        this.logics.mount(Calculator.STANDARD);
         this.setVisible(true);
     }
 
     private JMenuItem createMenuItem(final String text, final Calculator calcName) {
         final JMenuItem menuItem = new JMenuItem(text);
-        menuItem.addActionListener(e -> this.controller.mount(calcName));
+        menuItem.addActionListener(e -> {
+            this.manager.engine().mount(calcName);
+            this.logics.mount(Calculator.STANDARD);
+        });
         return menuItem;
     }
 
