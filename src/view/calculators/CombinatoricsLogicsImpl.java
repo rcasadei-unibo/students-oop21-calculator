@@ -50,12 +50,12 @@ public class CombinatoricsLogicsImpl implements CombinatoricsLogics {
         } catch (ArrayIndexOutOfBoundsException e) {
             return "";
         }
-        controller.getManager().deleteLast();
+        this.controller.getManager().deleteLast();
         try {
             return this.getDisplayText();
         } catch (CalcException e1) {
             this.clearStrings();
-            controller.getManager().clear();
+            this.controller.getManager().clear();
             return " ";
         }
     }
@@ -65,7 +65,7 @@ public class CombinatoricsLogicsImpl implements CombinatoricsLogics {
             return "Syntax Error";
         }
         final String closer = this.controller.isBinaryOperator(opName) ? ", " : "";
-        opFormat = btnName + "(" + this.controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b) + closer;
+        this.opFormat = btnName + "(" + this.getStream() + closer;
         this.controller.getManager().read(opName);
         this.opString = opName;
         return this.opFormat;

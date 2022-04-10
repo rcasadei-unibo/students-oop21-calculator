@@ -30,7 +30,7 @@ public class CombinatoricsCalculatorPanel extends JPanel {
      */
     private static final long serialVersionUID = 1L;
     private static final Map<String, String> OPERATIONS = Map.of("Sequences", "sequencesNumber", "Dispositions", "factorial",
-            "Subsets", "binomialCoefficient", "Derangements", "scombussolamento", "Partitions", "bellNumber",
+            "Subsets", "binomialCoefficient", "Derangements", "derangement", "Partitions", "bellNumber",
             "Partitions(binary)", "stirlingNumber", "Fibonacci", "fibonacci", "Fibonacci(binary)", "binaryFibonacci");
     private static final List<String> OPERATIONSLIST = List.of("Sequences", "Dispositions", "Subsets",
             "Derangements", "Partitions", "Partitions(binary)", "Fibonacci", "Fibonacci(binary)");
@@ -103,11 +103,11 @@ public class CombinatoricsCalculatorPanel extends JPanel {
             this.add(btn);
         }
         private String readFromFile(final String file) {
-            String result = "";
+            String result = "<html><p width=\"500\">";
             try (BufferedReader br = new BufferedReader(new FileReader(file + ".txt"))) {
                 String str = br.readLine();
                 while (str != null) {
-                    result = result.concat(str + "\n");
+                    result = result.concat(str + "<br>");
                     str = br.readLine();
                 }
             } catch (FileNotFoundException e1) {
@@ -115,7 +115,7 @@ public class CombinatoricsCalculatorPanel extends JPanel {
             } catch (IOException e1) {
                 return "I/O ERROR";
             }
-            return result;
+            return result + "</p></html>";
         }
     }
 }
