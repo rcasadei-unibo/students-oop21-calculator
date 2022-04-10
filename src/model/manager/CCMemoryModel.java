@@ -1,15 +1,12 @@
 package model.manager;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import java.util.ArrayList;
-
 /**
- * Model of the system manager. 
- * Contains the currently mounted calculator and the input buffer.
  */
-public class CCManagerModel implements ManagerModelInterface {
-    private Calculator mounted;
+public class CCMemoryModel implements MemoryModelInterface {
+
     private final List<String> buffer = new ArrayList<>();
 
     @Override
@@ -33,13 +30,4 @@ public class CCManagerModel implements ManagerModelInterface {
         this.buffer.clear();
     }
 
-    @Override
-    public Calculator getMounted() {
-        return this.mounted;
-    }
-
-    @Override
-    public void setMounted(final Calculator calculator) {
-        this.mounted = calculator;
-    }
 }

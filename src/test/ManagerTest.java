@@ -8,7 +8,7 @@ import controller.calculators.ControllerFactoryImpl;
 import controller.manager.CCEngine;
 import controller.manager.CCManager;
 import model.calculators.StandardCalculatorModelFactory;
-import model.manager.ManagerModelInterface.Calculator;
+import model.manager.EngineModelInterface.Calculator;
 import utils.CalcException;
 import view.main.CCMainGUI;
 
@@ -17,7 +17,7 @@ import view.main.CCMainGUI;
  * 
  */
 public class ManagerTest {
-    private final CCManager controller = new CCManager(new CCMainGUI());
+    private final CCManager controller = new CCManager();
 
     /**
      * test javadoc.
@@ -32,58 +32,22 @@ public class ManagerTest {
     @org.junit.Test
     public void testController() {
 
-        //cos ( 3 + 4 * 2 ) / ( 1 - 5 ) ^ 2 ^ 3 
-        controller.mount(Calculator.COMBINATORICS);
+        controller.engine().mount(Calculator.STANDARD);
+        final var mem = controller.memory();
 
-        controller.read("cos");
-        controller.read("(");
-        controller.read("3");
-        controller.read("+");
-        controller.read("4");
-        controller.read("*");
-        controller.read("2");
-        controller.read(")");
-        controller.read("/");
-        controller.read("(");
-        controller.read("1");
-        controller.read("-");
-        controller.read("5");
-        controller.read(")");
-        controller.read("^");
-        controller.read("2");
-        controller.read("^");
-        controller.read("3");
+        mem.readAll(List.of("2", "sum", "2"));
+        assertEquals(List.of("2", "sum", "2"), controller.memory().getCurrentState());
+        controller.engine().calculate();
+        assertEquals(List.of("4"), controller.memory().getCurrentState());
+        mem.read("2");
+        assertEquals(List.of("4", "2"), controller.memory().getCurrentState());
+        mem.readAll(List.of("mult", "-1"));
+        controller.engine().calculate();
+        assertEquals(List.of("-42"), controller.memory().getCurrentState());
 
-        controller.calculate();
-        assertEquals("6.7530792054E-8", controller.getCurrentState().stream().reduce("", (a, b) -> a + b));
 
     }
 
-    /**
-     * 
-     */
-    @org.junit.Test
-    public void testNegativeNumbers() {
-        controller.mount(Calculator.STANDARD);
-        controller.readAll(List.of("9", "-", "(", "-", "3", ")"));
-        controller.calculate();
-        assertEquals("12", controller.getCurrentState().stream().reduce("", (a, b) -> a + b));
-
-        controller.clear();
-        controller.readAll(List.of("-", "3"));
-        controller.calculate();
-        assertEquals("-3", controller.getCurrentState().stream().reduce("", (a, b) -> a + b));
-
-        controller.clear();
-        controller.readAll(List.of("(", "5", ")", "-", "(", "3", ")"));
-        controller.calculate();
-        assertEquals("2", controller.getCurrentState().stream().reduce("", (a, b) -> a + b));
-
-        controller.clear();
-        controller.readAll(List.of("(", "5", ")", "-", "3"));
-        controller.calculate();
-        assertEquals("2", controller.getCurrentState().stream().reduce("", (a, b) -> a + b));
-    }
     /**
      * 
      */
@@ -93,7 +57,7 @@ public class ManagerTest {
         final List<String> in = List.of("3", "mult", "x", "sum", "2");
         try {
             final List<String> rpn = engine.parseToRPN(in);
-            System.out.println(rpn);
+            assertEquals(List.of("3", "x", "mult", "2", "sum"), rpn);
         } catch (CalcException e) {
             e.printStackTrace();
         }

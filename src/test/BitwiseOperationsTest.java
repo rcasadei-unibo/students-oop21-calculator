@@ -27,8 +27,8 @@ public class BitwiseOperationsTest {
      */
     @org.junit.Test
     public void testByte() {
-        assertTrue("000000100".equals(this.addLeadingZerosToByte(ConversionAlgorithms.conversionToStringBase(2,4))));
-        assertTrue("100000100".equals(this.addLeadingZerosToByte(ConversionAlgorithms.conversionToStringBase(2,-4))));
+        assertTrue("+00000100".equals(this.addLeadingZerosToByte(ConversionAlgorithms.conversionToStringBase(2,4))));
+        assertTrue("-00000100".equals(this.addLeadingZerosToByte(ConversionAlgorithms.conversionToStringBase(2,-4))));
         
     }
     /**
@@ -38,9 +38,9 @@ public class BitwiseOperationsTest {
     public void testNot() {
         final var op = this.calculator.getUnaryOpMap().get("not");
         //TODO add test
-        assertEquals("111111011",ConversionAlgorithms.conversionToStringBase(2,(int)op.apply(-4.0)));
-        assertEquals("011111011",ConversionAlgorithms.conversionToStringBase(2,(int)op.apply(4.0)));
-        assertEquals("111111111",ConversionAlgorithms.conversionToStringBase(2,(int)op.apply(0.0)));
+        assertEquals("-11111011",ConversionAlgorithms.conversionToStringBase(2,(int)op.apply(-4.0)));
+        assertEquals("+11111011",ConversionAlgorithms.conversionToStringBase(2,(int)op.apply(4.0)));
+        assertEquals("+11111111",ConversionAlgorithms.conversionToStringBase(2,(int)op.apply(0.0)));
 
     }
     /**
