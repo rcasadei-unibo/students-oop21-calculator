@@ -42,6 +42,7 @@ public class CombinatoricsCalculatorPanel extends JPanel {
         final var display = new CCDisplay();
         this.setLayout(new BorderLayout());
         this.add(display, BorderLayout.NORTH);
+        final var explLabel = new JLabel();
         Calculator.COMBINATORICS.getController().setDisplay(display);
         final ActionListener btnAl = e -> {
             final var btn = (JButton) e.getSource();
@@ -50,6 +51,7 @@ public class CombinatoricsCalculatorPanel extends JPanel {
         final ActionListener calculateAl = e -> {
             display.updateUpperText(logics.calculateAction());
             display.updateText(logics.getStream());
+            explLabel.setText("");
         };
         final ActionListener backspaceAl = e -> {
             display.updateText(logics.backspaceAction());
@@ -59,7 +61,6 @@ public class CombinatoricsCalculatorPanel extends JPanel {
         numpad.getButtons().get(")").setEnabled(false);
         numpad.getButtons().get(".").setEnabled(false);
         this.add(numpad, BorderLayout.CENTER);
-        final var explLabel = new JLabel();
         this.add(explLabel, BorderLayout.SOUTH);
         this.add(new OperationsPanel(logics, display, explLabel), BorderLayout.EAST);
 
@@ -97,8 +98,9 @@ public class CombinatoricsCalculatorPanel extends JPanel {
             final var btn = new JButton("?");
             ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
             btn.setToolTipText(this.readFromFile(file + "(TT)"));
+            final String labelText = this.readFromFile(file);
             btn.addActionListener(e -> {
-                explLabel.setText(this.readFromFile(file));
+                explLabel.setText(explLabel.getText().equals(labelText) ? "" : labelText);
             });
             this.add(btn);
         }
