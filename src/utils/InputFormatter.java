@@ -68,7 +68,7 @@ public class InputFormatter{
     public void reset(final int base) {
         this.conversionBase = base;
         this.buffer.clear();
-        this.controller.getManager().clear();
+        this.controller.getManager().memory().clear();
         this.lastNumBuffer = "";
     }
     /**
@@ -142,10 +142,12 @@ public class InputFormatter{
      * dopo aver formattato tutto calcola il risultato e diventa il lastNumBuffer che poi verrà mostrato.
      */
     public void calculate() {
-        this.controller.getManager().readAll(this.format());
-        this.controller.getManager().calculate();
+        this.controller.getManager().memory().readAll(this.format());
+        this.controller.getManager().engine().calculate();
         this.buffer.clear();
-        this.buffer.addAll(this.controller.getManager().getCurrentState());
+        //this.buffer.addAll(this.controller.getManager().getCurrentState());
+        //this.lastNumBuffer = this.controller.getManager().memory().getCurrentState().stream().reduce("", (a, b) -> a + b);
+        this.buffer.addAll(this.controller.getManager().memory().getCurrentState());
     }
     /**
      * 

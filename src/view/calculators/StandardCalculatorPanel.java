@@ -47,22 +47,22 @@ public class StandardCalculatorPanel extends JPanel {
         final ActionListener btnAl = new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                controller.getManager().read(((JButton) e.getSource()).getText());
-                display.updateText(controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b));
+                controller.getManager().memory().read(((JButton) e.getSource()).getText());
+                display.updateText(controller.getManager().memory().getCurrentState().stream().reduce("", (a, b) -> a + b));
             }
         };
         final ActionListener calcAl = new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                controller.getManager().calculate();
-                display.updateText(controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b));
+                controller.getManager().engine().calculate();
+                display.updateText(controller.getManager().memory().getCurrentState().stream().reduce("", (a, b) -> a + b));
             }
         };
         final ActionListener backspaceAl = new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                controller.getManager().deleteLast();
-                display.updateText(controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b));
+                controller.getManager().memory().deleteLast();
+                display.updateText(controller.getManager().memory().getCurrentState().stream().reduce("", (a, b) -> a + b));
 
             }
         };
