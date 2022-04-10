@@ -86,7 +86,7 @@ public class CCMainGUI extends JFrame implements View {
         final JMenuItem menuItem = new JMenuItem(text);
         menuItem.addActionListener(e -> {
             this.manager.engine().mount(calcName);
-            this.logics.mount(Calculator.STANDARD);
+            this.logics.mount(calcName);
         });
         return menuItem;
     }
