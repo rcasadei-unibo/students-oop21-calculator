@@ -10,14 +10,14 @@ import java.util.function.UnaryOperator;
 public class CCUnaryOperator {
     private final UnaryOperator<Double> operator;
     private final int precedence;
-    private final String type;
+    private final Type type;
     /**
      * 
      * @param operator
      * @param precedence
      * @param type
      */
-    public CCUnaryOperator(final UnaryOperator<Double> operator, final int precedence, final String type) {
+    public CCUnaryOperator(final UnaryOperator<Double> operator, final int precedence, final Type type) {
         this.operator = operator;
         this.precedence = precedence;
         this.type = type;
@@ -41,7 +41,7 @@ public class CCUnaryOperator {
      * 
      * @return MISSING.
      */
-    public String getType() {
+    public Type getType() {
         return type;
     }
 }
