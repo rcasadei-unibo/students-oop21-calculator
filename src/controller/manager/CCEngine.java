@@ -6,6 +6,7 @@ import java.util.Stack;
 
 import controller.calculators.CalculatorController;
 import utils.CalcException;
+import utils.NumberFormatter;
 import utils.Type;
 
 /**
@@ -32,49 +33,17 @@ public class CCEngine implements EngineInterface {
         return this.evaluateRPN(rpnInput);
     }
 
-    private List<String> unifyTerms(final List<String> input) throws CalcException {
-        final List<String> unified = new ArrayList<>();
+    @Override
+    public String calculateAndFormat(final List<String> input) throws CalcException {
+        final double result = this.calculate(input);
+        final int maxIntDigits = 7;
+        final int maxDecDigits = 10;
+        final int decimalThreshold = 5;
 
-        final List<String> currentNumber = new ArrayList<>();
-
-        for (final String s : input) {
-            if (isNumber(s) || ".".equals(s)) {
-                currentNumber.add(s);
-            } else {
-                 if (!currentNumber.isEmpty()) {
-                    double actualNum;
-                    actualNum = convert(currentNumber);
-                    currentNumber.clear();
-                    unified.add(String.valueOf(actualNum));
-                 }
-                unified.add(s);
-            }
-        }
-
-        if (!currentNumber.isEmpty()) {
-            final double actualNum = convert(currentNumber);
-            currentNumber.clear();
-            unified.add(String.valueOf(actualNum));
-        }
-        return unified;
+        return NumberFormatter.format(result, maxIntDigits, maxDecDigits, decimalThreshold);
     }
 
-    private double convert(final List<String> currentNumber) throws CalcException {
-        if (currentNumber.stream().filter(s -> ".".equals(s)).count() > 1) {
-            throw new CalcException("Syntax error");
-        }
-        final String num = currentNumber.stream().reduce("", (a, b) -> a + b);
-        return Double.parseDouble(num);
-
-    }
-
-    /**
-     * Parses an expression in infix notation, stored as a list of strings, to an equivalent expression in reverse polish notation.
-     * 
-     * @param infix List of strings representing the expression in infix notation to parse.
-     * @return List of strings representing the reverse polish notation of the input
-     * @throws CalcException
-     */
+    @Override
     public List<String> parseToRPN(final List<String> infix) throws CalcException {
 
         final List<String> output = new ArrayList<>();
@@ -129,6 +98,42 @@ public class CCEngine implements EngineInterface {
         }
 
         return output;
+    }
+
+    private List<String> unifyTerms(final List<String> input) throws CalcException {
+        final List<String> unified = new ArrayList<>();
+
+        final List<String> currentNumber = new ArrayList<>();
+
+        for (final String s : input) {
+            if (isNumber(s) || ".".equals(s)) {
+                currentNumber.add(s);
+            } else {
+                 if (!currentNumber.isEmpty()) {
+                    double actualNum;
+                    actualNum = convert(currentNumber);
+                    currentNumber.clear();
+                    unified.add(String.valueOf(actualNum));
+                 }
+                unified.add(s);
+            }
+        }
+
+        if (!currentNumber.isEmpty()) {
+            final double actualNum = convert(currentNumber);
+            currentNumber.clear();
+            unified.add(String.valueOf(actualNum));
+        }
+        return unified;
+    }
+
+    private double convert(final List<String> currentNumber) throws CalcException {
+        if (currentNumber.stream().filter(s -> ".".equals(s)).count() > 1) {
+            throw new CalcException("Syntax error");
+        }
+        final String num = currentNumber.stream().reduce("", (a, b) -> a + b);
+        return Double.parseDouble(num);
+
     }
 
     private double evaluateRPN(final List<String> rpn) throws CalcException {

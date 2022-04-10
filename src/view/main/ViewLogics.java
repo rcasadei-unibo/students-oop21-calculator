@@ -1,14 +1,14 @@
 package view.main;
 
 import model.manager.EngineModelInterface.Calculator;
-
 /**
+ *
  */
-public interface View {
+public interface ViewLogics {
 
     /**
      * 
      * @param calc
      */
-    void show(Calculator calc);
+    void mount(Calculator calc);
 }
