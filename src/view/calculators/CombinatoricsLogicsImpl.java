@@ -13,38 +13,38 @@ public class CombinatoricsLogicsImpl implements CombinatoricsLogics {
     private String opFormat = "";
     @Override
     public String numberAction(final String btnText) {
-        controller.getManager().read(btnText);
+        this.controller.getManager().read(btnText);
         try {
             return this.getDisplayText();
         } catch (CalcException e1) {
             this.clearStrings();
-            controller.getManager().clear();
-            return "Invalid Operation";
+            this.controller.getManager().clear();
+            return "Syntax Error";
         }
     }
     @Override
     public String calculateAction() {
         String adder = "";
         try {
-            adder = controller.isBinaryOperator(opString) ? controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b).split(opString)[1] : "";
+            adder = this.controller.isBinaryOperator(this.opString) ? this.getStream().split(this.opString)[1] : "";
         } catch (ArrayIndexOutOfBoundsException e2) {
             this.clearStrings();
-            controller.getManager().clear();
+            this.controller.getManager().clear();
         }
-        adder += opString.isBlank() ? "" : ") =";
-        final String result = opFormat + adder;
+        adder += this.opString.isBlank() ? "" : ") =";
+        final String result = this.opFormat + adder;
         this.clearStrings();
-        controller.getManager().calculate();
+        this.controller.getManager().calculate();
         return result;
     }
     @Override
     public String getStream() {
-        return controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b);
+        return this.controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b);
     }
     @Override
     public String backspaceAction() {
         try {
-            if (controller.getManager().getCurrentState().get(controller.getManager().getCurrentState().size() - 1).length() > 1) {
+            if (this.controller.getManager().getCurrentState().get(this.controller.getManager().getCurrentState().size() - 1).length() > 1) {
                 this.clearStrings();
             }
         } catch (ArrayIndexOutOfBoundsException e) {
@@ -61,25 +61,28 @@ public class CombinatoricsLogicsImpl implements CombinatoricsLogics {
     }
     @Override
     public String opAction(final String btnName, final String opName) {
-        final String closer = controller.isBinaryOperator(opName) ? ", " : "";
-        opFormat = btnName + "(" + controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b) + closer;
-        controller.getManager().read(opName);
-        opString = opName;
-        return opFormat;
+        if (this.getStream().isBlank()) {
+            return "Syntax Error";
+        }
+        final String closer = this.controller.isBinaryOperator(opName) ? ", " : "";
+        opFormat = btnName + "(" + this.controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b) + closer;
+        this.controller.getManager().read(opName);
+        this.opString = opName;
+        return this.opFormat;
     }
     private String getDisplayText() throws CalcException {
-        if (!opFormat.isBlank()) {
-            if (!opString.isBlank() && controller.isBinaryOperator(opString)) {
+        if (!this.opFormat.isBlank()) {
+            if (!this.opString.isBlank() && this.controller.isBinaryOperator(this.opString)) {
                 try {
-                    return opFormat + controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b).split(opString)[1];
+                    return this.opFormat + this.getStream().split(this.opString)[1];
                 } catch (ArrayIndexOutOfBoundsException e3) {
-                    return opFormat;
+                    return this.opFormat;
                 }
             } else {
-                throw new CalcException("Invalid operation");
+                throw new CalcException("Syntax error");
             }
         } else {
-            return controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b);
+            return this.getStream();
         }
     }
     private void clearStrings() {
