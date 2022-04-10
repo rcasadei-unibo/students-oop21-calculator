@@ -17,6 +17,9 @@ public class Graph extends JPanel {
      * 
      */
     private static final long serialVersionUID = -6534831232343094643L;
+    private static final double PRECISION = 0.1;
+    private static final double SCALE = 20;
+    private static final int COUNTER = 1000;
 
     /**
      * @param g
@@ -42,9 +45,10 @@ public class Graph extends JPanel {
         fun.setStroke(new BasicStroke(1));
         fun.setColor(Color.RED);
         final Polygon p = new Polygon();
-        final int scale = 10;
-        for (int x = 0; x <= 1000; x++) {
-           p.addPoint(width / 2 + x, height / 2 - (int) Math.round(scale * Math.sin(x)));
+        double x = -COUNTER;
+        while (x <= COUNTER) {
+           p.addPoint((int) (width / 2 + x * 10), height / 2 - (int) Math.round(Math.abs(x) * SCALE));
+           x += PRECISION;
         }
         fun.drawPolyline(p.xpoints, p.ypoints, p.npoints);
     }
