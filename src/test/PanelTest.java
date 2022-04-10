@@ -5,7 +5,6 @@ import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 
-import view.calculators.StandardCalculatorPanel;
 import view.components.Graph;
 
 /**

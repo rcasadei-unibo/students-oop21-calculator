@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 
 import controller.calculators.CalculatorController;
 import utils.CreateButton;
+import view.components.Graph;
 /**
  * 
  * MISSING JAVADOC.
