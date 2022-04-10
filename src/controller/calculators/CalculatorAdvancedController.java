@@ -1,5 +1,7 @@
 package controller.calculators;
 
+import java.util.List;
+
 import controller.manager.CCEngine;
 import controller.manager.CCManager;
 import model.manager.ManagerModelInterface.Calculator;
@@ -7,6 +9,7 @@ import utils.calculate.Algorithm;
 import utils.calculate.Expression;
 import utils.calculate.Derivate;
 import utils.calculate.Limit;
+import view.main.CCMainGUI;
 import utils.calculate.Integrator;
 
 /**
@@ -19,7 +22,11 @@ public class CalculatorAdvancedController {
     private TypeAlgorithm type;
     private  CalculatorController controller;
 
-    enum TypeAlgorithm {
+    /**
+     * @author pesic
+     *
+     */
+    public enum TypeAlgorithm {
         DERIVATE(new Derivate()),
         INTEGRATE(new Integrator()),
         LIMIT(new Limit());
@@ -33,7 +40,10 @@ public class CalculatorAdvancedController {
     }
     
 
-    CalculatorAdvancedController(final CalculatorController controller){
+    /**
+     * @param controller
+     */
+    public CalculatorAdvancedController(final CalculatorController controller) {
         this.controller = controller;
         this.expr.setEngine(new CCEngine(controller));
     }
@@ -57,24 +67,60 @@ public class CalculatorAdvancedController {
     /**
      * 
      */
+    public void deleteLast() {
+        this.controller.getManager().deleteLast();
+    }
+    
+    /**
+     * @return c
+     */
+    public String getCurrentState() {
+        return this.controller.getManager().getCurrentState().stream().reduce("", (s1, s2) -> s1 + s2);
+    }
+    
+    /**
+     * 
+     */
     public void reset() {
         this.op.unsetParameters();
         this.controller.getManager().clear();
     }
     
     /**
+     * @param params
+     */
+    public void setParameters(List<String> params) {
+        this.op.setParameters(params);
+    }
+    
+    /**
      * @return s
      */
     public String calculate() {
-        final String mem = this.op.setParameters(this.controller.getManager().getCurrentState());
-        this.controller.getManager().setCurrentState(mem);
+        //final String mem = this.op.setParameters(this.controller.getManager().getCurrentState());
+        //this.controller.getManager().setCurrentState(mem);
         final var e = this.controller.getManager().getCurrentState().stream().reduce("", (res, s) -> res + s);
         this.expr.setExpr(e);
         final String res = this.op.calculate(expr);
-        if (!this.type.equals(TypeAlgorithm.DERIVATE)) {
-            //add the formater
-        }
+        /*if (!this.type.equals(TypeAlgorithm.DERIVATE)) {
+            //add the formatter
+        }*/
         reset();
         return res;
     }
+    
+   /* public static void main(String[] args) {
+        var man = new CCManager(new CCMainGUI());
+        Calculator.ADVANCED.getController().setManager(man);
+       var calc = new CalculatorAdvancedController(Calculator.ADVANCED.getController());
+       calc.setOperation(TypeAlgorithm.DERIVATE);
+       var l = List.of("0", "1");
+       var l1 = List.of("x");
+       var l2 = List.of("log","(","x",")");
+       
+       l2.forEach(s -> {
+           calc.read(s);
+       });
+       System.out.println(calc.calculate());
+    }*/
 }

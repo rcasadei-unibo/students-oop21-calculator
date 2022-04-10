@@ -16,7 +16,7 @@ import utils.tokens.TokenType;
  */
 public class ParserAST {
 
-    private Stack<AbstractSyntaxNode> stack = new Stack<>();
+    private Stack<AbstractSyntaxNode> stack;
     private List<Token> output;
     private Tokenizer tok;
     private CCEngine engine;
@@ -59,6 +59,7 @@ public class ParserAST {
     
     public AbstractSyntaxNode parseToAST(String expression) {
         tok = new Tokenizer(expression);
+        this.stack = new Stack<>();
         try {
             final List<String> l = tok.getListSymbol();
             final List<String> l1 = this.engine.parseToRPN(l);
@@ -66,6 +67,9 @@ public class ParserAST {
         } catch (CalcException e) {
             System.out.println(e);
         }
+        System.out.print("\n");
+        output.forEach(t -> System.out.print(t.getSymbol()));
+        System.out.print("\n");
         output.forEach(token -> {
             if (token.getTypeToken().equals(TokenType.NUMBER) || token.getTypeToken().equals(TokenType.VARIABLE)
                     || token.getTypeToken().equals(TokenType.CONSTANT)) {
@@ -89,7 +93,8 @@ public class ParserAST {
             }
 
         });
-        //stack.forEach(n->System.out.println(n.getToken().getSymbol()));
+        stack.forEach(n->System.out.print(n.getToken().getSymbol()));
+        System.out.print("\n");
         if (stack.size() != 1) {
             throw new IllegalStateException("Something went wrong during the parsing");
         }

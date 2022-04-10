@@ -36,8 +36,8 @@ public class Integrator implements Algorithm{
         if (parameters.size() < 2 ) {
             throw new IllegalStateException("Not enough parameters");
         }
-        this.lowBound = Double.parseDouble(parameters.get(0));
-        this.upperBound = Double.parseDouble(parameters.get(1));
+            this.lowBound = Double.parseDouble(parameters.get(0));
+            this.upperBound = Double.parseDouble(parameters.get(1));
         return IntStream.range(2, parameters.size()).mapToObj(i -> parameters.get(i)).reduce("", (res, s) -> res + s);
     }
 
