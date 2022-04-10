@@ -30,7 +30,7 @@ public class CombinatoricsCalculatorPanel extends JPanel {
      */
     private static final long serialVersionUID = 1L;
     private static final Map<String, String> OPERATIONS = Map.of("Sequences", "sequencesNumber", "Dispositions", "factorial",
-            "Subsets", "binomialCoefficient", "Derangements", "scombussolamento", "Partitions", "bellNumber",
+            "Subsets", "binomialCoefficient", "Derangements", "derangement", "Partitions", "bellNumber",
             "Partitions(binary)", "stirlingNumber", "Fibonacci", "fibonacci", "Fibonacci(binary)", "binaryFibonacci");
     private static final List<String> OPERATIONSLIST = List.of("Sequences", "Dispositions", "Subsets",
             "Derangements", "Partitions", "Partitions(binary)", "Fibonacci", "Fibonacci(binary)");
@@ -42,6 +42,7 @@ public class CombinatoricsCalculatorPanel extends JPanel {
         final var display = new CCDisplay();
         this.setLayout(new BorderLayout());
         this.add(display, BorderLayout.NORTH);
+        final var explLabel = new JLabel();
         Calculator.COMBINATORICS.getController().setDisplay(display);
         final ActionListener btnAl = e -> {
             final var btn = (JButton) e.getSource();
@@ -50,6 +51,7 @@ public class CombinatoricsCalculatorPanel extends JPanel {
         final ActionListener calculateAl = e -> {
             display.updateUpperText(logics.calculateAction());
             display.updateText(logics.getStream());
+            explLabel.setText("");
         };
         final ActionListener backspaceAl = e -> {
             display.updateText(logics.backspaceAction());
@@ -59,7 +61,6 @@ public class CombinatoricsCalculatorPanel extends JPanel {
         numpad.getButtons().get(")").setEnabled(false);
         numpad.getButtons().get(".").setEnabled(false);
         this.add(numpad, BorderLayout.CENTER);
-        final var explLabel = new JLabel();
         this.add(explLabel, BorderLayout.SOUTH);
         this.add(new OperationsPanel(logics, display, explLabel), BorderLayout.EAST);
 
@@ -97,17 +98,18 @@ public class CombinatoricsCalculatorPanel extends JPanel {
             final var btn = new JButton("?");
             ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
             btn.setToolTipText(this.readFromFile(file + "(TT)"));
+            final String labelText = this.readFromFile(file);
             btn.addActionListener(e -> {
-                explLabel.setText(this.readFromFile(file));
+                explLabel.setText(explLabel.getText().equals(labelText) ? "" : labelText);
             });
             this.add(btn);
         }
         private String readFromFile(final String file) {
-            String result = "";
+            String result = "<html><p width=\"500\">";
             try (BufferedReader br = new BufferedReader(new FileReader(file + ".txt"))) {
                 String str = br.readLine();
                 while (str != null) {
-                    result = result.concat(str + "\n");
+                    result = result.concat(str + "<br>");
                     str = br.readLine();
                 }
             } catch (FileNotFoundException e1) {
@@ -115,7 +117,7 @@ public class CombinatoricsCalculatorPanel extends JPanel {
             } catch (IOException e1) {
                 return "I/O ERROR";
             }
-            return result;
+            return result + "</p></html>";
         }
     }
 }
