@@ -65,6 +65,7 @@ public class EvaluatorAST {
             return OperationsFactory.cos(right);
         case "sin":
             return OperationsFactory.sin(right);
+        case "√":
         case "sqrt":
             return OperationsFactory.sqrt(right);
         case "tan":
@@ -73,6 +74,12 @@ public class EvaluatorAST {
             return OperationsFactory.exp(right);
         case "abs":
             return OperationsFactory.abs(right);
+        case "csc":
+            return OperationsFactory.csc(right);
+        case "cot":
+            return OperationsFactory.cot(right);
+        case "sec":
+            return OperationsFactory.sec(right);
         default:
             throw new IllegalStateException("Function error");
         }
@@ -112,8 +119,10 @@ public class EvaluatorAST {
             return OperationsFactory.addition(left, right);
         case "-":
             return OperationsFactory.subtraction(left, right);
+        case "\u00D7":
         case "*":
             return OperationsFactory.product(left, right);
+        case "÷":
         case "/":
             return OperationsFactory.division(left, right);
         case "^":

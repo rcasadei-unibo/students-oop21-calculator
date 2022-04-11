@@ -21,9 +21,11 @@ public class SimplifyingEngine {
         case "+":
             return simplifySumOperation(t, left, right);
         case "*":
+        case "\u00D7":
             return simplifyProductOperation(t, left, right);
         case "-":
             return simplifySubtractionOperation(t, left, right);
+        case "÷":
         case "/":
             return simplifyDivisionOperation(t, left, right);
         default:

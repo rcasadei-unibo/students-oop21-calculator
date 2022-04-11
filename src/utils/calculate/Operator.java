@@ -26,7 +26,7 @@ public class Operator {
 			return this.value;
 		}
 	}
-	public static Set<String>  availableCharacters = Set.of("+", "-", "*", "/", "^", "÷");
+	public static Set<String>  availableCharacters = Set.of("+", "-", "*", "/", "^", "÷", "\u00D7");
 	
 	 private  int numOperands;
 	 private  boolean leftAssociative;

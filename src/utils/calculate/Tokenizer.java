@@ -55,7 +55,7 @@ public class Tokenizer {
                 }
                 if (implicitMultiplication && lastToken.getTypeToken() != TokenType.OPENPAR && lastToken.getTypeToken() != TokenType.FUNCTION
                         && lastToken.getTypeToken() != TokenType.OPERATOR) {
-                    lastToken = TokensFactory.operatorToken(new Operator("*", 2, true));
+                    lastToken = TokensFactory.operatorToken(new Operator("\u00D7", 2, true));
 
                     return lastToken;
                 }
@@ -66,7 +66,7 @@ public class Tokenizer {
                 && implicitMultiplication
                 && lastToken.getTypeToken() != TokenType.OPENPAR && lastToken.getTypeToken() != TokenType.OPERATOR
                 && lastToken.getTypeToken() != TokenType.FUNCTION) {
-                    lastToken = TokensFactory.operatorToken(new Operator("*", 2, true));
+                    lastToken = TokensFactory.operatorToken(new Operator("\u00D7", 2, true));
 
                     return lastToken;
              }
@@ -77,11 +77,11 @@ public class Tokenizer {
             return TokensFactory.closeParToken();
         } else if (Operator.isAllowedOperator(String.valueOf(c))) {
             return getOperationToken();
-        } else if (Character.isLetter(c)) {
+        } else if (Character.isLetter(c) || c == '√') {
             if (lastToken != null) {
                 if (implicitMultiplication && lastToken.getTypeToken() != TokenType.OPERATOR && lastToken.getTypeToken() != TokenType.FUNCTION
                         && lastToken.getTypeToken() != TokenType.OPENPAR) {
-                    lastToken = TokensFactory.operatorToken(Operator.getOperatorBySymbolAndArgs("*", 2));
+                    lastToken = TokensFactory.operatorToken(Operator.getOperatorBySymbolAndArgs("\u00D7", 2));
 
                     return lastToken;
                 }
@@ -181,13 +181,18 @@ public class Tokenizer {
         int previousIndex = -1;
         char c = this.expr.charAt(newIndex);
         Token newToken = null;
-        while (newIndex <= this.lenExpr - 1 && Character.isLetter(c)) {
+        //System.out.println(c);
+        while (newIndex <= this.lenExpr - 1 && Character.isLetter(c) ||  c == '√') {
             if (newIndex - index == 0) {
                 if (String.valueOf(c).equals(this.variable)) {
                     newToken = TokensFactory.variableToken(this.variable);
                     previousIndex = newIndex + 1;
                 } else if (constants.contains(String.valueOf(c))) {
                     newToken = TokensFactory.constantToken(String.valueOf(c));
+                    previousIndex = newIndex + 1;
+                } else if (Function.isFunction(String.valueOf(c))) {
+                    System.out.println(c);
+                    newToken = TokensFactory.functionToken(Function.dictFunctions.get(String.valueOf(c)));
                     previousIndex = newIndex + 1;
                 }
             } else {
