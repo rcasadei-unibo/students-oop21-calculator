@@ -1,7 +1,10 @@
 package utils.calculate;
 
-import utils.ast.*;
-import utils.tokens.*;
+import utils.ast.Operation;
+import utils.ast.OperationsFactory;
+import utils.tokens.Token;
+import utils.tokens.SpecialToken;
+
 
 /**
  * @author pesic
@@ -9,15 +12,16 @@ import utils.tokens.*;
  */
 public class EvaluatorAST {
 
+    @SuppressWarnings("unchecked")
     private Operation evaluateSubTree(final AbstractSyntaxNode node) {
         final Token t = node.getToken();
         switch (t.getTypeToken()) {
         case NUMBER:
-            return new Constant(String.valueOf(((NumberToken) t).getValueToken()));
+            return OperationsFactory.constant(String.valueOf(((SpecialToken<Double>) t).getObjectToken()));
         case CONSTANT:
             return evaluateConstant(node);
         case VARIABLE:
-            return new SimpleVar();
+            return OperationsFactory.simpleVar();
         case FUNCTION:
             return evaluateFunction(node);
         case OPERATOR:
@@ -28,44 +32,47 @@ public class EvaluatorAST {
     }
 
     private Operation evaluateConstant(final AbstractSyntaxNode node) {
-        final ConstantToken token = (ConstantToken) node.getToken();
+        final Token token = node.getToken();
         switch (token.getSymbol()) {
         case "pi":
-            return new Constant(String.valueOf(Math.PI));
+            return OperationsFactory.constant(String.valueOf(Math.PI));
         case "e":
-            return new Constant(String.valueOf(Math.E));
+            return OperationsFactory.constant(String.valueOf(Math.E));
         default:
             throw new IllegalStateException("The constant doesn't exist");
         }
+
     }
 
+    @SuppressWarnings("unchecked")
     private Operation evaluateFunction(final AbstractSyntaxNode node) {
         if (node.getRight().isEmpty()) {
             throw new IllegalStateException("Function needs arguments");
         }
         final Operation right = evaluateSubTree(node.getRight().get());
-        final FunctionToken token = (FunctionToken) node.getToken();
+        final SpecialToken<Function> token = (SpecialToken<Function>) node.getToken();
+
         switch (token.getSymbol()) {
         case "acos":
-            return new Acos(right);
+            return OperationsFactory.acos(right);
         case "asin":
-            return new Asin(right);
+            return OperationsFactory.asin(right);
         case "atan":
-            return new Atan(right);
+            return OperationsFactory.atan(right);
         case "log":
-            return new Log(right);
+            return OperationsFactory.log(right);
         case "cos":
-            return new Cos(right);
+            return OperationsFactory.cos(right);
         case "sin":
-            return new Sin(right);
+            return OperationsFactory.sin(right);
         case "sqrt":
-            return new Sqrt(right);
+            return OperationsFactory.sqrt(right);
         case "tan":
-            return new Tan(right);
+            return OperationsFactory.tan(right);
         case "exp":
-            return new Exp(right);
+            return OperationsFactory.exp(right);
         case "abs":
-            return new Abs(right);
+            return OperationsFactory.abs(right);
         default:
             throw new IllegalStateException("Function error");
         }
@@ -83,36 +90,39 @@ public class EvaluatorAST {
                 + node.getLeft().isPresent() + " and node.right: " + node.getRight().isPresent());
     }
 
+    @SuppressWarnings("unchecked")
     private Operation evaluateUnaryOperator(final AbstractSyntaxNode node) {
         final Operation right = evaluateSubTree(node.getRight().get());
-        final OperatorToken token = (OperatorToken) node.getToken();
+        final SpecialToken<Operator> token = (SpecialToken<Operator>) node.getToken();
 
         if (token.getSymbol().equals("-")) {
-            return new Negate(right);
+            return OperationsFactory.negate(right);
         }
 
         throw new IllegalStateException("Unary Operator doesn't work");
     }
 
+    @SuppressWarnings("unchecked")
     private Operation evaluateBinaryOperator(final AbstractSyntaxNode node) {
         final Operation right = evaluateSubTree(node.getRight().get());
         final Operation left = evaluateSubTree(node.getLeft().get());
-        final OperatorToken token = (OperatorToken) node.getToken();
+        final SpecialToken<Operator> token = (SpecialToken<Operator>) node.getToken();
         switch (token.getSymbol()) {
         case "+":
-            return new Addition(left, right);
+            return OperationsFactory.addition(left, right);
         case "-":
-            return new Subtraction(left, right);
+            return OperationsFactory.subtraction(left, right);
         case "*":
-            return new Product(left, right);
+            return OperationsFactory.product(left, right);
         case "/":
-            return new Division(left, right);
+            return OperationsFactory.division(left, right);
         case "^":
-            return new Pow(left, right);
+            return OperationsFactory.pow(left, right);
         default:
             throw new IllegalStateException("Unary Operator doesn't work");
         }
     }
+
     /**
      * @param root
      * @return c
@@ -124,13 +134,13 @@ public class EvaluatorAST {
         return evaluateSubTree(root);
     }
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         // (0)*((x)^(2.0))+(3.0)*(((x)^(2.0))*((0)*(log(x))+((2.0)*(1))/(x)))
         var parser = new ParserAST();
-        var root = parser.parseToAST("3x+5");
+        var root = parser.parseToAST("sin(x)");
         var eval = new EvaluatorAST();
         var result = eval.evaluate(root);
-        System.out.println("Result: " + result.toString());
-    }
+        System.out.println("Result: " + result.getNumericResult(2.0));
+    }*/
 
 }

@@ -15,6 +15,8 @@ import java.awt.BorderLayout;
 
 import controller.manager.CCManager;
 import controller.manager.ManagerInterface;
+import model.manager.ManagerModelInterface.Calculator;
+import view.calculators.AdvancedCalculatorPanel;
 import model.manager.EngineModelInterface.Calculator;
 import view.calculators.CombinatoricsCalculatorPanel;
 import view.calculators.ProgrammerCalculatorPanel;
