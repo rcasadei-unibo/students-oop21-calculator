@@ -44,7 +44,7 @@ public interface ManagerModelInterface {
         /**
          * Advanced calculator. Contains a reference to the scientific calculator controller.
          */
-        ADVANCED(ScientificCalculatorModelFactory.create());
+        ADVANCED(CombinatoricsCalculatorModelFactory.create());
 
         private final CalculatorController controller;
         Calculator(final CalculatorModel model) {
