@@ -145,6 +145,8 @@ public class InputFormatter{
         this.controller.getManager().memory().readAll(this.format());
         this.controller.getManager().engine().calculate();
         this.buffer.clear();
+        //this.buffer.addAll(this.controller.getManager().getCurrentState());
+        //this.lastNumBuffer = this.controller.getManager().memory().getCurrentState().stream().reduce("", (a, b) -> a + b);
         this.buffer.addAll(this.controller.getManager().memory().getCurrentState());
     }
     /**

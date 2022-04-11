@@ -38,7 +38,7 @@ public final class CombinatoricsCalculatorModelFactory {
                 "stirlingNumber", createBinaryFunction((n, k) -> stirlingNumber(n, k)));
         final Map<String, CCUnaryOperator> unaryOpMap = Map.of(
                 "fibonacci", createUnaryFunction((n) -> fibonacci(n)),
-                "scombussolamento", createUnaryFunction((n) -> scombussolamento(n)),
+                "scombussolamento", createUnaryFunction((n) -> derangement(n)),
                 "bellNumber", createUnaryFunction((n) -> {
                     try {
                         return bellNumber(n);
@@ -115,7 +115,7 @@ public final class CombinatoricsCalculatorModelFactory {
      * @param n n the cardinality of the set A = {1,2,...,n}
      * @return the number of sequences where no element is in its own position
      */
-    private static double scombussolamento(final double n) {
+    private static double derangement(final double n) {
         double result = 0;
         for (int k = 0; k <= n; k++) {
             result += Math.pow(-1, k) * fallingFactorial(n, n - k);
