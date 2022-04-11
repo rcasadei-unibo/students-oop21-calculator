@@ -3,6 +3,8 @@ package utils.calculate;
 import java.util.List;
 import java.util.stream.IntStream;
 import java.util.stream.IntStream;
+
+import utils.CalcException;
 import utils.ast.Operation;
 
 /**
@@ -22,7 +24,7 @@ public class Integrator implements Algorithm{
         }
 	}
 	
-	private double trapezoidalAlgorithm() {
+	private double trapezoidalAlgorithm() throws CalcException {
         final double h = (upperBound - lowBound) / STEPS;
         final Operation func = expression.getResult();
         double result = 0.5 * func.getNumericResult(lowBound) + 0.5 * func.getNumericResult(upperBound);
@@ -32,23 +34,25 @@ public class Integrator implements Algorithm{
     }
 	
     @Override
-    public String setParameters(final List<String> parameters) {
+    public void setParameters(final List<String> parameters) throws CalcException {
         if (parameters.size() < 2 ) {
-            throw new IllegalStateException("Not enough parameters");
+            throw new CalcException("Not enough parameters");
         }
+        try {
             this.lowBound = Double.parseDouble(parameters.get(0));
             this.upperBound = Double.parseDouble(parameters.get(1));
-        return IntStream.range(2, parameters.size()).mapToObj(i -> parameters.get(i)).reduce("", (res, s) -> res + s);
+        } catch (NumberFormatException e) {
+            throw new CalcException("Bad format Number, only numbers are accepted");
+        }
     }
 
-
-    private Double calc(final Expression expr) {
+    private Double calc(final Expression expr) throws CalcException {
         expression = expr;
         return trapezoidalAlgorithm();
     }
 
     @Override
-    public String calculate(final Expression expr) {
+    public String calculate(final Expression expr) throws CalcException {
         parameterDefined();
         return calc(expr).toString();
     }

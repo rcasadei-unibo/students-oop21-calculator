@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import controller.manager.CCEngine;
+import utils.CalcException;
 import utils.ast.Operation;
 import utils.tokens.Token;
 
@@ -27,12 +28,12 @@ public class Expression {
 	    this.parser.setEngine(engine);
 	}
 	
-	public Operation getResult() {
+	public Operation getResult() throws CalcException {
 		this.result = Optional.of(evaluator.evaluate(parser.parseToAST(this.expr)));
 		return result.get();
 	}
 	
-	public Operation getDerivative() {
+	public Operation getDerivative() throws CalcException {
 		if(result.isEmpty()) {
 			getResult();
 		}

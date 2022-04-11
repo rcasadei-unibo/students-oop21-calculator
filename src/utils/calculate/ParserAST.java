@@ -22,21 +22,21 @@ public class ParserAST {
     private CCEngine engine;
     private SimplifyingEngine simplify = new SimplifyingEngine();
 
-    private AbstractSyntaxNode createNumberOrVariableNode(Token t) {
+    private AbstractSyntaxNode createNumberOrVariableNode(final Token t) {
         return new AbstractSyntaxNode(t);
     }
 
-    private AbstractSyntaxNode createUnaryOperatorOrFunctionNode(Token t, AbstractSyntaxNode left) {
+    private AbstractSyntaxNode createUnaryOperatorOrFunctionNode(final Token t, AbstractSyntaxNode left) {
         return new AbstractSyntaxNode(t, left);
     }
 
-    private AbstractSyntaxNode createBinaryOperatorNode(Token t, AbstractSyntaxNode left, AbstractSyntaxNode right) {
+    private AbstractSyntaxNode createBinaryOperatorNode(final Token t, final AbstractSyntaxNode left, final AbstractSyntaxNode right) {
         return simplify.binaryOperator(t, left, right);
     }
 
-    private AbstractSyntaxNode parseBinaryOperator(Token token) {
+    private AbstractSyntaxNode parseBinaryOperator(final Token token) {
         if (stack.size() < 2) {
-            throw new IllegalStateException("For binary operator you need a least 2 nodes");
+            throw new IllegalArgumentException("For binary operator you need a least 2 nodes");
         }
         final AbstractSyntaxNode right = stack.pop();
         final AbstractSyntaxNode left = stack.pop();
@@ -44,9 +44,9 @@ public class ParserAST {
         return createBinaryOperatorNode(token, left, right);
     }
 
-    private AbstractSyntaxNode parseUnaryOperatorOrFunction(Token token) {
+    private AbstractSyntaxNode parseUnaryOperatorOrFunction(final Token token) {
         if (stack.size() < 1) {
-            throw new IllegalStateException("For binary operator you need a least 2 nodes");
+            throw new IllegalArgumentException("For binary operator you need a least 2 nodes");
         }
         final AbstractSyntaxNode right = stack.pop();
 
@@ -57,7 +57,12 @@ public class ParserAST {
         this.engine = engine;
     }
     
-    public AbstractSyntaxNode parseToAST(String expression) {
+    /**
+     * @param expression
+     * @return c
+     * @throws CalcException
+     */
+    public AbstractSyntaxNode parseToAST(final String expression) throws CalcException {
         tok = new Tokenizer(expression);
         this.stack = new Stack<>();
         try {
@@ -65,7 +70,7 @@ public class ParserAST {
             final List<String> l1 = this.engine.parseToRPN(l);
             this.output = tok.convertToTokens(l1);
         } catch (CalcException e) {
-            System.out.println(e);
+            throw new CalcException(e.getMessage());
         }
         System.out.print("\n");
         output.forEach(t -> System.out.print(t.getSymbol()));
@@ -79,11 +84,9 @@ public class ParserAST {
                 @SuppressWarnings("unchecked")
                 final SpecialToken<Operator> opT = (SpecialToken<Operator>) token;
                 if (((Operator) opT.getObjectToken()).getNumOperands() == 2) {
-                    //System.out.println("Binary Operator: " + opT.getSymbol());
                     final var newToken = parseBinaryOperator(token);
                     stack.push(newToken);
                 } else if (((Operator) opT.getObjectToken()).getNumOperands() == 1) {
-                    //System.out.println("Unary Operator: " + opT.getSymbol());
                     final var newToken = parseUnaryOperatorOrFunction(token);
                     stack.push(newToken);
                 }
@@ -93,10 +96,8 @@ public class ParserAST {
             }
 
         });
-        stack.forEach(n->System.out.print(n.getToken().getSymbol()));
-        System.out.print("\n");
         if (stack.size() != 1) {
-            throw new IllegalStateException("Something went wrong during the parsing");
+            throw new CalcException("Unrecognized Operator");
         }
 
         return stack.pop();

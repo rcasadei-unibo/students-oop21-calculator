@@ -3,13 +3,12 @@ package controller.calculators;
 import java.util.List;
 
 import controller.manager.CCEngine;
-import controller.manager.CCManager;
-import model.manager.ManagerModelInterface.Calculator;
+import utils.CalcException;
 import utils.calculate.Algorithm;
 import utils.calculate.Expression;
 import utils.calculate.Derivate;
 import utils.calculate.Limit;
-import view.main.CCMainGUI;
+
 import utils.calculate.Integrator;
 
 /**
@@ -88,15 +87,17 @@ public class CalculatorAdvancedController {
     
     /**
      * @param params
+     * @throws CalcException 
      */
-    public void setParameters(List<String> params) {
+    public void setParameters(final List<String> params) throws CalcException {
         this.op.setParameters(params);
     }
     
     /**
      * @return s
+     * @throws CalcException 
      */
-    public String calculate() {
+    public String calculate() throws CalcException {
         //final String mem = this.op.setParameters(this.controller.getManager().getCurrentState());
         //this.controller.getManager().setCurrentState(mem);
         final var e = this.controller.getManager().getCurrentState().stream().reduce("", (res, s) -> res + s);

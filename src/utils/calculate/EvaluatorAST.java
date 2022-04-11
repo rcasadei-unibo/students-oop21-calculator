@@ -123,20 +123,24 @@ public class EvaluatorAST {
         }
     }
 
-    public Operation evaluate(AbstractSyntaxNode root) {
+    /**
+     * @param root
+     * @return c
+     */
+    public Operation evaluate(final AbstractSyntaxNode root) {
         if (root == null) {
             throw new IllegalStateException();
         }
         return evaluateSubTree(root);
     }
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         // (0)*((x)^(2.0))+(3.0)*(((x)^(2.0))*((0)*(log(x))+((2.0)*(1))/(x)))
         var parser = new ParserAST();
         var root = parser.parseToAST("sin(x)");
         var eval = new EvaluatorAST();
         var result = eval.evaluate(root);
         System.out.println("Result: " + result.getNumericResult(2.0));
-    }
+    }*/
 
 }

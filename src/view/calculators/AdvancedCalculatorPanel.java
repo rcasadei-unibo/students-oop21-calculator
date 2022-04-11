@@ -54,18 +54,23 @@ public class AdvancedCalculatorPanel extends JPanel {
         };
         // it should output an error in the screen but when you press any button should you cancel it
         final ActionListener equalsBtn = e -> {
-            this.advancedController.setParameters(this.operationsPanel.getParameters());
-            String result = "Syntax Error";
+            String result;
             boolean isError = false;
             try {
+                this.advancedController.setParameters(this.operationsPanel.getParameters());
                 result = this.advancedController.calculate();
-            } catch (Exception error) { //modify your code so it throws always calcExceptions or something else
+            } catch (CalcException error) {
                 this.advancedController.reset();
                 isError = true;
+                result = error.getMessage();
+            } catch (IllegalArgumentException error) {
+                this.advancedController.reset();
+                isError = true;
+                result = "Syntax Error";
             }
             if (!isError) {
-            advancedController.read(result);
-            display.updateText(this.advancedController.getCurrentState());
+                advancedController.read(result);
+                display.updateText(this.advancedController.getCurrentState());
             } else {
                 display.updateText(result);
             }
@@ -150,15 +155,12 @@ public class AdvancedCalculatorPanel extends JPanel {
         }
         private void selectedDerivate() {
             advancedController.setOperation(TypeAlgorithm.DERIVATE);
-            System.out.println("DERIVATE");
         }
         private void selectedIntegrate() {
             advancedController.setOperation(TypeAlgorithm.INTEGRATE);
-            System.out.println("INTEGRATION");
         }
         private void selectedLimit() {
             advancedController.setOperation(TypeAlgorithm.LIMIT);
-            System.out.println("LIMIT");
         }
     }
 }

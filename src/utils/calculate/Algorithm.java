@@ -2,6 +2,8 @@ package utils.calculate;
 
 import java.util.List;
 
+import utils.CalcException;
+
 /**
  * @author pesic
  *
@@ -11,15 +13,19 @@ public interface Algorithm {
 
     /**
      * @param parameters
+     * @throws CalcException 
      */
-    String setParameters(List<String> parameters);
-    
+    void setParameters(List<String> parameters) throws CalcException;
+    /**
+     * 
+     */
     void unsetParameters();
 
     /**
      * @param expr
      * @return s
+     * @throws CalcException 
      */
-    String calculate(Expression expr);
+    String calculate(Expression expr) throws CalcException;
 
 }
