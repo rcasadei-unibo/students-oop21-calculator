@@ -16,7 +16,7 @@ public class FunctionGrapher extends JPanel {
      * 
      */
     private static final long serialVersionUID = -6534831232343094643L;
-    private static final double PRECISION = 0.1;
+    private static final double PRECISION = 0.01;
     private static double scale = 10;
     private static final int LIMIT = 1000;
     /**
@@ -24,7 +24,7 @@ public class FunctionGrapher extends JPanel {
      */
     public FunctionGrapher() {
         this.addMouseWheelListener(m -> {
-            if (m.getWheelRotation() > 0 && FunctionGrapher.scale > 1) {
+            if (m.getWheelRotation() > 0 && FunctionGrapher.scale > 3) {
                 FunctionGrapher.scale--;
             } else {
                  FunctionGrapher.scale++;
@@ -41,6 +41,7 @@ public class FunctionGrapher extends JPanel {
         super.paintComponent(g);
         drawAxes(g, w, h);
         drawFunction(g, w, h);
+        drawLines(g, w, h);
     }
 
     private void drawAxes(final Graphics g, final int w, final int h) {
@@ -61,9 +62,23 @@ public class FunctionGrapher extends JPanel {
         final Polygon p = new Polygon();
         double x = Math.negateExact(LIMIT);
         while (x <= LIMIT) {
-           p.addPoint((int) (w / 2 + x * scale), h / 2 - (int) Math.round(Math.tan(x) * scale));
+           p.addPoint((int) (w / 2 + x * scale), h / 2 - (int) Math.round(Math.abs((x + 1) * x) * scale));
            x += PRECISION;
         }
         fun.drawPolyline(p.xpoints, p.ypoints, p.npoints);
+    }
+
+    private void drawLines(final Graphics g, final int w, final int h) {
+        final Graphics2D lines = (Graphics2D) g;
+        lines.setStroke(new BasicStroke(1));
+        lines.setColor(Color.BLACK);
+        for (int count = 0; count < LIMIT; count++) {
+            lines.drawLine((int) (w / 2 + count * scale), (int) (h / 2 + 3 - 10 / scale), (int) (w / 2 + count * scale), (int) (h / 2 - 3 + 10 / scale));
+            lines.drawLine((int) (w / 2 - count * scale), (int) (h / 2 + 3 - 10 / scale), (int) (w / 2 - count * scale), (int) (h / 2 - 3 + 10 / scale));
+        }
+        for (int count = 0; count < LIMIT; count++) {
+            lines.drawLine((int) (w / 2 + 3 - 10 / scale), (int) (h / 2 + count * scale), (int) (w / 2 - 3 + 10 / scale), (int) (h / 2 + count * scale));
+            lines.drawLine((int) (w / 2 + 3 - 10 / scale), (int) (h / 2 - count * scale), (int) (w / 2 - 3 + 10 / scale), (int) (h / 2 - count * scale));
+        }
     }
 }
