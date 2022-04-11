@@ -5,7 +5,7 @@ import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 
-import view.components.Graph;
+import view.components.FunctionGrapher;
 
 /**
  * 
@@ -25,7 +25,7 @@ public class PanelTest extends JFrame {
         final Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
         this.setSize((int) (screen.getWidth() / 1.75), (int) (screen.getHeight() / 1.75));
         this.setLocationByPlatform(true);
-        this.add(new Graph());
+        this.add(new FunctionGrapher());
         this.setVisible(true);
     }
     /**

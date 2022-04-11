@@ -33,7 +33,7 @@ public interface EngineModelInterface {
         /**
          * Graphic calculator. Contains a reference to the graphic calculator controller.
          */
-        GRAPHIC(CombinatoricsCalculatorModelFactory.create()),
+        GRAPHIC(ScientificCalculatorModelFactory.create()),
         /**
          * Combinatorics calculator. Contains a reference to the combinatorics calculator controller.
          */

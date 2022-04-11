@@ -17,6 +17,7 @@ import controller.manager.CCManager;
 import controller.manager.ManagerInterface;
 import model.manager.EngineModelInterface.Calculator;
 import view.calculators.CombinatoricsCalculatorPanel;
+import view.calculators.GraphicCalculatorPanel;
 import view.calculators.ProgrammerCalculatorPanel;
 import view.calculators.ScientificCalculatorPanel;
 import view.calculators.StandardCalculatorPanel;
@@ -44,9 +45,9 @@ public class CCMainGUI extends JFrame implements View {
             Calculator.STANDARD, new StandardCalculatorPanel(Calculator.STANDARD.getController()),
             Calculator.SCIENTIFIC, new ScientificCalculatorPanel(Calculator.SCIENTIFIC.getController()),
             Calculator.PROGRAMMER, new ProgrammerCalculatorPanel(Calculator.PROGRAMMER.getController()),
-            Calculator.GRAPHIC, new StandardCalculatorPanel(Calculator.GRAPHIC.getController()),
-            Calculator.ADVANCED, new StandardCalculatorPanel(Calculator.STANDARD.getController()),
-            Calculator.COMBINATORICS, new CombinatoricsCalculatorPanel()
+            Calculator.GRAPHIC, new GraphicCalculatorPanel(Calculator.GRAPHIC.getController()),
+            Calculator.ADVANCED, new StandardCalculatorPanel(Calculator.STANDARD.getController())
+            //Calculator.COMBINATORICS, new CombinatoricsCalculatorPanel()
             );
     /**
      * 

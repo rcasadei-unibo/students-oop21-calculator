@@ -5,15 +5,13 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
-
 import javax.swing.JPanel;
-
 /**
  * 
  * 
  *
  */
-public class Graph extends JPanel {
+public class FunctionGrapher extends JPanel {
     /**
      * 
      */
@@ -24,12 +22,12 @@ public class Graph extends JPanel {
     /**
      * 
      */
-    public Graph() {
+    public FunctionGrapher() {
         this.addMouseWheelListener(m -> {
-            if (m.getWheelRotation() > 0) {
-                Graph.scale--;
+            if (m.getWheelRotation() > 0 && FunctionGrapher.scale > 1) {
+                FunctionGrapher.scale--;
             } else {
-                 Graph.scale++;
+                 FunctionGrapher.scale++;
             }
             this.repaint();
         });
@@ -63,7 +61,7 @@ public class Graph extends JPanel {
         final Polygon p = new Polygon();
         double x = Math.negateExact(LIMIT);
         while (x <= LIMIT) {
-           p.addPoint((int) (w / 2 + x * scale), h / 2 - (int) Math.round(Math.sin(x) * scale));
+           p.addPoint((int) (w / 2 + x * scale), h / 2 - (int) Math.round(Math.tan(x) * scale));
            x += PRECISION;
         }
         fun.drawPolyline(p.xpoints, p.ypoints, p.npoints);
