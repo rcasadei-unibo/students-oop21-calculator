@@ -21,8 +21,6 @@ public class InputFormatter{
 
     //TODO no hexadecimal operation works
 
-    //TODO 30x3 delete delete 30x3 displays 27090 not working correctly
-
     //TODO MISSING JAVADOC.
     /**
      * missing javadoc.
@@ -99,6 +97,12 @@ public class InputFormatter{
                     formattedList.add(str);
             }
         }
+        if (!strNumber.isBlank()) {
+            intNumber = ConversionAlgorithms.unsignedConversionToDecimal(conversionBase, strNumber);
+            strNumber = String.valueOf(intNumber);
+            List.of(strNumber.split("")).stream().forEach((dec) -> formattedList.add(dec));
+            strNumber = "";
+        }
         return formattedList;
     }
     /**
@@ -122,6 +126,7 @@ public class InputFormatter{
      *          otherwise it return the controller's current state
      */
     public String getOutput() {
+        //System.out.println("my buffer's out" + this.buffer.toString());
         return this.buffer.stream().reduce("", (a, b) -> a + b);
     }
     /**
@@ -142,12 +147,23 @@ public class InputFormatter{
      * dopo aver formattato tutto calcola il risultato e diventa il lastNumBuffer che poi verrà mostrato.
      */
     public void calculate() {
-        this.controller.getManager().memory().readAll(this.format());
+        //System.out.println("the engine before" + this.controller.getManager().memory().getCurrentState().toString());
+        final var temp = this.format();
+        //System.out.println("my input to the engine" + temp.toString());
+        this.controller.getManager().memory().readAll(temp);
         this.controller.getManager().engine().calculate();
+        //System.out.println("the engine's output" + this.controller.getManager().memory().getCurrentState().toString());
+        //this.buffer.clear();
+        this.lastNumBuffer = this.controller.getManager().memory().getCurrentState().stream().reduce("", (a, b) -> a + b);
+        //System.out.println("before calc" + this.buffer.toString());
         this.buffer.clear();
-        //this.buffer.addAll(this.controller.getManager().getCurrentState());
-        //this.lastNumBuffer = this.controller.getManager().memory().getCurrentState().stream().reduce("", (a, b) -> a + b);
         this.buffer.addAll(this.controller.getManager().memory().getCurrentState());
+        //System.out.println("after calc" + this.buffer.toString());
+        //this.buffer.addAll(this.controller.getManager().memory().getCurrentState());
+        //System.out.println("clearing the engine's memory");
+        this.controller.getManager().memory().clear();
+        
+        System.out.println("this is the result : " + lastNumBuffer);
     }
     /**
      * 
@@ -157,9 +173,27 @@ public class InputFormatter{
      * if input = "A2+F" it will return the conversion of F=>15
      */
     public int getLastValue() {
-        if (!this.lastNumBuffer.isBlank()) {
-            return ConversionAlgorithms.unsignedConversionToDecimal(conversionBase, lastNumBuffer); 
+        System.out.println("my last num buffer's value" + lastNumBuffer);
+        
+        this.formatToNumbers();
+        
+        
+        
+        if (this.conversionBase == 10) {
+            return Integer.parseInt(lastNumBuffer);
+        }
+        System.out.println("!isBlank(): " + !this.lastNumBuffer.isBlank() + " !equals(Syntax error): " + !this.lastNumBuffer.equals("Syntax error"));
+        if (!this.lastNumBuffer.isBlank() && !this.lastNumBuffer.equals("Syntax error")) {
+            System.out.println("the value converted is " + ConversionAlgorithms.conversionToDecimal(conversionBase, lastNumBuffer));
+            return ConversionAlgorithms.conversionToDecimal(conversionBase, lastNumBuffer); 
         }
         return 0;
+    }
+    private void formatToNumbers() {
+        
+        if (this.lastNumBuffer.contains("E")) {
+            System.out.println("oh shit");
+        }
+        
     }
 }
