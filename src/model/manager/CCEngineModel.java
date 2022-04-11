@@ -1,6 +1,8 @@
 package model.manager;
 
 /**
+ * Model for the engine manager.
+ * It contains a reference to the currently mounted calculator.
  */
 public class CCEngineModel implements EngineModelInterface {
     private Calculator mounted;

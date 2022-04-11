@@ -62,4 +62,22 @@ public class ManagerTest {
             e.printStackTrace();
         }
     }
+    /**
+     * 
+     */
+    @org.junit.Test
+    public void testFormatter() {
+        controller.engine().mount(Calculator.STANDARD);
+        controller.memory().clear();
+//        System.out.println(10000000000.0);
+        controller.memory().read("1000000000");
+        logState();
+        controller.engine().calculate();
+        logState();
+    }
+
+    private void logState() {
+        System.out.println(controller.memory().getCurrentState().stream().reduce("", (a, b) -> a + b));
+
+    }
 }

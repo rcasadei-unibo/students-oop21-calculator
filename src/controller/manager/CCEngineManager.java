@@ -6,7 +6,8 @@ import model.manager.EngineModelInterface.Calculator;
 import utils.CalcException;
 
 /**
- *
+ * Engine manager of the system.
+ * It provides methods for selecting the calculator to use and to calculate the expression currently stored in the memory manager.
  */
 public class CCEngineManager implements EngineManager {
 
