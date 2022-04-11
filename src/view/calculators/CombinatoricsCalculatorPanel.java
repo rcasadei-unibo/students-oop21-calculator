@@ -16,7 +16,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.ToolTipManager;
 
-import model.manager.ManagerModelInterface.Calculator;
 import view.components.CCDisplay;
 import view.components.CCNumPad;
 /**

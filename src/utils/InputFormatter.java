@@ -18,11 +18,11 @@ public class InputFormatter{
     private final List<String> tokens;
     private String lastNumBuffer = "";
     //TODO Pressing C in hexadecimal does not change the conversionPanel output altho upon deletingLast() it updates
-    
+
     //TODO no hexadecimal operation works
-    
+
     //TODO 30x3 delete delete 30x3 displays 27090 not working correctly
-    
+
     //TODO MISSING JAVADOC.
     /**
      * missing javadoc.

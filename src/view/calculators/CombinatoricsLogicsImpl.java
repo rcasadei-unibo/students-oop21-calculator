@@ -1,6 +1,5 @@
 package view.calculators;
 import controller.calculators.CalculatorController;
-import model.manager.ManagerModelInterface.Calculator;
 import utils.CalcException;
 /**
  * 
@@ -13,12 +12,12 @@ public class CombinatoricsLogicsImpl implements CombinatoricsLogics {
     private String opFormat = "";
     @Override
     public String numberAction(final String btnText) {
-        this.controller.getManager().read(btnText);
+        this.controller.getManager().memory().read(btnText);
         try {
             return this.getDisplayText();
         } catch (CalcException e1) {
             this.clearStrings();
-            this.controller.getManager().clear();
+            this.controller.getManager().memory().clear();
             return "Syntax Error";
         }
     }
