@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Model for the memory manager.
+ * It contains a reference to the input buffer.
  */
 public class CCMemoryModel implements MemoryModelInterface {
 

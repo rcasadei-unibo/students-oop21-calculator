@@ -3,6 +3,7 @@ package controller.manager;
 import java.util.List;
 
 /**
+ * Interface for the memory manager.
  */
 public interface MemoryManager {
     /**
@@ -18,29 +19,29 @@ public interface MemoryManager {
     void readAll(List<String> list);
 
     /**
-     * Returns the current state of the input list.
+     * Returns the current state of the input buffer. After a calculation it returns the result.
      * @return List containing the strings given as inputs.
      */
     List<String> getCurrentState();
 
     /**
-     * Sets the current state of the input buffer. Each element of the string will be read individually.
-     * @param s String used to set the new state of the input buffer.
+     * Sets a string as the only element of the input buffer.
+     * @param s String to set the current state to.
      */
     void setCurrentState(String s);
 
     /**
-     * Removes all elements from input list.
+     * Removes all elements from input buffer.
      */
     void clear();
 
     /**
-     * Removes last element in the input list.
+     * Removes last element in the input buffer.
      */
     void deleteLast();
 
     /**
-     * TODO:Javadoc.
+     * Clears the input buffers and reads each character individually. 
      * @param s
      */
     void splitAndSetCurrentState(String s);

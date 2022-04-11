@@ -12,8 +12,8 @@ public class CCManager implements ManagerInterface {
     private final EngineManager engineManager;
 
     /**
-     * Construct a new system manager. 
-     * Note: the same CCManager instance must be referenced by all calculators in the system. 
+     * Construct a new system manager, initializes memory and engine managers and sets this manager as manager for all calculators in the system. 
+     * Note that the same CCManager instance must be referenced by all calculators in the system. 
      */
     public CCManager() {
         this.memManager = new CCMemoryManager();

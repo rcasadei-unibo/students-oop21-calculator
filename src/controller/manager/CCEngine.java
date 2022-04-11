@@ -36,7 +36,7 @@ public class CCEngine implements EngineInterface {
     @Override
     public String calculateAndFormat(final List<String> input) throws CalcException {
         final double result = this.calculate(input);
-        final int maxIntDigits = 7;
+        final int maxIntDigits = 10;
         final int maxDecDigits = 10;
         final int decimalThreshold = 5;
 
