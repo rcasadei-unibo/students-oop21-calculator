@@ -7,6 +7,7 @@ import java.util.List;
 
 import controller.manager.CCEngine;
 import model.manager.ManagerModelInterface.Calculator;
+import utils.CalcException;
 import utils.calculate.Expression;
 import utils.calculate.Limit;
 
@@ -24,7 +25,7 @@ public class LimitTest {
     }
 
     @org.junit.Test
-    public void testDerivate() {
+    public void testDerivate() throws CalcException {
         init();
         final var limit = new Limit();
         limit.setParameters(new LinkedList<String>(List.of("0.0001")));

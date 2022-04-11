@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import controller.manager.CCEngine;
 import model.manager.ManagerModelInterface.Calculator;
+import utils.CalcException;
 import utils.calculate.Derivate;
 import utils.calculate.Expression;
 
@@ -22,7 +23,7 @@ public class DerivateTest {
     }
 
     @org.junit.Test
-    public void testDerivate() {
+    public void testDerivate() throws CalcException {
         init();
         final var der = new Derivate();
         expr.setExpr("x");
