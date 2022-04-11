@@ -46,6 +46,54 @@ public class OperationsFactory {
 
         };
     }
+    
+    public static Operation cot(Operation op) {
+        return new Operation() {
+
+            @Override
+            public Double getNumericResult(Double val) {
+                return Math.cos(op.getNumericResult(val))/Math.sin(op.getNumericResult(val));
+            }
+
+            @Override
+            public Operation getDerivative() {
+                return product(subtraction(constant("0"), division(constant("1"), pow(sin(op), constant("2")))), op.getDerivative());
+            }
+            
+        };
+    }
+    
+    public static Operation csc(Operation op) {
+        return new Operation() {
+
+            @Override
+            public Double getNumericResult(Double val) {
+                return 1.0/Math.sin(op.getNumericResult(val));
+            }
+
+            @Override
+            public Operation getDerivative() {
+                return subtraction(constant("0"),product(product(cot(op),csc(op)), op.getDerivative()));
+            }
+        };
+
+    }
+    
+    public static Operation sec(Operation op) {
+        return new Operation() {
+
+            @Override
+            public Double getNumericResult(Double val) {
+                return 1.0/ Math.cos(op.getNumericResult(val));
+            }
+
+            @Override
+            public Operation getDerivative() {
+                return product(product(tan(op), sec(op)),op.getDerivative());
+            }
+            
+        };
+    }
 
     public static Operation negate(Operation op) {
         return new Operation() {

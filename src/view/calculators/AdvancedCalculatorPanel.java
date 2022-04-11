@@ -154,12 +154,18 @@ public class AdvancedCalculatorPanel extends JPanel {
             return List.of(param1.getText(), param2.getText());
         }
         private void selectedDerivate() {
+            label1.setText("not needed: ");
+            label2.setText("not needed: ");
             advancedController.setOperation(TypeAlgorithm.DERIVATE);
         }
         private void selectedIntegrate() {
+            label1.setText("lowerBound: ");
+            label2.setText("upperBound: ");
             advancedController.setOperation(TypeAlgorithm.INTEGRATE);
         }
         private void selectedLimit() {
+            label1.setText("x0 \u2250 : ");
+            label2.setText("not needed: ");
             advancedController.setOperation(TypeAlgorithm.LIMIT);
         }
     }
