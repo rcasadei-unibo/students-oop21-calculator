@@ -41,7 +41,7 @@ public interface EngineModelInterface {
         /**
          * Advanced calculator. Contains a reference to the advanced calculator controller.
          */
-        ADVANCED(CombinatoricsCalculatorModelFactory.create());
+        ADVANCED(ScientificCalculatorModelFactory.create());
 
         private final CalculatorController controller;
         Calculator(final CalculatorModel model) {
