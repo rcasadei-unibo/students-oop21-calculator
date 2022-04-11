@@ -4,10 +4,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.Polygon;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 import javax.swing.JPanel;
 
@@ -16,19 +13,26 @@ import javax.swing.JPanel;
  * 
  *
  */
-public class Graph extends JPanel implements MouseListener {
+public class Graph extends JPanel {
     /**
      * 
      */
     private static final long serialVersionUID = -6534831232343094643L;
     private static final double PRECISION = 0.1;
-    private static final double SCALE = 20;
-    private static final int COUNTER = 1000;
+    private static double scale = 10;
+    private static final int LIMIT = 1000;
     /**
      * 
      */
     public Graph() {
-        addMouseListener(this);
+        this.addMouseWheelListener(m -> {
+            if (m.getWheelRotation() > 0) {
+                Graph.scale--;
+            } else {
+                 Graph.scale++;
+            }
+            this.repaint();
+        });
     }
     /**
      * @param g
@@ -57,27 +61,11 @@ public class Graph extends JPanel implements MouseListener {
         fun.setStroke(new BasicStroke(1));
         fun.setColor(Color.RED);
         final Polygon p = new Polygon();
-        double x = -COUNTER;
-        while (x <= COUNTER) {
-           p.addPoint((int) (w / 2 + x * SCALE), h / 2 - (int) Math.round(Math.abs(x) * SCALE));
+        double x = Math.negateExact(LIMIT);
+        while (x <= LIMIT) {
+           p.addPoint((int) (w / 2 + x * scale), h / 2 - (int) Math.round(Math.sin(x) * scale));
            x += PRECISION;
         }
         fun.drawPolyline(p.xpoints, p.ypoints, p.npoints);
-    }
-    @Override
-    public void mouseClicked(final MouseEvent e) {
-        this.setToolTipText("x: " + (e.getPoint().x - this.getWidth() / 2) / SCALE + "y: " + (this.getHeight() / 2 - e.getPoint().y) / SCALE);
-    }
-    @Override
-    public void mousePressed(final MouseEvent e) {
-    }
-    @Override
-    public void mouseReleased(final MouseEvent e) {
-    }
-    @Override
-    public void mouseEntered(final MouseEvent e) {
-    }
-    @Override
-    public void mouseExited(final MouseEvent e) {
     }
 }

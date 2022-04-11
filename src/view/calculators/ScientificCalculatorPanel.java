@@ -33,7 +33,7 @@ public class ScientificCalculatorPanel extends StandardCalculatorPanel {
     private JPanel getScientificOperators() {
        final JPanel scientificOperators = new JPanel();
        scientificOperators.setLayout(new GridLayout(4, 3));
-       scientificOperators.add(CreateButton.createOpButton("^", "potenza", "^", getController(), getDisplay()));
+       scientificOperators.add(CreateButton.createOpButton("^", "^", "^", getController(), getDisplay()));
        scientificOperators.add(CreateButton.createOpButton("nthRoot", "nthRoot", "nthRoot", getController(), getDisplay()));
        scientificOperators.add(CreateButton.createOpButton("ln", "ln", "ln", getController(), getDisplay()));
        scientificOperators.add(CreateButton.createOpButton("log", "log", "log", getController(), getDisplay()));
