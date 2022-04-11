@@ -43,7 +43,6 @@ public class ConversionPanel extends JPanel {
         this.decDisplay = new CCDisplay();
         this.add(decDisplay);
         this.map.put(dec.getText(), decDisplay);
-        // not needed since it's linked to the main display
 
         final JButton oct = new JButton("OCT");
         oct.addActionListener(conv);
@@ -61,23 +60,23 @@ public class ConversionPanel extends JPanel {
     }
 
     /**
-     * @param input
+     * @param l
      *            for base2 base8 and base16.
      */
-    public void updateConvDisplays(final int input) {
-            this.map.entrySet().stream().forEach((entry) -> entry.getValue().updateText(textToBase(entry.getKey(), input)));
+    public void updateConvDisplays(final long l) {
+            this.map.entrySet().stream().forEach((entry) -> entry.getValue().updateText(textToBase(entry.getKey(), l)));
     }
 
-    private String textToBase(final String text, final int toConvert) {
+    private String textToBase(final String text, final long l) {
         switch (text) {
         case "HEX":
-            return ConversionAlgorithms.conversionToStringBase(16, toConvert);
+            return ConversionAlgorithms.conversionToStringBase(16, l);
         case "DEC":
-            return String.valueOf(toConvert);
+            return String.valueOf(l);
         case "OCT":
-            return ConversionAlgorithms.conversionToStringBase(8, toConvert);
+            return ConversionAlgorithms.conversionToStringBase(8, l);
         case "BIN":
-            return ConversionAlgorithms.conversionToStringBase(2, toConvert);
+            return ConversionAlgorithms.conversionToStringBase(2, l);
         default:
             return null;
         }
