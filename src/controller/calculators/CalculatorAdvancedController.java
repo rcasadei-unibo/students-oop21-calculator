@@ -60,21 +60,21 @@ public class CalculatorAdvancedController {
      * @param c
      */
     public void read(final String c) {
-        this.controller.getManager().read(c);
+        this.controller.getManager().memory().read(c);
     }
     
     /**
      * 
      */
     public void deleteLast() {
-        this.controller.getManager().deleteLast();
+        this.controller.getManager().memory().deleteLast();
     }
     
     /**
      * @return c
      */
     public String getCurrentState() {
-        return this.controller.getManager().getCurrentState().stream().reduce("", (s1, s2) -> s1 + s2);
+        return this.controller.getManager().memory().getCurrentState().stream().reduce("", (s1, s2) -> s1 + s2);
     }
     
     /**
@@ -82,7 +82,7 @@ public class CalculatorAdvancedController {
      */
     public void reset() {
         this.op.unsetParameters();
-        this.controller.getManager().clear();
+        this.controller.getManager().memory().clear();
     }
     
     /**
@@ -100,7 +100,7 @@ public class CalculatorAdvancedController {
     public String calculate() throws CalcException {
         //final String mem = this.op.setParameters(this.controller.getManager().getCurrentState());
         //this.controller.getManager().setCurrentState(mem);
-        final var e = this.controller.getManager().getCurrentState().stream().reduce("", (res, s) -> res + s);
+        final var e = this.controller.getManager().memory().getCurrentState().stream().reduce("", (res, s) -> res + s);
         this.expr.setExpr(e);
         final String res = this.op.calculate(expr);
         /*if (!this.type.equals(TypeAlgorithm.DERIVATE)) {
