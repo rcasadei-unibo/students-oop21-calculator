@@ -7,13 +7,15 @@ import model.manager.CCMemoryModel;
 import model.manager.MemoryModelInterface;
 
 /**
- * 
+ * Memory manager of the system.
+ * It provides methods for manipulating the input buffer and retrieving the result of a calculation.
  */
 public class CCMemoryManager implements MemoryManager {
 
     private final MemoryModelInterface model;
+
     /**
-     * 
+     * Construct a new memory manager with an empty input buffer.
      */
     public CCMemoryManager() {
         this.model = new CCMemoryModel();
