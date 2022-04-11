@@ -29,7 +29,6 @@ public class ProgrammerCalculatorPanel extends JPanel {
      * 
      */
     private static final long serialVersionUID = -8342823219976507443L;
-    private final transient  CalculatorController controller;
     private final CCDisplay display = new CCDisplay();
     private HexadecimalLettersPanel hexaLetters;
     private ConversionPanel convPanel;
@@ -42,21 +41,24 @@ public class ProgrammerCalculatorPanel extends JPanel {
             public void actionPerformed(final ActionEvent e) {
                 final String text = ((JButton) e.getSource()).getText();
                 formatter.read(text);
-                updateDisplays();
+                display.updateText(formatter.getOutput());
+                convPanel.updateConvDisplays(formatter.getLastValue());
             }
         };
         final ActionListener calcAl = new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
                 formatter.calculate();
-                updateDisplays();
+                display.updateText(formatter.getOutput());
+                convPanel.updateConvDisplays(formatter.getLastValue());
             }
         };
         final ActionListener backspaceAl = new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
                 formatter.deleteLast();
-                updateDisplays();
+                display.updateText(formatter.getOutput());
+                convPanel.updateConvDisplays(formatter.getLastValue());
             }
         };
         this.numpad = new CCNumPad(btnAl, calcAl, backspaceAl);
@@ -71,19 +73,6 @@ public class ProgrammerCalculatorPanel extends JPanel {
             @Override
             public void actionPerformed(final ActionEvent e) {
                 final String text = ((JButton) e.getSource()).getText();
-
-                //final var temp = ProgrammerCalculatorModelFactory.create().getBinaryOpMap();
-                /**if (temp.get(text) == null) { //text is unary operator
-
-                    formatter.read(text);
-
-                    display.updateText(formatter.getOutput());
-
-                } else {
-                    formatter.read(text);
-
-                    display.updateText(formatter.getOutput());
-                }*/
                 formatter.read(text);
 
                 display.updateText(formatter.getOutput());
@@ -95,7 +84,6 @@ public class ProgrammerCalculatorPanel extends JPanel {
      * @param controller
      */
     public ProgrammerCalculatorPanel(final CalculatorController controller) {
-        this.controller = controller;
         this.formatter = new InputFormatter(controller);
         this.setPanels();
     }
@@ -218,8 +206,10 @@ public class ProgrammerCalculatorPanel extends JPanel {
                 final String text = ((JButton) e.getSource()).getText();
                 formatter.read(text);
                 display.updateText(formatter.getOutput());
+                convPanel.updateConvDisplays(formatter.getLastValue());
             }
         };
+
         this.hexaLetters = new HexadecimalLettersPanel(letterActionListener);
         //this sets the standard initial base to 10, disabling hexadecimal Letters
         formatter.reset(10);
@@ -275,9 +265,5 @@ public class ProgrammerCalculatorPanel extends JPanel {
         topMiddleNumpad.add(xor);
         panel.add(topMiddleNumpad, BorderLayout.NORTH);
         return panel;
-    }
-    private void updateDisplays() {
-        display.updateText(formatter.getOutput());
-        convPanel.updateConvDisplays(formatter.getLastValue());
     }
 }
