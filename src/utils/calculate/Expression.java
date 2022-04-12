@@ -1,8 +1,12 @@
 package utils.calculate;
 
+import java.util.List;
 import java.util.Optional;
 
+import controller.manager.CCEngine;
+import utils.CalcException;
 import utils.ast.Operation;
+import utils.tokens.Token;
 
 /**
  * @author pesic
@@ -15,16 +19,21 @@ public class Expression {
 	private ParserAST parser = new ParserAST();
 	private Optional<Operation> result = Optional.empty();
 	
-	public void setExpr(String e) {
-		this.expr = e;
+	public void setExpr(String expr) {
+		this.expr = expr;
+		result = Optional.empty();
 	}
 	
-	public Operation getResult() {
+	public void setEngine( final CCEngine engine) {
+	    this.parser.setEngine(engine);
+	}
+	
+	public Operation getResult() throws CalcException {
 		this.result = Optional.of(evaluator.evaluate(parser.parseToAST(this.expr)));
 		return result.get();
 	}
 	
-	public Operation getDerivative() {
+	public Operation getDerivative() throws CalcException {
 		if(result.isEmpty()) {
 			getResult();
 		}

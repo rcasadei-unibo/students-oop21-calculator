@@ -31,18 +31,21 @@ public final class ProgrammerCalculatorModelFactory {
                 "roR",  new CCBinaryOperator((n1, n2) -> roR(n1, n2), 1, Type.LEFT),
                 "roL",  new CCBinaryOperator((n1, n2) -> roL(n1, n2), 1, Type.LEFT)
                 ));
-        
         binaryOpMap.putAll(getBasicOperators());
 
         final Map<String, CCUnaryOperator> unaryOpMap = new HashMap<>(
-                Map.of("not", new CCUnaryOperator((n1) -> not(n1), 1, null), 
-                       "neg", new CCUnaryOperator((n1) -> neg(n1), 1, null)
+                Map.of("not", new CCUnaryOperator((n1) -> not(n1), 1, null)
                   ));
         return new CalculatorModelTemplate(binaryOpMap, unaryOpMap);
     }
-    public static Map<String, CCBinaryOperator> getBasicOperators() {
+    //TODO missing javadoc.
+    /**
+     * 
+     * @return MISSING JAVADOC.
+     */
+    private static Map<String, CCBinaryOperator> getBasicOperators() {
         final Map<String, CCBinaryOperator> x = StandardCalculatorModelFactory.create().getBinaryOpMap();
-        x.remove("modulo");
+        x.remove("%");
         return x;
     }
     private static double and(final double n1, final double n2) {
@@ -60,16 +63,13 @@ public final class ProgrammerCalculatorModelFactory {
     private static double shiftL(final double n1, final double n2) {
         return (int) n1 << (int) n2;
     }
-    private static double neg(final double n1) {
-        return (int) ~(int) n1;
-    }
     private static double not(final double n1) {
         var stringBits = ConversionAlgorithms.conversionToStringBase(2, (int) n1);
         stringBits = addLeadingZerosToByte(stringBits);
         final var bits = stringBits.toCharArray();
         String toConvert = String.valueOf(bits[0]);
         for (int i = 1; i < bits.length; i++) {
-            if (String.valueOf(bits[i]).equals("1")) {
+            if ("1".equals(String.valueOf(bits[i]))) {
                 toConvert = toConvert.concat("0");
             } else {
                 toConvert = toConvert.concat("1");

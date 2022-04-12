@@ -26,7 +26,7 @@ public class Operator {
 			return this.value;
 		}
 	}
-	public static Set<String>  availableCharacters = Set.of("+", "-", "*", "/", "^", "÷");
+	public static Set<String>  availableCharacters = Set.of("+", "-", "*", "/", "^", "÷", "\u00D7");
 	
 	 private  int numOperands;
 	 private  boolean leftAssociative;
@@ -92,7 +92,7 @@ public class Operator {
 	    			return Precedence.SUB.getPrecedence();
 	    		}
 	    		return Precedence.UNARYMINUS.getPrecedence();
-	    	
+	    	case "\u00D7":
 	    	case "*":
 	    		return Precedence.MUL.getPrecedence();
 	    	case "÷":
@@ -118,8 +118,8 @@ public class Operator {
 	    			return new Operator(symbol, numArguments, true);
 	    		}
 	    		return new Operator(symbol, numArguments, false);
-	    	
 	    	case "*":
+	    	case "\u00D7":
 	    		return new Operator(symbol, numArguments, true);
 	    	case "÷":
 	    	case "/":
