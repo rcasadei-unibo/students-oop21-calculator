@@ -18,6 +18,7 @@ import javax.swing.ToolTipManager;
 
 import view.components.CCDisplay;
 import view.components.CCNumPad;
+import model.manager.EngineModelInterface.Calculator;
 /**
  * 
  * MISSING JAVADOC.
@@ -28,11 +29,6 @@ public class CombinatoricsCalculatorPanel extends JPanel {
      * 
      */
     private static final long serialVersionUID = 1L;
-    private static final Map<String, String> OPERATIONS = Map.of("Sequences", "sequencesNumber", "Dispositions", "factorial",
-            "Subsets", "binomialCoefficient", "Derangements", "derangement", "Partitions", "bellNumber",
-            "Partitions(binary)", "stirlingNumber", "Fibonacci", "fibonacci", "Fibonacci(binary)", "binaryFibonacci");
-    private static final List<String> OPERATIONSLIST = List.of("Sequences", "Dispositions", "Subsets",
-            "Derangements", "Partitions", "Partitions(binary)", "Fibonacci", "Fibonacci(binary)");
     /**
      * 
      */
@@ -64,36 +60,40 @@ public class CombinatoricsCalculatorPanel extends JPanel {
         this.add(new OperationsPanel(logics, display, explLabel), BorderLayout.EAST);
 
     }
+    /**
+     * 
+     * MISSING JAVADOC.
+     *
+     */
     static class OperationsPanel extends JPanel {
         /**
          * 
          */
         private static final long serialVersionUID = 1L;
-        private final CombinatoricsLogics logics;
-        private final CCDisplay display;
-        private final JLabel explLabel;
-        public static final String SEP = File.separator;
-        public static final String DIRECTORY = System.getProperty("user.dir") + SEP + "src" + SEP + "utils" + SEP + "combOpExpl" + SEP;
+        private final String sep = File.separator;
+        private final String directory = System.getProperty("user.dir") + this.sep + "src" + this.sep + "utils" + this.sep + "combOpExpl" + this.sep;
+        private final Map<String, String> opMap = Map.of("Sequences", "sequencesNumber", "Dispositions", "factorial",
+                "Subsets", "binomialCoefficient", "Derangements", "derangement", "Partitions", "bellNumber",
+                "Partitions(binary)", "stirlingNumber", "Fibonacci", "fibonacci", "Fibonacci(binary)", "binaryFibonacci");
+        private final List<String> opList = List.of("Sequences", "Dispositions", "Subsets",
+                "Derangements", "Partitions", "Partitions(binary)", "Fibonacci", "Fibonacci(binary)");
 
         OperationsPanel(final CombinatoricsLogics logics, final CCDisplay display, final JLabel explLabel) {
-            this.display = display;
-            this.explLabel = explLabel;
-            this.logics = logics;
             this.setLayout(new GridLayout(8, 2));
-            OPERATIONSLIST.forEach(str -> {
-                this.createOpButton(str, OPERATIONS.get(str));
-                this.createExplButton(str);
+            this.opList.forEach(str -> {
+                this.createOpButton(str, this.opMap.get(str), logics, display);
+                this.createExplButton(str, explLabel);
             });
         }
-        private void createOpButton(final String btnName, final String opName) {
+        private void createOpButton(final String btnName, final String opName, final CombinatoricsLogics logics, final CCDisplay display) {
             final var btn = new JButton(btnName);
             btn.addActionListener(e -> {
-                display.updateText(this.logics.opAction(btnName, opName));
+                display.updateText(logics.opAction(btnName, opName));
             });
             this.add(btn);
         }
-        private void createExplButton(final String opName) {
-            final var file = DIRECTORY + opName;
+        private void createExplButton(final String opName, final JLabel explLabel) {
+            final var file = this.directory + opName;
             final var btn = new JButton("?");
             ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
             btn.setToolTipText(this.readFromFile(file + "(TT)"));
