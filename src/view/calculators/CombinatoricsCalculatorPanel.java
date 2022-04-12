@@ -74,7 +74,7 @@ public class CombinatoricsCalculatorPanel extends JPanel {
 
         private static final long serialVersionUID = 1L;
         private final String sep = File.separator;
-        private final String directory = System.getProperty("user.dir") + this.sep + "src" + this.sep + "utils" + this.sep + "combOpExpl" + this.sep;
+        private final String directory = System.getProperty("user.dir") + this.sep + "src" + this.sep + "resources" + this.sep;
         private final Map<String, String> opMap = Map.of("Sequences", "sequencesNumber", "Dispositions", "factorial",
                 "Subsets", "binomialCoefficient", "Derangements", "derangement", "Partitions", "bellNumber",
                 "Partitions(binary)", "stirlingNumber", "Fibonacci", "fibonacci", "Fibonacci(binary)", "binaryFibonacci");
