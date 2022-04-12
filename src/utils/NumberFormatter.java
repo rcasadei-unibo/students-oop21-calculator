@@ -7,7 +7,8 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 /**
- * 
+ * Utility class for formatting a Double value to a string.
+ * This formatter allows to choose when to format a number in scientific notation and how many decimal digits to show.
  */
 public final class NumberFormatter {
 
@@ -22,6 +23,7 @@ public final class NumberFormatter {
     public static String trimZeros(final String value) {
         String s = value;
         String exp = "";
+
         if (value.contains("E")) {
             final int expPos = value.indexOf('E');
             s = value.substring(0, expPos);
@@ -36,7 +38,6 @@ public final class NumberFormatter {
     }
 
     /**
-     * 
      * Formats a given number according to a maximum number of digits for the integer part and for the decimal part.
      * If the number of integer digits of the number exceeds the maximum, the number will be formatted in exponential notation.
      * If the number of decimal digits of the number exceeds the maximum, the number will be rounded and, when necessary, formatted in exponential notation. 

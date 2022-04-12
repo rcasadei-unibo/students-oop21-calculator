@@ -6,7 +6,6 @@ import java.util.function.UnaryOperator;
 
 import utils.CCBinaryOperator;
 import utils.CCUnaryOperator;
-import utils.CalcException;
 /**
  * 
  * MISSING JAVADOC.
@@ -38,14 +37,8 @@ public final class CombinatoricsCalculatorModelFactory {
                 "stirlingNumber", createBinaryFunction((n, k) -> stirlingNumber(n, k)));
         final Map<String, CCUnaryOperator> unaryOpMap = Map.of(
                 "fibonacci", createUnaryFunction((n) -> fibonacci(n)),
-                "scombussolamento", createUnaryFunction((n) -> derangement(n)),
-                "bellNumber", createUnaryFunction((n) -> {
-                    try {
-                        return bellNumber(n);
-                    } catch (CalcException e) {
-                        return Double.POSITIVE_INFINITY;
-                    }
-                }));
+                "derangement", createUnaryFunction((n) -> derangement(n)),
+                "bellNumber", createUnaryFunction((n) -> bellNumber(n)));
         return new CalculatorModelTemplate(binaryOpMap, unaryOpMap);
     }
     /**
@@ -128,9 +121,9 @@ public final class CombinatoricsCalculatorModelFactory {
      * @return the number of partitions of the set A which equals Bell(n)
      * @throws CalcException 
      */
-    private static double bellNumber(final double n) throws CalcException {
+    private static double bellNumber(final double n) {
         if (n > BELLNUMBERMAX) {
-            throw new CalcException("Overflow");
+            return Double.POSITIVE_INFINITY;
         }
         if (n == 0) {
             return 1;
@@ -148,6 +141,9 @@ public final class CombinatoricsCalculatorModelFactory {
      * @return the number of partitions of the set A in k blocks which equals Stirling(n, k)
      */
     private static double stirlingNumber(final double n, final double k) {
+        if (k > n) {
+            return 0;
+        }
         double result = 0;
         for (double i = 0; i <= k; i++) {
             result += Math.pow(-1, k - i) * Math.pow(i, n) * binomialCoefficient(k, i);

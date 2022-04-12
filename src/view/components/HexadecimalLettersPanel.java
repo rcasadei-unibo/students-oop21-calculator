@@ -25,7 +25,9 @@ public class HexadecimalLettersPanel extends JPanel {
      * @param al
      */
     public HexadecimalLettersPanel(final ActionListener al) {
-        this.setLayout(new GridLayout(6, 1));
+        final int rows = 6;
+        final int cols = 1;
+        this.setLayout(new GridLayout(rows, cols));
         final JButton a = new JButton("A");
         a.addActionListener(al);
         this.hexadecimalLetters.add(a);

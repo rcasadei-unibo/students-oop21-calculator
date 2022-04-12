@@ -13,8 +13,8 @@ public interface EngineInterface {
      * Calculates a given input expression (a list of strings in infix notation) and returns the result.
      * 
      * @param input List of strings representing the expression in infix notation.
-     * @return result Double value resulted from the calculation.
-     * @throws CalcException 
+     * @return Double value resulted from the calculation.
+     * @throws CalcException Exception thrown when a syntax error in the expression is found.
      */
     double calculate(List<String> input) throws CalcException;
 
@@ -28,11 +28,11 @@ public interface EngineInterface {
     List<String> parseToRPN(List<String> infix) throws CalcException;
 
     /**
-     * TODO: javadoc.
+     * Calculates a given input expression (a list of strings in infix notation) and returns the formatted result.
      * 
-     * @param input
-     * @return string
-     * @throws CalcException
+     * @param input List of strings representing the expression in infix notation.
+     * @return Formatted string representation of the result of the calculation. 
+     * @throws CalcException Exception thrown when a syntax error in the expression is found.
      */
     String calculateAndFormat(List<String> input) throws CalcException;
 

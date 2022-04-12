@@ -31,7 +31,6 @@ public final class ProgrammerCalculatorModelFactory {
                 "roR",  new CCBinaryOperator((n1, n2) -> roR(n1, n2), 1, Type.LEFT),
                 "roL",  new CCBinaryOperator((n1, n2) -> roL(n1, n2), 1, Type.LEFT)
                 ));
-        
         binaryOpMap.putAll(getBasicOperators());
 
         final Map<String, CCUnaryOperator> unaryOpMap = new HashMap<>(
@@ -44,7 +43,7 @@ public final class ProgrammerCalculatorModelFactory {
      * 
      * @return MISSING JAVADOC.
      */
-    public static Map<String, CCBinaryOperator> getBasicOperators() {
+    private static Map<String, CCBinaryOperator> getBasicOperators() {
         final Map<String, CCBinaryOperator> x = StandardCalculatorModelFactory.create().getBinaryOpMap();
         x.remove("%");
         return x;
@@ -70,7 +69,7 @@ public final class ProgrammerCalculatorModelFactory {
         final var bits = stringBits.toCharArray();
         String toConvert = String.valueOf(bits[0]);
         for (int i = 1; i < bits.length; i++) {
-            if (String.valueOf(bits[i]).equals("1")) {
+            if ("1".equals(String.valueOf(bits[i]))) {
                 toConvert = toConvert.concat("0");
             } else {
                 toConvert = toConvert.concat("1");

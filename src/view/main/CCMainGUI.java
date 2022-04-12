@@ -13,21 +13,19 @@ import java.awt.Dimension;
 
 import java.awt.BorderLayout;
 
-import controller.manager.CCManager;
-import controller.manager.ManagerInterface;
-import model.manager.ManagerModelInterface.Calculator;
+import model.manager.EngineModelInterface.Calculator;
 import view.calculators.AdvancedCalculatorPanel;
 import model.manager.EngineModelInterface.Calculator;
 import view.calculators.CombinatoricsCalculatorPanel;
+import view.calculators.GraphicCalculatorPanel;
 import view.calculators.ProgrammerCalculatorPanel;
 import view.calculators.ScientificCalculatorPanel;
 import view.calculators.StandardCalculatorPanel;
 
 /**
- * TODO: min size of frame, menu, numpad.
- * TODO: update font size when tall enough
- * TODO: display size changes on resize
- *
+ * Main JFrame of the application.
+ * It contains references to the JPanel of each calculator and displays the right panel on request.
+ * It consists of a main panel and a menu to select the calculator to show.
  */
 public class CCMainGUI extends JFrame implements View {
 
@@ -35,7 +33,6 @@ public class CCMainGUI extends JFrame implements View {
      * 
      */
     private static final long serialVersionUID = -4510924334938545109L;
-    private final transient ManagerInterface manager = new CCManager();
     private final transient ViewLogics logics = new ViewLogicsImpl(this);
 
     private final JPanel outer = new JPanel();
@@ -47,11 +44,11 @@ public class CCMainGUI extends JFrame implements View {
             Calculator.SCIENTIFIC, new ScientificCalculatorPanel(Calculator.SCIENTIFIC.getController()),
             Calculator.PROGRAMMER, new ProgrammerCalculatorPanel(Calculator.PROGRAMMER.getController()),
             Calculator.GRAPHIC, new StandardCalculatorPanel(Calculator.GRAPHIC.getController()),
-            Calculator.ADVANCED, new StandardCalculatorPanel(Calculator.STANDARD.getController()),
+            Calculator.ADVANCED, new AdvancedCalculatorPanel(Calculator.ADVANCED.getController()),
             Calculator.COMBINATORICS, new CombinatoricsCalculatorPanel()
             );
     /**
-     * 
+     * Creates the JFrame of the application and sets it visible.
      */
     public CCMainGUI() {
 
@@ -79,17 +76,13 @@ public class CCMainGUI extends JFrame implements View {
         outer.setLayout(new BorderLayout());
         this.getContentPane().add(outer);
 
-        this.manager.engine().mount(Calculator.STANDARD);
         this.logics.mount(Calculator.STANDARD);
         this.setVisible(true);
     }
 
     private JMenuItem createMenuItem(final String text, final Calculator calcName) {
         final JMenuItem menuItem = new JMenuItem(text);
-        menuItem.addActionListener(e -> {
-            this.manager.engine().mount(calcName);
-            this.logics.mount(calcName);
-        });
+        menuItem.addActionListener(e -> this.logics.mount(calcName));
         return menuItem;
     }
 

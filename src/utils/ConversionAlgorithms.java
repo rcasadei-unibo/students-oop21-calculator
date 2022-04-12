@@ -1,6 +1,5 @@
 package utils;
 
-
 /**
  * This class contains methods for conversions, such as:
  * -Decimal to Binary
@@ -19,8 +18,8 @@ public final class ConversionAlgorithms {
      *         "-10" would become "-1010"
      *         "0" is converted to "+0" 
      */
-    private static String conversionToStringBinary(final int number) {
-        final String value = Integer.toBinaryString(Math.abs(number));
+    private static String conversionToStringBinary(final long number) {
+        final String value = Long.toBinaryString(Math.abs(number));
         return number >= 0 ? "+".concat(value) : "-".concat(value);
     }
     /**
@@ -31,8 +30,8 @@ public final class ConversionAlgorithms {
      *         "10" would become "0A"
      *         "-10" would become "-A"
      */
-    private static String conversionToStringHexadecimal(final int number) {
-        final String value = Integer.toHexString(Math.abs(number));
+    private static String conversionToStringHexadecimal(final long number) {
+        final String value = Long.toHexString(Math.abs(number));
         return number >= 0 ? "+".concat(value).toUpperCase() : "-".concat(value).toUpperCase();
     }
     private static double hexadecimalLetters(final String bit) {
@@ -50,7 +49,7 @@ public final class ConversionAlgorithms {
             case "F":
                 return 15.0;
             default:
-                return bit.equals("0") ? 0.0 : Integer.parseInt(bit);
+                return bit.equals("0") ? 0.0 : Long.parseLong(bit);
         } 
     }
     /**
@@ -61,25 +60,25 @@ public final class ConversionAlgorithms {
      *         "10" would become "012"
      *         "-10" would become "112"
      */
-    private static String conversionToStringOctal(final int number) {
-        final String value = Integer.toOctalString(Math.abs(number));
+    private static String conversionToStringOctal(final long number) {
+        final String value = Long.toOctalString(Math.abs(number));
         return number >= 0 ? "+".concat(value) : "-".concat(value);
     }
     /**
      * Generic conversion algorithms that accepts base2, base8 and base10.
-     * @param number the number to be converted
+     * @param l the number to be converted
      * @param base in which the number will be converted
      * @return the string form of the converted number.
      * 
      */
-    public static String conversionToStringBase(final int base, final int number) {
+    public static String conversionToStringBase(final int base, final long l) {
         switch (base) {
         case 2:
-            return conversionToStringBinary(number);
+            return conversionToStringBinary(l);
         case 8:
-            return conversionToStringOctal(number);
+            return conversionToStringOctal(l);
         case 16:
-            return conversionToStringHexadecimal(number);
+            return conversionToStringHexadecimal(l);
         default:
             return null;
         }
@@ -90,8 +89,8 @@ public final class ConversionAlgorithms {
      * @param number to be converted
      * @return an Integer containing the decimal conversion of the number
      */
-    public static int conversionToDecimal(final int base, final String number) {
-        int ret = 0;
+    public static long conversionToDecimal(final int base, final String number) {
+        long ret = 0;
         final var bits = number.toCharArray();
         for (int i = 1; i < bits.length; i++) {
             if (base == 16) {
@@ -102,23 +101,21 @@ public final class ConversionAlgorithms {
                 ret += Integer.parseInt(String.valueOf(bits[i])) * Math.pow(base, bits.length - 1 - i);
             }
         }
-        return String.valueOf(bits[0]).equals("+") ? ret : (-1) * ret;
+        return !String.valueOf(bits[0]).equals("-") ? ret : (-1) * ret;
     }
     /**
      * 
      * @param base
      * @param number
-     * @return
+     * @return a.
      */
     public static int unsignedConversionToDecimal(final int base, final String number) {
         int ret = 0;
         final var bits = number.toCharArray();
         for (int i = 0; i < bits.length; i++) {
             if (base == 16) {
-             
                 ret += hexadecimalLetters(String.valueOf(bits[i])) * Math.pow(base, bits.length - 1 - i);
             } else {
-             
                 ret += Integer.parseInt(String.valueOf(bits[i])) * Math.pow(base, bits.length - 1 - i);
             }
         }

@@ -5,6 +5,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.JButton;
@@ -29,7 +30,6 @@ public class ProgrammerCalculatorPanel extends JPanel {
      * 
      */
     private static final long serialVersionUID = -8342823219976507443L;
-    private final transient  CalculatorController controller;
     private final CCDisplay display = new CCDisplay();
     private HexadecimalLettersPanel hexaLetters;
     private ConversionPanel convPanel;
@@ -61,7 +61,7 @@ public class ProgrammerCalculatorPanel extends JPanel {
         };
         this.numpad = new CCNumPad(btnAl, calcAl, backspaceAl);
         this.numpad.getButtons().entrySet().forEach((entry) -> {
-            if (entry.getKey().equals(".")) {
+            if (".".equals(entry.getKey())) {
                 entry.getValue().setEnabled(false);
             }
         });
@@ -71,22 +71,9 @@ public class ProgrammerCalculatorPanel extends JPanel {
             @Override
             public void actionPerformed(final ActionEvent e) {
                 final String text = ((JButton) e.getSource()).getText();
-
-                //final var temp = ProgrammerCalculatorModelFactory.create().getBinaryOpMap();
-                /**if (temp.get(text) == null) { //text is unary operator
-
-                    formatter.read(text);
-
-                    display.updateText(formatter.getOutput());
-
-                } else {
-                    formatter.read(text);
-
-                    display.updateText(formatter.getOutput());
-                }*/
                 formatter.read(text);
 
-                display.updateText(formatter.getOutput());
+                updateDisplays();
             }
         };
     }
@@ -95,7 +82,6 @@ public class ProgrammerCalculatorPanel extends JPanel {
      * @param controller
      */
     public ProgrammerCalculatorPanel(final CalculatorController controller) {
-        this.controller = controller;
         this.formatter = new InputFormatter(controller);
         this.setPanels();
     }
@@ -143,7 +129,6 @@ public class ProgrammerCalculatorPanel extends JPanel {
                 display.updateText("0");
                 convPanel.updateConvDisplays(0);
             }
-            
         };
         this.convPanel = new ConversionPanel(conv);
         this.add(this.convPanel, BorderLayout.CENTER);
@@ -211,15 +196,15 @@ public class ProgrammerCalculatorPanel extends JPanel {
 
         final JPanel numpad = new JPanel();
         numpad.setLayout(new GridLayout(1, 3));
-        // TODO add ActionListener for hexadecimal letters
         final ActionListener letterActionListener = new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
                 final String text = ((JButton) e.getSource()).getText();
                 formatter.read(text);
-                display.updateText(formatter.getOutput());
+                updateDisplays();
             }
         };
+
         this.hexaLetters = new HexadecimalLettersPanel(letterActionListener);
         //this sets the standard initial base to 10, disabling hexadecimal Letters
         formatter.reset(10);
@@ -238,8 +223,10 @@ public class ProgrammerCalculatorPanel extends JPanel {
     }
 
     private JPanel getRightNumpad() {
+        final int rows = 6;
+        final int cols = 1;
         final JPanel operators = new JPanel();
-        operators.setLayout(new GridLayout(6, 1));
+        operators.setLayout(new GridLayout(rows, cols));
 
         final JButton not = new JButton("not");
         not.addActionListener(opAl);
@@ -248,12 +235,12 @@ public class ProgrammerCalculatorPanel extends JPanel {
 
         operators.add(not);
         operators.add(nor);
-
-        for (final var entry : ProgrammerCalculatorModelFactory.getBasicOperators().entrySet()) {
-            final JButton btn = new JButton(entry.getKey());
-            btn.addActionListener(opAl);
+        
+        List.of("+", "-", "×", "÷").forEach((op) -> {
+            final JButton btn = new JButton(op);
+            btn.addActionListener(opAl); 
             operators.add(btn);
-        }
+        });
 
         return operators;
     }

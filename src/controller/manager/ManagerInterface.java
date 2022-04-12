@@ -2,36 +2,18 @@ package controller.manager;
 
 
 /**
- * 
+ * Interface for the system manager.
  */
 public interface ManagerInterface {
-//
-//    /**
-//     * Mount a selected calculator.
-//     * @param calc Calculator to mount
-//     */
-//    void mount(Calculator calc);
-//
-//    /**
-//     * Returns the currently mounted calculator.
-//     * @return Calculator currently mounted
-//     */
-//    Calculator getMounted();
-//
-//    /**
-//     * Calculates the result of the expression currently in memory.
-//     */
-//    void calculate();
-
     /**
-     * 
-     * @return memory
+     * Returns the memory manager of the system. It contains functionalities for reading input, getting current state of the system and retrieve the result of a calculation.
+     * @return Memory manager for this system.
      */
     MemoryManager memory();
 
     /**
-     * 
-     * @return engine
+     * Returns the engine manager of the system. It contains functionalities for calculating and selecting the calculator to use.
+     * @return Engine manager for this system.
      */
     EngineManager engine();
 }
