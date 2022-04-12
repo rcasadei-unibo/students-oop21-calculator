@@ -105,6 +105,10 @@ public class InputFormatter {
      * quando si cambia base di conversione si cancella tutto.
      */
     public void deleteLast() {
+        if ("Syntax error".equals(lastNumBuffer)) {
+            this.reset(conversionBase);
+        }
+
         if (!this.buffer.isEmpty()) {
             this.buffer.remove(this.buffer.size() - 1);
             if (this.lastNumBuffer.length() > 1) {
