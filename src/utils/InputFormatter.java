@@ -78,7 +78,7 @@ public class InputFormatter {
             return this.buffer;
         }
         String strNumber = "";
-        int intNumber = 0;
+        int intNumber;
         final List<String> formattedList = new ArrayList<>();
         for (final var str : this.buffer) {
             if (!this.tokens.contains(str)) {
@@ -97,7 +97,6 @@ public class InputFormatter {
             intNumber = ConversionAlgorithms.unsignedConversionToDecimal(conversionBase, strNumber);
             strNumber = String.valueOf(intNumber);
             List.of(strNumber.split("")).stream().forEach((dec) -> formattedList.add(dec));
-            strNumber = "";
         }
         return formattedList;
     }

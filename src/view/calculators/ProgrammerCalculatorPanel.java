@@ -63,7 +63,7 @@ public class ProgrammerCalculatorPanel extends JPanel {
         };
         this.numpad = new CCNumPad(btnAl, calcAl, backspaceAl);
         this.numpad.getButtons().entrySet().forEach((entry) -> {
-            if (entry.getKey().equals(".")) {
+            if (".".equals(entry.getKey())) {
                 entry.getValue().setEnabled(false);
             }
         });
@@ -198,7 +198,6 @@ public class ProgrammerCalculatorPanel extends JPanel {
 
         final JPanel numpad = new JPanel();
         numpad.setLayout(new GridLayout(1, 3));
-        // TODO add ActionListener for hexadecimal letters
         final ActionListener letterActionListener = new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
