@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import controller.manager.CCEngine;
-import model.manager.ManagerModelInterface.Calculator;
+import model.manager.EngineModelInterface.Calculator;
 import utils.CalcException;
 import utils.calculate.Expression;
 import utils.calculate.Limit;

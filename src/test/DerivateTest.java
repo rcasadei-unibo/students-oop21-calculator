@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import controller.manager.CCEngine;
-import model.manager.ManagerModelInterface.Calculator;
+import model.manager.EngineModelInterface.Calculator;
 import utils.CalcException;
 import utils.calculate.Derivate;
 import utils.calculate.Expression;
