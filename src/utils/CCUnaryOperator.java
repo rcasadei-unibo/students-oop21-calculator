@@ -4,7 +4,7 @@ import java.util.function.UnaryOperator;
 
 /**
  * 
- * MISSING JAVADOC.
+ * The generic operator for binary operations. It contains a UnaryOperator(with his function), a int for the precedence and a Type for the type of association.
  *
  */
 public class CCUnaryOperator {
@@ -13,9 +13,9 @@ public class CCUnaryOperator {
     private final Type type;
     /**
      * 
-     * @param operator
-     * @param precedence
-     * @param type
+     * @param operator a UnaryOperator that contains the right Function for this operator
+     * @param precedence the level of precedence of the operator
+     * @param type the type of association of the operator
      */
     public CCUnaryOperator(final UnaryOperator<Double> operator, final int precedence, final Type type) {
         this.operator = operator;
@@ -24,22 +24,22 @@ public class CCUnaryOperator {
     }
     /**
     * 
-    * @param a
-    * @return MISSING.
+    * @param a the operand
+    * @return the result of the operation
     */
     public double apply(final double a) {
         return this.operator.apply(a);
     }
     /**
      * 
-     * @return MISSING.
+     * @return the level of precedence of the operator
      */
     public int getPrecedence() {
         return precedence;
     }
     /**
      * 
-     * @return MISSING.
+     * @return the type of association of the operator
      */
     public Type getType() {
         return type;

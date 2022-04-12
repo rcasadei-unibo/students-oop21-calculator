@@ -1,6 +1,7 @@
 package view.calculators;
 
 import java.awt.BorderLayout;
+
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
@@ -19,18 +20,18 @@ import javax.swing.ToolTipManager;
 import view.components.CCDisplay;
 import view.components.CCNumPad;
 import model.manager.EngineModelInterface.Calculator;
+
 /**
  * 
- * MISSING JAVADOC.
+ * Combinatorics Calculator GUI.
  *
  */
 public class CombinatoricsCalculatorPanel extends JPanel {
-    /**
-     * 
-     */
+
     private static final long serialVersionUID = 1L;
+
     /**
-     * 
+     * It creates a BorderLayout panel: the display is North, the buttons are in the center and the label with examples for the operations is South.
      */
     public CombinatoricsCalculatorPanel() {
         final CombinatoricsLogics logics = new CombinatoricsLogicsImpl();
@@ -39,18 +40,22 @@ public class CombinatoricsCalculatorPanel extends JPanel {
         this.add(display, BorderLayout.NORTH);
         final var explLabel = new JLabel();
         Calculator.COMBINATORICS.getController().setDisplay(display);
+
         final ActionListener btnAl = e -> {
             final var btn = (JButton) e.getSource();
             display.updateText(logics.numberAction(btn.getText()));
         };
+
         final ActionListener calculateAl = e -> {
             display.updateUpperText(logics.calculateAction());
             display.updateText(logics.getStream());
             explLabel.setText("");
         };
+
         final ActionListener backspaceAl = e -> {
             display.updateText(logics.backspaceAction());
         };
+
         final var numpad = new CCNumPad(btnAl, calculateAl, backspaceAl);
         numpad.getButtons().get("(").setEnabled(false);
         numpad.getButtons().get(")").setEnabled(false);
@@ -58,17 +63,15 @@ public class CombinatoricsCalculatorPanel extends JPanel {
         this.add(numpad, BorderLayout.CENTER);
         this.add(explLabel, BorderLayout.SOUTH);
         this.add(new OperationsPanel(logics, display, explLabel), BorderLayout.EAST);
-
     }
+
     /**
      * 
-     * MISSING JAVADOC.
+     * JPanel containing the buttons of the operations(and the explanation buttons).
      *
      */
     static class OperationsPanel extends JPanel {
-        /**
-         * 
-         */
+
         private static final long serialVersionUID = 1L;
         private final String sep = File.separator;
         private final String directory = System.getProperty("user.dir") + this.sep + "src" + this.sep + "utils" + this.sep + "combOpExpl" + this.sep;
@@ -85,6 +88,7 @@ public class CombinatoricsCalculatorPanel extends JPanel {
                 this.createExplButton(str, explLabel);
             });
         }
+
         private void createOpButton(final String btnName, final String opName, final CombinatoricsLogics logics, final CCDisplay display) {
             final var btn = new JButton(btnName);
             btn.addActionListener(e -> {
@@ -92,6 +96,7 @@ public class CombinatoricsCalculatorPanel extends JPanel {
             });
             this.add(btn);
         }
+
         private void createExplButton(final String opName, final JLabel explLabel) {
             final var file = this.directory + opName;
             final var btn = new JButton("?");
@@ -103,6 +108,7 @@ public class CombinatoricsCalculatorPanel extends JPanel {
             });
             this.add(btn);
         }
+
         private String readFromFile(final String file) {
             String result = "<html><p width=\"500\">";
             try (BufferedReader br = new BufferedReader(new FileReader(file + ".txt"))) {
