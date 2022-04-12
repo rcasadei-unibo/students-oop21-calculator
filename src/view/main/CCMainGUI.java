@@ -17,6 +17,7 @@ import model.manager.EngineModelInterface.Calculator;
 import view.calculators.AdvancedCalculatorPanel;
 import model.manager.EngineModelInterface.Calculator;
 import view.calculators.CombinatoricsCalculatorPanel;
+import view.calculators.GraphicCalculatorPanel;
 import view.calculators.ProgrammerCalculatorPanel;
 import view.calculators.ScientificCalculatorPanel;
 import view.calculators.StandardCalculatorPanel;

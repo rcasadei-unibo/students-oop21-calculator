@@ -6,7 +6,6 @@ import javax.swing.JPanel;
 
 import controller.calculators.CalculatorController;
 import utils.CreateButton;
-import view.components.Graph;
 /**
  * 
  * MISSING JAVADOC.
@@ -27,7 +26,6 @@ public class ScientificCalculatorPanel extends StandardCalculatorPanel {
     public ScientificCalculatorPanel(final CalculatorController controller) {
         super(controller);
         this.add(this.getScientificOperators(), BorderLayout.WEST);
-        this.add(getScientificOperators());
     }
 
     private JPanel getScientificOperators() {
