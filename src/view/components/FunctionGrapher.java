@@ -68,7 +68,7 @@ public class FunctionGrapher extends JPanel {
         final Polygon p = new Polygon();
         double x = Math.negateExact(LIMIT);
         while (x <= LIMIT) {
-           p.addPoint((int) (w / 2 + x * scale), (int) (h / 2 - Math.abs(x) * scale));
+           p.addPoint((int) (w / 2 + x * scale), (int) (h / 2 - x * scale));
            x += PRECISION;
         }
         fun.drawPolyline(p.xpoints, p.ypoints, p.npoints);

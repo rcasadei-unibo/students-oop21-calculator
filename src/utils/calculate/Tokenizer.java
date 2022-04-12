@@ -25,8 +25,11 @@ public class Tokenizer {
     private final Set<String> constants;
     private boolean implicitMultiplication = true;
     private final ExternData data = new ExternData();
-
-    Tokenizer(final String expr) {
+/**
+ * 
+ * @param expr
+ */
+    public Tokenizer(final String expr) {
         this.expr = expr;
         this.lenExpr = expr.length();
         this.variable = data.getVariable();
@@ -51,7 +54,7 @@ public class Tokenizer {
         if (Character.isDigit(c)) {
             if (lastToken != null) {
                 if (lastToken.getTypeToken().equals(TokenType.NUMBER) && !isRPN) {
-                    throw new IllegalArgumentException("2 numbers can't stay near: "+c);
+                    throw new IllegalArgumentException("2 numbers can't stay near: " + c);
                 }
                 if (implicitMultiplication && lastToken.getTypeToken() != TokenType.OPENPAR && lastToken.getTypeToken() != TokenType.FUNCTION
                         && lastToken.getTypeToken() != TokenType.OPERATOR) {
