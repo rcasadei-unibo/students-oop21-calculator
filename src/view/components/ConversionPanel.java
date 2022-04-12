@@ -1,5 +1,6 @@
 package view.components;
 
+
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
@@ -20,8 +21,6 @@ public class ConversionPanel extends JPanel {
     private static final long serialVersionUID = -9080067811293897721L;
 
     private final Map<String, CCDisplay> map = new HashMap<>();
-
-    private final CCDisplay decDisplay;
     //TODO add javadoc.
     /**
      * MISSING JAVADOC.
@@ -40,7 +39,7 @@ public class ConversionPanel extends JPanel {
         final JButton dec = new JButton("DEC");
         dec.addActionListener(conv);
         this.add(dec);
-        this.decDisplay = new CCDisplay();
+        final CCDisplay decDisplay = new CCDisplay();
         this.add(decDisplay);
         this.map.put(dec.getText(), decDisplay);
 
@@ -60,8 +59,7 @@ public class ConversionPanel extends JPanel {
     }
 
     /**
-     * @param l
-     *            for base2 base8 and base16.
+     * @param l the number that the displays will show
      */
     public void updateConvDisplays(final long l) {
             this.map.entrySet().stream().forEach((entry) -> entry.getValue().updateText(textToBase(entry.getKey(), l)));
@@ -81,5 +79,4 @@ public class ConversionPanel extends JPanel {
             return null;
         }
     }
-
 }

@@ -131,7 +131,6 @@ public class ProgrammerCalculatorPanel extends JPanel {
                 display.updateText("0");
                 convPanel.updateConvDisplays(0);
             }
-            
         };
         this.convPanel = new ConversionPanel(conv);
         this.add(this.convPanel, BorderLayout.CENTER);
@@ -228,8 +227,10 @@ public class ProgrammerCalculatorPanel extends JPanel {
     }
 
     private JPanel getRightNumpad() {
+        final int rows = 6;
+        final int cols = 1;
         final JPanel operators = new JPanel();
-        operators.setLayout(new GridLayout(6, 1));
+        operators.setLayout(new GridLayout(rows, cols));
 
         final JButton not = new JButton("not");
         not.addActionListener(opAl);

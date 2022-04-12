@@ -1,7 +1,5 @@
 package utils;
 
-import java.util.List;
-
 /**
  * This class contains methods for conversions, such as:
  * -Decimal to Binary
@@ -24,8 +22,6 @@ public final class ConversionAlgorithms {
         final String value = Long.toBinaryString(Math.abs(number));
         return number >= 0 ? "+".concat(value) : "-".concat(value);
     }
-    
-    
     /**
      * 
      * @param number
@@ -124,14 +120,5 @@ public final class ConversionAlgorithms {
             }
         }
         return ret;
-    }
-    /**
-     * @param base
-     * @param number
-     * @return a.
-     */
-    public static List<String> unsignedConversionToListDecimal(final int base, final String number){
-        
-        return null;
     }
 }

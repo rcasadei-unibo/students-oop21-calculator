@@ -11,16 +11,12 @@ import model.calculators.ProgrammerCalculatorModelFactory;
  * MISSING JAVADOC.
  *
  */
-public class InputFormatter{
+public class InputFormatter {
     private int conversionBase = 10;
     private final CalculatorController controller;
     private List<String> buffer;
     private final List<String> tokens;
     private String lastNumBuffer = "";
-    //TODO Pressing C in hexadecimal does not change the conversionPanel output altho upon deletingLast() it updates
-
-    //TODO no hexadecimal operation works
-
     //TODO MISSING JAVADOC.
     /**
      * missing javadoc.
@@ -118,7 +114,6 @@ public class InputFormatter{
                 this.lastNumBuffer = "";
             }
         }
-        //TODO 
     }
     /**
      * 
@@ -130,20 +125,6 @@ public class InputFormatter{
         return this.buffer.stream().reduce("", (a, b) -> a + b);
     }
     /**
-     * 
-     * @return the int of the last current value of input 
-     */
-
-    private String integerParser(final String input) {
-        if (input.contains(".")) {
-            if (input.contains("E")) {
-                return "0";
-            }
-            return input.substring(0, input.indexOf('.'));
-        }
-        return input;
-    }
-    /**
      * dopo aver formattato tutto calcola il risultato e diventa il lastNumBuffer che poi verrà mostrato.
      */
     public void calculate() {
@@ -153,38 +134,28 @@ public class InputFormatter{
         this.controller.getManager().memory().readAll(temp);
         this.controller.getManager().engine().calculate();
         System.out.println("the engine's output" + this.controller.getManager().memory().getCurrentState().toString());
-        //this.buffer.clear();
         this.buffer.clear();
         /*
          * in case the result is negative i have to separate the - from the value
          */
-        
         //l'engine può ritornarmi come valore la seguente robba 
         //[2,5,0] oppure [-250]
         //la separo in [2,5,0] o [-,2,5,0]
-        
         //
-        
         if (this.controller.getManager().memory().getCurrentState().stream().reduce("", (a, b) -> a + b).contains("-")) {
             System.out.println("conteneva un val negativo");
             List.of(this.controller.getManager().memory().getCurrentState().get(0).split("")).stream().forEach((str) -> this.buffer.add(str));
-        }
-        else {
+        } else {
             this.buffer.addAll(this.controller.getManager().memory().getCurrentState());
             System.out.println("no neg=buffer: " + buffer.toString());
-        }        
+        }
         System.out.println("after calc" + this.buffer.toString());
         this.inverseFormat();
         System.out.println("after fixing" + this.buffer.toString());
         this.lastNumBuffer = this.buffer.stream().reduce("", (a, b) -> a + b);
         System.out.println("this is the result : " + lastNumBuffer);
-       
-        
         this.controller.getManager().memory().clear();
-        
-        
     }
-    
     private void inverseFormat() {
         if (this.conversionBase != 10) {
             final var toChange = new ArrayList<String>();
@@ -197,14 +168,10 @@ public class InputFormatter{
                     toChange.add(num);
                 }
             }
-            final var value = ConversionAlgorithms.conversionToStringBase(conversionBase , Long.parseLong(toConv)).replace("+", "");
-            
-            
+            final var value = ConversionAlgorithms.conversionToStringBase(conversionBase, Long.parseLong(toConv)).replace("+", "");
             List.of(value.split("")).forEach((str) -> toChange.add(str));
-            
             this.buffer = toChange;
         }
-        
     }
     /**
      * 
@@ -220,25 +187,19 @@ public class InputFormatter{
             this.lastNumBuffer = this.lastNumBuffer.replace("-", "");
             sign = -1;
         }
-        
         final var value = this.adjust();
-        
         return sign * value;
     }
     private long adjust() {
-        
         if (this.lastNumBuffer.contains(".")) {
             return Math.round(Double.parseDouble(lastNumBuffer));
         }
-        
         if (this.lastNumBuffer.contains("Syntax error")) {
             return 0L;
         }
-        
         if (!this.lastNumBuffer.isBlank()) {
             return ConversionAlgorithms.unsignedConversionToDecimal(conversionBase, lastNumBuffer);
         }
-        
         return ConversionAlgorithms.unsignedConversionToDecimal(conversionBase, lastNumBuffer);
     }
 }
