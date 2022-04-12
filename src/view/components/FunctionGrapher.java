@@ -1,13 +1,14 @@
 package view.components;
 
 import java.awt.BasicStroke;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
+
 import javax.swing.JPanel;
 
-import controller.calculators.CalculatorController;
 /**
  * 
  * 
@@ -19,17 +20,19 @@ public class FunctionGrapher extends JPanel {
      */
     private static final long serialVersionUID = -6534831232343094643L;
     private static final double PRECISION = 0.01;
-    private static double scale = 100;
+    private double scale = 100;
     private static final int LIMIT = 1000;
     /**
      *
      */
     public FunctionGrapher() {
+        this.setLayout(new BorderLayout());
         this.addMouseWheelListener(m -> {
-            if (m.getWheelRotation() > 0 && FunctionGrapher.scale > 3) {
-                FunctionGrapher.scale--;
-            } else {
-                 FunctionGrapher.scale += 1;
+            if (m.getWheelRotation() > 0 && this.scale > 16) {
+                this.scale--;
+            }
+            if (m.getWheelRotation() < 0) {
+                this.scale++;
             }
             this.repaint();
         });
@@ -65,7 +68,7 @@ public class FunctionGrapher extends JPanel {
         final Polygon p = new Polygon();
         double x = Math.negateExact(LIMIT);
         while (x <= LIMIT) {
-           p.addPoint((int) (w / 2 + x * scale), h / 2 - (int) Math.round((x + 1) * scale));
+           p.addPoint((int) (w / 2 + x * scale), (int) (h / 2 - Math.abs(x) * scale));
            x += PRECISION;
         }
         fun.drawPolyline(p.xpoints, p.ypoints, p.npoints);
@@ -99,3 +102,4 @@ public class FunctionGrapher extends JPanel {
         }
     }
 }
+
