@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import controller.manager.CCEngine;
-import model.manager.ManagerModelInterface.Calculator;
+import model.manager.EngineModelInterface.Calculator;
 import utils.CalcException;
 import utils.calculate.Expression;
 import utils.calculate.Limit;
@@ -30,9 +30,9 @@ public class LimitTest {
         final var limit = new Limit();
         limit.setParameters(new LinkedList<String>(List.of("0.0001")));
         expr.setExpr("x");
-        assertEquals(limit.calculate(expr), 0.0, 0.01);
+        assertEquals(Double.parseDouble(limit.calculate(expr)), 0.0, 0.01);
         expr.setExpr("sin(x)/x");
-        assertEquals(limit.calculate(expr), 1.0, 0.01);
+        assertEquals(Double.parseDouble(limit.calculate(expr)), 1.0, 0.01);
         
     }
 }
