@@ -43,7 +43,7 @@ public final class ProgrammerCalculatorModelFactory {
      * 
      * @return MISSING JAVADOC.
      */
-    public static Map<String, CCBinaryOperator> getBasicOperators() {
+    private static Map<String, CCBinaryOperator> getBasicOperators() {
         final Map<String, CCBinaryOperator> x = StandardCalculatorModelFactory.create().getBinaryOpMap();
         x.remove("%");
         return x;
