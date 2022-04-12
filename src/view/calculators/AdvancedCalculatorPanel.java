@@ -66,7 +66,7 @@ public class AdvancedCalculatorPanel extends JPanel {
             } catch (IllegalArgumentException error) {
                 this.advancedController.reset();
                 isError = true;
-                result = "Syntax Error";
+                result = error.getMessage();
             }
             if (!isError) {
                 advancedController.read(result);
@@ -85,7 +85,7 @@ public class AdvancedCalculatorPanel extends JPanel {
     private JPanel getOperatorsPanel(final ActionListener al) {
         final JPanel operators = new JPanel();
         operators.setLayout(new GridLayout(5, 3));
-        final List<String> buttons = List.of("+", "-", "\u00D7", "÷", "^", "sin", "cos", "log", "tan", "sqrt", "abs", "csc", "sec", "cot", "x");
+        final List<String> buttons = List.of("+", "-", "\u00D7", "÷", "^", "sin", "cos", "log", "tan", "√", "abs", "csc", "sec", "cot", "x");
         buttons.forEach(s -> {
             final var btn = new JButton(s);
             btn.addActionListener(al);
