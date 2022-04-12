@@ -163,13 +163,11 @@ public class Tokenizer {
         if (this.index - ind == 0) {
             num = Double.parseDouble(this.expr.substring(ind));
         } else {
-            //System.out.println("the number: "+this.expr.substring(ind, index));
             num = Double.parseDouble(this.expr.substring(ind, index));
         }
 
         final var number = TokensFactory.numberToken(num);
         lastToken = number;
-        //System.out.println(index);
         if (this.index == this.lenExpr - 1 && ind == this.index) {
             index++;
         }
@@ -181,8 +179,8 @@ public class Tokenizer {
         int previousIndex = -1;
         char c = this.expr.charAt(newIndex);
         Token newToken = null;
-        //System.out.println(c);
-        while (newIndex <= this.lenExpr - 1 && Character.isLetter(c) ||  c == '√') {
+
+        while (newIndex <= this.lenExpr - 1 && (Character.isLetter(c) ||  c == '√')) {
             if (newIndex - index == 0) {
                 if (String.valueOf(c).equals(this.variable)) {
                     newToken = TokensFactory.variableToken(this.variable);
@@ -191,7 +189,6 @@ public class Tokenizer {
                     newToken = TokensFactory.constantToken(String.valueOf(c));
                     previousIndex = newIndex + 1;
                 } else if (Function.isFunction(String.valueOf(c))) {
-                    System.out.println(c);
                     newToken = TokensFactory.functionToken(Function.dictFunctions.get(String.valueOf(c)));
                     previousIndex = newIndex + 1;
                 }
@@ -232,7 +229,7 @@ public class Tokenizer {
 
         if (lastToken == null) {
             arguments = 1;
-        } else if(!isRPN){
+        } else if (!isRPN) {
             if (lastToken.getTypeToken() == TokenType.OPENPAR) {
                 arguments = 1;
             } else if (lastToken.getTypeToken() == TokenType.OPERATOR) {
@@ -247,14 +244,6 @@ public class Tokenizer {
         final var newOp = Operator.getOperatorBySymbolAndArgs(String.valueOf(c), arguments);
         lastToken = TokensFactory.operatorToken(newOp);
         return lastToken;
-    }
-
-    public static void main(String[] args) {
-        var tok = new Tokenizer("5.0");
-        while (tok.hasNextToken()) {
-            Token t = tok.getNextToken();
-            System.out.println(t.getTypeToken());
-        }
     }
 
 }
