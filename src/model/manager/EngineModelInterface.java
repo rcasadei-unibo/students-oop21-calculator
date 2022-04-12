@@ -9,7 +9,7 @@ import model.calculators.ScientificCalculatorModelFactory;
 import model.calculators.StandardCalculatorModelFactory;
 
 /**
- *
+ * Interface for the model of the engine manager.
  */
 public interface EngineModelInterface {
 
@@ -41,7 +41,7 @@ public interface EngineModelInterface {
         /**
          * Advanced calculator. Contains a reference to the advanced calculator controller.
          */
-        ADVANCED(CombinatoricsCalculatorModelFactory.create());
+        ADVANCED(ScientificCalculatorModelFactory.create());
 
         private final CalculatorController controller;
         Calculator(final CalculatorModel model) {
@@ -59,14 +59,14 @@ public interface EngineModelInterface {
     }
 
     /**
-     * Sets the calculator to be used. 
-     * @param calculator calculator to be mounted
+     * Sets the calculator to be used in the calculations. 
+     * @param calculator Calculator to be mounted
      */
     void setMounted(Calculator calculator);
 
     /**
      * Returns the calculator currently in use.
-     * @return currently mounted calculator
+     * @return Currently mounted calculator
      */
     Calculator getMounted();
 

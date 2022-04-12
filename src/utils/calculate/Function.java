@@ -14,7 +14,7 @@ public class Function {
 	private int numArgs;
 	
 	public static Set<String> Functions = Set.of("abs", "acos", "asin", "atan", "cos",
-			"exp", "log", "negate", "pow", "sin", "sqrt", "tan");
+			"exp", "log", "negate", "pow", "sin", "√", "tan", "csc", "cot", "sec");
 	
 	public static Map<String, Function> dictFunctions = Functions.stream()
 			.collect(Collectors.toMap(s->s, s->s.equals("pow")?new Function(s, 2):new Function(s)));

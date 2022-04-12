@@ -3,7 +3,7 @@ package controller.manager;
 import model.manager.EngineModelInterface.Calculator;
 
 /**
- *
+ * Interface for the engine manager.
  */
 public interface EngineManager {
 
@@ -20,7 +20,7 @@ public interface EngineManager {
     Calculator getMounted();
 
     /**
-     * Calculates the result of the expression currently in memory.
+     * Calculates the result of the expression currently in memory. The result will be stored in the input buffer.
      */
     void calculate();
 }
