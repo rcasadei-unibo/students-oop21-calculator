@@ -5,13 +5,15 @@ import controller.calculators.CalculatorController;
 import utils.CalcException;
 /**
  * 
- *  MISSING JAVADOC.
+ *  Implementation of the CombinatoricsLogics interface.
  *
  */
 public class CombinatoricsLogicsImpl implements CombinatoricsLogics {
+
     private final CalculatorController controller = Calculator.COMBINATORICS.getController();
     private String opString = "";
     private String opFormat = "";
+
     @Override
     public String numberAction(final String btnText) {
         this.controller.getManager().memory().read(btnText);
@@ -23,6 +25,7 @@ public class CombinatoricsLogicsImpl implements CombinatoricsLogics {
             return "Syntax Error";
         }
     }
+
     @Override
     public String calculateAction() {
         String adder = "";
@@ -38,10 +41,12 @@ public class CombinatoricsLogicsImpl implements CombinatoricsLogics {
         this.controller.getManager().engine().calculate();
         return result;
     }
+
     @Override
     public String getStream() {
         return this.controller.getManager().memory().getCurrentState().stream().reduce("", (a, b) -> a + b);
     }
+
     @Override
     public String backspaceAction() {
         try {
@@ -60,6 +65,7 @@ public class CombinatoricsLogicsImpl implements CombinatoricsLogics {
             return " ";
         }
     }
+
     @Override
     public String opAction(final String btnName, final String opName) {
         if (this.getStream().isBlank()) {
@@ -71,6 +77,7 @@ public class CombinatoricsLogicsImpl implements CombinatoricsLogics {
         this.opString = opName;
         return this.opFormat;
     }
+
     private String getDisplayText() throws CalcException {
         if (!this.opFormat.isBlank()) {
             if (!this.opString.isBlank() && this.controller.isBinaryOperator(this.opString)) {
@@ -86,6 +93,7 @@ public class CombinatoricsLogicsImpl implements CombinatoricsLogics {
             return this.getStream();
         }
     }
+
     private void clearStrings() {
         this.opFormat = "";
         this.opString = "";

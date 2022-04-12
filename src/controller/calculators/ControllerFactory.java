@@ -4,14 +4,15 @@ import model.calculators.CalculatorModel;
 
 /**
  * 
- * MISSING JAVADOC.
+ * Simple Factory that creates a controller given the model.
  *
  */
 public interface ControllerFactory {
+
     /**
      * 
-     * @param model
-     * @return MISSING JAVADOC.
+     * @param model the model of the calculator handled by the controller
+     * @return a controller given the model
      */
     CalculatorController createController(CalculatorModel model);
 }
