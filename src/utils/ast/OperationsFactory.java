@@ -60,6 +60,10 @@ public class OperationsFactory {
                 return product(subtraction(constant("0"), division(constant("1"), pow(sin(op), constant("2")))), op.getDerivative());
             }
             
+            public String toString() {
+                return "cot(" + op.toString() + ")";
+            }
+            
         };
     }
     
@@ -74,6 +78,10 @@ public class OperationsFactory {
             @Override
             public Operation getDerivative() {
                 return subtraction(constant("0"),product(product(cot(op),csc(op)), op.getDerivative()));
+            }
+            
+            public String toString() {
+                return "csc(" + op.toString() + ")";
             }
         };
 
@@ -91,7 +99,10 @@ public class OperationsFactory {
             public Operation getDerivative() {
                 return product(product(tan(op), sec(op)),op.getDerivative());
             }
-            
+
+            public String toString() {
+                return "sec(" + op.toString() + ")";
+            }
         };
     }
 
@@ -171,7 +182,7 @@ public class OperationsFactory {
 
             @Override
             public String toString() {
-                return "(" + left.toString() + ")*(" + right.toString() + ")";
+                return "(" + left.toString() + ")×(" + right.toString() + ")";
             }
 
         };
@@ -193,7 +204,7 @@ public class OperationsFactory {
 
             @Override
             public String toString() {
-                return "(" + left.toString() + ")/(" + right.toString() + ")";
+                return "(" + left.toString() + ")÷(" + right.toString() + ")";
             }
         };
     }
@@ -275,7 +286,7 @@ public class OperationsFactory {
             }
 
             public String toString() {
-                return "|" + op.toString() + "|";
+                return "abs(" + op.toString() + ")";
             }
 
         };
@@ -396,7 +407,7 @@ public class OperationsFactory {
             }
 
             public String toString() {
-                return "sqrt(" + op.toString() + ")";
+                return "√(" + op.toString() + ")";
             }
 
         };

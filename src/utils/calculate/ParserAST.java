@@ -72,9 +72,6 @@ public class ParserAST {
         } catch (CalcException e) {
             throw new CalcException(e.getMessage());
         }
-        System.out.print("\n");
-        output.forEach(t -> System.out.print(t.getSymbol()));
-        System.out.print("\n");
         output.forEach(token -> {
             if (token.getTypeToken().equals(TokenType.NUMBER) || token.getTypeToken().equals(TokenType.VARIABLE)
                     || token.getTypeToken().equals(TokenType.CONSTANT)) {
