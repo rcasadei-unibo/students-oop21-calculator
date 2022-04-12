@@ -1,6 +1,7 @@
 package view.calculators;
 
 import java.awt.BorderLayout;
+import javax.swing.JPanel;
 
 import controller.calculators.CalculatorController;
 import view.components.FunctionGrapher;
@@ -9,7 +10,7 @@ import view.components.FunctionGrapher;
  * 
  *
  */
-public class GraphicCalculatorPanel extends ScientificCalculatorPanel {
+public class GraphicCalculatorPanel extends JPanel {
     /**
      * 
      */
@@ -19,7 +20,6 @@ public class GraphicCalculatorPanel extends ScientificCalculatorPanel {
      * @param controller
      */
     public GraphicCalculatorPanel(final CalculatorController controller) {
-        super(controller);
         this.add(new FunctionGrapher(), BorderLayout.SOUTH);
     }
 
