@@ -1,4 +1,6 @@
 package view.calculators;
+
+import model.manager.EngineModelInterface.Calculator;
 import controller.calculators.CalculatorController;
 import utils.CalcException;
 /**
@@ -28,33 +30,33 @@ public class CombinatoricsLogicsImpl implements CombinatoricsLogics {
             adder = this.controller.isBinaryOperator(this.opString) ? this.getStream().split(this.opString)[1] : "";
         } catch (ArrayIndexOutOfBoundsException e2) {
             this.clearStrings();
-            this.controller.getManager().clear();
+            this.controller.getManager().memory().clear();
         }
         adder += this.opString.isBlank() ? "" : ") =";
         final String result = this.opFormat + adder;
         this.clearStrings();
-        this.controller.getManager().calculate();
+        this.controller.getManager().engine().calculate();
         return result;
     }
     @Override
     public String getStream() {
-        return this.controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b);
+        return this.controller.getManager().memory().getCurrentState().stream().reduce("", (a, b) -> a + b);
     }
     @Override
     public String backspaceAction() {
         try {
-            if (this.controller.getManager().getCurrentState().get(this.controller.getManager().getCurrentState().size() - 1).length() > 1) {
+            if (this.controller.getManager().memory().getCurrentState().get(this.controller.getManager().memory().getCurrentState().size() - 1).length() > 1) {
                 this.clearStrings();
             }
         } catch (ArrayIndexOutOfBoundsException e) {
             return "";
         }
-        this.controller.getManager().deleteLast();
+        this.controller.getManager().memory().deleteLast();
         try {
             return this.getDisplayText();
         } catch (CalcException e1) {
             this.clearStrings();
-            this.controller.getManager().clear();
+            this.controller.getManager().memory().clear();
             return " ";
         }
     }
@@ -65,7 +67,7 @@ public class CombinatoricsLogicsImpl implements CombinatoricsLogics {
         }
         final String closer = this.controller.isBinaryOperator(opName) ? ", " : "";
         this.opFormat = btnName + "(" + this.getStream() + closer;
-        this.controller.getManager().read(opName);
+        this.controller.getManager().memory().read(opName);
         this.opString = opName;
         return this.opFormat;
     }
@@ -73,7 +75,7 @@ public class CombinatoricsLogicsImpl implements CombinatoricsLogics {
         if (!this.opFormat.isBlank()) {
             if (!this.opString.isBlank() && this.controller.isBinaryOperator(this.opString)) {
                 try {
-                    return this.opFormat + this.getStream().split(this.opString)[1];
+                    return this.opFormat + this.getStream().split(this.opString)[1] + ")";
                 } catch (ArrayIndexOutOfBoundsException e3) {
                     return this.opFormat;
                 }
