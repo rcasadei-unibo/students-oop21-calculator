@@ -41,24 +41,21 @@ public class ProgrammerCalculatorPanel extends JPanel {
             public void actionPerformed(final ActionEvent e) {
                 final String text = ((JButton) e.getSource()).getText();
                 formatter.read(text);
-                display.updateText(formatter.getOutput());
-                convPanel.updateConvDisplays(formatter.getLastValue());
+                updateDisplays();
             }
         };
         final ActionListener calcAl = new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
                 formatter.calculate();
-                display.updateText(formatter.getOutput());
-                convPanel.updateConvDisplays(formatter.getLastValue());
+                updateDisplays();
             }
         };
         final ActionListener backspaceAl = new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
                 formatter.deleteLast();
-                display.updateText(formatter.getOutput());
-                convPanel.updateConvDisplays(formatter.getLastValue());
+                updateDisplays();
             }
         };
         this.numpad = new CCNumPad(btnAl, calcAl, backspaceAl);
@@ -75,7 +72,7 @@ public class ProgrammerCalculatorPanel extends JPanel {
                 final String text = ((JButton) e.getSource()).getText();
                 formatter.read(text);
 
-                display.updateText(formatter.getOutput());
+                updateDisplays();
             }
         };
     }
@@ -203,8 +200,7 @@ public class ProgrammerCalculatorPanel extends JPanel {
             public void actionPerformed(final ActionEvent e) {
                 final String text = ((JButton) e.getSource()).getText();
                 formatter.read(text);
-                display.updateText(formatter.getOutput());
-                convPanel.updateConvDisplays(formatter.getLastValue());
+                updateDisplays();
             }
         };
 
@@ -265,5 +261,9 @@ public class ProgrammerCalculatorPanel extends JPanel {
         topMiddleNumpad.add(xor);
         panel.add(topMiddleNumpad, BorderLayout.NORTH);
         return panel;
+    }
+    private void updateDisplays() {
+        display.updateText(formatter.getOutput());
+        convPanel.updateConvDisplays(formatter.getLastValue());
     }
 }
