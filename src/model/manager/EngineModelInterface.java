@@ -1,7 +1,5 @@
 package model.manager;
 
-import java.util.List;
-
 import controller.calculators.CalculatorController;
 import controller.calculators.ControllerFactoryImpl;
 import model.calculators.CalculatorModel;
@@ -11,10 +9,9 @@ import model.calculators.ScientificCalculatorModelFactory;
 import model.calculators.StandardCalculatorModelFactory;
 
 /**
- * 
  *
  */
-public interface ManagerModelInterface {
+public interface EngineModelInterface {
 
     /**
      * Enumeration of all types of calculators available in the system.
@@ -42,7 +39,7 @@ public interface ManagerModelInterface {
          */
         COMBINATORICS(CombinatoricsCalculatorModelFactory.create()),
         /**
-         * Advanced calculator. Contains a reference to the scientific calculator controller.
+         * Advanced calculator. Contains a reference to the advanced calculator controller.
          */
         ADVANCED(CombinatoricsCalculatorModelFactory.create());
 
@@ -52,7 +49,7 @@ public interface ManagerModelInterface {
         }
 
         /**
-         * Returns the AbstractCalculator controller of the calculator.
+         * Returns the controller of the calculator.
          * @return controller of the calculator
          */
         public CalculatorController getController() {
@@ -60,29 +57,6 @@ public interface ManagerModelInterface {
         }
 
     }
-
-    /**
-     * Appends a string to the input list used for the calculation.
-     * @param s String to be added
-     */
-    void addInput(String s);
-
-    /**
-     * Returns the current state of the input list.
-     * @return Unmodifiable list containing the strings given in input 
-     */
-    List<String> getCurrentState();
-
-    /**
-     * Sets the input list to have only s.
-     * @param s String to set the input list to
-     */
-    void setCurrentState(String s);
-
-    /**
-     * Removes all elements from input list.
-     */
-    void clearBuffer(); 
 
     /**
      * Sets the calculator to be used. 
@@ -95,4 +69,5 @@ public interface ManagerModelInterface {
      * @return currently mounted calculator
      */
     Calculator getMounted();
+
 }

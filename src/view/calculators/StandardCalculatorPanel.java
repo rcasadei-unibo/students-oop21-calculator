@@ -47,22 +47,22 @@ public class StandardCalculatorPanel extends JPanel {
         final ActionListener btnAl = new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                controller.getManager().read(((JButton) e.getSource()).getText());
-                display.updateText(controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b));
+                controller.getManager().memory().read(((JButton) e.getSource()).getText());
+                display.updateText(controller.getManager().memory().getCurrentState().stream().reduce("", (a, b) -> a + b));
             }
         };
         final ActionListener calcAl = new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                controller.getManager().calculate();
-                display.updateText(controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b));
+                controller.getManager().engine().calculate();
+                display.updateText(controller.getManager().memory().getCurrentState().stream().reduce("", (a, b) -> a + b));
             }
         };
         final ActionListener backspaceAl = new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                controller.getManager().deleteLast();
-                display.updateText(controller.getManager().getCurrentState().stream().reduce("", (a, b) -> a + b));
+                controller.getManager().memory().deleteLast();
+                display.updateText(controller.getManager().memory().getCurrentState().stream().reduce("", (a, b) -> a + b));
 
             }
         };
@@ -74,11 +74,14 @@ public class StandardCalculatorPanel extends JPanel {
         final JPanel operator = new JPanel();
         operator.setLayout(new GridLayout(4, 2));
         for (final var entry : StandardCalculatorModelFactory.create().getBinaryOpMap().entrySet()) {
-            operator.add(CreateButton.createOpButton(entry.getKey(), entry.getKey(), controller, display));
+            operator.add(CreateButton.createOpButton(entry.getKey(), entry.getKey(), entry.getKey(), controller, display));
 
         }
         for (final var entry : StandardCalculatorModelFactory.create().getUnaryOpMap().entrySet()) {
-            operator.add(CreateButton.createOpButton(entry.getKey(), entry.getKey(), controller, display));
+            //if(entry.getKey().contains("x"))->remove x            esempio : 1/x(0.333)
+            /*if (entry.getKey().contains("x")) {
+            }*/
+            operator.add(CreateButton.createOpButton(entry.getKey(), entry.getKey(), entry.getKey().replaceFirst("x", ""), controller, display));
         }
         this.add(operator, BorderLayout.EAST);
     }

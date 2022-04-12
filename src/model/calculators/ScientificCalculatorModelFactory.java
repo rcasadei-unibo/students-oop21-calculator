@@ -28,7 +28,7 @@ public final class ScientificCalculatorModelFactory {
     public static CalculatorModel create() {
         final Map<String, CCBinaryOperator> binaryOpMap = new HashMap<>(Map.of("log", new CCBinaryOperator((n, b) -> Math.log(n) / Math.log(b), 4, null),
                      "nthRoot", new CCBinaryOperator((n, i) -> Math.pow(n, 1 / i), 6, Type.RIGHT),
-                     "potenza", new CCBinaryOperator((n, e) -> Math.pow(n, e), 5, Type.RIGHT)));
+                     "^", new CCBinaryOperator((n, e) -> Math.pow(n, e), 5, Type.RIGHT)));
         final Map<String, CCUnaryOperator> unaryOpMap = new HashMap<>(Map.of("ln", new CCUnaryOperator((n) -> Math.log(n), 1, null),
                      "abs", new CCUnaryOperator((n) -> Math.abs(n), 1, null),
                      "factorial", new CCUnaryOperator((n) -> (double) LongStream.rangeClosed(1, Math.round(n)).reduce(1, (long n1, long n2) -> n1 * n2), 1, null),
