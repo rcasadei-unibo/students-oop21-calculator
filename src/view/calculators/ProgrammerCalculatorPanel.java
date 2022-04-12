@@ -89,6 +89,8 @@ public class ProgrammerCalculatorPanel extends JPanel {
     private void setPanels() {
         this.setLayout(new BorderLayout());
         this.add(this.display, BorderLayout.NORTH);
+        //this.add(new ProgrammerPanel(opAl);
+        
         this.setConversionPanel();
         this.setNumpad();
     }
@@ -132,6 +134,7 @@ public class ProgrammerCalculatorPanel extends JPanel {
         };
         this.convPanel = new ConversionPanel(conv);
         this.add(this.convPanel, BorderLayout.CENTER);
+        
     }
 
     private JPanel getBitwiseOperators() {
