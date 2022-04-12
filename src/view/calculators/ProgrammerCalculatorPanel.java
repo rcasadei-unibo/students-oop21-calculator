@@ -5,6 +5,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.JButton;
@@ -234,12 +235,12 @@ public class ProgrammerCalculatorPanel extends JPanel {
 
         operators.add(not);
         operators.add(nor);
-
-        for (final var entry : ProgrammerCalculatorModelFactory.getBasicOperators().entrySet()) {
-            final JButton btn = new JButton(entry.getKey());
-            btn.addActionListener(opAl);
+        
+        List.of("+", "-", "×", "÷").forEach((op) -> {
+            final JButton btn = new JButton(op);
+            btn.addActionListener(opAl); 
             operators.add(btn);
-        }
+        });
 
         return operators;
     }
