@@ -2,7 +2,7 @@ package view.calculators;
 
 import java.awt.BorderLayout;
 
-import javax.swing.JTextField;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import controller.calculators.CalculatorController;
@@ -22,9 +22,11 @@ public class GraphicCalculatorPanel extends JPanel {
      * @param controller
      */
     public GraphicCalculatorPanel(final CalculatorController controller) {
+        final FunctionGrapher g = new FunctionGrapher();
         this.setLayout(new BorderLayout());
-        this.add(new FunctionGrapher(), BorderLayout.CENTER);
-        final JTextField t = new JTextField("aaa");
-        this.add(t, BorderLayout.NORTH);
+        this.add(g, BorderLayout.CENTER);
+        final JButton b = new JButton("x+x-3");
+        b.addActionListener(e -> {
+        });
     }
 }

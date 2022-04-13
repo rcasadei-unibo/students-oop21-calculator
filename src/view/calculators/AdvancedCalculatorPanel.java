@@ -41,13 +41,13 @@ public class AdvancedCalculatorPanel extends JPanel {
         this.setLayout(new BorderLayout());
         this.add(display, BorderLayout.NORTH);
         this.operationsPanel = new OperationsPanel(advancedController);
-        
+
         final ActionListener numAndOpBtn = e -> {
             final var btn = (JButton) e.getSource();
             advancedController.read(btn.getText());
             display.updateText(this.advancedController.getCurrentState());
         };
-        
+
         final ActionListener deleteBtn = e -> {
             this.advancedController.deleteLast();
             display.updateText(this.advancedController.getCurrentState());
@@ -81,7 +81,7 @@ public class AdvancedCalculatorPanel extends JPanel {
         this.add(this.getOperatorsPanel(numAndOpBtn), BorderLayout.WEST);
         this.add(this.operationsPanel, BorderLayout.EAST);
     }
-    
+
     private JPanel getOperatorsPanel(final ActionListener al) {
         final JPanel operators = new JPanel();
         operators.setLayout(new GridLayout(5, 3));
@@ -143,7 +143,7 @@ public class AdvancedCalculatorPanel extends JPanel {
                     this.selectedLimit();
                 }
             };
-            
+
             combo.addActionListener(selectChoice);
             this.selectedDerivate();
         }

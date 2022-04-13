@@ -13,7 +13,7 @@ import view.components.CCDisplay;
 /**
  * MISSING JAVADOC.
  */
-public final class CalculatorControllerTemplate implements CalculatorController {
+public class CalculatorControllerTemplate implements CalculatorController {
     /**
      * 
      * MISSING JAVADOC.

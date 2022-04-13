@@ -5,6 +5,7 @@ import java.util.List;
 
 import controller.calculators.CalculatorController;
 import utils.calculate.Tokenizer;
+import view.components.FunctionGrapher;
 /**
  * 
  * 
@@ -13,6 +14,7 @@ import utils.calculate.Tokenizer;
 public class GraphicCalculatorLogicsImpl implements GraphicCalculatorLogics {
     private List<String> eq = new ArrayList<>();
     private final CalculatorController controller;
+    private List<Double> results;
     /**
      * 
      * @param controller
@@ -24,24 +26,39 @@ public class GraphicCalculatorLogicsImpl implements GraphicCalculatorLogics {
      * 
      * @param eq
      */
-    public void setEquation(final List<String> eq) {
-        final Tokenizer tok = new Tokenizer(eq.stream().reduce("", (a, b) -> a + b));
+    public void setEquation(final String eq) {
+        final Tokenizer tok = new Tokenizer(eq);
         this.eq = tok.getListSymbol();
+        this.replaceXValue();
     }
     /**
-     * @return aa
+     * 
+     * 
      */
-    public Double getResult() {
-        this.controller.getManager().engine().calculate();
-        return Double.valueOf(this.controller.getManager().memory().getCurrentState().get(0));
+    private void replaceXValue() {
+        int x = Math.negateExact(FunctionGrapher.LIMIT);
+        this.results = new ArrayList<>();
+        String temp;
+        while (x <= FunctionGrapher.LIMIT) {
+            temp = eq.stream().reduce("", (a, b) -> a + b).replace("x", Double.toString(x));
+            controller.getManager().memory().read(temp);
+            this.addResult();
+            x += FunctionGrapher.PRECISION;
+        }
     }
     /**
-     * @param value
-     * @return aa
-     */
-    public List<String> replaceXValue(final double value) {
-        final List<String> temp = new ArrayList<>();
-        List.of(eq.stream().reduce("", (a, b) -> a + b).replace("x", Double.toString(value)).split("")).forEach(e -> temp.add(e));
-        return temp;
+    *
+    */
+   private void addResult() {
+       this.controller.getManager().engine().calculate();
+       results.add(Double.valueOf(this.controller.getManager().memory().getCurrentState().get(0)));
+       this.controller.getManager().memory().clear();
+   }
+   /**
+    * @param value
+    * @return aaaaaaaa
+    */
+    public List<Double> getResult(final double value) {
+        return results;
     }
 }

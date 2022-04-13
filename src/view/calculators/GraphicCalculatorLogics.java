@@ -1,6 +1,7 @@
 package view.calculators;
 
 import java.util.List;
+
 /**
  * 
  * 
@@ -11,16 +12,11 @@ public interface GraphicCalculatorLogics {
      * 
      * @param eq
      */
-    void setEquation(List<String> eq);
-    /**
-     * 
-     * @return aaaa
-     */
-    Double getResult();
+    void setEquation(String eq);
     /**
      * 
      * @param value
-     * @return aaa
+     * @return aaaa
      */
-    List<String> replaceXValue(double value);
+    List<Double> getResult(double value);
 }
