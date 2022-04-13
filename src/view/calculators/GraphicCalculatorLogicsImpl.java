@@ -14,7 +14,7 @@ import view.components.FunctionGrapher;
 public class GraphicCalculatorLogicsImpl implements GraphicCalculatorLogics {
     private List<String> eq = new ArrayList<>();
     private final CalculatorController controller;
-    private List<Double> results;
+    private final List<Double> results = new ArrayList<>();
     /**
      * 
      * @param controller
@@ -29,36 +29,32 @@ public class GraphicCalculatorLogicsImpl implements GraphicCalculatorLogics {
     public void setEquation(final String eq) {
         final Tokenizer tok = new Tokenizer(eq);
         this.eq = tok.getListSymbol();
-        this.replaceXValue();
+        System.out.println(eq);
+        this.calculate();
     }
     /**
-     * 
-     * 
+     *
      */
-    private void replaceXValue() {
-        int x = Math.negateExact(FunctionGrapher.LIMIT);
-        this.results = new ArrayList<>();
-        String temp;
+    private void calculate() {
+        double x = Math.negateExact(FunctionGrapher.LIMIT);
+        List<String> temp;
         while (x <= FunctionGrapher.LIMIT) {
-            temp = eq.stream().reduce("", (a, b) -> a + b).replace("x", Double.toString(x));
-            controller.getManager().memory().read(temp);
-            this.addResult();
+            if (-0.1 < x && x < 0) {
+                x = 0;
+            }
+            final Tokenizer tok = new Tokenizer(eq.stream().reduce("", (a, b) -> a + b).replace("x", Double.toString(x)));
+            temp = tok.getListSymbol();
+            controller.getManager().memory().readAll(temp);
+            this.controller.getManager().engine().calculate();
+            results.add(Double.valueOf(this.controller.getManager().memory().getCurrentState().stream().reduce("", (a, b) -> a + b)));
+            this.controller.getManager().memory().clear();
             x += FunctionGrapher.PRECISION;
         }
     }
     /**
-    *
-    */
-   private void addResult() {
-       this.controller.getManager().engine().calculate();
-       results.add(Double.valueOf(this.controller.getManager().memory().getCurrentState().get(0)));
-       this.controller.getManager().memory().clear();
-   }
-   /**
-    * @param value
-    * @return aaaaaaaa
-    */
-    public List<Double> getResult(final double value) {
-        return results;
+     * @return a List<Double> containing the all the y associated with Precision
+     */
+    public List<Double> getResult() {
+        return this.results;
     }
 }

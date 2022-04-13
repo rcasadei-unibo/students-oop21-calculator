@@ -6,10 +6,11 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
+import java.util.List;
 
 import javax.swing.JPanel;
 
-
+import view.calculators.GraphicCalculatorLogics;
 
 /**
  * 
@@ -24,19 +25,26 @@ public class FunctionGrapher extends JPanel {
     /**
      * 
      */
-    public static final double PRECISION = 0.01;
-    private static double scale = 100;
+    public static final double PRECISION = 0.1;
     /**
      * 
      */
-    public static final int LIMIT = 1000;
+    public static double scale = 50;
     /**
-     *
+     * 
      */
-    public FunctionGrapher() {
+    public static final int LIMIT = 100;
+    private boolean isOff = true;
+    private final GraphicCalculatorLogics logic;
+    private List<Double> current;
+    /**
+     *@param logic
+     */
+    public FunctionGrapher(final GraphicCalculatorLogics logic) {
+        this.logic = logic;
         this.setLayout(new BorderLayout());
         this.addMouseWheelListener(m -> {
-            if (m.getWheelRotation() > 0 && this.scale > 16) {
+            if (m.getWheelRotation() > 0 && FunctionGrapher.scale > 16) {
                 FunctionGrapher.scale--;
             }
             if (m.getWheelRotation() < 0) {
@@ -70,17 +78,20 @@ public class FunctionGrapher extends JPanel {
     }
 
     private void drawFunction(final Graphics g, final int w, final int h) {
-        final Graphics2D fun = (Graphics2D) g;
-        fun.setStroke(new BasicStroke(1));
-        fun.setColor(Color.RED);
-        final Polygon p = new Polygon();
-        double x = Math.negateExact(LIMIT);
-        while (x <= LIMIT) {
-           p.addPoint((int) (w / 2 + x * FunctionGrapher.scale), (int) (h / 2 * FunctionGrapher.scale));
-           x += PRECISION;
-        }
-        fun.drawPolyline(p.xpoints, p.ypoints, p.npoints);
+        if (!this.isOff) {
+            final Graphics2D fun = (Graphics2D) g;
+            fun.setStroke(new BasicStroke(1));
+            fun.setColor(Color.RED);
+            final Polygon p = new Polygon();
+            double x = Math.negateExact(LIMIT);
+            for (final Double y : current) {
+                  p.addPoint((int) (w / 2 + x * FunctionGrapher.scale), (int) (h / 2 - y.doubleValue()  * FunctionGrapher.scale));
+                  x += PRECISION;
+            }
+            fun.drawPolyline(p.xpoints, p.ypoints, p.npoints);
+         }
     }
+
 
     private void drawLines(final Graphics g, final int w, final int h) {
         final Graphics2D lines = (Graphics2D) g;
@@ -108,6 +119,15 @@ public class FunctionGrapher extends JPanel {
             grid.drawLine(0, (int) (h / 2 + count * FunctionGrapher.scale / 4), w, (int) (h / 2 + count * FunctionGrapher.scale / 4));
             grid.drawLine(0, (int) (h / 2 - count * FunctionGrapher.scale / 4), w, (int) (h / 2 - count * FunctionGrapher.scale / 4));
         }
+    }
+    /**
+     * @param results
+     */
+    public void safe(final List<Double> results) {
+        this.isOff = false;
+        this.current = results;
+        this.repaint();
+        System.out.println(current);
     }
 }
 

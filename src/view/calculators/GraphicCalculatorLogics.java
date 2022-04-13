@@ -4,8 +4,6 @@ import java.util.List;
 
 /**
  * 
- * 
- *
  */
 public interface GraphicCalculatorLogics {
     /**
@@ -15,8 +13,7 @@ public interface GraphicCalculatorLogics {
     void setEquation(String eq);
     /**
      * 
-     * @param value
      * @return aaaa
      */
-    List<Double> getResult(double value);
+    List<Double> getResult();
 }
