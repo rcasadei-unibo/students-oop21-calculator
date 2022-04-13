@@ -10,6 +10,7 @@ import java.util.List;
 public class CCMemoryModel implements MemoryModelInterface {
 
     private final List<String> buffer = new ArrayList<>();
+    private final List<String> history = new ArrayList<>();
 
     @Override
     public void addInput(final String s) {
@@ -30,6 +31,16 @@ public class CCMemoryModel implements MemoryModelInterface {
     @Override
     public void clearBuffer() {
         this.buffer.clear();
+    }
+
+    @Override
+    public void addToHistory(final String result) {
+        this.history.add(this.buffer.stream().reduce("", (a, b) -> a + b) + " = " + result);
+    }
+
+    @Override
+    public List<String> getHistory() {
+        return this.history;
     }
 
 }

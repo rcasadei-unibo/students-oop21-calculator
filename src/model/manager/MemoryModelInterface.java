@@ -27,5 +27,13 @@ public interface MemoryModelInterface {
     /**
      * Removes all elements from input buffer.
      */
-    void clearBuffer(); 
+    void clearBuffer();
+
+    /**
+     * Adds a string to the history.
+     * @param s String to add to the history.
+     */
+    void addToHistory(String s);
+
+    List<String> getHistory(); 
 }

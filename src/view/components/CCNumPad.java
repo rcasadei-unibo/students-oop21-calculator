@@ -2,13 +2,17 @@ package view.components;
 
 
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import java.awt.BorderLayout;
+
+import utils.CCColors;
+
+import java.awt.Dimension;
 
 
 /**
@@ -30,29 +34,33 @@ public class CCNumPad extends JPanel {
     public CCNumPad(final ActionListener btnAl, final ActionListener calculateAl, final ActionListener backspaceAl) {
         final int rows = 5;
         final int cols = 3;
-        this.setLayout(new BorderLayout());
-
-        final JPanel grid = new JPanel(new GridLayout(rows, cols));
+        this.setLayout(new GridLayout(rows, cols));
+        final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        final double width = 0;
+        final double height = screenSize.getHeight() / 2;
+        this.setPreferredSize(new Dimension((int) width, (int) height));
 
         final ActionListener al = btnAl;
 
-        grid.add(createBtn("(", al));
-        grid.add(createBtn(")", al));
-        grid.add(createBtn("🡄", backspaceAl));
+        this.add(createBtn("(", al));
+        this.add(createBtn(")", al));
+        this.add(createBtn("⌫", backspaceAl));
         for (int j = 2; j >= 0; j--) {
             for (int k = 1; k <= 3; k++) {
-                grid.add(createBtn(String.valueOf(3 * j + k), al));
+                this.add(createBtn(String.valueOf(3 * j + k), al));
             }
         }
-        grid.add(createBtn(".", al));
-        grid.add(createBtn("0", al));
-        grid.add(createBtn("=", calculateAl));
-        this.add(grid, BorderLayout.CENTER);
+        this.add(createBtn(".", al));
+        this.add(createBtn("0", al));
+        final var eqBtn = createBtn("=", calculateAl);
+        eqBtn.setBackground(CCColors.EQUAL_BUTTON);
+        this.add(eqBtn);
 
     }
     private JButton createBtn(final String s, final ActionListener al) {
         final var btn = new JButton(s);
         btn.addActionListener(al);
+        btn.setBackground(CCColors.NUMBER_BUTTON);
         this.buttons.put(s, btn);
         return btn;
     }

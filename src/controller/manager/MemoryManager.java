@@ -45,4 +45,12 @@ public interface MemoryManager {
      * @param s
      */
     void splitAndSetCurrentState(String s);
+
+    /**
+     * Adds the result of a calculation to the history.
+     * @param result String containing the complete expression and the result.
+     */
+    void addResult(String result);
+
+    List<String> getHistory();
 }

@@ -1,6 +1,9 @@
 package view.main;
 
 import model.manager.EngineModelInterface.Calculator;
+
+import java.util.List;
+
 import controller.manager.CCManager;
 import controller.manager.ManagerInterface;
 
@@ -25,6 +28,11 @@ public class ViewLogicsImpl implements ViewLogics {
     public void mount(final Calculator calc) {
         this.frame.show(calc);
         this.mng.engine().mount(calc);
+    }
+
+    @Override
+    public List<String> getHistory() {
+        return this.mng.memory().getHistory();
     }
 
 }
