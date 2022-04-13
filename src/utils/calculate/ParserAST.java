@@ -41,7 +41,6 @@ public class ParserAST {
         }
         final AbstractSyntaxNode right = stack.pop();
         final AbstractSyntaxNode left = stack.pop();
-        //System.out.println("Stack size: " + stack.size());
         return createBinaryOperatorNode(token, left, right);
     }
 
