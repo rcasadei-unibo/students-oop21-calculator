@@ -16,7 +16,7 @@ import javax.swing.JPanel;
 import controller.calculators.CalculatorAdvancedController;
 import controller.calculators.CalculatorAdvancedController.TypeAlgorithm;
 import controller.calculators.CalculatorController;
-import utils.CalcException;
+import utils.CommandFactory;
 import view.components.CCDisplay;
 import view.components.CCNumPad;
 
@@ -40,45 +40,24 @@ public class AdvancedCalculatorPanel extends JPanel {
         final var display = new CCDisplay();
         this.setLayout(new BorderLayout());
         this.add(display, BorderLayout.NORTH);
-        this.operationsPanel = new OperationsPanel(advancedController);
+        this.operationsPanel = new OperationsPanel(advancedController, display);
         
-        final ActionListener numAndOpBtn = e -> {
+        final ActionListener numAndOpBtn = (e) -> {
             final List<String> buttons = List.of("sin", "cos", "log", "tan", "√", "abs", "csc", "sec", "cot");
             final var btn = (JButton) e.getSource();
-            if (buttons.contains(btn.getText())) {
-                advancedController.read(btn.getText() + "(");
-            } else {
-                advancedController.read(btn.getText());
-            }
-            display.updateText(this.advancedController.getCurrentState());
+            final var command = CommandFactory.insert(btn.getText(), buttons, () -> "(", advancedController);
+            display.updateText(command.execute());
         };
         
         final ActionListener deleteBtn = e -> {
             this.advancedController.deleteLast();
             display.updateText(this.advancedController.getCurrentState());
         };
-        // it should output an error in the screen but when you press any button should you cancel it
         final ActionListener equalsBtn = e -> {
-            String result;
-            boolean isError = false;
-            try {
-                this.advancedController.setParameters(this.operationsPanel.getParameters());
-                result = this.advancedController.calculate();
-            } catch (CalcException error) {
-                this.advancedController.reset();
-                isError = true;
-                result = error.getMessage();
-            } catch (IllegalArgumentException error) {
-                this.advancedController.reset();
-                isError = true;
-                result = error.getMessage();
-            }
-            if (!isError) {
-                advancedController.read(result);
-                display.updateText(this.advancedController.getCurrentState());
-            } else {
-                display.updateText(result);
-            }
+            final var command  = CommandFactory.calculate(advancedController, operationsPanel.getParameters());
+            final var command1 = CommandFactory.previousState(advancedController);
+            display.updateText(command.execute());
+            display.updateUpperText(command1.execute());
         };
 
         final var numpad = new CCNumPad(numAndOpBtn, equalsBtn, deleteBtn);
@@ -117,7 +96,7 @@ public class AdvancedCalculatorPanel extends JPanel {
         /**
          * @param advancedController
          */
-        public OperationsPanel(final CalculatorAdvancedController advancedController) {
+        public OperationsPanel(final CalculatorAdvancedController advancedController, CCDisplay display) {
             this.setLayout(new GridBagLayout());
             c.weightx = 1;
             c.weighty = 1;
@@ -147,6 +126,7 @@ public class AdvancedCalculatorPanel extends JPanel {
                 } else {
                     this.selectedLimit();
                 }
+                display.updateText("");
             };
             
             combo.addActionListener(selectChoice);

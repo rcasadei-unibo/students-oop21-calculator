@@ -20,6 +20,11 @@ public interface Algorithm {
      * 
      */
     void unsetParameters();
+    
+    /**
+     * @return s
+     */
+    List<String> getParameters();
 
     /**
      * @param expr
