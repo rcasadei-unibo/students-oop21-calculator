@@ -13,6 +13,7 @@ import view.components.CCNumPad;
 import controller.calculators.CalculatorController;
 import model.calculators.StandardCalculatorModelFactory;
 import utils.CreateButton;
+import utils.OutputFormatter;
 //TODO MISSING JAVADOC.
 /**
  * 
@@ -48,13 +49,17 @@ public class StandardCalculatorPanel extends JPanel {
             @Override
             public void actionPerformed(final ActionEvent e) {
                 controller.getManager().memory().read(((JButton) e.getSource()).getText());
+                System.out.println("engine's memory: " + controller.getManager().memory().getCurrentState().toString());
                 display.updateText(controller.getManager().memory().getCurrentState().stream().reduce("", (a, b) -> a + b));
             }
         };
         final ActionListener calcAl = new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                controller.getManager().engine().calculate();
+                if (!controller.getManager().memory().getCurrentState().isEmpty() && !(controller.getManager().memory().getCurrentState().contains("Syntax error") || controller.getManager().memory().getCurrentState().contains("Syntax Error"))) {
+                    controller.getManager().engine().calculate();
+                }
+                System.out.println("engine's memory: " + controller.getManager().memory().getCurrentState().toString());
                 display.updateText(controller.getManager().memory().getCurrentState().stream().reduce("", (a, b) -> a + b));
             }
         };
@@ -62,6 +67,7 @@ public class StandardCalculatorPanel extends JPanel {
             @Override
             public void actionPerformed(final ActionEvent e) {
                 controller.getManager().memory().deleteLast();
+                System.out.println("engine's memory: " + controller.getManager().memory().getCurrentState().toString());
                 display.updateText(controller.getManager().memory().getCurrentState().stream().reduce("", (a, b) -> a + b));
 
             }
@@ -78,10 +84,7 @@ public class StandardCalculatorPanel extends JPanel {
 
         }
         for (final var entry : StandardCalculatorModelFactory.create().getUnaryOpMap().entrySet()) {
-            //if(entry.getKey().contains("x"))->remove x            esempio : 1/x(0.333)
-            /*if (entry.getKey().contains("x")) {
-            }*/
-            operator.add(CreateButton.createOpButton(entry.getKey(), entry.getKey(), entry.getKey().replaceFirst("x", ""), controller, display));
+            operator.add(CreateButton.createOpButton(entry.getKey(), entry.getKey(), entry.getKey(), controller, display));
         }
         this.add(operator, BorderLayout.EAST);
     }
