@@ -1,6 +1,7 @@
 package view.calculators;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -63,6 +64,7 @@ public class ProgrammerCalculatorPanel extends JPanel {
             }
         };
         this.numpad = new CCNumPad(btnAl, calcAl, backspaceAl);
+        this.numpad.setPreferredSize(null);
         this.numpad.getButtons().entrySet().forEach((entry) -> {
             if (".".equals(entry.getKey())) {
                 entry.getValue().setEnabled(false);
@@ -137,6 +139,7 @@ public class ProgrammerCalculatorPanel extends JPanel {
             }
         };
         this.convPanel = new ConversionPanel(conv);
+        this.convPanel.setPreferredSize(new Dimension(100, 150));
         this.add(this.convPanel, BorderLayout.CENTER);
         
     }
