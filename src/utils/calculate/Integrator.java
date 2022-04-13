@@ -63,5 +63,10 @@ public class Integrator implements Algorithm{
         this.upperBound = null;
     }
 
+    @Override
+    public List<String> getParameters() {
+        return List.of(String.valueOf(lowBound), String.valueOf(upperBound));
+    }
+
 	
 }

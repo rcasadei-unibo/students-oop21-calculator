@@ -116,7 +116,7 @@ public class OperationsFactory {
 
             @Override
             public Operation getDerivative() {
-                return negate(op.getDerivative());
+                return subtraction(constant("0.0"), op.getDerivative());
             }
 
             public String toString() {
@@ -141,7 +141,7 @@ public class OperationsFactory {
 
             @Override
             public String toString() {
-                return left.toString() + "+" + right.toString();
+                return "(" + left.toString() + ")+(" + right.toString() + ")";
             }
         };
     }
@@ -161,7 +161,7 @@ public class OperationsFactory {
 
             @Override
             public String toString() {
-                return left.toString() + "-" + right.toString();
+                return "(" + left.toString() + ")-(" + right.toString() + ")";
             }
 
         };
