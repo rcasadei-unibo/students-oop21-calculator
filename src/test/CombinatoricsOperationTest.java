@@ -7,13 +7,15 @@ import model.calculators.CombinatoricsCalculatorModelFactory;
 
 /**
  * 
- * 
+ * Test class for the operations of the Combinatorics Calculator based on its model.
  *
  */
 public class CombinatoricsOperationTest {
+
     private final CalculatorModel calculator = CombinatoricsCalculatorModelFactory.create();
+
     /**
-     * 
+     * Method that test the "Fibonacci" operation.
      */
     @org.junit.Test
     public void fibonacciTest() {
@@ -25,8 +27,9 @@ public class CombinatoricsOperationTest {
         assertEquals(75_025.0, op.apply(25.0), 0);
         assertEquals(354_224_848_179_261_915_075.0, op.apply(100.0), 0);
     }
+
     /**
-     * 
+     * Method that test the "Dispositions" operation.
      */
     @org.junit.Test
     public void fallingFactorialTest() {
@@ -36,8 +39,9 @@ public class CombinatoricsOperationTest {
         assertEquals(2432902008176640000.0, op.apply(20, 20), 0);
         assertEquals(1, op.apply(0, 0), 0);
     }
+
     /**
-     * 
+     * Method that test the "Subsets" operation.
      */
     @org.junit.Test
     public void binomailCoeffTest() {
@@ -47,18 +51,20 @@ public class CombinatoricsOperationTest {
         assertEquals(1, op.apply(6000, 6000), 0);
         assertEquals(0, op.apply(5, 7), 0);
     }
+
     /**
-     * 
+     * Method that test the "Derangements" operation.
      */
     @org.junit.Test
     public void scombussolamentoTest() {
-        final var op = this.calculator.getUnaryOpMap().get("scombussolamento");
+        final var op = this.calculator.getUnaryOpMap().get("derangement");
         assertEquals(44.0, op.apply(5), 0);
         assertEquals(0.0, op.apply(1), 0);
         assertEquals(4.810_665_157_34E11, op.apply(15), 0);
     }
+
     /**
-     * 
+     * Method that test the "Partitions" operation.
      */
     @org.junit.Test
     public void bellTest() {
@@ -67,8 +73,9 @@ public class CombinatoricsOperationTest {
         assertEquals(877, op.apply(7), 0);
         assertEquals(1.382_958_545E9, op.apply(15), 0);
     }
+
     /**
-     * 
+     * Method that test the "Partitions(binary)" operation.
      */
     @org.junit.Test
     public void stirlingTest() {

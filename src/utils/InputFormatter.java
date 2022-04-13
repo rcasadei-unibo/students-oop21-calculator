@@ -105,6 +105,10 @@ public class InputFormatter {
      * quando si cambia base di conversione si cancella tutto.
      */
     public void deleteLast() {
+        if ("Syntax Error".equals(lastNumBuffer)) {
+            this.reset(conversionBase);
+        }
+
         if (!this.buffer.isEmpty()) {
             this.buffer.remove(this.buffer.size() - 1);
             if (this.lastNumBuffer.length() > 1) {
@@ -127,33 +131,40 @@ public class InputFormatter {
      * dopo aver formattato tutto calcola il risultato e diventa il lastNumBuffer che poi verrà mostrato.
      */
     public void calculate() {
-        System.out.println("the engine before" + this.controller.getManager().memory().getCurrentState().toString());
-        final var temp = this.format();
-        System.out.println("my input to the engine" + temp.toString());
-        this.controller.getManager().memory().readAll(temp);
-        this.controller.getManager().engine().calculate();
-        System.out.println("the engine's output" + this.controller.getManager().memory().getCurrentState().toString());
-        this.buffer.clear();
-        /*
-         * in case the result is negative i have to separate the - from the value
-         */
-        //l'engine può ritornarmi come valore la seguente robba 
-        //[2,5,0] oppure [-250]
-        //la separo in [2,5,0] o [-,2,5,0]
-        //
-        if (this.controller.getManager().memory().getCurrentState().stream().reduce("", (a, b) -> a + b).contains("-")) {
-            System.out.println("conteneva un val negativo");
-            List.of(this.controller.getManager().memory().getCurrentState().get(0).split("")).stream().forEach((str) -> this.buffer.add(str));
-        } else {
-            this.buffer.addAll(this.controller.getManager().memory().getCurrentState());
-            System.out.println("no neg=buffer: " + buffer.toString());
+        if (!this.buffer.isEmpty() && this.checkForSyntaxError()) {
+            System.out.println("the engine before" + this.controller.getManager().memory().getCurrentState().toString());
+            final var temp = this.format();
+            System.out.println("my input to the engine" + temp.toString());
+            this.controller.getManager().memory().readAll(temp);
+            this.controller.getManager().engine().calculate();
+            System.out.println("the engine's output" + this.controller.getManager().memory().getCurrentState().toString());
+            this.buffer.clear();
+            /*
+             * in case the result is negative i have to separate the - from the value
+             */
+            //l'engine può ritornarmi come valore la seguente robba 
+            //[2,5,0] oppure [-250]
+            //la separo in [2,5,0] o [-,2,5,0]
+            //
+            if (this.controller.getManager().memory().getCurrentState().stream().reduce("", (a, b) -> a + b).contains("-")) {
+                System.out.println("conteneva un val negativo");
+                List.of(this.controller.getManager().memory().getCurrentState().get(0).split("")).stream().forEach((str) -> this.buffer.add(str));
+            } else {
+                this.buffer.addAll(this.controller.getManager().memory().getCurrentState());
+                System.out.println("no neg=buffer: " + buffer.toString());
+            }
+            System.out.println("after calc" + this.buffer.toString());
+            this.inverseFormat();
+            System.out.println("after fixing" + this.buffer.toString());
+            this.lastNumBuffer = this.buffer.stream().reduce("", (a, b) -> a + b);
+            System.out.println("this is the result : " + lastNumBuffer);
+            this.controller.getManager().memory().clear();
         }
-        System.out.println("after calc" + this.buffer.toString());
-        this.inverseFormat();
-        System.out.println("after fixing" + this.buffer.toString());
-        this.lastNumBuffer = this.buffer.stream().reduce("", (a, b) -> a + b);
-        System.out.println("this is the result : " + lastNumBuffer);
-        this.controller.getManager().memory().clear();
+        
+    }
+    private boolean checkForSyntaxError() {
+        // TODO Auto-generated method stub
+        return true;
     }
     private void inverseFormat() {
         if (this.conversionBase != 10) {
@@ -193,7 +204,8 @@ public class InputFormatter {
         if (this.lastNumBuffer.contains(".")) {
             return Math.round(Double.parseDouble(lastNumBuffer));
         }
-        if (this.lastNumBuffer.contains("Syntax error")) {
+        if ("Syntax error".equals(lastNumBuffer) || "Syntax Error".equals(lastNumBuffer)
+          || this.lastNumBuffer.contains("Syntax error") || this.lastNumBuffer.contains("Syntax Error")) {
             return 0L;
         }
         if (!this.lastNumBuffer.isBlank()) {

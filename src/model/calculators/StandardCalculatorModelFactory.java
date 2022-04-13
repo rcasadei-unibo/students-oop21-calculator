@@ -4,6 +4,7 @@ import java.util.Map;
 
 import utils.CCBinaryOperator;
 import utils.CCUnaryOperator;
+import utils.CalcException;
 import utils.Type;
 //TODO MISSING JAVADOC.
 /**
@@ -21,14 +22,14 @@ public final class StandardCalculatorModelFactory {
         final Map<String, CCBinaryOperator> binaryOpMap = Map.of(
                 "+", new CCBinaryOperator((n1, n2) -> sum(n1, n2), 2, Type.LEFT),
                 "-", new CCBinaryOperator((n1, n2) -> sub(n1, n2), 2, Type.LEFT),
-                "×", new CCBinaryOperator((n1, n2) -> mult(n1, n2), 2, Type.LEFT),
+                "×", new CCBinaryOperator((n1, n2) -> mult(n1, n2), 3, Type.LEFT),
                 "÷", new CCBinaryOperator((n1, n2) -> div(n1, n2), 3, Type.LEFT),
                 "%", new CCBinaryOperator((n1, n2) -> modulo(n1, n2), 3, Type.LEFT)
                           );
         final Map<String, CCUnaryOperator> unaryOpMap = Map.of(
-                "1/x", new CCUnaryOperator((n) -> inverse(n), 4, Type.RIGHT),
-                "√", new CCUnaryOperator((n) -> root(n), 4, Type.RIGHT),
-                "x²", new CCUnaryOperator((n) -> square(n), 4, null)
+                "1/x", new CCUnaryOperator((n) -> inverse(n), 1, Type.RIGHT),
+                "√", new CCUnaryOperator((n) -> root(n), 1, Type.RIGHT),
+                "x²", new CCUnaryOperator((n) -> square(n), 1, null)
                   );
         return new CalculatorModelTemplate(binaryOpMap, unaryOpMap);
     }
@@ -47,7 +48,10 @@ public final class StandardCalculatorModelFactory {
     private static double modulo(final double n1, final double n2) {
         return n1 % n2;
     }
-    private static double root(final double n1) {
+    private static double root(final double n1)/* throws CalcException */ {
+        if (n1 < 0) {
+            //throw new CalcException("root of negative argument");
+        }
         return Math.sqrt(n1);
     }
     private static double square(final double n1) {

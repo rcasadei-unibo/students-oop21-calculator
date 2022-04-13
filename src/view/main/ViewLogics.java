@@ -1,5 +1,7 @@
 package view.main;
 
+import java.util.List;
+
 import model.manager.EngineModelInterface.Calculator;
 
 /**
@@ -12,4 +14,10 @@ public interface ViewLogics {
      * @param calc calculator to show.
      */
     void mount(Calculator calc);
+
+    /**
+     * TODO: Javadoc.
+     * @return
+     */
+    List<String> getHistory();
 }

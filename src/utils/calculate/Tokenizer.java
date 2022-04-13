@@ -14,6 +14,7 @@ import utils.tokens.TokensFactory;
  * @author pesic
  *
  */
+
 public class Tokenizer {
 
     private String expr;
@@ -26,9 +27,12 @@ public class Tokenizer {
     private boolean implicitMultiplication = true;
     private final ExternData data = new ExternData();
 
-    Tokenizer(final String expr) {
-        this.expr = expr;
-        this.lenExpr = expr.length();
+    /**
+     * @param expr
+     */
+    public Tokenizer(final String expr) {
+        this.expr = expr.replaceAll(" ", "");
+        this.lenExpr = expr.replaceAll(" ", "").length();
         this.variable = data.getVariable();
         this.constants = data.getConstants();
     }
@@ -156,7 +160,9 @@ public class Tokenizer {
         if (index < this.lenExpr && this.expr.charAt(index) == '.') {
             index++;
         }
-        while (index < this.lenExpr && Character.isDigit(this.expr.charAt(index))) {
+        while (index < this.lenExpr && ((Character.isDigit(this.expr.charAt(index)) && this.expr.charAt(index - 1) != 'E') 
+                || this.expr.charAt(index) == 'E'
+                || ((this.expr.charAt(index - 1) == 'E') && (this.expr.charAt(index) == '+' || this.expr.charAt(index) == '-')))) {
             index++;
         }
 

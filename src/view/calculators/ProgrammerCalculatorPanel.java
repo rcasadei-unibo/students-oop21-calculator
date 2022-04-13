@@ -1,6 +1,7 @@
 package view.calculators;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -36,6 +37,9 @@ public class ProgrammerCalculatorPanel extends JPanel {
     private final CCNumPad numpad;
     private transient ActionListener opAl;
     private final transient InputFormatter formatter;
+    private final List<String> topOperators = List.of("roR", "roL", "shiftR", "shiftL", "nand");
+    private final List<String> middleOperators = List.of("and", "or", "xor");
+    private final List<String> rightOperators = List.of("not", "nor", "+", "-", "×", "÷");
     {
         final ActionListener btnAl = new ActionListener() {
             @Override
@@ -60,6 +64,7 @@ public class ProgrammerCalculatorPanel extends JPanel {
             }
         };
         this.numpad = new CCNumPad(btnAl, calcAl, backspaceAl);
+        this.numpad.setPreferredSize(null);
         this.numpad.getButtons().entrySet().forEach((entry) -> {
             if (".".equals(entry.getKey())) {
                 entry.getValue().setEnabled(false);
@@ -71,6 +76,7 @@ public class ProgrammerCalculatorPanel extends JPanel {
             @Override
             public void actionPerformed(final ActionEvent e) {
                 final String text = ((JButton) e.getSource()).getText();
+                System.out.println("hai premuto " + text);
                 formatter.read(text);
 
                 updateDisplays();
@@ -89,6 +95,8 @@ public class ProgrammerCalculatorPanel extends JPanel {
     private void setPanels() {
         this.setLayout(new BorderLayout());
         this.add(this.display, BorderLayout.NORTH);
+        //this.add(new ProgrammerPanel(opAl);
+        
         this.setConversionPanel();
         this.setNumpad();
     }
@@ -131,24 +139,10 @@ public class ProgrammerCalculatorPanel extends JPanel {
             }
         };
         this.convPanel = new ConversionPanel(conv);
+        this.convPanel.setPreferredSize(new Dimension(100, 150));
         this.add(this.convPanel, BorderLayout.CENTER);
+        
     }
-
-    private JPanel getBitwiseOperators() {
-        final JPanel operators = new JPanel();
-
-        for (final var entry : ProgrammerCalculatorModelFactory.create().getBinaryOpMap().entrySet()) {
-            if (this.equalsAny(entry.getKey())) {
-                final JButton btn = new JButton(entry.getKey());
-                btn.addActionListener(this.opAl);
-                btn.add(operators);
-            }
-        }
-
-        return operators;
-
-    }
-
     private void enableButtons(final int i) {
         final var numbers = this.getNumbers();
         numbers.entrySet().stream().filter((entry) -> Integer.parseInt(entry.getKey()) < i)
@@ -168,28 +162,6 @@ public class ProgrammerCalculatorPanel extends JPanel {
             }
         }).forEach((entry) -> map.put(entry.getKey(), entry.getValue()));
         return map;
-    }
-
-    /**
-     * 
-     * @param key
-     * @return true if key == ror , rol , shiftL, shiftR, nand
-     */
-    private boolean equalsAny(final String key) {
-        switch (key) {
-        case "ror":
-            return true;
-        case "rol":
-            return true;
-        case "shiftL":
-            return true;
-        case "shiftR":
-            return true;
-        case "nand":
-            return true;
-        default:
-            return false;
-        }
     }
 
     private void setNumpad() {
@@ -215,10 +187,28 @@ public class ProgrammerCalculatorPanel extends JPanel {
 
         final JPanel numpadAndOperators = new JPanel();
         numpadAndOperators.setLayout(new BorderLayout());
-        numpadAndOperators.add(this.getBitwiseOperators(), BorderLayout.NORTH);
+        //numpadAndOperators.add(this.getBitwiseOperators(), BorderLayout.NORTH);
         numpadAndOperators.add(numpad, BorderLayout.CENTER);
-
-        this.add(numpadAndOperators, BorderLayout.SOUTH);
+        
+        final JPanel oper = new JPanel();
+        oper.setLayout(new GridLayout(1, 5));
+        
+        this.topOperators.forEach((str) -> {
+            
+            final JButton btn = new JButton(str);
+            btn.addActionListener(opAl);
+            oper.add(btn);
+           
+        });
+        
+        final JPanel mid = new JPanel();
+        mid.setLayout(new BorderLayout());
+        
+        mid.add(oper, BorderLayout.NORTH);
+        mid.add(numpadAndOperators, BorderLayout.CENTER);
+        
+        this.add(mid, BorderLayout.SOUTH);
+        
 
     }
 
@@ -227,21 +217,12 @@ public class ProgrammerCalculatorPanel extends JPanel {
         final int cols = 1;
         final JPanel operators = new JPanel();
         operators.setLayout(new GridLayout(rows, cols));
-
-        final JButton not = new JButton("not");
-        not.addActionListener(opAl);
-        final JButton nor = new JButton("nor");
-        nor.addActionListener(opAl);
-
-        operators.add(not);
-        operators.add(nor);
         
-        List.of("+", "-", "×", "÷").forEach((op) -> {
+        this.rightOperators.forEach((op) -> {
             final JButton btn = new JButton(op);
             btn.addActionListener(opAl); 
             operators.add(btn);
         });
-
         return operators;
     }
 
@@ -251,15 +232,11 @@ public class ProgrammerCalculatorPanel extends JPanel {
         panel.add(this.numpad, BorderLayout.CENTER);
         final JPanel topMiddleNumpad = new JPanel();
         topMiddleNumpad.setLayout(new GridLayout(1, 3));
-        final JButton and = new JButton("and");
-        and.addActionListener(opAl);
-        final JButton or = new JButton("or");
-        or.addActionListener(opAl);
-        final JButton xor = new JButton("xor");
-        xor.addActionListener(opAl);
-        topMiddleNumpad.add(and);
-        topMiddleNumpad.add(or);
-        topMiddleNumpad.add(xor);
+        this.middleOperators.forEach((str) -> {
+            final JButton btn = new JButton(str);
+            btn.addActionListener(opAl); 
+            topMiddleNumpad.add(btn);
+        });
         panel.add(topMiddleNumpad, BorderLayout.NORTH);
         return panel;
     }

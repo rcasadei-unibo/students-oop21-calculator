@@ -6,7 +6,7 @@ import view.components.CCDisplay;
 
 /**
  * 
- * MISSING JAVADOC.
+ * Generic Controller used by Standard, Scientific, Combinatorics calculators.
  *
  */
 public interface CalculatorController {
@@ -19,16 +19,20 @@ public interface CalculatorController {
      * @return result of the given operation
      */
     double applyBinaryOperation(String op, Double a, Double b);
+
     /**
+     * 
      * @param op string representing the operation
-     * @return precedence
+     * @return a integer representing the precedence of the operation
      */
     int getPrecedence(String op);
+
     /**
      * @param op string representing the operation
      * @return the type of association of the operation(LEFT or RIGHT)
      */
     Type getType(String op);
+
     /**
      * 
      * @param op string representing the operation
@@ -36,36 +40,42 @@ public interface CalculatorController {
      * @return result of the given operation
      */
     double applyUnaryOperation(String op, double a);
+
     /**
      * 
      * @param op string representing the operation
      * @return whether the given operation is unary
      */
     boolean isUnaryOperator(String op);
+
     /**
      * 
      * @param op string representing the operation
      * @return whether the given operation is binary
      */
     boolean isBinaryOperator(String op);
+
     /**
      * 
      * @param mng manager of the system
      */
     void setManager(CCManager mng);
+
     /**
      * 
-     * @param display
+     * @param display GUI display used by the controller
      */
     void setDisplay(CCDisplay display);
+
     /**
      * 
-     * @return display
+     * @return display used by the controller
      */
     CCDisplay getDisplay();
+
     /**
      * 
-     * @return MISSING.
+     * @return manager used by the controller
      */
     CCManager getManager();
 }

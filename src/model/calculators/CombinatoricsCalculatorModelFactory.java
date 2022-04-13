@@ -1,32 +1,36 @@
 package model.calculators;
 
 import java.util.Map;
+
 import java.util.function.BinaryOperator;
 import java.util.function.UnaryOperator;
 
 import utils.CCBinaryOperator;
 import utils.CCUnaryOperator;
+
 /**
  * 
- * MISSING JAVADOC.
+ * Static Factory that creates the maps with the Combinatorics Operations and puts them in a Calculator Model.
  *
  */
 public final class CombinatoricsCalculatorModelFactory {
+
     private static final double BELLNUMBERMAX = 30;
-    /**
-     * 
-     */
+
     private CombinatoricsCalculatorModelFactory() {
     }
+
     private static CCBinaryOperator createBinaryFunction(final BinaryOperator<Double> op) {
         return new CCBinaryOperator(op, 0, null);
     }
+
     private static CCUnaryOperator createUnaryFunction(final UnaryOperator<Double> op) {
         return new CCUnaryOperator(op, 0, null);
     }
+
     /**
      * 
-     * @return MISSING JAVADOC.
+     * @return a class(CalculatorModel)that has two maps that contain all the operators of this calculator
      */
     public static CalculatorModel create() {
         final Map<String, CCBinaryOperator> binaryOpMap = Map.of(
@@ -41,10 +45,11 @@ public final class CombinatoricsCalculatorModelFactory {
                 "bellNumber", createUnaryFunction((n) -> bellNumber(n)));
         return new CalculatorModelTemplate(binaryOpMap, unaryOpMap);
     }
+
     /**
      * 
      * @param n the biggest element of the factorial
-     * @param m 
+     * @param m the number of "iterations"
      * @return the falling factorial (n)m
      */
     private static double fallingFactorial(final double n, final double m) {
@@ -57,16 +62,18 @@ public final class CombinatoricsCalculatorModelFactory {
         }
         return result;
     }
+
     /**
      * 
-     * @param a
-     * @param b
+     * @param a the upper value
+     * @param b the lower value
      * @return the binomial coefficient a choose b
      */
     private static double binomialCoefficient(final double a, final double b) {
         final double b1 = b > (a / 2) ? a - b : b;
         return b1 < 0 ? 0 : fallingFactorial(a, b1) / fallingFactorial(b1, b1);
     }
+
     /**
      * 
      * @param n the cardinality of the set A = {1,2,...,n}
@@ -76,6 +83,7 @@ public final class CombinatoricsCalculatorModelFactory {
     private static double sequencesNumber(final double n, final double m) {
         return Math.pow(n, m);
     }
+
     /**
      * 
      * @param n the length of the sequence
@@ -85,6 +93,7 @@ public final class CombinatoricsCalculatorModelFactory {
     private static double binaryFibonacci(final double n, final double k) {
         return binomialCoefficient(n - k + 1, k);
     }
+
     /**
      * 
      * @param n the length of the sequence
@@ -103,6 +112,7 @@ public final class CombinatoricsCalculatorModelFactory {
         }
         return result;
     }
+
     /**
      * 
      * @param n n the cardinality of the set A = {1,2,...,n}
@@ -115,11 +125,11 @@ public final class CombinatoricsCalculatorModelFactory {
         }
         return result;
     }
+
     /**
      * 
      * @param n the cardinality of the set A
      * @return the number of partitions of the set A which equals Bell(n)
-     * @throws CalcException 
      */
     private static double bellNumber(final double n) {
         if (n > BELLNUMBERMAX) {
@@ -134,6 +144,7 @@ public final class CombinatoricsCalculatorModelFactory {
         }
         return result;
     }
+
     /**
      * 
      * @param n the cardinality of the set A
