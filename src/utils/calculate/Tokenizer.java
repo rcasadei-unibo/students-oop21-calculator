@@ -32,7 +32,6 @@ public class Tokenizer {
      */
     public Tokenizer(final String expr) {
         this.expr = expr.replaceAll(" ", "");
-        System.out.println(this.expr);
         this.lenExpr = expr.replaceAll(" ", "").length();
         this.variable = data.getVariable();
         this.constants = data.getConstants();
@@ -161,7 +160,9 @@ public class Tokenizer {
         if (index < this.lenExpr && this.expr.charAt(index) == '.') {
             index++;
         }
-        while (index < this.lenExpr && Character.isDigit(this.expr.charAt(index))) {
+        while (index < this.lenExpr && ((Character.isDigit(this.expr.charAt(index)) && this.expr.charAt(index - 1) != 'E') 
+                || this.expr.charAt(index) == 'E'
+                || ((this.expr.charAt(index - 1) == 'E') && (this.expr.charAt(index) == '+' || this.expr.charAt(index) == '-')))) {
             index++;
         }
 
@@ -249,12 +250,6 @@ public class Tokenizer {
         final var newOp = Operator.getOperatorBySymbolAndArgs(String.valueOf(c), arguments);
         lastToken = TokensFactory.operatorToken(newOp);
         return lastToken;
-    }
-    
-    public static void main(String args[]) {
-        var tok = new Tokenizer("3   x+4.   5");
-        var l = tok.getListSymbol();
-        l.forEach(s -> System.out.print(s));
     }
 
 }
