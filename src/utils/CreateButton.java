@@ -40,6 +40,7 @@ public final class CreateButton {
            }
            controller.getManager().memory().read(opName);
        });
+       btn.setBackground(CCColors.OPERATION_BUTTON);
        return btn;
    }
 

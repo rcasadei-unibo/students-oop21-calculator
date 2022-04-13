@@ -1,26 +1,27 @@
 package view.main;
 
+import javax.swing.Box;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import java.awt.Toolkit;
+
 import java.util.Map;
 import java.util.Optional;
 import java.awt.Dimension;
 
-import java.awt.BorderLayout;
-
 import model.manager.EngineModelInterface.Calculator;
+import utils.CCColors;
 import view.calculators.AdvancedCalculatorPanel;
-import model.manager.EngineModelInterface.Calculator;
 import view.calculators.CombinatoricsCalculatorPanel;
 import view.calculators.GraphicCalculatorPanel;
 import view.calculators.ProgrammerCalculatorPanel;
 import view.calculators.ScientificCalculatorPanel;
 import view.calculators.StandardCalculatorPanel;
+import view.components.HistoryPanel;
 
 /**
  * Main JFrame of the application.
@@ -29,21 +30,19 @@ import view.calculators.StandardCalculatorPanel;
  */
 public class CCMainGUI extends JFrame implements View {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -4510924334938545109L;
     private final transient ViewLogics logics = new ViewLogicsImpl(this);
 
-    private final JPanel outer = new JPanel();
     private transient Optional<JPanel> mountedPanel = Optional.empty();
+    private transient Optional<Calculator> current = Optional.empty();
+
     private final JLabel title = new JLabel("");
 
     private final Map<Calculator, JPanel> views = Map.of(
             Calculator.STANDARD, new StandardCalculatorPanel(Calculator.STANDARD.getController()),
             Calculator.SCIENTIFIC, new ScientificCalculatorPanel(Calculator.SCIENTIFIC.getController()),
             Calculator.PROGRAMMER, new ProgrammerCalculatorPanel(Calculator.PROGRAMMER.getController()),
-            Calculator.GRAPHIC, new StandardCalculatorPanel(Calculator.GRAPHIC.getController()),
+            Calculator.GRAPHIC, new GraphicCalculatorPanel(Calculator.GRAPHIC.getController()),
             Calculator.ADVANCED, new AdvancedCalculatorPanel(Calculator.ADVANCED.getController()),
             Calculator.COMBINATORICS, new CombinatoricsCalculatorPanel()
             );
@@ -55,15 +54,16 @@ public class CCMainGUI extends JFrame implements View {
         this.setTitle("Calculator Collection");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        final double width = screenSize.getWidth() / 3;
-        final double height = screenSize.getHeight() * 2 / 3;
-        this.setSize(new Dimension((int) width, (int) height));
-
         final JMenuBar menuBar = new JMenuBar();
         final JMenu menu = new JMenu("Select Calculator");
         menuBar.add(menu);
         menuBar.add(title);
+        menuBar.add(Box.createHorizontalGlue());
+        final var historyBtn = new JButton("History  ");
+        historyBtn.setBackground(CCColors.OPERATION_BUTTON);
+        historyBtn.setMnemonic('h');
+        historyBtn.addActionListener((e) -> this.toggleHistory());
+        menuBar.add(historyBtn);
 
         menu.add(this.createMenuItem("Standard Calculator", Calculator.STANDARD));
         menu.add(this.createMenuItem("Scientific Calculator", Calculator.SCIENTIFIC));
@@ -73,11 +73,28 @@ public class CCMainGUI extends JFrame implements View {
         menu.add(this.createMenuItem("Advanced Calculator", Calculator.ADVANCED));
         this.setJMenuBar(menuBar);
 
-        outer.setLayout(new BorderLayout());
-        this.getContentPane().add(outer);
-
         this.logics.mount(Calculator.STANDARD);
+        this.setLocationByPlatform(true);
         this.setVisible(true);
+    }
+
+    private void toggleHistory() {
+
+        this.mountedPanel.ifPresent((mounted) -> {
+            if ("HistoryPanel".equals(mounted.getClass().getSimpleName())) {
+                this.logics.mount(this.current.get());
+            } else {
+                this.getContentPane().remove(mounted);
+                final var panel = new HistoryPanel(this.logics.getHistory());
+                this.getContentPane().add(panel);
+
+                this.mountedPanel = Optional.of(panel);
+
+                this.revalidate();
+                this.repaint();
+            }
+        });
+
     }
 
     private JMenuItem createMenuItem(final String text, final Calculator calcName) {
@@ -90,13 +107,19 @@ public class CCMainGUI extends JFrame implements View {
     public void show(final Calculator calc) {
         title.setText(calc.name());
 
-        this.mountedPanel.ifPresent((mounted) -> outer.remove(mounted));
+        this.mountedPanel.ifPresent((mounted) -> this.getContentPane().remove(mounted));
         final JPanel panel = this.views.get(calc);
-        outer.add(panel, BorderLayout.CENTER);
+        this.getContentPane().add(panel);
+
+        this.setMinimumSize(new Dimension(0, 0));
+        this.pack();
+        this.setMinimumSize(this.getSize());
+
+        this.current = Optional.of(calc);
         this.mountedPanel = Optional.of(panel);
 
-        outer.revalidate();
-        outer.repaint();
+        this.revalidate();
+        this.repaint();
     }
 
 }

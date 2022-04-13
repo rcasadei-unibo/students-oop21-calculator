@@ -11,8 +11,10 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import utils.CCColors;
+
 /**
- * 
+ * TODO: javadoc.
  */
 public class CCDisplay extends JPanel {
 
@@ -29,8 +31,8 @@ public class CCDisplay extends JPanel {
         this.setLayout(new BorderLayout());
 
         final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        final double width = screenSize.getWidth() / 3 / 4;
-        final double height = screenSize.getHeight() * 2 / 3 / 4;
+        final double width = screenSize.getWidth() / 3;
+        final double height = screenSize.getHeight() / (8);
 
         this.upperBox = new JLabel("", SwingConstants.RIGHT);
         this.mainBox = new JLabel("0", SwingConstants.RIGHT);
@@ -42,6 +44,8 @@ public class CCDisplay extends JPanel {
 
         this.upperBox.setBorder(new EmptyBorder(10, 10, 0, 10));
         this.add(upperBox, BorderLayout.NORTH);
+
+        this.setBackground(CCColors.DISPLAY);
 
     }
     /**
