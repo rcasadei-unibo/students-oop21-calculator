@@ -20,6 +20,9 @@ public class CalculatorAdvancedController {
     private Expression expr = new Expression();
     private TypeAlgorithm type;
     private  CalculatorController controller;
+    private String previousOp = "";
+    private List<String> previousParams = List.of();
+    private TypeAlgorithm previousType = TypeAlgorithm.DERIVATE;
 
     /**
      * @author pesic
@@ -37,7 +40,7 @@ public class CalculatorAdvancedController {
             return alg;
         }
     }
-    
+
 
     /**
      * @param controller
@@ -57,26 +60,40 @@ public class CalculatorAdvancedController {
     }
     
     /**
+     * @return s
+     */
+    public TypeAlgorithm getPreviousTypeOp() {
+        return this.previousType;
+    }
+    
+    /**
+     * @return c
+     */
+    public List<String> getPreviousParameters() {
+        return this.previousParams;
+    }
+
+    /**
      * @param c
      */
     public void read(final String c) {
         this.controller.getManager().memory().read(c);
     }
-    
+
     /**
      * 
      */
     public void deleteLast() {
         this.controller.getManager().memory().deleteLast();
     }
-    
+
     /**
      * @return c
      */
     public String getCurrentState() {
         return this.controller.getManager().memory().getCurrentState().stream().reduce("", (s1, s2) -> s1 + s2);
     }
-    
+
     /**
      * 
      */
@@ -84,7 +101,7 @@ public class CalculatorAdvancedController {
         this.op.unsetParameters();
         this.controller.getManager().memory().clear();
     }
-    
+
     /**
      * @param params
      * @throws CalcException 
@@ -95,14 +112,22 @@ public class CalculatorAdvancedController {
     
     /**
      * @return s
+     */
+    public String getPreviousOp() {
+        return this.previousOp;
+    }
+
+    /**
+     * @return s
      * @throws CalcException 
      */
     public String calculate() throws CalcException {
-        //final String mem = this.op.setParameters(this.controller.getManager().getCurrentState());
-        //this.controller.getManager().setCurrentState(mem);
         final var e = this.controller.getManager().memory().getCurrentState().stream().reduce("", (res, s) -> res + s);
         this.expr.setExpr(e);
         final String res = this.op.calculate(expr);
+        this.previousOp = e;
+        this.previousParams = this.op.getParameters();
+        this.previousType = this.type;
         /*if (!this.type.equals(TypeAlgorithm.DERIVATE)) {
             //add the formatter
         }*/
@@ -110,18 +135,4 @@ public class CalculatorAdvancedController {
         return res;
     }
     
-   /* public static void main(String[] args) {
-        var man = new CCManager(new CCMainGUI());
-        Calculator.ADVANCED.getController().setManager(man);
-       var calc = new CalculatorAdvancedController(Calculator.ADVANCED.getController());
-       calc.setOperation(TypeAlgorithm.DERIVATE);
-       var l = List.of("0", "1");
-       var l1 = List.of("x");
-       var l2 = List.of("log","(","x",")");
-       
-       l2.forEach(s -> {
-           calc.read(s);
-       });
-       System.out.println(calc.calculate());
-    }*/
 }

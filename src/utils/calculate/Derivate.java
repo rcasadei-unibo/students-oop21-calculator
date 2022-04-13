@@ -27,4 +27,9 @@ public class Derivate implements Algorithm{
     public void unsetParameters() {
     }
 
+    @Override
+    public List<String> getParameters() {
+        return List.of();
+    }
+
 }

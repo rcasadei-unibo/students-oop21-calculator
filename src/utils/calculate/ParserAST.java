@@ -32,6 +32,7 @@ public class ParserAST {
 
     private AbstractSyntaxNode createBinaryOperatorNode(final Token t, final AbstractSyntaxNode left, final AbstractSyntaxNode right) {
         return simplify.binaryOperator(t, left, right);
+        //return new AbstractSyntaxNode(t, left, right);
     }
 
     private AbstractSyntaxNode parseBinaryOperator(final Token token) {
