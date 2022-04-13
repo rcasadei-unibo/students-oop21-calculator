@@ -68,4 +68,14 @@ public class CCMemoryManager implements MemoryManager {
         }
     }
 
+    @Override
+    public void addResult(final String result) {
+        this.model.addToHistory(result);
+    }
+
+    @Override
+    public List<String> getHistory() {
+        return this.model.getHistory();
+    }
+
 }
