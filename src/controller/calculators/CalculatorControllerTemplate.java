@@ -15,8 +15,12 @@ import view.components.CCDisplay;
  * Implementation of the generic Controller.
  * 
  */
-public final class CalculatorControllerTemplate implements CalculatorController {
-
+public class CalculatorControllerTemplate implements CalculatorController {
+    /**
+     * 
+     * MISSING JAVADOC.
+     *
+     */
     private final CalculatorModel model;
     private CCManager manager;
     private CCDisplay display;

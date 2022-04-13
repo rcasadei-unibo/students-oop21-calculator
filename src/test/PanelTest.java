@@ -23,7 +23,7 @@ public class PanelTest extends JFrame {
     public PanelTest() {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         final Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-        this.setSize((int) (screen.getWidth() / 1.75), (int) (screen.getHeight() / 1.75));
+        this.setSize((int) (screen.getWidth() / 2), (int) (screen.getHeight() / 2));
         this.setLocationByPlatform(true);
         this.add(new FunctionGrapher());
         this.setVisible(true);
