@@ -43,8 +43,13 @@ public class AdvancedCalculatorPanel extends JPanel {
         this.operationsPanel = new OperationsPanel(advancedController);
         
         final ActionListener numAndOpBtn = e -> {
+            final List<String> buttons = List.of("sin", "cos", "log", "tan", "√", "abs", "csc", "sec", "cot");
             final var btn = (JButton) e.getSource();
-            advancedController.read(btn.getText());
+            if (buttons.contains(btn.getText())) {
+                advancedController.read(btn.getText() + "(");
+            } else {
+                advancedController.read(btn.getText());
+            }
             display.updateText(this.advancedController.getCurrentState());
         };
         
