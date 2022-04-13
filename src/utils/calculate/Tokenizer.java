@@ -160,7 +160,9 @@ public class Tokenizer {
         if (index < this.lenExpr && this.expr.charAt(index) == '.') {
             index++;
         }
-        while (index < this.lenExpr && Character.isDigit(this.expr.charAt(index))) {
+        while (index < this.lenExpr && ((Character.isDigit(this.expr.charAt(index)) && this.expr.charAt(index - 1) != 'E') 
+                || this.expr.charAt(index) == 'E'
+                || ((this.expr.charAt(index - 1) == 'E') && (this.expr.charAt(index) == '+' || this.expr.charAt(index) == '-')))) {
             index++;
         }
 
