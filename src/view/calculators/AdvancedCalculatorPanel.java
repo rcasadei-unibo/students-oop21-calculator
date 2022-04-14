@@ -1,8 +1,10 @@
     package view.calculators;
 
     import java.awt.BorderLayout;
-    import java.awt.GridLayout;
-    import java.awt.event.ActionListener;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.Toolkit;
+import java.awt.event.ActionListener;
     import java.awt.GridBagConstraints;
     import java.util.List;
 
@@ -16,7 +18,8 @@
     import controller.calculators.CalculatorAdvancedController;
     import controller.calculators.CalculatorAdvancedController.TypeAlgorithm;
     import controller.calculators.CalculatorController;
-    import utils.CommandFactory;
+import utils.CCColors;
+import utils.CommandFactory;
     import view.components.CCDisplay;
     import view.components.CCNumPad;
 
@@ -36,19 +39,20 @@
          * @param controller
          */
         public AdvancedCalculatorPanel(final CalculatorController controller) {
+
             this.advancedController = new CalculatorAdvancedController(controller);
             final var display = new CCDisplay();
             this.setLayout(new BorderLayout());
             this.add(display, BorderLayout.NORTH);
             this.operationsPanel = new OperationsPanel(advancedController, display);
-            
+
             final ActionListener numAndOpBtn = (e) -> {
                 final List<String> buttons = List.of("sin", "cos", "log", "tan", "√", "abs", "csc", "sec", "cot");
                 final var btn = (JButton) e.getSource();
                 final var command = CommandFactory.insert(btn.getText(), buttons, () -> "(", advancedController);
                 display.updateText(command.execute());
             };
-            
+
             final ActionListener deleteBtn = e -> {
                 this.advancedController.deleteLast();
                 display.updateText(this.advancedController.getCurrentState());
@@ -68,16 +72,21 @@
             this.add(this.getOperatorsPanel(numAndOpBtn), BorderLayout.WEST);
             this.add(this.operationsPanel, BorderLayout.EAST);
         }
-        
+
         private JPanel getOperatorsPanel(final ActionListener al) {
             final JPanel operators = new JPanel();
             operators.setLayout(new GridLayout(5, 3));
-            final List<String> buttons = List.of("+", "-", "\u00D7", "÷", "^", "sin", "cos", "log", "tan", "√", "abs", "csc", "sec", "cot", "x");
+            final List<String> buttons = List.of("+", "-", "\u00D7", "÷", "^", "sin", "cos", "log", "tan", "√", "abs", "csc", "sec", "cot");
             buttons.forEach(s -> {
                 final var btn = new JButton(s);
                 btn.addActionListener(al);
+                btn.setBackground(CCColors.OPERATION_BUTTON);
                 operators.add(btn);
             });
+            final var btn = new JButton("x");
+            btn.addActionListener(al);
+            btn.setBackground(CCColors.NUMBER_BUTTON);
+            operators.add(btn);
             return operators;
         }
         /**

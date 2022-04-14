@@ -8,6 +8,7 @@ import utils.calculate.Algorithm;
 import utils.calculate.Expression;
 import utils.calculate.Derivate;
 import utils.calculate.Limit;
+import utils.NumberFormatter;
 
 import utils.calculate.Integrator;
 
@@ -120,7 +121,7 @@ public class CalculatorAdvancedController {
     /**
      * @param oldExpr
      */
-    public void addToHistory(String oldExpr) {
+    public void addToHistory(final String oldExpr) {
         this.controller.getManager().memory().addResult(oldExpr);
     }
 
@@ -131,13 +132,13 @@ public class CalculatorAdvancedController {
     public String calculate() throws CalcException {
         final var e = this.controller.getManager().memory().getCurrentState().stream().reduce("", (res, s) -> res + s);
         this.expr.setExpr(e);
-        final String res = this.op.calculate(expr);
+        String res = this.op.calculate(expr);
         this.previousOp = e;
         this.previousParams = this.op.getParameters();
         this.previousType = this.type;
-        /*if (!this.type.equals(TypeAlgorithm.DERIVATE)) {
-            //add the formatter
-        }*/
+        if (!this.type.equals(TypeAlgorithm.DERIVATE)) {
+            res = NumberFormatter.format(Double.parseDouble(res), 8, 8, 5);
+        }
         reset();
         return res;
     }
