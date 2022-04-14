@@ -39,6 +39,7 @@ public class CombinatoricsLogicsImpl implements CombinatoricsLogics {
         final String result = this.opFormat + adder;
         this.clearStrings();
         this.controller.getManager().engine().calculate();
+        this.controller.getManager().memory().addResult(result + " " + this.getStream());
         return result;
     }
 
@@ -68,14 +69,14 @@ public class CombinatoricsLogicsImpl implements CombinatoricsLogics {
 
     @Override
     public String opAction(final String btnName, final String opName) {
-        if (this.getStream().isBlank()) {
+        if (this.getStream().isBlank() || !this.opString.isBlank()) {
             return "Syntax Error";
         }
         final String closer = this.controller.isBinaryOperator(opName) ? ", " : "";
         this.opFormat = btnName + "(" + this.getStream() + closer;
         this.controller.getManager().memory().read(opName);
         this.opString = opName;
-        return this.opFormat;
+        return this.opFormat + ")";
     }
 
     private String getDisplayText() throws CalcException {
