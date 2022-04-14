@@ -51,31 +51,18 @@ public final class CreateButton {
            final String text = ((JButton) e.getSource()).getText();
            final String op = KEYMAP.get(text);
            final var isUnary = controller.isUnaryOperator(op);
-           //System.out.println(KEYMAP.get(text) + " isUnary: " + isUnary);
            final boolean isLastInputNumber = isLastInputANumber(controller);
-           if (ScientificCalculatorModelFactory.create().getUnaryOpMap().containsKey(KEYMAP.get(text))) {
-               controller.getManager().memory().read(op);
-           } else {
+
                if (isUnary && isLastInputNumber) {
-                   //controller.getManager().memory().clear();
                    controller.getManager().memory().read("Syntax error");
                } else {
                    controller.getManager().memory().read(op);
                    if (!AVOID.contains(text)) {
                        controller.getManager().memory().read("(");
                    }
+               
                }
-           }
-           
-           display.updateText(controller.getManager().memory().getCurrentState().stream().map((x) -> {
-               if (x.contains("1/x")) {
-                   return "1/";
-               }
-               if (APPEARANCEMAP.containsKey(x)) {
-                   return APPEARANCEMAP.get(x);
-               }
-               return x;
-           }).reduce("", (a, b) -> a + b));
+               getOutput(controller, display);
        });
        btn.setBackground(CCColors.OPERATION_BUTTON);
        return btn;
@@ -92,6 +79,16 @@ public final class CreateButton {
        }
        return false;
    }
-
+   public static void getOutput(final CalculatorController controller ,final CCDisplay display) {
+       display.updateText(controller.getManager().memory().getCurrentState().stream().map((x) -> {
+           if (x.contains("1/x")) {
+               return "1/";
+           }
+           if (APPEARANCEMAP.containsKey(x)) {
+               return APPEARANCEMAP.get(x);
+           }
+           return x;
+       }).reduce("", (a, b) -> a + b));
+   }
 
 }
