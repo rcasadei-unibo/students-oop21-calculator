@@ -13,7 +13,7 @@ import view.components.FunctionGrapher;
  */
 public class GraphicCalculatorLogicsImpl implements GraphicCalculatorLogics {
     private final CalculatorController controller;
-    private final List<Double> results = new ArrayList<>();
+    private List<Double> results = new ArrayList<>();
     /**
      * 
      * @param controller
@@ -26,6 +26,7 @@ public class GraphicCalculatorLogicsImpl implements GraphicCalculatorLogics {
      * @param eq
      */
     public void setEquation(final String eq) {
+        this.results.clear();
         double x = -FunctionGrapher.LIMIT;
         List<String> temp;
         while (x <= FunctionGrapher.LIMIT) {

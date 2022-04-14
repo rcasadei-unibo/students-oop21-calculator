@@ -25,7 +25,7 @@ public class FunctionGrapher extends JPanel {
     /**
      * 
      */
-    public static final double PRECISION = 0.1;
+    public static final double PRECISION = 0.05;
     /**
      * 
      */
@@ -124,6 +124,7 @@ public class FunctionGrapher extends JPanel {
     public void safe(final List<Double> results) {
         this.isOff = false;
         this.current = results;
+        System.out.println(results);
         this.repaint();
     }
 }
