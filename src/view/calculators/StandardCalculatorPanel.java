@@ -13,7 +13,6 @@ import view.components.CCNumPad;
 import controller.calculators.CalculatorController;
 import model.calculators.StandardCalculatorModelFactory;
 import utils.CreateButton;
-import utils.OutputFormatter;
 //TODO MISSING JAVADOC.
 /**
  * 
