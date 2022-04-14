@@ -55,7 +55,7 @@ public class Tokenizer {
         if (Character.isDigit(c)) {
             if (lastToken != null) {
                 if (lastToken.getTypeToken().equals(TokenType.NUMBER) && !isRPN) {
-                    throw new IllegalArgumentException("2 numbers can't stay near: "+c);
+                    throw new IllegalArgumentException("2 numbers can't stay near: " + c);
                 }
                 if (implicitMultiplication && lastToken.getTypeToken() != TokenType.OPENPAR && lastToken.getTypeToken() != TokenType.FUNCTION
                         && lastToken.getTypeToken() != TokenType.OPERATOR) {
