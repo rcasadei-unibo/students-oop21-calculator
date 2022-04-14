@@ -116,6 +116,13 @@ public class CalculatorAdvancedController {
     public String getPreviousOp() {
         return this.previousOp;
     }
+    
+    /**
+     * @param oldExpr
+     */
+    public void addToHistory(String oldExpr) {
+        this.controller.getManager().memory().addResult(oldExpr);
+    }
 
     /**
      * @return s
