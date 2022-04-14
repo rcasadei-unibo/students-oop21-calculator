@@ -1,13 +1,17 @@
 package view.components;
 
 import java.awt.BasicStroke;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
+import java.util.List;
+
 import javax.swing.JPanel;
 
-import controller.calculators.CalculatorController;
+import view.calculators.GraphicCalculatorLogics;
+
 /**
  * 
  * 
@@ -18,18 +22,31 @@ public class FunctionGrapher extends JPanel {
      * 
      */
     private static final long serialVersionUID = -6534831232343094643L;
-    private static final double PRECISION = 0.01;
+    /**
+     * 
+     */
+    public static final double PRECISION = 0.05;
+    /**
+     * 
+     */
     private static double scale = 100;
-    private static final int LIMIT = 1000;
+    /**
+     * 
+     */
+    public static final int LIMIT = 70;
+    private boolean isOff = true;
+    private List<Double> current;
     /**
      *
      */
     public FunctionGrapher() {
+        this.setLayout(new BorderLayout());
         this.addMouseWheelListener(m -> {
-            if (m.getWheelRotation() > 0 && FunctionGrapher.scale > 3) {
+            if (m.getWheelRotation() > 0 && FunctionGrapher.scale > 16) {
                 FunctionGrapher.scale--;
-            } else {
-                 FunctionGrapher.scale += 1;
+            }
+            if (m.getWheelRotation() < 0) {
+                FunctionGrapher.scale++;
             }
             this.repaint();
         });
@@ -59,29 +76,32 @@ public class FunctionGrapher extends JPanel {
     }
 
     private void drawFunction(final Graphics g, final int w, final int h) {
-        final Graphics2D fun = (Graphics2D) g;
-        fun.setStroke(new BasicStroke(1));
-        fun.setColor(Color.RED);
-        final Polygon p = new Polygon();
-        double x = Math.negateExact(LIMIT);
-        while (x <= LIMIT) {
-           p.addPoint((int) (w / 2 + x * scale), h / 2 - (int) Math.round((x + 1) * scale));
-           x += PRECISION;
-        }
-        fun.drawPolyline(p.xpoints, p.ypoints, p.npoints);
+        if (!this.isOff) {
+            final Graphics2D fun = (Graphics2D) g;
+            fun.setStroke(new BasicStroke(1));
+            fun.setColor(Color.RED);
+            final Polygon p = new Polygon();
+            double x = -LIMIT;
+            for (final Double y : current) {
+                  p.addPoint((int) (w / 2 + x * FunctionGrapher.scale), (int) (h / 2 - y.doubleValue()  * FunctionGrapher.scale));
+                  x += PRECISION;
+            }
+            fun.drawPolyline(p.xpoints, p.ypoints, p.npoints);
+         }
     }
+
 
     private void drawLines(final Graphics g, final int w, final int h) {
         final Graphics2D lines = (Graphics2D) g;
         lines.setStroke(new BasicStroke(1));
         lines.setColor(Color.BLACK);
         for (int count = 0; count < LIMIT; count++) {
-            lines.drawLine((int) (w / 2 + count * scale), (int) (h / 2 + 3 - 10 / scale), (int) (w / 2 + count * scale), (int) (h / 2 - 3 + 10 / scale));
-            lines.drawLine((int) (w / 2 - count * scale), (int) (h / 2 + 3 - 10 / scale), (int) (w / 2 - count * scale), (int) (h / 2 - 3 + 10 / scale));
+            lines.drawLine((int) (w / 2 + count * FunctionGrapher.scale), (int) (h / 2 + 3 - 10 / FunctionGrapher.scale), (int) (w / 2 + count * FunctionGrapher.scale), (int) (h / 2 - 3 + 10 / FunctionGrapher.scale));
+            lines.drawLine((int) (w / 2 - count * FunctionGrapher.scale), (int) (h / 2 + 3 - 10 / FunctionGrapher.scale), (int) (w / 2 - count * FunctionGrapher.scale), (int) (h / 2 - 3 + 10 / FunctionGrapher.scale));
         }
         for (int count = 0; count < LIMIT; count++) {
-            lines.drawLine((int) (w / 2 + 3 - 10 / scale), (int) (h / 2 + count * scale), (int) (w / 2 - 3 + 10 / scale), (int) (h / 2 + count * scale));
-            lines.drawLine((int) (w / 2 + 3 - 10 / scale), (int) (h / 2 - count * scale), (int) (w / 2 - 3 + 10 / scale), (int) (h / 2 - count * scale));
+            lines.drawLine((int) (w / 2 + 3 - 10 / FunctionGrapher.scale), (int) (h / 2 + count * FunctionGrapher.scale), (int) (w / 2 - 3 + 10 / FunctionGrapher.scale), (int) (h / 2 + count * FunctionGrapher.scale));
+            lines.drawLine((int) (w / 2 + 3 - 10 / FunctionGrapher.scale), (int) (h / 2 - count * FunctionGrapher.scale), (int) (w / 2 - 3 + 10 / FunctionGrapher.scale), (int) (h / 2 - count * FunctionGrapher.scale));
         }
     }
 
@@ -90,12 +110,22 @@ public class FunctionGrapher extends JPanel {
         grid.setStroke(new BasicStroke(1));
         grid.setColor(Color.LIGHT_GRAY);
         for (int count = 0; count < LIMIT; count++) {
-            grid.drawLine((int) (w / 2 + count * scale / 4), 0, (int) (w / 2 + count * scale / 4), h);
-            grid.drawLine((int) (w / 2 - count * scale / 4), 0, (int) (w / 2 - count * scale / 4), h);
+            grid.drawLine((int) (w / 2 + count * FunctionGrapher.scale), 0, (int) (w / 2 + count * FunctionGrapher.scale), h);
+            grid.drawLine((int) (w / 2 - count * FunctionGrapher.scale), 0, (int) (w / 2 - count * FunctionGrapher.scale), h);
         }
         for (int count = 0; count < LIMIT; count++) {
-            grid.drawLine(0, (int) (h / 2 + count * scale / 4), w, (int) (h / 2 + count * scale / 4));
-            grid.drawLine(0, (int) (h / 2 - count * scale / 4), w, (int) (h / 2 - count * scale / 4));
+            grid.drawLine(0, (int) (h / 2 + count * FunctionGrapher.scale), w, (int) (h / 2 + count * FunctionGrapher.scale));
+            grid.drawLine(0, (int) (h / 2 - count * FunctionGrapher.scale), w, (int) (h / 2 - count * FunctionGrapher.scale));
         }
     }
+    /**
+     * @param results
+     */
+    public void safe(final List<Double> results) {
+        this.isOff = false;
+        this.current = results;
+        System.out.println(results);
+        this.repaint();
+    }
 }
+

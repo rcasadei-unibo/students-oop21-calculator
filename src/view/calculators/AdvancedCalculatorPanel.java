@@ -48,7 +48,7 @@ public class AdvancedCalculatorPanel extends JPanel {
             final var command = CommandFactory.insert(btn.getText(), buttons, () -> "(", advancedController);
             display.updateText(command.execute());
         };
-        
+
         final ActionListener deleteBtn = e -> {
             this.advancedController.deleteLast();
             display.updateText(this.advancedController.getCurrentState());
@@ -65,7 +65,7 @@ public class AdvancedCalculatorPanel extends JPanel {
         this.add(this.getOperatorsPanel(numAndOpBtn), BorderLayout.WEST);
         this.add(this.operationsPanel, BorderLayout.EAST);
     }
-    
+
     private JPanel getOperatorsPanel(final ActionListener al) {
         final JPanel operators = new JPanel();
         operators.setLayout(new GridLayout(5, 3));
@@ -128,7 +128,7 @@ public class AdvancedCalculatorPanel extends JPanel {
                 }
                 display.updateText("");
             };
-            
+
             combo.addActionListener(selectChoice);
             this.selectedDerivate();
         }
