@@ -13,6 +13,7 @@ import view.components.CCNumPad;
 import controller.calculators.CalculatorController;
 import model.calculators.StandardCalculatorModelFactory;
 import utils.CreateButton;
+import utils.OutputFormatter;
 //TODO MISSING JAVADOC.
 /**
  * 
@@ -47,22 +48,43 @@ public class StandardCalculatorPanel extends JPanel {
         final ActionListener btnAl = new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
+                System.out.println("btn:engine's " + controller.getManager().memory().getCurrentState().toString());
                 controller.getManager().memory().read(((JButton) e.getSource()).getText());
-                display.updateText(controller.getManager().memory().getCurrentState().stream().reduce("", (a, b) -> a + b));
+                display.updateText((controller.getManager().memory().getCurrentState().stream().map((x) -> {
+                    if (x.contains("1/x")) {
+                        return "1/";
+                    }
+                    return x;
+                }).reduce("", (a, b) -> a + b)));
             }
         };
         final ActionListener calcAl = new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                controller.getManager().engine().calculate();
-                display.updateText(controller.getManager().memory().getCurrentState().stream().reduce("", (a, b) -> a + b));
+                System.out.println("calc:engine's " + controller.getManager().memory().getCurrentState().toString());
+                if (!controller.getManager().memory().getCurrentState().isEmpty() && !(controller.getManager().memory().getCurrentState().contains("Syntax error") || controller.getManager().memory().getCurrentState().contains("Syntax Error"))) {
+                    controller.getManager().engine().calculate();
+                }
+                display.updateText((controller.getManager().memory().getCurrentState().stream().map((x) -> {
+                    if (x.contains("1/x")) {
+                        return "1/";
+                    }
+                    return x;
+                }).reduce("", (a, b) -> a + b)));
             }
         };
         final ActionListener backspaceAl = new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
+                System.out.println("pre_del:engine's " + controller.getManager().memory().getCurrentState().toString());
                 controller.getManager().memory().deleteLast();
-                display.updateText(controller.getManager().memory().getCurrentState().stream().reduce("", (a, b) -> a + b));
+                //System.out.println("post_del:engine's " + controller.getManager().memory().getCurrentState().toString());
+                display.updateText((controller.getManager().memory().getCurrentState().stream().map((x) -> {
+                    if (x.contains("1/x")) {
+                        return "1/";
+                    }
+                    return x;
+                }).reduce("", (a, b) -> a + b)));
 
             }
         };
@@ -78,10 +100,7 @@ public class StandardCalculatorPanel extends JPanel {
 
         }
         for (final var entry : StandardCalculatorModelFactory.create().getUnaryOpMap().entrySet()) {
-            //if(entry.getKey().contains("x"))->remove x            esempio : 1/x(0.333)
-            /*if (entry.getKey().contains("x")) {
-            }*/
-            operator.add(CreateButton.createOpButton(entry.getKey(), entry.getKey(), entry.getKey().replaceFirst("x", ""), controller, display));
+            operator.add(CreateButton.createOpButton(entry.getKey(), entry.getKey(), entry.getKey(), controller, display));
         }
         this.add(operator, BorderLayout.EAST);
     }
