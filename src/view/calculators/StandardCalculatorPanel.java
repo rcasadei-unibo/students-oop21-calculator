@@ -48,27 +48,43 @@ public class StandardCalculatorPanel extends JPanel {
         final ActionListener btnAl = new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
+                System.out.println("btn:engine's " + controller.getManager().memory().getCurrentState().toString());
                 controller.getManager().memory().read(((JButton) e.getSource()).getText());
-                System.out.println("engine's memory: " + controller.getManager().memory().getCurrentState().toString());
-                display.updateText(controller.getManager().memory().getCurrentState().stream().reduce("", (a, b) -> a + b));
+                display.updateText((controller.getManager().memory().getCurrentState().stream().map((x) -> {
+                    if (x.contains("1/x")) {
+                        return "1/";
+                    }
+                    return x;
+                }).reduce("", (a, b) -> a + b)));
             }
         };
         final ActionListener calcAl = new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
+                System.out.println("calc:engine's " + controller.getManager().memory().getCurrentState().toString());
                 if (!controller.getManager().memory().getCurrentState().isEmpty() && !(controller.getManager().memory().getCurrentState().contains("Syntax error") || controller.getManager().memory().getCurrentState().contains("Syntax Error"))) {
                     controller.getManager().engine().calculate();
                 }
-                System.out.println("engine's memory: " + controller.getManager().memory().getCurrentState().toString());
-                display.updateText(controller.getManager().memory().getCurrentState().stream().reduce("", (a, b) -> a + b));
+                display.updateText((controller.getManager().memory().getCurrentState().stream().map((x) -> {
+                    if (x.contains("1/x")) {
+                        return "1/";
+                    }
+                    return x;
+                }).reduce("", (a, b) -> a + b)));
             }
         };
         final ActionListener backspaceAl = new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
+                System.out.println("pre_del:engine's " + controller.getManager().memory().getCurrentState().toString());
                 controller.getManager().memory().deleteLast();
-                System.out.println("engine's memory: " + controller.getManager().memory().getCurrentState().toString());
-                display.updateText(controller.getManager().memory().getCurrentState().stream().reduce("", (a, b) -> a + b));
+                //System.out.println("post_del:engine's " + controller.getManager().memory().getCurrentState().toString());
+                display.updateText((controller.getManager().memory().getCurrentState().stream().map((x) -> {
+                    if (x.contains("1/x")) {
+                        return "1/";
+                    }
+                    return x;
+                }).reduce("", (a, b) -> a + b)));
 
             }
         };
