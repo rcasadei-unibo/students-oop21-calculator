@@ -81,11 +81,11 @@ public class StandardCalculatorPanel extends JPanel {
         final JPanel operator = new JPanel();
         operator.setLayout(new GridLayout(4, 2));
         for (final var entry : StandardCalculatorModelFactory.create().getBinaryOpMap().entrySet()) {
-            operator.add(CreateButton.createOpButton(entry.getKey(), entry.getKey(), "1/x".equals(entry.getKey()) ? "1/" : entry.getKey(), controller, display));
+            operator.add(CreateButton.createOpButton(entry.getKey(), entry.getKey(), entry.getKey(), controller, display));
 
         }
         for (final var entry : StandardCalculatorModelFactory.create().getUnaryOpMap().entrySet()) {
-            operator.add(CreateButton.createOpButton(entry.getKey(), entry.getKey(), entry.getKey(), controller, display));
+            operator.add(CreateButton.createOpButton(entry.getKey(), entry.getKey(), "1/x".equals(entry.getKey()) ? "1/" : entry.getKey(), controller, display));
         }
         this.add(operator, BorderLayout.EAST);
     }

@@ -81,9 +81,6 @@ public final class CreateButton {
    }
    public static void getOutput(final CalculatorController controller ,final CCDisplay display) {
        display.updateText(controller.getManager().memory().getCurrentState().stream().map((x) -> {
-           if (x.contains("1/x")) {
-               return "1/";
-           }
            if (APPEARANCEMAP.containsKey(x)) {
                return APPEARANCEMAP.get(x);
            }
