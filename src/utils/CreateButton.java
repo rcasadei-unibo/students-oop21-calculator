@@ -1,6 +1,7 @@
 package utils;
 
 
+import java.awt.RenderingHints.Key;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.Map;
 import javax.swing.JButton;
 
 import controller.calculators.CalculatorController;
+import model.calculators.ScientificCalculatorModelFactory;
 import model.calculators.StandardCalculatorModelFactory;
 import view.components.CCDisplay;
 /**
@@ -22,7 +24,8 @@ public final class CreateButton {
      */
     private static final List<String> AVOID = List.of("+", "-", "×", "÷", "%");
     private static final List<String> TOKENS = new ArrayList<>();
-    private static final Map<String,String> KEYMAP = new HashMap<>();
+    private static final Map<String, String> KEYMAP = new HashMap<>();
+    private static final Map<String, String> APPEARANCEMAP = new HashMap<>();
     {
         StandardCalculatorModelFactory.create().getBinaryOpMap().entrySet().stream().forEach((entry) -> TOKENS.add(entry.getKey()));
         StandardCalculatorModelFactory.create().getUnaryOpMap().entrySet().stream().forEach((entry) -> TOKENS.add(entry.getKey()));
@@ -42,24 +45,34 @@ public final class CreateButton {
 
    public static JButton createOpButton(final String btnName, final String opName, final String appearance, final CalculatorController controller, final CCDisplay display) {
        KEYMAP.put(btnName, opName);
+       APPEARANCEMAP.put(opName, appearance);
        final JButton btn = new JButton(btnName);
        btn.addActionListener(e -> {
            final String text = ((JButton) e.getSource()).getText();
-           final var isUnary = controller.isUnaryOperator(KEYMAP.get(text));
-           System.out.println(text + " isUnary: " + isUnary);
+           final String op = KEYMAP.get(text);
+           final var isUnary = controller.isUnaryOperator(op);
+           //System.out.println(KEYMAP.get(text) + " isUnary: " + isUnary);
            final boolean isLastInputNumber = isLastInputANumber(controller);
-           if (isUnary && isLastInputNumber) {
-               //controller.getManager().memory().clear();
-               controller.getManager().memory().read("Syntax error");
+           if (ScientificCalculatorModelFactory.create().getUnaryOpMap().containsKey(KEYMAP.get(text))) {
+               controller.getManager().memory().read(op);
            } else {
-               controller.getManager().memory().read(text);
-               if (!AVOID.contains(text)) {
-                   controller.getManager().memory().read("(");
+               if (isUnary && isLastInputNumber) {
+                   //controller.getManager().memory().clear();
+                   controller.getManager().memory().read("Syntax error");
+               } else {
+                   controller.getManager().memory().read(op);
+                   if (!AVOID.contains(text)) {
+                       controller.getManager().memory().read("(");
+                   }
                }
            }
+           
            display.updateText(controller.getManager().memory().getCurrentState().stream().map((x) -> {
                if (x.contains("1/x")) {
                    return "1/";
+               }
+               if (APPEARANCEMAP.containsKey(x)) {
+                   return APPEARANCEMAP.get(x);
                }
                return x;
            }).reduce("", (a, b) -> a + b));
