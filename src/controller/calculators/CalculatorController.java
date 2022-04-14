@@ -2,7 +2,6 @@ package controller.calculators;
 
 import controller.manager.CCManager;
 import utils.Type;
-import view.components.CCDisplay;
 
 /**
  * 
@@ -60,18 +59,6 @@ public interface CalculatorController {
      * @param mng manager of the system
      */
     void setManager(CCManager mng);
-
-    /**
-     * 
-     * @param display GUI display used by the controller
-     */
-    void setDisplay(CCDisplay display);
-
-    /**
-     * 
-     * @return display used by the controller
-     */
-    CCDisplay getDisplay();
 
     /**
      * 

@@ -22,6 +22,10 @@ public final class CCColors {
     /**
      * 
      */
+    public static final Color EXPLANATION_BUTTON = new Color(255, 225, 130);
+    /**
+     * 
+     */
     public static final Color DISPLAY = new Color(230, 230, 230);
 
     private CCColors() { }
