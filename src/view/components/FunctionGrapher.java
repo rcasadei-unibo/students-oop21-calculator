@@ -29,19 +29,17 @@ public class FunctionGrapher extends JPanel {
     /**
      * 
      */
-    public static double scale = 50;
+    private static double scale = 100;
     /**
      * 
      */
     public static final int LIMIT = 100;
     private boolean isOff = true;
-    private final GraphicCalculatorLogics logic;
     private List<Double> current;
     /**
-     *@param logic
+     *
      */
-    public FunctionGrapher(final GraphicCalculatorLogics logic) {
-        this.logic = logic;
+    public FunctionGrapher() {
         this.setLayout(new BorderLayout());
         this.addMouseWheelListener(m -> {
             if (m.getWheelRotation() > 0 && FunctionGrapher.scale > 16) {
@@ -83,10 +81,10 @@ public class FunctionGrapher extends JPanel {
             fun.setStroke(new BasicStroke(1));
             fun.setColor(Color.RED);
             final Polygon p = new Polygon();
-            double x = Math.negateExact(LIMIT);
+            double x = LIMIT;
             for (final Double y : current) {
                   p.addPoint((int) (w / 2 + x * FunctionGrapher.scale), (int) (h / 2 - y.doubleValue()  * FunctionGrapher.scale));
-                  x += PRECISION;
+                  x -= PRECISION;
             }
             fun.drawPolyline(p.xpoints, p.ypoints, p.npoints);
          }

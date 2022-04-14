@@ -21,10 +21,10 @@ public class GraphicCalculatorPanel extends JPanel {
      */
     public GraphicCalculatorPanel(final CalculatorController controller) {
         final GraphicCalculatorLogics logics = new GraphicCalculatorLogicsImpl(controller);
-        final FunctionGrapher g = new FunctionGrapher(logics);
+        final FunctionGrapher g = new FunctionGrapher();
         this.setLayout(new BorderLayout());
         this.add(g, BorderLayout.CENTER);
-        final JButton b = new JButton("sin(x)");
+        final JButton b = new JButton("x * sin(x)");
         this.add(b, BorderLayout.NORTH);
         b.addActionListener(e -> {
             logics.setEquation(b.getText());

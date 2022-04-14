@@ -96,7 +96,7 @@ public class CCEngine implements EngineInterface {
             }
             output.add(stack.pop());
         }
-
+        System.out.println(output);
         return output;
     }
 
