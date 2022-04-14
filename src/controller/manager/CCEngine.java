@@ -96,7 +96,7 @@ public class CCEngine implements EngineInterface {
             }
             output.add(stack.pop());
         }
-        System.out.println(output);
+        //System.out.println("What rob reads: " + output);
         return output;
     }
 

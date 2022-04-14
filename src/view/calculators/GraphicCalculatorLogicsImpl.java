@@ -26,17 +26,20 @@ public class GraphicCalculatorLogicsImpl implements GraphicCalculatorLogics {
      * @param eq
      */
     public void setEquation(final String eq) {
-        double x = FunctionGrapher.LIMIT;
+        double x = -FunctionGrapher.LIMIT;
         List<String> temp;
-        while (x >= Math.negateExact(FunctionGrapher.LIMIT)) {
+        while (x <= FunctionGrapher.LIMIT) {
             final Tokenizer tok = new Tokenizer(eq.replace("x", Double.toString(x)));
             temp = tok.getListSymbol();
-            System.out.println(temp);
-            controller.getManager().memory().readAll(temp);
+            //System.out.println("converted string : " + temp);
+            for (final var s : temp) {
+                controller.getManager().memory().read(s);
+            }
             this.controller.getManager().engine().calculate();
             results.add(Double.valueOf(this.controller.getManager().memory().getCurrentState().stream().reduce("", (a, b) -> a + b)));
             this.controller.getManager().memory().clear();
-            x -= FunctionGrapher.PRECISION;
+            //System.out.println("result " + results.get(i++));
+            x += FunctionGrapher.PRECISION;
         }
     }
 

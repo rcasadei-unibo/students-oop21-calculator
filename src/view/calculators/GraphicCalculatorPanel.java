@@ -24,7 +24,7 @@ public class GraphicCalculatorPanel extends JPanel {
         final FunctionGrapher g = new FunctionGrapher();
         this.setLayout(new BorderLayout());
         this.add(g, BorderLayout.CENTER);
-        final JButton b = new JButton("x * sin(x)");
+        final JButton b = new JButton("sin(x)");
         this.add(b, BorderLayout.NORTH);
         b.addActionListener(e -> {
             logics.setEquation(b.getText());
