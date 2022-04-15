@@ -81,7 +81,7 @@ public class InputFormatter {
             return this.buffer;
         }
         String strNumber = "";
-        int intNumber;
+        long intNumber;
         final List<String> formattedList = new ArrayList<>();
         for (final var str : this.buffer) {
             if (!this.tokens.contains(str)) {
