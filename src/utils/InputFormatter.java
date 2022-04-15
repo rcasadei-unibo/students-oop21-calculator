@@ -178,7 +178,7 @@ public class InputFormatter {
                     toChange.add(num);
                 }
             }
-            final var value = ConversionAlgorithms.conversionToStringBase(conversionBase, Long.parseLong(toConv)).replace("+", "");
+            final var value = ConversionAlgorithms.conversionToStringBase(conversionBase, (long) Double.parseDouble(toConv)).replace("+", "");
             List.of(value.split("")).forEach((str) -> toChange.add(str));
             this.buffer = toChange;
         }
