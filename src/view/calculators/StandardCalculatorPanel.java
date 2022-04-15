@@ -49,7 +49,7 @@ public class StandardCalculatorPanel extends JPanel {
             public void actionPerformed(final ActionEvent e) {
                 //System.out.println("btn:engine's " + controller.getManager().memory().getCurrentState().toString());
                 controller.getManager().memory().read(((JButton) e.getSource()).getText());
-                CreateButton.getOutput(controller, display);
+                CreateButton.updateDisplay(controller, display);
             }
         };
         final ActionListener calcAl = new ActionListener() {
@@ -60,7 +60,7 @@ public class StandardCalculatorPanel extends JPanel {
                     controller.getManager().engine().calculate();
                 }
                 System.out.println("post_calc:engine's memory " + controller.getManager().memory().getCurrentState().toString());
-                CreateButton.getOutput(controller, display);
+                CreateButton.updateDisplay(controller, display);
             }
         };
         final ActionListener backspaceAl = new ActionListener() {
@@ -69,7 +69,7 @@ public class StandardCalculatorPanel extends JPanel {
                 System.out.println("pre_del:engine's " + controller.getManager().memory().getCurrentState().toString());
                 controller.getManager().memory().deleteLast();
                 //System.out.println("post_del:engine's " + controller.getManager().memory().getCurrentState().toString());
-                CreateButton.getOutput(controller, display);
+                CreateButton.updateDisplay(controller, display);
 
             }
         };
