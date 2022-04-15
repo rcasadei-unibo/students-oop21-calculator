@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import controller.calculators.CalculatorController;
 import view.components.FunctionGrapher;
@@ -21,13 +22,15 @@ public class GraphicCalculatorPanel extends JPanel {
      */
     public GraphicCalculatorPanel(final CalculatorController controller) {
         final GraphicCalculatorLogics logics = new GraphicCalculatorLogicsImpl(controller);
-        final FunctionGrapher g = new FunctionGrapher(logics);
+        final FunctionGrapher g = new FunctionGrapher();
         this.setLayout(new BorderLayout());
         this.add(g, BorderLayout.CENTER);
-        final JButton b = new JButton("sin(x)");
+        final JButton b = new JButton("CREATE)");
+        final JTextField t = new JTextField();
+        this.add(t, BorderLayout.SOUTH);
         this.add(b, BorderLayout.NORTH);
         b.addActionListener(e -> {
-            logics.setEquation(b.getText());
+            logics.setEquation(t.getText());
             g.safe(logics.getResult());
         });
     }

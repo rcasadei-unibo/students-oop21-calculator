@@ -42,7 +42,7 @@ public interface MemoryManager {
 
     /**
      * Clears the input buffers and reads each character individually. 
-     * @param s
+     * @param s String to split and save as current state.
      */
     void splitAndSetCurrentState(String s);
 
@@ -52,5 +52,15 @@ public interface MemoryManager {
      */
     void addResult(String result);
 
+    /**
+     * Returns the history of all calculations performed in this session.
+     * @return List of strings, each string is a performed calculation.
+     */
     List<String> getHistory();
+
+    /**
+     * Stores the error message as the only element in the input buffer.
+     * @param message Error message.
+     */
+    void setErrorState(String message);
 }

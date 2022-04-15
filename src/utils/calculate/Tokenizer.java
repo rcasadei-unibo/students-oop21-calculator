@@ -251,5 +251,4 @@ public class Tokenizer {
         lastToken = TokensFactory.operatorToken(newOp);
         return lastToken;
     }
-
 }

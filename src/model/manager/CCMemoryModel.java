@@ -35,7 +35,7 @@ public class CCMemoryModel implements MemoryModelInterface {
 
     @Override
     public void addToHistory(final String result) {
-        this.history.add(this.buffer.stream().reduce("", (a, b) -> a + b) + " = " + result);
+        this.history.add(result);
     }
 
     @Override

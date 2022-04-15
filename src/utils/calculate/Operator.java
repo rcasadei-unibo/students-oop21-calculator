@@ -120,10 +120,10 @@ public class Operator {
 	    		return new Operator(symbol, numArguments, false);
 	    	case "*":
 	    	case "\u00D7":
-	    		return new Operator(symbol, numArguments, true);
+	    		return new Operator("\u00D7", numArguments, true);
 	    	case "÷":
 	    	case "/":
-	    		return new Operator(symbol, numArguments, true);
+	    		return new Operator("÷", numArguments, true);
 	    	case "^":
 	    		return new Operator(symbol, numArguments, false);
 	    	default:
