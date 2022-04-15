@@ -52,7 +52,13 @@ public class ProgrammerCalculatorPanel extends JPanel {
         final ActionListener calcAl = new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                formatter.calculate();
+                try {
+                    formatter.calculate();
+                } catch (final Exception exception) {
+                    display.updateText("Syntax error");
+                    formatter.deleteLast();
+                    System.out.println(exception.getMessage());
+                }
                 updateDisplays();
             }
         };

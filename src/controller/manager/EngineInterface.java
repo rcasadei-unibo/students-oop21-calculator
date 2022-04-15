@@ -5,7 +5,7 @@ import java.util.List;
 import utils.CalcException;
 
 /**
- * 
+ * Interface for an engine.
  */
 public interface EngineInterface {
 

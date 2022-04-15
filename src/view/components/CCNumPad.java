@@ -16,7 +16,8 @@ import java.awt.Dimension;
 
 
 /**
- * 
+ * Numeric keypad component of a calculator.
+ * It contains numbers from 0 to 9, decimal point, brackets, backspace and equal.
  */
 public class CCNumPad extends JPanel {
 
@@ -25,7 +26,7 @@ public class CCNumPad extends JPanel {
     private final Map<String, JButton> buttons = new HashMap<>();
 
     /**
-     * Numeric keypad component of a calculator.
+     * Constructs a numeric keypad component for a calculator.
      * It contains numbers from 0 to 9, decimal point, brackets, backspace and equal.
      * @param btnAl Action fired by clicking a number, decimal point or brackets
      * @param calculateAl Action fired by clicking the equal button
@@ -36,7 +37,7 @@ public class CCNumPad extends JPanel {
         final int cols = 3;
         this.setLayout(new GridLayout(rows, cols));
         final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        final double width = 0;
+        final double width = screenSize.getWidth() * 0.35;
         final double height = screenSize.getHeight() / 2;
         this.setPreferredSize(new Dimension((int) width, (int) height));
 
