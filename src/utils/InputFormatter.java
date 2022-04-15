@@ -51,6 +51,7 @@ public class InputFormatter {
             this.lastNumBuffer = "";
         }
         this.buffer.add(input);
+        this.checkForSyntaxError(this.buffer);
     }
     /**
      * usually called when switching from a conversion base to another.
@@ -105,7 +106,7 @@ public class InputFormatter {
      * quando si cambia base di conversione si cancella tutto.
      */
     public void deleteLast() {
-        if ("Syntax Error".equals(lastNumBuffer)) {
+        if ("Syntax error".equals(lastNumBuffer)) {
             this.reset(conversionBase);
         }
 
@@ -131,9 +132,12 @@ public class InputFormatter {
      * dopo aver formattato tutto calcola il risultato e diventa il lastNumBuffer che poi verrà mostrato.
      */
     public void calculate() {
-        if (!this.buffer.isEmpty() && this.checkForSyntaxError()) {
+        if (!this.buffer.isEmpty()) {
             System.out.println("the engine before" + this.controller.getManager().memory().getCurrentState().toString());
             final var temp = this.format();
+            System.out.println("temp before" + temp.toString());
+            System.out.println("check for syntax");
+            this.checkForSyntaxError(temp);
             System.out.println("my input to the engine" + temp.toString());
             this.controller.getManager().memory().readAll(temp);
             this.controller.getManager().engine().calculate();
@@ -162,9 +166,8 @@ public class InputFormatter {
         }
         
     }
-    private boolean checkForSyntaxError() {
-        // TODO Auto-generated method stub
-        return true;
+    private void checkForSyntaxError(final List<String> input) {
+        input.remove("Syntax error");
     }
     private void inverseFormat() {
         if (this.conversionBase != 10) {
