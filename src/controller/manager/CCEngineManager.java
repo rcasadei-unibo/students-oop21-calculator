@@ -15,8 +15,9 @@ public class CCEngineManager implements EngineManager {
     private final MemoryManager memManager;
 
     /**
-     * 
-     * @param memManager
+     * Construct an engine manager.
+     * It will get the expression to calculate from the given memory manager.
+     * @param memManager Memory manager used to retrieve the expression to calculate and to store the result.
      */
     public CCEngineManager(final MemoryManager memManager) {
         this.memManager = memManager;
@@ -44,7 +45,8 @@ public class CCEngineManager implements EngineManager {
                 this.memManager.setCurrentState(formatted);
             }
         } catch (CalcException e) {
-            this.memManager.setCurrentState(e.getMessage());
+            this.memManager.setErrorState(e.getMessage());
+//            this.memManager.setCurrentState(e.getMessage());
         }
     }
 

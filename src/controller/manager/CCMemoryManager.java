@@ -13,6 +13,7 @@ import model.manager.MemoryModelInterface;
 public class CCMemoryManager implements MemoryManager {
 
     private final MemoryModelInterface model;
+    private boolean errorState;
 
     /**
      * Construct a new memory manager with an empty input buffer.
@@ -23,6 +24,10 @@ public class CCMemoryManager implements MemoryManager {
 
     @Override
     public void read(final String s) {
+        if (this.errorState) {
+            this.clear();
+            this.errorState = false;
+        }
         if ("-".equals(s)) {
             final var buffer = model.getCurrentState();
             if (buffer.isEmpty() || "(".equals(buffer.get(buffer.size() - 1))) {
@@ -76,6 +81,12 @@ public class CCMemoryManager implements MemoryManager {
     @Override
     public List<String> getHistory() {
         return this.model.getHistory();
+    }
+
+    @Override
+    public void setErrorState(final String message) {
+        this.errorState = true;
+        this.setCurrentState(message);
     }
 
 }
