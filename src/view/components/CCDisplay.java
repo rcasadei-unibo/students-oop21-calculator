@@ -14,18 +14,16 @@ import javax.swing.border.EmptyBorder;
 import utils.CCColors;
 
 /**
- * TODO: javadoc.
+ * Display component to show the user what has been given in input, the result of a calculation and eventual errors.
  */
 public class CCDisplay extends JPanel {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -4685599997020932786L;
     private final JLabel mainBox;
     private final JLabel upperBox;
+
     /**
-     * Display component.
+     * Constructs a new display component.
      */
     public CCDisplay() {
         this.setLayout(new BorderLayout());
@@ -48,16 +46,17 @@ public class CCDisplay extends JPanel {
         this.setBackground(CCColors.DISPLAY);
 
     }
+
     /**
-     * 
-     * @param s String to display
+     * Shows a given string on the main JLabel.
+     * @param s String to display.
      */
     public void updateText(final String s) {
         this.mainBox.setText(s);
     }
     /**
-     * 
-     * @param s
+     * Shows a given string on the upper JLabel.
+     * @param s String to display.
      */
     public void updateUpperText(final String s) {
         this.upperBox.setText(s);

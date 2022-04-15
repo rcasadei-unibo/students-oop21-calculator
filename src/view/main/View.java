@@ -9,8 +9,8 @@ import model.manager.EngineModelInterface.Calculator;
 public interface View {
 
     /**
-     * 
-     * @param calc
+     * Displays the given Calculator's GUI.
+     * @param calc Calculator to show.
      */
     void show(Calculator calc);
 }
