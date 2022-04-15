@@ -5,6 +5,7 @@ import java.util.List;
 
 import controller.calculators.CalculatorController;
 import model.calculators.ProgrammerCalculatorModelFactory;
+import view.components.CCDisplay;
 
 //TODO javadoc.
 /**
@@ -17,6 +18,7 @@ public class InputFormatter {
     private List<String> buffer;
     private final List<String> tokens;
     private String lastNumBuffer = "";
+    private String history = "";
     //TODO MISSING JAVADOC.
     /**
      * missing javadoc.
@@ -133,13 +135,14 @@ public class InputFormatter {
      */
     public void calculate() {
         if (!this.buffer.isEmpty()) {
+            System.out.println("check for syntax");
+            this.checkForSyntaxError(this.buffer);
+            this.history = this.buffer.stream().reduce("", (a, b) -> a + b);
             System.out.println("the engine before" + this.controller.getManager().memory().getCurrentState().toString());
             final var temp = this.format();
-            System.out.println("temp before" + temp.toString());
-            System.out.println("check for syntax");
-            this.checkForSyntaxError(temp);
             System.out.println("my input to the engine" + temp.toString());
             this.controller.getManager().memory().readAll(temp);
+            
             this.controller.getManager().engine().calculate();
             System.out.println("the engine's output" + this.controller.getManager().memory().getCurrentState().toString());
             this.buffer.clear();
@@ -215,5 +218,11 @@ public class InputFormatter {
             return ConversionAlgorithms.unsignedConversionToDecimal(conversionBase, lastNumBuffer);
         }
         return ConversionAlgorithms.unsignedConversionToDecimal(conversionBase, lastNumBuffer);
+    }
+    /**
+     * updates history
+     */
+    public void updateHistory() {
+        controller.getManager().memory().addResult(history.concat(" = ").concat(lastNumBuffer));
     }
 }
