@@ -22,6 +22,15 @@ public final class ConversionAlgorithms {
         final String value = Long.toBinaryString(Math.abs(number));
         return number >= 0 ? "+".concat(value) : "-".concat(value);
     }
+    
+    private static String conversionToBinary(long number) {
+        String binary = "";
+        while (number > 0) {
+            binary = String.valueOf(number % 2).concat(binary);
+            number = number / 2;
+        }
+        return number >= 0 ? "+".concat(binary) : "-".concat(binary);
+    }
     /**
      * 
      * @param number
@@ -49,7 +58,7 @@ public final class ConversionAlgorithms {
             case "F":
                 return 15.0;
             default:
-                return bit.equals("0") ? 0.0 : Long.parseLong(bit);
+                return "0".equals(bit) ? 0.0 : Long.parseLong(bit);
         } 
     }
     /**
