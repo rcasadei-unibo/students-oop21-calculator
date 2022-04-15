@@ -13,7 +13,7 @@ import view.components.FunctionGrapher;
  */
 public class GraphicCalculatorLogicsImpl implements GraphicCalculatorLogics {
     private final CalculatorController controller;
-    private List<Double> results = new ArrayList<>();
+    private final List<Double> results = new ArrayList<>();
     /**
      * 
      * @param controller
@@ -26,20 +26,18 @@ public class GraphicCalculatorLogicsImpl implements GraphicCalculatorLogics {
      * @param eq
      */
     public void setEquation(final String eq) {
-        this.results.clear();
+        results.clear();
         double x = -FunctionGrapher.LIMIT;
         List<String> temp;
         while (x <= FunctionGrapher.LIMIT) {
-            final Tokenizer tok = new Tokenizer(eq.replace("x", Double.toString(x)));
+            final Tokenizer tok = new Tokenizer(eq.replace("x", "(" + Double.toString(x) + ")"));
             temp = tok.getListSymbol();
-            //System.out.println("converted string : " + temp);
             for (final var s : temp) {
                 controller.getManager().memory().read(s);
             }
             this.controller.getManager().engine().calculate();
             results.add(Double.valueOf(this.controller.getManager().memory().getCurrentState().stream().reduce("", (a, b) -> a + b)));
             this.controller.getManager().memory().clear();
-            //System.out.println("result " + results.get(i++));
             x += FunctionGrapher.PRECISION;
         }
     }
