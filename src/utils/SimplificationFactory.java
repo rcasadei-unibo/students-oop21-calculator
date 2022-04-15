@@ -133,7 +133,9 @@ public class SimplificationFactory {
                () -> new AbstractSyntaxNode(TokensFactory.numberToken(0.0)), 
                new Handler(t, left, right, (l, r) -> l.getToken().getTypeToken().equals(TokenType.NUMBER) && r.getToken().getTypeToken().equals(TokenType.NUMBER),
                () -> new AbstractSyntaxNode(TokensFactory.numberToken(
-               Double.parseDouble(left.getToken().getSymbol()) / Double.parseDouble(right.getToken().getSymbol()))), null)));
+               Double.parseDouble(left.getToken().getSymbol()) / Double.parseDouble(right.getToken().getSymbol()))), 
+               new Handler(t, left, right, (l, r) -> l.getToken().getTypeToken().equals(TokenType.VARIABLE) && r.getToken().getTypeToken().equals(TokenType.VARIABLE),
+               () -> new AbstractSyntaxNode(TokensFactory.numberToken(1.0)), null))));
     }
 
 }

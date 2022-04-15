@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.Set;
 
 /**
- * @author pesic
+ *
  *
  */
 public class ExternData {

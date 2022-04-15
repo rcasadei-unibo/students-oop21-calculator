@@ -1,30 +1,29 @@
-    package view.calculators;
+package view.calculators;
 
-    import java.awt.BorderLayout;
-import java.awt.Dimension;
+import java.awt.BorderLayout;
 import java.awt.GridLayout;
-import java.awt.Toolkit;
 import java.awt.event.ActionListener;
-    import java.awt.GridBagConstraints;
-    import java.util.List;
+import java.awt.GridBagConstraints;
+import java.util.List;
 
-    import java.awt.GridBagLayout;
-    import javax.swing.JButton;
-    import javax.swing.JComboBox;
-    import javax.swing.JFormattedTextField;
-    import javax.swing.JLabel;
-    import javax.swing.JPanel;
+import java.awt.GridBagLayout;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
-    import controller.calculators.CalculatorAdvancedController;
-    import controller.calculators.CalculatorAdvancedController.TypeAlgorithm;
-    import controller.calculators.CalculatorController;
+import controller.calculators.CalculatorAdvancedController;
+import controller.calculators.CalculatorAdvancedController.TypeAlgorithm;
+import controller.calculators.CalculatorController;
 import utils.CCColors;
 import utils.CommandFactory;
-    import view.components.CCDisplay;
-    import view.components.CCNumPad;
+import view.components.CCDisplay;
+import view.components.CCNumPad;
 
     /**
-     * @author pesic
+     * 
+    * The Advanced Calculator Panel.
      *
      */
     public class AdvancedCalculatorPanel extends JPanel {
@@ -63,8 +62,8 @@ import utils.CommandFactory;
                 final var result = command.execute();
                 final var expression = command1.execute();
                 display.updateText(result);
-                display.updateUpperText(expression);
-                advancedController.addToHistory(expression);
+                display.updateUpperText(expression + "=" + result);
+                advancedController.addToHistory(expression + "=" + result);
             };
 
             final var numpad = new CCNumPad(numAndOpBtn, equalsBtn, deleteBtn);
@@ -90,7 +89,7 @@ import utils.CommandFactory;
             return operators;
         }
         /**
-         * @author pesic
+         *The panel that allows to select the operation(DERIVATE INTEGRATE , LIMIT).
          *
          */
         public class OperationsPanel extends JPanel {
@@ -105,10 +104,13 @@ import utils.CommandFactory;
             private final JLabel label1 = new JLabel("Param1: ");
             private final JFormattedTextField param2 = new JFormattedTextField();
             private final JLabel label2 = new JLabel("Param2: ");
+            private final CalculatorAdvancedController advancedController;
             /**
              * @param advancedController
+             * @param display
              */
-            public OperationsPanel(final CalculatorAdvancedController advancedController, CCDisplay display) {
+            public OperationsPanel(final CalculatorAdvancedController advancedController, final CCDisplay display) {
+                this.advancedController = advancedController;
                 this.setLayout(new GridBagLayout());
                 c.weightx = 1;
                 c.weighty = 1;
@@ -131,16 +133,16 @@ import utils.CommandFactory;
 
                 final ActionListener selectChoice = e -> {
                     final var selected = combo.getSelectedItem().toString();
-                    if (selected.equals("DERIVATE")) {
+                    if ("DERIVATE".equals(selected)) {
                         this.selectedDerivate();
-                    } else if (selected.equals("INTEGRATE")) {
+                    } else if ("INTEGRATE".equals(selected)) {
                         this.selectedIntegrate();
                     } else {
                         this.selectedLimit();
                     }
                     display.updateText("");
                 };
-                
+
                 combo.addActionListener(selectChoice);
                 this.selectedDerivate();
             }

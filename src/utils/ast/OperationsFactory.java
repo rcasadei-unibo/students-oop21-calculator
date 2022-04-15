@@ -1,16 +1,24 @@
 package utils.ast;
 
 /**
- * @author pesic
+ * Factory of Operations .
  *
  */
-public class OperationsFactory {
 
-    public static Operation sin(Operation op) {
+public final class OperationsFactory {
+
+    private OperationsFactory() {
+    }
+
+    /**
+     * @param op
+     * @return sin
+     */
+    public static Operation sin(final Operation op) {
         return new Operation() {
 
             @Override
-            public Double getNumericResult(Double val) {
+            public Double getNumericResult(final Double val) {
                 return Math.sin(op.getNumericResult(val));
             }
 
@@ -26,17 +34,21 @@ public class OperationsFactory {
         };
     }
 
-    public static Operation cos(Operation op) {
+    /**
+     * @param op
+     * @return cos
+     */
+    public static Operation cos(final Operation op) {
         return new Operation() {
 
             @Override
-            public Double getNumericResult(Double val) {
+            public Double getNumericResult(final Double val) {
                 return Math.cos(op.getNumericResult(val));
             }
 
             @Override
             public Operation getDerivative() {
-                return subtraction(constant("0.0"),product(sin(op), op.getDerivative()));
+                return subtraction(constant("0.0"), product(sin(op), op.getDerivative()));
             }
 
             @Override
@@ -46,58 +58,71 @@ public class OperationsFactory {
 
         };
     }
-    
-    public static Operation cot(Operation op) {
+
+    /**
+     * @param op
+     * @return cot
+     */
+    public static Operation cot(final Operation op) {
         return new Operation() {
 
             @Override
-            public Double getNumericResult(Double val) {
-                return Math.cos(op.getNumericResult(val))/Math.sin(op.getNumericResult(val));
+            public Double getNumericResult(final Double val) {
+                return Math.cos(op.getNumericResult(val)) / Math.sin(op.getNumericResult(val));
             }
 
             @Override
             public Operation getDerivative() {
-                return product(subtraction(constant("0"), division(constant("1"), pow(sin(op), constant("2")))), op.getDerivative());
+                return product(subtraction(constant("0"), division(constant("1"), pow(sin(op), constant("2")))),
+                        op.getDerivative());
             }
-            
+
             public String toString() {
                 return "cot(" + op.toString() + ")";
             }
-            
+
         };
     }
-    
-    public static Operation csc(Operation op) {
+
+    /**
+     * @param op
+     * @return csc
+     */
+    public static Operation csc(final Operation op) {
         return new Operation() {
 
             @Override
-            public Double getNumericResult(Double val) {
-                return 1.0/Math.sin(op.getNumericResult(val));
+            public Double getNumericResult(final Double val) {
+                return 1.0 / Math.sin(op.getNumericResult(val));
             }
 
             @Override
             public Operation getDerivative() {
-                return subtraction(constant("0"),product(product(cot(op),csc(op)), op.getDerivative()));
+                return subtraction(constant("0"), product(product(cot(op), csc(op)), op.getDerivative()));
             }
-            
+
             public String toString() {
                 return "csc(" + op.toString() + ")";
             }
         };
 
     }
-    
-    public static Operation sec(Operation op) {
+
+    /**
+     * @param op
+     * @return sec
+     */
+    public static Operation sec(final Operation op) {
         return new Operation() {
 
             @Override
-            public Double getNumericResult(Double val) {
-                return 1.0/ Math.cos(op.getNumericResult(val));
+            public Double getNumericResult(final Double val) {
+                return 1.0 / Math.cos(op.getNumericResult(val));
             }
 
             @Override
             public Operation getDerivative() {
-                return product(product(tan(op), sec(op)),op.getDerivative());
+                return product(product(tan(op), sec(op)), op.getDerivative());
             }
 
             public String toString() {
@@ -106,11 +131,15 @@ public class OperationsFactory {
         };
     }
 
-    public static Operation negate(Operation op) {
+    /**
+     * @param op
+     * @return negate
+     */
+    public static Operation negate(final Operation op) {
         return new Operation() {
 
             @Override
-            public Double getNumericResult(Double val) {
+            public Double getNumericResult(final Double val) {
                 return -op.getNumericResult(val);
             }
 
@@ -126,11 +155,16 @@ public class OperationsFactory {
         };
     }
 
-    public static Operation addition(Operation left, Operation right) {
+    /**
+     * @param left
+     * @param right
+     * @return addition
+     */
+    public static Operation addition(final Operation left, final Operation right) {
         return new Operation() {
 
             @Override
-            public Double getNumericResult(Double val) {
+            public Double getNumericResult(final Double val) {
                 return left.getNumericResult(val) + right.getNumericResult(val);
             }
 
@@ -146,11 +180,16 @@ public class OperationsFactory {
         };
     }
 
-    public static Operation subtraction(Operation left, Operation right) {
+    /**
+     * @param left
+     * @param right
+     * @return subtraction
+     */
+    public static Operation subtraction(final Operation left, final Operation right) {
         return new Operation() {
 
             @Override
-            public Double getNumericResult(Double val) {
+            public Double getNumericResult(final Double val) {
                 return left.getNumericResult(val) - right.getNumericResult(val);
             }
 
@@ -167,11 +206,16 @@ public class OperationsFactory {
         };
     }
 
-    public static Operation product(Operation left, Operation right) {
+    /**
+     * @param left
+     * @param right
+     * @return product
+     */
+    public static Operation product(final Operation left, final Operation right) {
         return new Operation() {
 
             @Override
-            public Double getNumericResult(Double val) {
+            public Double getNumericResult(final Double val) {
                 return left.getNumericResult(val) * right.getNumericResult(val);
             }
 
@@ -188,11 +232,16 @@ public class OperationsFactory {
         };
     }
 
-    public static Operation division(Operation left, Operation right) {
+    /**
+     * @param left
+     * @param right
+     * @return division
+     */
+    public static Operation division(final Operation left, final Operation right) {
         return new Operation() {
 
             @Override
-            public Double getNumericResult(Double val) {
+            public Double getNumericResult(final Double val) {
                 return left.getNumericResult(val) / right.getNumericResult(val);
             }
 
@@ -209,11 +258,15 @@ public class OperationsFactory {
         };
     }
 
-    public static Operation constant(String c) {
+    /**
+     * @param c
+     * @return constant
+     */
+    public static Operation constant(final String c) {
         return new Operation() {
 
             @Override
-            public Double getNumericResult(Double val) {
+            public Double getNumericResult(final Double val) {
                 return Double.parseDouble(c);
             }
 
@@ -229,11 +282,16 @@ public class OperationsFactory {
         };
     }
 
-    public static Operation pow(Operation left, Operation right) {
+    /**
+     * @param left
+     * @param right
+     * @return power
+     */
+    public static Operation pow(final Operation left, final Operation right) {
         return new Operation() {
 
             @Override
-            public Double getNumericResult(Double val) {
+            public Double getNumericResult(final Double val) {
                 return Math.pow(left.getNumericResult(val), right.getNumericResult(val));
             }
 
@@ -253,11 +311,15 @@ public class OperationsFactory {
         };
     }
 
-    public static Operation log(Operation op) {
+    /**
+     * @param op
+     * @return log
+     */
+    public static Operation log(final Operation op) {
         return new Operation() {
 
             @Override
-            public Double getNumericResult(Double val) {
+            public Double getNumericResult(final Double val) {
                 return Math.log(op.getNumericResult(val));
             }
 
@@ -272,11 +334,15 @@ public class OperationsFactory {
         };
     }
 
-    public static Operation abs(Operation op) {
+    /**
+     * @param op
+     * @return absolute value
+     */
+    public static Operation abs(final Operation op) {
         return new Operation() {
 
             @Override
-            public Double getNumericResult(Double val) {
+            public Double getNumericResult(final Double val) {
                 return Math.abs(op.getNumericResult(val));
             }
 
@@ -292,7 +358,11 @@ public class OperationsFactory {
         };
     }
 
-    public static Operation acos(Operation op) {
+    /**
+     * @param op
+     * @return acos
+     */
+    public static Operation acos(final Operation op) {
         return new Operation() {
 
             @Override
@@ -302,7 +372,8 @@ public class OperationsFactory {
 
             @Override
             public Operation getDerivative() {
-                return subtraction(constant("0.0"),division(op.getDerivative(), sqrt(subtraction(constant("1"), pow(op, constant("2"))))));
+                return subtraction(constant("0.0"),
+                        division(op.getDerivative(), sqrt(subtraction(constant("1"), pow(op, constant("2"))))));
             }
 
             public String toString() {
@@ -311,11 +382,15 @@ public class OperationsFactory {
         };
     }
 
-    public static Operation asin(Operation op) {
+    /**
+     * @param op
+     * @return asin
+     */
+    public static Operation asin(final Operation op) {
         return new Operation() {
 
             @Override
-            public Double getNumericResult(Double val) {
+            public Double getNumericResult(final Double val) {
                 return Math.asin(op.getNumericResult(val));
             }
 
@@ -331,11 +406,15 @@ public class OperationsFactory {
         };
     }
 
-    public static Operation atan(Operation op) {
+    /**
+     * @param op
+     * @return atan
+     */
+    public static Operation atan(final Operation op) {
         return new Operation() {
 
             @Override
-            public Double getNumericResult(Double val) {
+            public Double getNumericResult(final Double val) {
                 return Math.atan(op.getNumericResult(val));
             }
 
@@ -351,11 +430,15 @@ public class OperationsFactory {
         };
     }
 
-    public static Operation exp(Operation op) {
+    /**
+     * @param op
+     * @return exp
+     */
+    public static Operation exp(final Operation op) {
         return new Operation() {
 
             @Override
-            public Double getNumericResult(Double val) {
+            public Double getNumericResult(final Double val) {
                 return Math.exp(op.getNumericResult(val));
             }
 
@@ -371,13 +454,14 @@ public class OperationsFactory {
         };
     }
 
+    /**
+     * @return a variable
+     */
     public static Operation simpleVar() {
         return new Operation() {
 
             @Override
-            public Double getNumericResult(Double val) {
-                if (val == null)
-                    throw new NullPointerException("Variable set to null!");
+            public Double getNumericResult(final Double val) {
                 return val;
             }
 
@@ -393,11 +477,15 @@ public class OperationsFactory {
         };
     }
 
-    public static Operation sqrt(Operation op) {
+    /**
+     * @param op
+     * @return sqrt
+     */
+    public static Operation sqrt(final Operation op) {
         return new Operation() {
 
             @Override
-            public Double getNumericResult(Double val) {
+            public Double getNumericResult(final Double val) {
                 return Math.sqrt(op.getNumericResult(val));
             }
 
@@ -413,11 +501,15 @@ public class OperationsFactory {
         };
     }
 
-    public static Operation tan(Operation op) {
+    /**
+     * @param op
+     * @return tan
+     */
+    public static Operation tan(final Operation op) {
         return new Operation() {
 
             @Override
-            public Double getNumericResult(Double val) {
+            public Double getNumericResult(final Double val) {
                 return Math.tan(op.getNumericResult(val));
             }
 

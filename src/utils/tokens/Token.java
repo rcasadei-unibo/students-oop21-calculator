@@ -1,13 +1,19 @@
 package utils.tokens;
 
 /**
- * @author pesic
+ * Token interface for converting strings to Tokens.
  *
  */
 public interface Token {
 	
-	public TokenType getTypeToken();
+	/**
+	 * @return the tokenType
+	 */
+	TokenType getTypeToken();
 	
-	public String getSymbol();
+	/**
+	 * @return the symbol for the specifed token
+	 */
+	String getSymbol();
 	
 }

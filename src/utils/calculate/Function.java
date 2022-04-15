@@ -5,42 +5,64 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * @author pesic
+ * It is used to get all the allowed functions.
  *
  */
-public class Function {
-	
+public class Function {	
 	private String name;
 	private int numArgs;
 	
-	public static Set<String> Functions = Set.of("abs", "acos", "asin", "atan", "cos",
+	/**
+	 * 
+	 */
+	public static final Set<String> FUNCTIONS = Set.of("abs", "acos", "asin", "atan", "cos",
 			"exp", "log", "negate", "pow", "sin", "√", "tan", "csc", "cot", "sec");
 	
-	public static Map<String, Function> dictFunctions = Functions.stream()
-			.collect(Collectors.toMap(s->s, s->s.equals("pow")?new Function(s, 2):new Function(s)));
+	/**
+	 * 
+	 */
+	public static final Map<String, Function> DICTFUNCTIONS = FUNCTIONS.stream()
+			.collect(Collectors.toMap(s -> s, s -> "pow".equals(s) ? new Function(s, 2) : new Function(s)));
 	
-	public Function(String name, int numArgs) {
-		if(name.length() == 0 || numArgs < 0 || !Functions.contains(name)) {
+	/**
+	 * @param name
+	 * @param numArgs
+	 */
+	public Function(final String name, final int numArgs) {
+		if (name.length() == 0 || numArgs < 0 || !FUNCTIONS.contains(name)) {
 			throw new IllegalArgumentException();
 		}
-		
+
 		this.name = name;
 		this.numArgs = numArgs;
 	}
 	
-	public Function(String name) {
+	/**
+	 * @param name
+	 */
+	public Function(final String name) {
 		this(name, 1);
 	}
 	
+	/**
+	 * @return the name of he function
+	 */
 	public String getName() {
 		return this.name;
 	}
 	
+	/**
+	 * @return number of arguments required
+	 */
 	public int getNumArgs() {
 		return this.numArgs;
 	}
 	
-	public static boolean isFunction(String name) {
-		return Functions.contains(name);
+	/**
+	 * @param name
+	 * @return if he function exists
+	 */
+	public static boolean isFunction(final String name) {
+		return FUNCTIONS.contains(name);
 	}
 }

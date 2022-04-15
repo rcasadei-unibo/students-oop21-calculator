@@ -11,7 +11,8 @@ import utils.tokens.TokenType;
 import utils.tokens.TokensFactory;
 
 /**
- * @author pesic
+ * Given a string or List<String>  tokenize every recognizable string to a token (e.g. x-> VARIABLE, sin -> FUNCTION)
+ * it supports implicit multiplication (e.g. 3x -> 3*x)
  *
  */
 
@@ -38,14 +39,15 @@ public class Tokenizer {
     }
 
     /**
-     * @return c
+     * @return true if arrived at the end of the string
      */
     public boolean hasNextToken() {
         return this.index <= this.lenExpr - 1;
     }
 
     /**
-     * @return c
+     * Gives you back the token associated with the char or characters in the string or lis of strings.
+     * @return Token
      */
     public Token getNextToken() {
         if (!hasNextToken()) {
@@ -96,7 +98,7 @@ public class Tokenizer {
     }
 
     /**
-     * @return c
+     * @return a List of token of the expression set
      */
     public List<Token> getListToken() {
         final List<Token> out = new LinkedList<>();
@@ -107,23 +109,23 @@ public class Tokenizer {
     }
 
     /**
-     * @return c
+     * @return It returns a List of stings with every string being the symbol of the associated token.
      */
     public List<String> getListSymbol() {
         final List<Token> out = this.getListToken();
         return out.stream().map(t -> t.getSymbol()).collect(Collectors.toList());
     }
 
-    /**
+    /**Sets the implicit multiplication .
      * @param flag
      */
-    public void setImplicitMultiplication(final boolean flag) {
+    private void setImplicitMultiplication(final boolean flag) {
         this.implicitMultiplication = flag;
     }
 
-    /**
+    /**Given A List of symbols it convert them to a list of tokens (e.g. 3, +, x -> NUMBER, OPERATOR, VARIABLE)
      * @param expression
-     * @return c
+     * @return a List of token
      */
     public List<Token> convertToTokens(final List<String> expression) {
         final List<Token> out = new LinkedList<>();
@@ -151,6 +153,10 @@ public class Tokenizer {
         this.lenExpr = expr.length();
     }
 
+    /**
+     * Given a number in exponential format or In decimal format(with or without floating point) it converts the whole in token.
+     * @return a Number Token
+     */
     private Token getNumberToken() {
         double num;
         final int ind = this.index;
@@ -180,6 +186,9 @@ public class Tokenizer {
         return number;
     }
 
+    /**Given an Alphanumeric String verify the existence of the function or the variable.
+     * @return a variable or a function token
+     */
     private Token getFunctionOrVariableToken() {
         int newIndex = index;
         int previousIndex = -1;
@@ -195,7 +204,7 @@ public class Tokenizer {
                     newToken = TokensFactory.constantToken(String.valueOf(c));
                     previousIndex = newIndex + 1;
                 } else if (Function.isFunction(String.valueOf(c))) {
-                    newToken = TokensFactory.functionToken(Function.dictFunctions.get(String.valueOf(c)));
+                    newToken = TokensFactory.functionToken(Function.DICTFUNCTIONS.get(String.valueOf(c)));
                     previousIndex = newIndex + 1;
                 }
             } else {
@@ -203,7 +212,7 @@ public class Tokenizer {
                     newToken = TokensFactory.variableToken(this.variable);
                     previousIndex = newIndex + 1;
                 } else if (Function.isFunction(this.expr.substring(index, newIndex + 1))) {
-                    newToken = TokensFactory.functionToken(Function.dictFunctions.get(this.expr.substring(index, newIndex + 1)));
+                    newToken = TokensFactory.functionToken(Function.DICTFUNCTIONS.get(this.expr.substring(index, newIndex + 1)));
                     previousIndex = newIndex + 1;
                 } else if (constants.contains(this.expr.substring(index, newIndex + 1))) {
                     newToken = TokensFactory.constantToken(this.expr.substring(index, newIndex + 1));
@@ -229,6 +238,9 @@ public class Tokenizer {
 
     }
 
+    /**
+     * @return a operator Token
+     */
     private Token getOperationToken() {
         final char c = this.expr.charAt(this.index++);
         int arguments = 2;
