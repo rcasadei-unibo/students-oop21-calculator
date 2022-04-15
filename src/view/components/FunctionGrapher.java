@@ -10,7 +10,6 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-import view.calculators.GraphicCalculatorLogics;
 
 /**
  * 
@@ -44,8 +43,7 @@ public class FunctionGrapher extends JPanel {
         this.addMouseWheelListener(m -> {
             if (m.getWheelRotation() > 0 && FunctionGrapher.scale > 16) {
                 FunctionGrapher.scale--;
-            }
-            if (m.getWheelRotation() < 0) {
+            } else if (m.getWheelRotation() < 0) {
                 FunctionGrapher.scale++;
             }
             this.repaint();
@@ -121,7 +119,7 @@ public class FunctionGrapher extends JPanel {
     /**
      * @param results
      */
-    public void safe(final List<Double> results) {
+    public void paint(final List<Double> results) {
         this.isOff = false;
         this.current = results;
         System.out.println(results);

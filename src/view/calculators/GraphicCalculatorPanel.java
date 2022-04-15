@@ -31,7 +31,7 @@ public class GraphicCalculatorPanel extends JPanel {
         this.add(b, BorderLayout.NORTH);
         b.addActionListener(e -> {
             logics.setEquation(t.getText());
-            g.safe(logics.getResult());
+            g.paint(logics.getResult());
         });
     }
 }
