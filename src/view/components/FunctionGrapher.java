@@ -25,7 +25,7 @@ public class FunctionGrapher extends JPanel {
     /**
      * 
      */
-    public static final double PRECISION = 0.05;
+    public static final double PRECISION = 0.01;
     /**
      * 
      */
@@ -83,8 +83,8 @@ public class FunctionGrapher extends JPanel {
             final Polygon p = new Polygon();
             double x = -LIMIT;
             for (final Double y : current) {
-                  p.addPoint((int) (w / 2 + x * FunctionGrapher.scale), (int) (h / 2 - y.doubleValue()  * FunctionGrapher.scale));
-                  x += PRECISION;
+                p.addPoint((int) (w / 2 + x * FunctionGrapher.scale), (int) (h / 2 - y.doubleValue()  * FunctionGrapher.scale));
+                x += PRECISION;
             }
             fun.drawPolyline(p.xpoints, p.ypoints, p.npoints);
          }
