@@ -35,5 +35,9 @@ public interface MemoryModelInterface {
      */
     void addToHistory(String s);
 
+    /**
+     * Returns the stored history of calculations.
+     * @return List of string, each string is a calculated expression.
+     */
     List<String> getHistory(); 
 }

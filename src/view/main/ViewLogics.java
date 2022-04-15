@@ -16,8 +16,8 @@ public interface ViewLogics {
     void mount(Calculator calc);
 
     /**
-     * TODO: Javadoc.
-     * @return
+     * Fetch the history of calculations from the memory manager.
+     * @return List of string storing the history.
      */
     List<String> getHistory();
 }
