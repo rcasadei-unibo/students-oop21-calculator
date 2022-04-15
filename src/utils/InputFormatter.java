@@ -5,7 +5,6 @@ import java.util.List;
 
 import controller.calculators.CalculatorController;
 import model.calculators.ProgrammerCalculatorModelFactory;
-import view.components.CCDisplay;
 
 //TODO javadoc.
 /**
@@ -53,7 +52,7 @@ public class InputFormatter {
             this.lastNumBuffer = "";
         }
         this.buffer.add(input);
-        this.checkForSyntaxError(this.buffer);
+        this.removeSyntaxError(this.buffer);
     }
     /**
      * usually called when switching from a conversion base to another.
@@ -136,7 +135,7 @@ public class InputFormatter {
     public void calculate() {
         if (!this.buffer.isEmpty()) {
             System.out.println("check for syntax");
-            this.checkForSyntaxError(this.buffer);
+            this.removeSyntaxError(this.buffer);
             this.history = this.buffer.stream().reduce("", (a, b) -> a + b);
             System.out.println("the engine before" + this.controller.getManager().memory().getCurrentState().toString());
             final var temp = this.format();
@@ -169,7 +168,7 @@ public class InputFormatter {
         }
         
     }
-    private void checkForSyntaxError(final List<String> input) {
+    private void removeSyntaxError(final List<String> input) {
         input.remove("Syntax error");
     }
     private void inverseFormat() {
