@@ -1,4 +1,4 @@
-package view.calculators;
+package view.logics;
 
 import model.manager.EngineModelInterface.Calculator;
 import controller.calculators.CalculatorController;
