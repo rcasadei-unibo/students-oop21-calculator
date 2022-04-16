@@ -23,13 +23,8 @@ public final class CreateButton {
      * 
      */
     private static final List<String> AVOID = List.of("+", "-", "×", "÷", "%");
-    private static final List<String> TOKENS = new ArrayList<>();
     private static final Map<String, String> KEYMAP = new HashMap<>();
     private static final Map<String, String> APPEARANCEMAP = new HashMap<>();
-    {
-        StandardCalculatorModelFactory.create().getBinaryOpMap().entrySet().stream().forEach((entry) -> TOKENS.add(entry.getKey()));
-        StandardCalculatorModelFactory.create().getUnaryOpMap().entrySet().stream().forEach((entry) -> TOKENS.add(entry.getKey()));
-    }
 
     private CreateButton() {
     }
@@ -60,9 +55,8 @@ public final class CreateButton {
                    if (!AVOID.contains(text)) {
                        controller.getManager().memory().read("(");
                    }
-               
                }
-               getOutput(controller, display);
+               updateDisplay(controller, display);
        });
        btn.setBackground(CCColors.OPERATION_BUTTON);
        return btn;
@@ -79,7 +73,12 @@ public final class CreateButton {
        }
        return false;
    }
-   public static void getOutput(final CalculatorController controller ,final CCDisplay display) {
+   /**
+    * 
+    * @param controller 
+    * @param display
+    */
+   public static void updateDisplay(final CalculatorController controller ,final CCDisplay display) {
        display.updateText(controller.getManager().memory().getCurrentState().stream().map((x) -> {
            if (APPEARANCEMAP.containsKey(x)) {
                return APPEARANCEMAP.get(x);
