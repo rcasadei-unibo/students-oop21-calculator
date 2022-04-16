@@ -38,9 +38,10 @@ public class BitwiseOperationsTest {
     public void testNot() {
         final var op = this.calculator.getUnaryOpMap().get("not");
         //TODO add test
-        assertEquals("-11111011",ConversionAlgorithms.conversionToStringBase(2,(int)op.apply(-4.0)));
-        assertEquals("+11111011",ConversionAlgorithms.conversionToStringBase(2,(int)op.apply(4.0)));
-        assertEquals("+11111111",ConversionAlgorithms.conversionToStringBase(2,(int)op.apply(0.0)));
+        
+        assertEquals("-11111011",ConversionAlgorithms.conversionToStringBase(2,(long)op.apply(-4.0)));
+        assertEquals("+11111011",ConversionAlgorithms.conversionToStringBase(2,(long)op.apply(4.0)));
+        assertEquals("+11111111",ConversionAlgorithms.conversionToStringBase(2,(long)op.apply(0.0)));
 
     }
     /**
@@ -97,16 +98,16 @@ public class BitwiseOperationsTest {
     public void testShiftR() {
         final var op = this.calculator.getBinaryOpMap().get("shiftR");
         //11001 = 25      1100 = 8
-        assertEquals((int)25/2,op.apply(25, 1),TOLERANCE);
-        assertEquals((int)25/4,op.apply(25, 2),TOLERANCE);
+        assertEquals((long)25/2,op.apply(25, 1),TOLERANCE);
+        assertEquals((long)25/4,op.apply(25, 2),TOLERANCE);
         //11001         11
-        assertEquals((int)25/8,op.apply(25, 3),TOLERANCE);
+        assertEquals((long)25/8,op.apply(25, 3),TOLERANCE);
         //1
-        assertEquals((int)25/16,op.apply(25, 4),TOLERANCE);
+        assertEquals((long)25/16,op.apply(25, 4),TOLERANCE);
         //0
-        assertEquals((int)25/32,op.apply(25, 5),TOLERANCE);
+        assertEquals((long)25/32,op.apply(25, 5),TOLERANCE);
         //0
-        assertEquals((int)25/64,op.apply(25, 6),TOLERANCE);
+        assertEquals((long)25/64,op.apply(25, 6),TOLERANCE);
     }
     @org.junit.Test
     public void testroR() {

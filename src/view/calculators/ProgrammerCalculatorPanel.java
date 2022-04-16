@@ -54,12 +54,14 @@ public class ProgrammerCalculatorPanel extends JPanel {
             public void actionPerformed(final ActionEvent e) {
                 try {
                     formatter.calculate();
+                    formatter.updateHistory();
                 } catch (final Exception exception) {
                     display.updateText("Syntax error");
                     formatter.deleteLast();
                     System.out.println(exception.getMessage());
                 }
                 updateDisplays();
+                
             }
         };
         final ActionListener backspaceAl = new ActionListener() {
