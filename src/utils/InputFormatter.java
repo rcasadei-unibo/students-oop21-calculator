@@ -46,13 +46,24 @@ public class InputFormatter {
      *  altrimenti lo concatena nel buffer
      */
     public void read(final String input) {
-        if (!this.tokens.contains(input)) {
-            this.lastNumBuffer = this.lastNumBuffer.concat(input);
-        } else {
-            this.lastNumBuffer = "";
-        }
-        this.buffer.add(input);
         this.removeSyntaxError(this.buffer);
+        if ("not".equals(input)) {
+            this.buffer.add(0, "(");
+            this.buffer.add(0, "not");
+            this.buffer.add(")");
+            this.calculate();
+            this.updateHistory();
+        }
+        else {
+            if (!this.tokens.contains(input)) {
+                this.lastNumBuffer = this.lastNumBuffer.concat(input);
+            } else {
+                this.lastNumBuffer = "";
+            }
+            this.buffer.add(input);
+        }
+        
+        
     }
     /**
      * usually called when switching from a conversion base to another.
@@ -113,11 +124,12 @@ public class InputFormatter {
 
         if (!this.buffer.isEmpty()) {
             this.buffer.remove(this.buffer.size() - 1);
-            if (this.lastNumBuffer.length() > 1) {
+            /*if (this.lastNumBuffer.length() > 1) {
                 this.lastNumBuffer = this.lastNumBuffer.substring(0, this.lastNumBuffer.length() - 1);
             } else {
                 this.lastNumBuffer = "";
-            }
+            }*/
+            this.lastNumBuffer = this.buffer.stream().
         }
     }
     /**
