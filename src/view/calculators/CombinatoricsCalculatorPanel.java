@@ -21,6 +21,8 @@ import utils.CCColors;
 import utils.CustomJToolTip;
 import view.components.CCDisplay;
 import view.components.CCNumPad;
+import view.logics.CombinatoricsLogics;
+import view.logics.CombinatoricsLogicsImpl;
 
 /**
  * 
