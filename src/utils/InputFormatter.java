@@ -5,6 +5,7 @@ import java.util.List;
 
 import controller.calculators.CalculatorController;
 import model.calculators.ProgrammerCalculatorModelFactory;
+import model.manager.EngineModelInterface.Calculator;
 
 //TODO javadoc.
 /**
@@ -21,10 +22,9 @@ public class InputFormatter implements InputFormatterLogics {
     //TODO MISSING JAVADOC.
     /**
      * missing javadoc.
-     * @param controller
      */
-    public InputFormatter(final CalculatorController controller) {
-        this.controller = controller;
+    public InputFormatter() {
+        this.controller = Calculator.PROGRAMMER.getController();
         this.buffer = new ArrayList<>();
         this.tokens = new ArrayList<>();
         this.addTokens();
