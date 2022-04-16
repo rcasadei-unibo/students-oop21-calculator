@@ -2,12 +2,11 @@ package view.calculators;
 
 import java.awt.BorderLayout;
 
-import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 import controller.calculators.CalculatorController;
 import view.components.FunctionGrapher;
+import view.components.FunctionsInsertionPanel;
 /**
  * 
  *
@@ -23,15 +22,10 @@ public class GraphicCalculatorPanel extends JPanel {
     public GraphicCalculatorPanel(final CalculatorController controller) {
         final GraphicCalculatorLogics logics = new GraphicCalculatorLogicsImpl(controller);
         final FunctionGrapher g = new FunctionGrapher();
+        final FunctionsInsertionPanel p = new FunctionsInsertionPanel(logics, g);
         this.setLayout(new BorderLayout());
         this.add(g, BorderLayout.CENTER);
-        final JButton b = new JButton("CREATE)");
-        final JTextField t = new JTextField();
-        this.add(t, BorderLayout.SOUTH);
-        this.add(b, BorderLayout.NORTH);
-        b.addActionListener(e -> {
-            logics.setEquation(t.getText());
-            g.paint(logics.getResult());
-        });
+        this.add(p, BorderLayout.SOUTH);
     }
 }
+
