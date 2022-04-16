@@ -1,8 +1,6 @@
 package utils;
 
 
-import java.awt.RenderingHints.Key;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,8 +8,6 @@ import java.util.Map;
 import javax.swing.JButton;
 
 import controller.calculators.CalculatorController;
-import model.calculators.ScientificCalculatorModelFactory;
-import model.calculators.StandardCalculatorModelFactory;
 import view.components.CCDisplay;
 /**
  * 
@@ -78,7 +74,7 @@ public final class CreateButton {
     * @param controller 
     * @param display
     */
-   public static void updateDisplay(final CalculatorController controller ,final CCDisplay display) {
+   public static void updateDisplay(final CalculatorController controller, final CCDisplay display) {
        display.updateText(controller.getManager().memory().getCurrentState().stream().map((x) -> {
            if (APPEARANCEMAP.containsKey(x)) {
                return APPEARANCEMAP.get(x);
