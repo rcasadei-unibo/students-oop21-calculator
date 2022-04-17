@@ -1,22 +1,17 @@
 package model.calculators;
-
 import java.util.Map;
-
 import utils.CCBinaryOperator;
 import utils.CCUnaryOperator;
 import utils.CalcException;
 import utils.Type;
-//TODO MISSING JAVADOC.
 /**
- *
- * 
- *
+ * This is a static factory for basic operators.
  */
 public final class StandardCalculatorModelFactory {
     private StandardCalculatorModelFactory() {
     }
     /**
-     * @return x
+     * @return a map containing the operator name and a function that applies the before-mentioned operator.
      */
     public static CalculatorModel create() {
         final Map<String, CCBinaryOperator> binaryOpMap = Map.of(
@@ -28,8 +23,14 @@ public final class StandardCalculatorModelFactory {
                           );
         final Map<String, CCUnaryOperator> unaryOpMap = Map.of(
                 "1/x", new CCUnaryOperator((n) -> inverse(n), 1, Type.RIGHT),
-                "√", new CCUnaryOperator((n) -> root(n), 1, Type.RIGHT),
-                "x²", new CCUnaryOperator((n) -> square(n), 1, null)
+                "√", new CCUnaryOperator((n) -> {
+                    try {
+                        return root(n);
+                    } catch (CalcException e) {
+                        return Double.POSITIVE_INFINITY;
+                    }
+                }, 1, Type.RIGHT),
+                "square", new CCUnaryOperator((n) -> square(n), 1, null)
                   );
         return new CalculatorModelTemplate(binaryOpMap, unaryOpMap);
     }
@@ -48,9 +49,9 @@ public final class StandardCalculatorModelFactory {
     private static double modulo(final double n1, final double n2) {
         return n1 % n2;
     }
-    private static double root(final double n1)/* throws CalcException */ {
+    private static double root(final double n1) throws CalcException  {
         if (n1 < 0) {
-            //throw new CalcException("root of negative argument");
+            throw new CalcException("root of negative argument");
         }
         return Math.sqrt(n1);
     }

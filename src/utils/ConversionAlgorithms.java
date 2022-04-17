@@ -109,8 +109,8 @@ public final class ConversionAlgorithms {
      * @param number
      * @return a.
      */
-    public static int unsignedConversionToDecimal(final int base, final String number) {
-        int ret = 0;
+    public static long unsignedConversionToDecimal(final int base, final String number) {
+        long ret = 0;
         final var bits = number.toCharArray();
         for (int i = 0; i < bits.length; i++) {
             if (base == 16) {

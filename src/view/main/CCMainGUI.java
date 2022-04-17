@@ -26,7 +26,7 @@ import view.components.HistoryPanel;
 /**
  * Main JFrame of the application.
  * It contains references to the JPanel of each calculator and displays the right panel on request.
- * It consists of a main panel and a menu to select the calculator to show.
+ * It consists of a main panel, a menu to select the calculator to show and a button to toggle the history.
  */
 public class CCMainGUI extends JFrame implements View {
 
@@ -35,13 +35,14 @@ public class CCMainGUI extends JFrame implements View {
 
     private transient Optional<JPanel> mountedPanel = Optional.empty();
     private transient Optional<Calculator> current = Optional.empty();
+    private transient boolean historyOn;
 
     private final JLabel title = new JLabel("");
 
     private final Map<Calculator, JPanel> views = Map.of(
-            Calculator.STANDARD, new StandardCalculatorPanel(Calculator.STANDARD.getController()),
-            Calculator.SCIENTIFIC, new ScientificCalculatorPanel(Calculator.SCIENTIFIC.getController()),
-            Calculator.PROGRAMMER, new ProgrammerCalculatorPanel(Calculator.PROGRAMMER.getController()),
+            Calculator.STANDARD, new StandardCalculatorPanel(),
+            Calculator.SCIENTIFIC, new ScientificCalculatorPanel(),
+            Calculator.PROGRAMMER, new ProgrammerCalculatorPanel(),
             Calculator.GRAPHIC, new GraphicCalculatorPanel(Calculator.GRAPHIC.getController()),
             Calculator.ADVANCED, new AdvancedCalculatorPanel(),
             Calculator.COMBINATORICS, new CombinatoricsCalculatorPanel()
@@ -56,10 +57,11 @@ public class CCMainGUI extends JFrame implements View {
 
         final JMenuBar menuBar = new JMenuBar();
         final JMenu menu = new JMenu("Select Calculator");
+        menu.setMnemonic('s');
         menuBar.add(menu);
         menuBar.add(title);
         menuBar.add(Box.createHorizontalGlue());
-        final var historyBtn = new JButton("History  ");
+        final var historyBtn = new JButton("History");
         historyBtn.setBackground(CCColors.OPERATION_BUTTON);
         historyBtn.setMnemonic('h');
         historyBtn.addActionListener((e) -> this.toggleHistory());
@@ -81,7 +83,7 @@ public class CCMainGUI extends JFrame implements View {
     private void toggleHistory() {
 
         this.mountedPanel.ifPresent((mounted) -> {
-            if ("HistoryPanel".equals(mounted.getClass().getSimpleName())) {
+            if (this.historyOn) {
                 this.logics.mount(this.current.get());
             } else {
                 this.getContentPane().remove(mounted);
@@ -92,6 +94,7 @@ public class CCMainGUI extends JFrame implements View {
 
                 this.revalidate();
                 this.repaint();
+                this.historyOn = true;
             }
         });
 
@@ -106,6 +109,7 @@ public class CCMainGUI extends JFrame implements View {
     @Override
     public void show(final Calculator calc) {
         title.setText(calc.name());
+        this.historyOn = false;
 
         this.mountedPanel.ifPresent((mounted) -> this.getContentPane().remove(mounted));
         final JPanel panel = this.views.get(calc);

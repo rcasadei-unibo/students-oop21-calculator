@@ -1,23 +1,19 @@
 package model.calculators;
-
 import java.util.HashMap;
 import java.util.Map;
 import utils.CCBinaryOperator;
 import utils.CCUnaryOperator;
 import utils.ConversionAlgorithms;
 import utils.Type;
-//TODO MISSING JAVADOC.
 /**
-*
-* 
-*
+* This is a static factory for Bitwise operators.
 */
 public final class ProgrammerCalculatorModelFactory {
 
     private ProgrammerCalculatorModelFactory() {
     }
     /**
-     * @return x
+     * @return a map containing the operator name and a function that applies the before-mentioned operator.
      */
     public static CalculatorModel create() {
         final Map<String, CCBinaryOperator> binaryOpMap = new HashMap<>(Map.of(
@@ -38,11 +34,6 @@ public final class ProgrammerCalculatorModelFactory {
                   ));
         return new CalculatorModelTemplate(binaryOpMap, unaryOpMap);
     }
-    //TODO missing javadoc.
-    /**
-     * 
-     * @return MISSING JAVADOC.
-     */
     private static Map<String, CCBinaryOperator> getBasicOperators() {
         final Map<String, CCBinaryOperator> x = StandardCalculatorModelFactory.create().getBinaryOpMap();
         x.remove("%");
@@ -116,7 +107,6 @@ public final class ProgrammerCalculatorModelFactory {
         //110011 = abs(10011) = roL(x,3) = "100" 11 = 11"100"
         //10011 = 10'011'
         bits = bits.substring(rolOf).concat(bits.substring(0, rolOf));
-        //bits.substring(0, (int) n2).concat(bits.substring((int) n2));
         return ConversionAlgorithms.conversionToDecimal(2, sign.concat(bits));
     }
 }

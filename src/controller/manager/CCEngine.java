@@ -10,15 +10,16 @@ import utils.NumberFormatter;
 import utils.Type;
 
 /**
- * 
+ * Class that implements methods to parse and execute mathematical expressions.
  */
 public class CCEngine implements EngineInterface {
 
+    private static final String SYNTAX_ERROR = "Syntax error";
     private final CalculatorController calcController;
     private static final String VARIABLE = "x";
 
     /**
-     * 
+     * Construct a new CCEngine that will use the given CalculatorController to perform the calculations.
      * @param calcController
      */
     public CCEngine(final CalculatorController calcController) {
@@ -43,6 +44,11 @@ public class CCEngine implements EngineInterface {
         return NumberFormatter.format(result, maxIntDigits, maxDecDigits, decimalThreshold);
     }
 
+    /**
+     * Parses an expression in infix notation, stored as a list of strings, to an equivalent expression in reverse polish notation.
+     * This method uses the shunting-yard algorithm. The main reference was the pseudocode on the Wikipedia page https://en.wikipedia.org/wiki/Shunting-yard_algorithm.
+     * @throws CalcException If there is a parenthesis mismatch.
+     */
     @Override
     public List<String> parseToRPN(final List<String> infix) throws CalcException {
 
@@ -96,7 +102,6 @@ public class CCEngine implements EngineInterface {
             }
             output.add(stack.pop());
         }
-
         return output;
     }
 
@@ -129,15 +134,21 @@ public class CCEngine implements EngineInterface {
 
     private double convert(final List<String> currentNumber) throws CalcException {
         if (currentNumber.stream().filter(s -> ".".equals(s)).count() > 1) {
-            throw new CalcException("Syntax error");
+            throw new CalcException(SYNTAX_ERROR);
         }
         final String num = currentNumber.stream().reduce("", (a, b) -> a + b);
         return Double.parseDouble(num);
 
     }
 
+    /**
+     * Evaluates the result of an expression in reverse polish notation.
+     * The algorithm is based on the implementation on the Rosetta Code web page https://rosettacode.org/wiki/Parsing/RPN_calculator_algorithm#Java_2.
+     * @param rpn List of string representing the expression to evaluate.
+     * @return double result of the expression.
+     * @throws CalcException If the expression contains too many operands.
+     */
     private double evaluateRPN(final List<String> rpn) throws CalcException {
-        //https://rosettacode.org/wiki/Parsing/RPN_calculator_algorithm#Java_2
         final Stack<Double> stack = new Stack<>();
 
         final var it = rpn.iterator();
@@ -148,14 +159,14 @@ public class CCEngine implements EngineInterface {
                 stack.add(Double.valueOf(token));
             } else if (isBinaryOperator(token)) {
                 if (stack.size() < 2) {
-                    throw new CalcException("Syntax error");
+                    throw new CalcException(SYNTAX_ERROR);
                 }
                 final double secondOperand = Double.valueOf(stack.pop());
                 final double firstOperand = Double.valueOf(stack.pop());
                 stack.add(getCalculator().applyBinaryOperation(token, firstOperand, secondOperand));
             } else if (isUnaryOperator(token)) {
                 if (stack.isEmpty()) {
-                    throw new CalcException("Syntax error");
+                    throw new CalcException(SYNTAX_ERROR);
                 }
                 final double firstOperand = Double.valueOf(stack.pop());
                 stack.add(getCalculator().applyUnaryOperation(token, firstOperand));
@@ -163,7 +174,7 @@ public class CCEngine implements EngineInterface {
         }
 
         if (stack.size() > 1 || stack.isEmpty()) {
-            throw new CalcException("Syntax Error");
+            throw new CalcException(SYNTAX_ERROR);
         }
         return stack.pop();
     }

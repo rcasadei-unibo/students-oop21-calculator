@@ -13,6 +13,8 @@ import model.calculators.ScientificCalculatorModelFactory;
 public class ScientificCalculatorOperationsTest {
     private final CalculatorModel calc = ScientificCalculatorModelFactory.create();
     /**
+     * Method that tests the natural logarithm operation "ln" and the
+     * binary logarithm operation "log"
      * 
      */
     @org.junit.Test
@@ -26,6 +28,8 @@ public class ScientificCalculatorOperationsTest {
     }
     /**
      * 
+     * Method that tests the absolute value operation "abs".
+     * 
      */
     @org.junit.Test
     public void modulusTest() {
@@ -36,6 +40,8 @@ public class ScientificCalculatorOperationsTest {
         assertEquals(0.0, mod.apply(0.0), 0);
     }
     /**
+     * 
+     * Method that tests the factorial operation "!".
      * 
      */
     @org.junit.Test
@@ -48,7 +54,7 @@ public class ScientificCalculatorOperationsTest {
         assertEquals(1.0, fact.apply(0.56), 0);
     }
     /**
-     * 
+     * Method that tests the "nthRoot" operation.
      */
     @org.junit.Test
     public void rootTest() {
@@ -57,14 +63,35 @@ public class ScientificCalculatorOperationsTest {
         assertEquals(1.0, root.apply(1, 3), 0);
     }
     /**
-     * 
+     * Method that tests the "potenza" operator.
      */
+    @org.junit.Test
     public void potenzaTest() {
-        final var pot = this.calc.getBinaryOpMap().get("potenza");
-        assertEquals(25.0, pot.apply(5, 2), 0);
+        final var pot = this.calc.getBinaryOpMap().get("^");
+        assertEquals(25.0, pot.apply(5.0, 2.0), 0);
         assertEquals(10000.0, pot.apply(10.0, 4), 0);
         assertEquals(-1.0, pot.apply(-1, 3), 0);
         assertEquals(1.0, pot.apply(-1.0, 20), 0);
+    }
+    /**
+     * Method that tests the sin operation "sin".
+     */
+    @org.junit.Test
+    public void sinTest() {
+        final var sin = this.calc.getUnaryOpMap().get("sin");
+        assertEquals(0, sin.apply(0), 0);
+    }
+    /**
+     * Method that tests the cos operation "cos".
+     */
+    public void cosTest() {
+
+    }
+    /**
+     * Method that tests the tan operation "tan".
+     */
+    public void tanTest() {
+
     }
 
 }
