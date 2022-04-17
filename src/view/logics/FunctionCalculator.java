@@ -1,6 +1,8 @@
-package utils;
+package view.logics;
 
 import java.util.List;
+
+import utils.CalcException;
 /**
  * 
  * 

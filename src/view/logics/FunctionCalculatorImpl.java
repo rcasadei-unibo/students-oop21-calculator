@@ -1,9 +1,10 @@
-package utils;
+package view.logics;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import controller.calculators.CalculatorController;
+import utils.CalcException;
 import utils.calculate.Tokenizer;
 
 /**

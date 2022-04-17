@@ -5,10 +5,10 @@ import model.manager.EngineModelInterface.Calculator;
 
 import javax.swing.JPanel;
 
-import utils.FunctionCalculator;
-import utils.FunctionCalculatorImpl;
 import view.components.FunctionGrapher;
 import view.components.FunctionsInsertionPanel;
+import view.logics.FunctionCalculator;
+import view.logics.FunctionCalculatorImpl;
 /**
  * 
  *

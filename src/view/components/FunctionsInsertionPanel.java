@@ -7,8 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import utils.CalcException;
-import utils.FunctionCalculator;
+import view.logics.FunctionCalculator;
 /**
  * 
  * 
@@ -36,7 +35,6 @@ public class FunctionsInsertionPanel extends JPanel {
 
         create1.addActionListener(e -> {
             logic.calculate(t1.getText());
-            System.out.println(logic.getResults());
             f.paintFunction(logic.getResults(), true);
         });
 
@@ -47,7 +45,6 @@ public class FunctionsInsertionPanel extends JPanel {
 
         create2.addActionListener(e -> {
             logic.calculate(t2.getText());
-            System.out.println(logic.getResults());
             f.paintFunction(logic.getResults(), false);
         });
 
