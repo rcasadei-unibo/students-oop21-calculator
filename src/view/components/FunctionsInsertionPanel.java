@@ -1,5 +1,6 @@
 package view.components;
 
+import java.awt.Font;
 import java.awt.GridLayout;
 
 import javax.swing.JButton;
@@ -24,12 +25,15 @@ public class FunctionsInsertionPanel extends JPanel {
      */
     public FunctionsInsertionPanel(final FunctionCalculator logic, final FunctionGrapher f) {
         this.setLayout(new GridLayout(2, 4));
-        final JLabel f1 = new JLabel("F(x) : ");
+        final Font font = new Font("Serif", Font.ITALIC + Font.BOLD, 20);
+        final JLabel f1 = new JLabel("   f(x) : ");
+        f1.setFont(font);
+        final JLabel f2 = new JLabel("  g(x) : ");
+        f2.setFont(font);
         final JTextField t1 = new JTextField();
-        final JButton create1 = new JButton("CREATE");
-        final JLabel f2 = new JLabel("G(x) : ");
         final JTextField t2 = new JTextField();
-        final JButton create2 = new JButton("CREATE");
+        final JButton create1 = new JButton("DRAW");
+        final JButton create2 = new JButton("DRAW");
         final JButton delete1 = new JButton("DELETE");
         final JButton delete2 = new JButton("DELETE");
 

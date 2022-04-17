@@ -1,6 +1,8 @@
 package view.calculators;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+
 import model.manager.EngineModelInterface.Calculator;
 
 import javax.swing.JPanel;
