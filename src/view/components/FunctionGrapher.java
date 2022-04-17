@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JPanel;
@@ -27,10 +28,8 @@ public class FunctionGrapher extends JPanel {
     /**
      * 
      */
-    private boolean isOn1;
-    private boolean isOn2;
-    private List<Double> firstResults;
-    private List<Double> secondResults;
+    private List<Double> results1 = new ArrayList<>();
+    private List<Double> results2 = new ArrayList<>();
     /**
      *
      */
@@ -54,7 +53,7 @@ public class FunctionGrapher extends JPanel {
         drawGrid(g, w, h);
         drawAxes(g, w, h);
         drawLines(g, w, h);
-        drawFunction(g, w, h);
+        drawFunction1(g, w, h);
         drawFunction2(g, w, h);
     }
 
@@ -74,20 +73,20 @@ public class FunctionGrapher extends JPanel {
      * @param w
      * @param h
      */
-    private void drawFunction(final Graphics g, final int w, final int h) {
-        if (this.isOn1) {
+    private void drawFunction1(final Graphics g, final int w, final int h) {
+        if (!results1.isEmpty()) {
             final Graphics2D fun1 = (Graphics2D) g;
             fun1.setStroke(new BasicStroke(1));
             fun1.setColor(Color.RED);
             final Polygon p1 = new Polygon();
             double x = -FunctionCalculatorImpl.RANGE;
-            for (final Double y : firstResults) {
-                p1.addPoint((int) (w / 2 + x * FunctionGrapher.scale * 2), (int) (h / 2 - y.doubleValue()  * FunctionGrapher.scale * 2));
-                x += FunctionCalculatorImpl.PRECISION;
+            for (final Double y : results1) {
+                    p1.addPoint((int) (w / 2 + x * FunctionGrapher.scale * 2), (int) (h / 2 - y.doubleValue()  * FunctionGrapher.scale * 2));
+                    x += FunctionCalculatorImpl.PRECISION;
+                }
+                fun1.drawPolyline(p1.xpoints, p1.ypoints, p1.npoints);
             }
-            fun1.drawPolyline(p1.xpoints, p1.ypoints, p1.npoints);
-         }
-    }
+        }
     /**
      * 
      * @param g
@@ -95,19 +94,19 @@ public class FunctionGrapher extends JPanel {
      * @param h
      */
     private void drawFunction2(final Graphics g, final int w, final int h) {
-        if (this.isOn2) {
-            final Graphics2D fun2 = (Graphics2D) g;
-            fun2.setStroke(new BasicStroke(1));
-            fun2.setColor(Color.BLUE);
-            final Polygon p2 = new Polygon();
+        if (!results2.isEmpty()) {
             double x = -FunctionCalculatorImpl.RANGE;
-            for (final Double y : secondResults) {
-                p2.addPoint((int) (w / 2 + x * FunctionGrapher.scale * 2), (int) (h / 2 - y.doubleValue()  * FunctionGrapher.scale * 2));
-                x += FunctionCalculatorImpl.PRECISION;
+                final Graphics2D fun2 = (Graphics2D) g;
+                fun2.setStroke(new BasicStroke(1));
+                fun2.setColor(Color.BLUE);
+                final Polygon p2 = new Polygon();
+                for (final Double y : results2) {
+                    p2.addPoint((int) (w / 2 + x * FunctionGrapher.scale * 2), (int) (h / 2 - y.doubleValue()  * FunctionGrapher.scale * 2));
+                    x += FunctionCalculatorImpl.PRECISION;
+                }
+                fun2.drawPolyline(p2.xpoints, p2.ypoints, p2.npoints);
             }
-            fun2.drawPolyline(p2.xpoints, p2.ypoints, p2.npoints);
-         }
-    }
+        }
 
     private void drawLines(final Graphics g, final int w, final int h) {
         final Graphics2D lines = (Graphics2D) g;
@@ -137,38 +136,26 @@ public class FunctionGrapher extends JPanel {
         }
     }
     /**
-     *@param results1
+     *@param first
+     *@param results
      */
-    public void paintFunction1(final List<Double> results1) {
-        this.isOn1 = true;
-        this.firstResults = results1;
-        System.out.println(firstResults);
+    public void paintFunction(final List<Double> results, final boolean first) {
+        if (first) {
+            this.results1 = results;
+        } else {
+            this.results2 = results;
+        }
         this.repaint();
     }
     /**
-     * 
-     * @param results2
+     *@param first
      */
-    public void paintFunction2(final List<Double> results2) {
-        this.isOn2 = true;
-        this.secondResults = results2;
-        System.out.println(secondResults);
-        this.repaint();
-    }
-    /**
-     * 
-     */
-    public void deleteFunction1() {
-        this.firstResults.clear();
-        this.isOn1 = false;
-        this.repaint();
-    }
-    /**
-     * 
-     */
-    public void deleteFunction2() {
-        this.secondResults.clear();
-        this.isOn2 = false;
+    public void deleteFunction(final boolean first) {
+        if (first) {
+            results1.clear();
+        } else {
+            results2.clear();
+        }
         this.repaint();
     }
 }

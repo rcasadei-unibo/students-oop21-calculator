@@ -15,7 +15,6 @@ import utils.FunctionCalculator;
  *
  */
 public class FunctionsInsertionPanel extends JPanel {
-
     /**
      * 
      */
@@ -27,37 +26,42 @@ public class FunctionsInsertionPanel extends JPanel {
     public FunctionsInsertionPanel(final FunctionCalculator logic, final FunctionGrapher f) {
         this.setLayout(new GridLayout(2, 4));
         final JLabel f1 = new JLabel("F(x) : ");
-        final JLabel f2 = new JLabel("G(x) : ");
         final JTextField t1 = new JTextField();
-        final JTextField t2 = new JTextField();
         final JButton create1 = new JButton("CREATE");
+        final JLabel f2 = new JLabel("G(x) : ");
+        final JTextField t2 = new JTextField();
+        final JButton create2 = new JButton("CREATE");
+        final JButton delete1 = new JButton("DELETE");
+        final JButton delete2 = new JButton("DELETE");
+
         create1.addActionListener(e -> {
             logic.calculate(t1.getText());
             try {
-                f.paintFunction1(logic.getResults());
+                f.paintFunction(logic.getResults(), true);
             } catch (CalcException e1) {
                 e1.printStackTrace();
             }
         });
-        final JButton create2 = new JButton("CREATE");
+
+        delete1.addActionListener(e -> {
+            f.deleteFunction(true);
+
+        });
+
         create2.addActionListener(e -> {
             logic.calculate(t2.getText());
             try {
-                f.paintFunction2(logic.getResults());
+                f.paintFunction(logic.getResults(), false);
             } catch (CalcException e1) {
                 e1.printStackTrace();
             }
-
         });
-        final JButton delete1 = new JButton("DELETE");
-        delete1.addActionListener(e -> {
-            f.deleteFunction1();
 
-        });
-        final JButton delete2 = new JButton("DELETE");
         delete2.addActionListener(e -> {
-            f.deleteFunction2();
+            f.deleteFunction(false);
+
         });
+
         this.add(f1);
         this.add(t1);
         this.add(create1);
