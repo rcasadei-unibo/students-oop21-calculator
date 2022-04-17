@@ -1,16 +1,11 @@
 package utils;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import controller.calculators.CalculatorController;
 import model.calculators.ProgrammerCalculatorModelFactory;
 import model.manager.EngineModelInterface.Calculator;
-
-//TODO javadoc.
 /**
- * MISSING JAVADOC.
- *
+ * This class acts as an intermediate between the ProgrammerCalculatorPanel and CalculatorController's engine.
  */
 public class InputFormatter implements InputFormatterLogics {
     private int conversionBase = 10;
@@ -19,9 +14,8 @@ public class InputFormatter implements InputFormatterLogics {
     private final List<String> tokens;
     private String lastNumBuffer = "";
     private String history = "";
-    //TODO MISSING JAVADOC.
     /**
-     * missing javadoc.
+     * 
      */
     public InputFormatter() {
         this.controller = Calculator.PROGRAMMER.getController();
@@ -150,13 +144,11 @@ public class InputFormatter implements InputFormatterLogics {
             this.controller.getManager().memory().readAll(temp);
             this.controller.getManager().engine().calculate();
             this.buffer.clear();
-            
             if (this.controller.getManager().memory().getCurrentState().stream().reduce("", (a, b) -> a + b).contains("-")) {
                 List.of(this.controller.getManager().memory().getCurrentState().get(0).split("")).stream().forEach((str) -> this.buffer.add(str));
             } else {
                 this.buffer.addAll(this.controller.getManager().memory().getCurrentState());
             }
-            
             this.inverseFormat();
             this.lastNumBuffer = this.buffer.stream().reduce("", (a, b) -> a + b);
             this.controller.getManager().memory().clear();
@@ -182,11 +174,9 @@ public class InputFormatter implements InputFormatterLogics {
         }
     }
     /**
-     * 
      * @return the last input value
-     * 
-     * if input = "A2" it will convert it and return 162
-     * if input = "A2+F" it will return the conversion of F=>15
+     * if input == "A2" it will convert it and return 162
+     * if input == "A2+F" it will return the conversion of F=>15
      */
     public long getLastValue() {
         int sign = 1;
