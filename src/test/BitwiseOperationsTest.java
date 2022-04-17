@@ -37,7 +37,6 @@ public class BitwiseOperationsTest {
     @org.junit.Test
     public void testNot() {
         final var op = this.calculator.getUnaryOpMap().get("not");
-        //TODO add test
         
         assertEquals("-11111011",ConversionAlgorithms.conversionToStringBase(2,(long)op.apply(-4.0)));
         assertEquals("+11111011",ConversionAlgorithms.conversionToStringBase(2,(long)op.apply(4.0)));
