@@ -12,13 +12,16 @@ import utils.tokens.TokenType;
 import utils.tokens.TokensFactory;
 
 /**
- * @author pesic
+ * It is used by the simplification engine for reducing mathematical expression.
  *
  */
 public class SimplificationFactory {
 
     /**
-     * @author pesic
+     * A handler class used for the chain of responsibility for the
+     * simplification engine. Every binary Operation has its own C.O.R. in the
+     * case no handler can do something on the input the standard handler is
+     * returned.
      *
      */
     public class Handler {
@@ -31,14 +34,21 @@ public class SimplificationFactory {
 
         /**
          * @param t
+         *            : Token
          * @param left
+         *            : the left child of the parent in the ast
          * @param right
+         *            : the right child of the parent in the ast
          * @param filter
+         *            : true this is the right handler, otherwise next handler
          * @param supplier
+         *            : what should return if filter returns true
          * @param next
+         *            : the next handler
          */
-        public Handler(final Token t, final AbstractSyntaxNode left, final AbstractSyntaxNode right, 
-                final BiPredicate<AbstractSyntaxNode, AbstractSyntaxNode> filter, final Supplier<AbstractSyntaxNode> supplier, final Handler next){
+        public Handler(final Token t, final AbstractSyntaxNode left, final AbstractSyntaxNode right,
+                final BiPredicate<AbstractSyntaxNode, AbstractSyntaxNode> filter, final Supplier<AbstractSyntaxNode> supplier,
+                final Handler next) {
             this.t = t;
             this.left = left;
             this.right = right;
@@ -46,8 +56,9 @@ public class SimplificationFactory {
             this.supplier = supplier;
             this.next = next;
         }
+
         /**
-         * @return c
+         * @return the result, if can be handled
          */
         public AbstractSyntaxNode handle() {
             if (this.filter.test(left, right)) {
@@ -57,6 +68,9 @@ public class SimplificationFactory {
             }
         }
 
+        /**
+         * @return the next handler.
+         */
         private AbstractSyntaxNode nextHandler() {
             if (next == null) {
                 return new Handler(t, left, right, (l, r) -> true, () -> new AbstractSyntaxNode(t, left, right), null).handle();
@@ -73,67 +87,92 @@ public class SimplificationFactory {
         }
         return false;
     }
-    
+
     /**
      * @param t
      * @param left
      * @param right
-     * @return c
+     * @return result
      */
     public Handler sumSimplification(final Token t, final AbstractSyntaxNode left, final AbstractSyntaxNode right) {
-        return new Handler(t, left, right, (l, r) -> this.verifyNumberValue(left, (num) -> num.getObjectToken() == 0.0), () -> right,
-               new Handler(t, left, right, (l, r) -> this.verifyNumberValue(right, (num) -> num.getObjectToken() == 0.0), () -> left,
-               new Handler(t, left, right, (l, r) -> l.getToken().getTypeToken().equals(TokenType.NUMBER) && r.getToken().getTypeToken().equals(TokenType.NUMBER),
-               () -> new AbstractSyntaxNode(TokensFactory.numberToken(
-                       Double.parseDouble(left.getToken().getSymbol()) + Double.parseDouble(right.getToken().getSymbol()))), null)));
+        return new Handler(t, left, right, (l, r) -> this.verifyNumberValue(left, (num) -> num.getObjectToken() == 0.0),
+                () -> right,
+                new Handler(t, left, right, (l, r) -> this.verifyNumberValue(right, (num) -> num.getObjectToken() == 0.0),
+                        () -> left,
+                        new Handler(t, left, right,
+                                (l, r) -> l.getToken().getTypeToken().equals(TokenType.NUMBER)
+                                        && r.getToken().getTypeToken().equals(TokenType.NUMBER),
+                                () -> new AbstractSyntaxNode(
+                                        TokensFactory.numberToken(Double.parseDouble(left.getToken().getSymbol())
+                                                + Double.parseDouble(right.getToken().getSymbol()))),
+                                null)));
     }
 
     /**
      * @param t
      * @param left
      * @param right
-     * @return c
+     * @return result
      */
     public Handler subSimplification(final Token t, final AbstractSyntaxNode left, final AbstractSyntaxNode right) {
-        return new Handler(t, left, right, (l, r) -> this.verifyNumberValue(left, (num) -> num.getObjectToken() == 0.0), 
+        return new Handler(t, left, right, (l, r) -> this.verifyNumberValue(left, (num) -> num.getObjectToken() == 0.0),
                 () -> new AbstractSyntaxNode(TokensFactory.operatorToken(Operator.getOperatorBySymbolAndArgs("-", 1)), right),
-                new Handler(t, left, right, (l, r) -> this.verifyNumberValue(right, (num) -> num.getObjectToken() == 0.0), () -> left, 
-                new Handler(t, left, right, (l, r) -> l.getToken().getTypeToken().equals(TokenType.NUMBER) && r.getToken().getTypeToken().equals(TokenType.NUMBER),
-                () -> new AbstractSyntaxNode(TokensFactory.numberToken(
-                Double.parseDouble(left.getToken().getSymbol()) - Double.parseDouble(right.getToken().getSymbol()))), null)));
+                new Handler(t, left, right, (l, r) -> this.verifyNumberValue(right, (num) -> num.getObjectToken() == 0.0),
+                        () -> left,
+                        new Handler(t, left, right,
+                                (l, r) -> l.getToken().getTypeToken().equals(TokenType.NUMBER)
+                                        && r.getToken().getTypeToken().equals(TokenType.NUMBER),
+                                () -> new AbstractSyntaxNode(
+                                        TokensFactory.numberToken(Double.parseDouble(left.getToken().getSymbol())
+                                                - Double.parseDouble(right.getToken().getSymbol()))),
+                                null)));
     }
-    
+
     /**
      * @param t
      * @param left
      * @param right
-     * @return c
+     * @return result
      */
     public Handler mulSimplification(final Token t, final AbstractSyntaxNode left, final AbstractSyntaxNode right) {
-        return new Handler(t, left, right, (l, r) -> this.verifyNumberValue(left, (num) -> num.getObjectToken() == 0.0), 
+        return new Handler(t, left, right, (l, r) -> this.verifyNumberValue(left, (num) -> num.getObjectToken() == 0.0),
                 () -> new AbstractSyntaxNode(TokensFactory.numberToken(0.0)),
-                new Handler(t, left, right, (l, r) -> this.verifyNumberValue(right, (num) -> num.getObjectToken() == 0.0), 
-                () -> new AbstractSyntaxNode(TokensFactory.numberToken(0.0)),
-                new Handler(t, left, right, (l, r) -> this.verifyNumberValue(left, (num) -> num.getObjectToken() == 1.0), () -> right,
-                new Handler(t, left, right, (l, r) -> this.verifyNumberValue(right, (num) -> num.getObjectToken() == 1.0), () -> left,
-                new Handler(t, left, right, (l, r) -> l.getToken().getTypeToken().equals(TokenType.NUMBER) && r.getToken().getTypeToken().equals(TokenType.NUMBER),
-                () -> new AbstractSyntaxNode(TokensFactory.numberToken(
-                Double.parseDouble(left.getToken().getSymbol()) * Double.parseDouble(right.getToken().getSymbol()))), null)))));
+                new Handler(t, left, right, (l, r) -> this.verifyNumberValue(right, (num) -> num.getObjectToken() == 0.0),
+                        () -> new AbstractSyntaxNode(TokensFactory.numberToken(0.0)),
+                        new Handler(t, left, right, (l, r) -> this.verifyNumberValue(left, (num) -> num.getObjectToken() == 1.0),
+                                () -> right,
+                                new Handler(t, left, right,
+                                        (l, r) -> this.verifyNumberValue(right, (num) -> num.getObjectToken() == 1.0), () -> left,
+                                        new Handler(t, left, right,
+                                                (l, r) -> l.getToken().getTypeToken().equals(TokenType.NUMBER)
+                                                        && r.getToken().getTypeToken().equals(TokenType.NUMBER),
+                                                () -> new AbstractSyntaxNode(
+                                                        TokensFactory.numberToken(Double.parseDouble(left.getToken().getSymbol())
+                                                                * Double.parseDouble(right.getToken().getSymbol()))),
+                                                null)))));
     }
-    
+
     /**
      * @param t
      * @param left
      * @param right
-     * @return c
+     * @return result
      */
     public Handler divSimplification(final Token t, final AbstractSyntaxNode left, final AbstractSyntaxNode right) {
-        return new Handler(t, left, right, (l, r) -> this.verifyNumberValue(right, (num) -> num.getObjectToken() == 1.0), () -> left,
-               new Handler(t, left, right, (l, r) -> this.verifyNumberValue(left, (num) -> num.getObjectToken() == 0.0), 
-               () -> new AbstractSyntaxNode(TokensFactory.numberToken(0.0)), 
-               new Handler(t, left, right, (l, r) -> l.getToken().getTypeToken().equals(TokenType.NUMBER) && r.getToken().getTypeToken().equals(TokenType.NUMBER),
-               () -> new AbstractSyntaxNode(TokensFactory.numberToken(
-               Double.parseDouble(left.getToken().getSymbol()) / Double.parseDouble(right.getToken().getSymbol()))), null)));
+        return new Handler(t, left, right, (l, r) -> this.verifyNumberValue(right, (num) -> num.getObjectToken() == 1.0),
+                () -> left,
+                new Handler(t, left, right, (l, r) -> this.verifyNumberValue(left, (num) -> num.getObjectToken() == 0.0),
+                        () -> new AbstractSyntaxNode(TokensFactory.numberToken(0.0)),
+                        new Handler(t, left, right,
+                                (l, r) -> l.getToken().getTypeToken().equals(TokenType.NUMBER)
+                                        && r.getToken().getTypeToken().equals(TokenType.NUMBER),
+                                () -> new AbstractSyntaxNode(
+                                        TokensFactory.numberToken(Double.parseDouble(left.getToken().getSymbol())
+                                                / Double.parseDouble(right.getToken().getSymbol()))),
+                                new Handler(t, left, right,
+                                        (l, r) -> l.getToken().getTypeToken().equals(TokenType.VARIABLE)
+                                                && r.getToken().getTypeToken().equals(TokenType.VARIABLE),
+                                        () -> new AbstractSyntaxNode(TokensFactory.numberToken(1.0)), null))));
     }
 
 }

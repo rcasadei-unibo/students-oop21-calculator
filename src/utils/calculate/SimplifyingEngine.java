@@ -6,17 +6,19 @@ import utils.tokens.Token;
 
 
 /**
- * @author pesic
+ * simplifies Expression during the parsing of the AS (e.g. 5 + 0 => 5)
  *
  */
 public class SimplifyingEngine {
 
     /**
+     * every binary operator has a simplification process.
      * @param t
      * @param left
      * @param right
-     * @return c
+     * @return the simplified version of the binary operator
      */
+    @SuppressWarnings("unchecked")
     public AbstractSyntaxNode binaryOperator(final Token t, final AbstractSyntaxNode left, final AbstractSyntaxNode right) {
         final SpecialToken<Operator> operator = (SpecialToken<Operator>) t;
         switch (operator.getSymbol()) {
