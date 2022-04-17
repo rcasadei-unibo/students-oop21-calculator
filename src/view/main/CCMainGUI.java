@@ -40,8 +40,8 @@ public class CCMainGUI extends JFrame implements View {
     private final JLabel title = new JLabel("");
 
     private final Map<Calculator, JPanel> views = Map.of(
-            Calculator.STANDARD, new StandardCalculatorPanel(Calculator.STANDARD.getController()),
-            Calculator.SCIENTIFIC, new ScientificCalculatorPanel(Calculator.SCIENTIFIC.getController()),
+            Calculator.STANDARD, new StandardCalculatorPanel(),
+            Calculator.SCIENTIFIC, new ScientificCalculatorPanel(),
             Calculator.PROGRAMMER, new ProgrammerCalculatorPanel(),
             Calculator.GRAPHIC, new GraphicCalculatorPanel(Calculator.GRAPHIC.getController()),
             Calculator.ADVANCED, new AdvancedCalculatorPanel(Calculator.ADVANCED.getController()),
