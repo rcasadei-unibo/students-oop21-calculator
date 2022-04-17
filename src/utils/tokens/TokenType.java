@@ -1,7 +1,7 @@
 package utils.tokens;
 
 /**
- * @author pesic
+ *All allowed tokens types.
  *
  */
 public enum TokenType {

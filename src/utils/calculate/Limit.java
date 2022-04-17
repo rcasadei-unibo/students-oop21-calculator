@@ -2,18 +2,17 @@ package utils.calculate;
 
 import java.util.List;
 import java.util.function.Predicate;
-import java.util.stream.IntStream;
 
 import utils.CalcException;
 
 /**
- * @author pesic
+ * Limit class.
  *
  */
 public class Limit implements Algorithm {
     private Expression expression;
 	private static final double DISTANCE = 5;
-	private static final double DELTA = 0.0001;
+	private static final double MINNUM = 0.00000000001;
 	private Double x0;
 	
 	private void  parameterDefined() {
@@ -22,27 +21,13 @@ public class Limit implements Algorithm {
 	    }
 	}
 	
-	//it could be refactored a template method
-	private double calculateLimitBelow() throws CalcException {
-		for (double x = x0 - DISTANCE; x <= x0; x = x0 - ((x0 - x) / DISTANCE)) {
-            if (expression.getResult().getNumericResult(x) == Double.POSITIVE_INFINITY) {
-                return Double.POSITIVE_INFINITY;
-            } else if (expression.getResult().getNumericResult(x) == Double.NEGATIVE_INFINITY) {
-                return Double.NEGATIVE_INFINITY;
-            } else if (Double.isNaN(expression.getResult().getNumericResult(x))) {
-                return expression.getResult().getNumericResult(x0 + ((x0 - x) * DISTANCE));
-            } else {
-                if (x - DELTA <= x0 && x + DELTA >= x0) {
-                    return expression.getResult().getNumericResult(x);
-                } else if (x0 - x < 0.00000000001) {
-                    x = x0;
-                }
-
-            }
-        }
-        return Double.NaN;
-	}
-	
+	/**
+	 * Calculates the limit numerically, i doens't work with all types of limits.
+	 * @param cond
+	 * @param initValue
+	 * @return the result of the limit from above or below
+	 * @throws CalcException
+	 */
 	private Double calculateLimit(final Predicate<Double> cond, final Double initValue) throws CalcException {
 	    for (Double x = initValue; cond.test(x); x = x0 - ((x0 - x) / DISTANCE)) {
             if (expression.getResult().getNumericResult(x) == Double.POSITIVE_INFINITY) {
@@ -54,33 +39,13 @@ public class Limit implements Algorithm {
             } else {
                 if (x.equals(x0)) {
                     return expression.getResult().getNumericResult(x);
-                } else if (x - x0 < 0.00000000001) {
+                } else if (x - x0 < MINNUM) {
                     x = x0;
                 }
 
             }
 	    }
 	    return Double.NaN;
-	}
-	
-	private double calculateLimitAbove() throws CalcException {
-		for (double x = x0 + DISTANCE; x >= x0; x = x0 - ((x0 - x) / DISTANCE)) {
-            if (expression.getResult().getNumericResult(x) == Double.POSITIVE_INFINITY) {
-                return Double.POSITIVE_INFINITY;
-            } else if (expression.getResult().getNumericResult(x) == Double.NEGATIVE_INFINITY) {
-                return Double.NEGATIVE_INFINITY;
-            } else if (Double.isNaN(expression.getResult().getNumericResult(x))) {
-                return expression.getResult().getNumericResult(x0 + ((x0 - x) * DISTANCE));
-            } else {
-                if (x - DELTA <= x0 && x + DELTA >= x0) {
-                    return expression.getResult().getNumericResult(x);
-                } else if (x - x0 < 0.00000000001) {
-                    x = x0;
-                }
-
-            }
-        }
-        return Double.NaN;
 	}
 	
     @Override
@@ -90,7 +55,7 @@ public class Limit implements Algorithm {
         }
         try {
             this.x0 = Double.parseDouble(parameters.get(0));
-        } catch(NumberFormatException e) {
+        } catch (NumberFormatException e) {
             throw new CalcException("Bad format Number, only numbers are accepted");
         }
     }

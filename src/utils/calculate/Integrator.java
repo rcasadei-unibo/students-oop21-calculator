@@ -2,17 +2,15 @@ package utils.calculate;
 
 import java.util.List;
 import java.util.stream.IntStream;
-import java.util.stream.IntStream;
 
 import utils.CalcException;
 import utils.ast.Operation;
 
 /**
- * @author pesic
+ * Integrator class.
  *
  */
-public class Integrator implements Algorithm{
-	
+public class Integrator implements Algorithm {
 	private Expression expression;
 	private Double lowBound;
 	private Double upperBound;
@@ -24,6 +22,10 @@ public class Integrator implements Algorithm{
         }
 	}
 	
+	/** It uses the Trapezoidal algorithm for calculating single definite integrals https://en.wikipedia.org/wiki/Trapezoidal_rule.
+	 * @return the result of the integral
+	 * @throws CalcException
+	 */
 	private double trapezoidalAlgorithm() throws CalcException {
         final double h = (upperBound - lowBound) / STEPS;
         final Operation func = expression.getResult();
@@ -35,7 +37,7 @@ public class Integrator implements Algorithm{
 	
     @Override
     public void setParameters(final List<String> parameters) throws CalcException {
-        if (parameters.size() < 2 ) {
+        if (parameters.size() < 2) {
             throw new CalcException("Not enough parameters");
         }
         try {
@@ -46,6 +48,11 @@ public class Integrator implements Algorithm{
         }
     }
 
+    /**
+     * @param expr
+     * @return the result of the integral
+     * @throws CalcException
+     */
     private Double calc(final Expression expr) throws CalcException {
         expression = expr;
         return trapezoidalAlgorithm();

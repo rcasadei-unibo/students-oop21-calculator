@@ -9,30 +9,27 @@ import utils.tokens.SpecialToken;
 import utils.tokens.Token;
 import utils.tokens.TokenType;
 
-
 /**
- * @author pesic
+ * Given a List in reversed polished notation it builds an AST.
  *
  */
 public class ParserAST {
 
     private Stack<AbstractSyntaxNode> stack;
-    private List<Token> output;
-    private Tokenizer tok;
     private CCEngine engine;
-    private SimplifyingEngine simplify = new SimplifyingEngine();
+    private final SimplifyingEngine simplify = new SimplifyingEngine();
 
     private AbstractSyntaxNode createNumberOrVariableNode(final Token t) {
         return new AbstractSyntaxNode(t);
     }
 
-    private AbstractSyntaxNode createUnaryOperatorOrFunctionNode(final Token t, AbstractSyntaxNode left) {
+    private AbstractSyntaxNode createUnaryOperatorOrFunctionNode(final Token t, final AbstractSyntaxNode left) {
         return new AbstractSyntaxNode(t, left);
     }
 
-    private AbstractSyntaxNode createBinaryOperatorNode(final Token t, final AbstractSyntaxNode left, final AbstractSyntaxNode right) {
+    private AbstractSyntaxNode createBinaryOperatorNode(final Token t, final AbstractSyntaxNode left,
+            final AbstractSyntaxNode right) {
         return simplify.binaryOperator(t, left, right);
-        //return new AbstractSyntaxNode(t, left, right);
     }
 
     private AbstractSyntaxNode parseBinaryOperator(final Token token) {
@@ -52,25 +49,31 @@ public class ParserAST {
 
         return createUnaryOperatorOrFunctionNode(token, right);
     }
-    
-    public void setEngine(CCEngine engine) {
+
+    /**
+     * Sets the engine for obtaining the RPN expression.
+     * 
+     * @param engine
+     */
+    public void setEngine(final CCEngine engine) {
         this.engine = engine;
     }
-    
+
     /**
      * @param expression
-     * @return c
+     * @return The root of the AST
      * @throws CalcException
      */
     public AbstractSyntaxNode parseToAST(final String expression) throws CalcException {
-        tok = new Tokenizer(expression);
+        List<Token> output;
+        final Tokenizer tok = new Tokenizer(expression);
         this.stack = new Stack<>();
         try {
             final List<String> l = tok.getListSymbol();
             final List<String> l1 = this.engine.parseToRPN(l);
-            this.output = tok.convertToTokens(l1);
+            output = tok.convertToTokens(l1);
         } catch (CalcException e) {
-            throw new CalcException(e.getMessage());
+            throw new CalcException(e.getMessage() + "verified during parsing");
         }
         output.forEach(token -> {
             if (token.getTypeToken().equals(TokenType.NUMBER) || token.getTypeToken().equals(TokenType.VARIABLE)
@@ -100,8 +103,4 @@ public class ParserAST {
         return stack.pop();
     }
 
-    /*public static void main(String[] args) {
-        var parser = new ParserAST();
-        parser.parseToAST("3x+5");
-    }*/
 }

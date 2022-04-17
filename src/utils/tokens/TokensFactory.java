@@ -4,10 +4,16 @@ import utils.calculate.Function;
 import utils.calculate.Operator;
 
 /**
- * @author pesic
+ * A static factory of tokens.
  *
  */
-public class TokensFactory {
+public final class TokensFactory {
+    private TokensFactory() {
+    }
+
+    /**
+     * @return close Parantehesis token
+     */
     public static Token closeParToken() {
         return new Token() {
 
@@ -24,6 +30,9 @@ public class TokensFactory {
         };
     }
 
+    /**
+     * @return open Parenthesis token.
+     */
     public static Token openParToken() {
         return new Token() {
 
@@ -40,7 +49,11 @@ public class TokensFactory {
         };
     }
 
-    public static Token functionToken(Function func) {
+    /**
+     * @param func
+     * @return a function token given the function name
+     */
+    public static Token functionToken(final Function func) {
         return new SpecialToken<Function>() {
 
             @Override
@@ -61,7 +74,11 @@ public class TokensFactory {
         };
     }
 
-    public static Token numberToken(double value) {
+    /**
+     * @param value
+     * @return a number token given its value
+     */
+    public static Token numberToken(final double value) {
         return new SpecialToken<Double>() {
 
             @Override
@@ -82,7 +99,11 @@ public class TokensFactory {
         };
     }
 
-    public static Token constantToken(String constant) {
+    /**
+     * @param constant
+     * @return a constant Token
+     */
+    public static Token constantToken(final String constant) {
         return new Token() {
 
             @Override
@@ -98,7 +119,11 @@ public class TokensFactory {
         };
     }
 
-    public static Token operatorToken(Operator operator) {
+    /**
+     * @param operator
+     * @return an Operator token given the operator
+     */
+    public static Token operatorToken(final Operator operator) {
         return new SpecialToken<Operator>() {
 
             @Override
@@ -119,7 +144,11 @@ public class TokensFactory {
         };
     }
 
-    public static Token variableToken(String variable) {
+    /**
+     * @param variable
+     * @return the variable token with the name
+     */
+    public static Token variableToken(final String variable) {
         return new Token() {
 
             @Override

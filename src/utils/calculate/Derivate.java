@@ -1,15 +1,14 @@
 package utils.calculate;
 
 import java.util.List;
-import java.util.stream.IntStream;
 
 import utils.CalcException;
 
 /**
- * @author pesic
+ * The derivate class.
  *
  */
-public class Derivate implements Algorithm{
+public class Derivate implements Algorithm {
 
     @Override
     public void setParameters(final List<String> parameters) {
