@@ -33,7 +33,24 @@ public class DerivateTest {
         assertEquals(der.calculate(expr), "3.0");
         expr.setExpr("3x+5");
         assertEquals(der.calculate(expr), "3.0");
-        expr.setExpr("3x/5");
-        assertEquals(der.calculate(expr), "(3.0)");
+        expr.setExpr("sin(x)");
+        assertEquals(der.calculate(expr), "cos(x)");
+        expr.setExpr("cos(x)");
+        assertEquals(der.calculate(expr), "-sin(x)");
+        expr.setExpr("tan(x)");
+        assertEquals(der.calculate(expr), "(1.0)÷((cos(x))^(2.0))");
+        expr.setExpr("csc(x)");
+        assertEquals(der.calculate(expr), "-(cot(x))\u00D7(csc(x))");
+        expr.setExpr("sec(x)");
+        assertEquals(der.calculate(expr), "(tan(x))\u00D7(sec(x))");
+        expr.setExpr("cot(x)");
+        assertEquals(der.calculate(expr), "-(1.0)÷((sin(x))^(2.0))");
+        expr.setExpr("log(x)");
+        assertEquals(der.calculate(expr), "(1.0)÷(x)");
+        expr.setExpr("(x)^2");
+        assertEquals(der.calculate(expr), "((x)^(2.0))\u00D7((2.0)÷(x))");
+        expr.setExpr("abs(x)");
+        assertEquals(der.calculate(expr), "(x)÷(abs(x))");
+        
     }
 }
