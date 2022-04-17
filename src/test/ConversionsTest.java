@@ -23,8 +23,7 @@ public class ConversionsTest {
         assertTrue("-1010".equals(ConversionAlgorithms.conversionToStringBase(2,(-10))));    
         assertTrue("+1011".equals(ConversionAlgorithms.conversionToStringBase(2,(11))));
         assertTrue("-1011".equals(ConversionAlgorithms.conversionToStringBase(2,(-11))));
-        //System.out.println(ConversionAlgorithms.conversionToStringBase(2,(Integer.MAX_VALUE));
-        //System.out.println(ConversionAlgorithms.conversionToStringBase(2,(Integer.MIN_VALUE));
+       
     }
     /**
      * Test for decimal to hexadecimal conversions.
@@ -59,10 +58,10 @@ public class ConversionsTest {
        //assertFalse(10==ConversionAlgorithms.conversionToDecimal(2, ConversionAlgorithms.conversionToStringBase(2,(-10)));
        assertTrue(-10==ConversionAlgorithms.conversionToDecimal(2, ConversionAlgorithms.conversionToStringBase(2,(-10))));
        assertTrue(-10==ConversionAlgorithms.conversionToDecimal(16, ConversionAlgorithms.conversionToStringBase(16,(-10))));
-       //System.out.println("-10 1A is "+ConversionAlgorithms.conversionToStringBase(16,(-10));
+       
         //-256 = 1100
-       //System.out.println(ConversionAlgorithms.conversionToDecimal(16, ConversionAlgorithms.conversionToStringBase(16,(-256)));
-       //System.out.println("-256 is "+ ConversionAlgorithms.conversionToDecimal(2, ConversionAlgorithms.conversionToStringBase(2,(-256)));
+     
+       
        assertTrue(80==ConversionAlgorithms.conversionToDecimal(8, ConversionAlgorithms.conversionToStringBase(8,(80))));
     }
     /**

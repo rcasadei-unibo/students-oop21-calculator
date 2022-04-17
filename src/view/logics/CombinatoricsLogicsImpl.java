@@ -1,4 +1,4 @@
-package view.calculators;
+package view.logics;
 
 import model.manager.EngineModelInterface.Calculator;
 import controller.calculators.CalculatorController;
@@ -37,9 +37,9 @@ public class CombinatoricsLogicsImpl implements CombinatoricsLogics {
         }
         adder += this.opString.isBlank() ? "" : ") =";
         final String result = this.opFormat + adder;
-        this.clearStrings();
         this.controller.getManager().engine().calculate();
-        this.controller.getManager().memory().addResult(result + " " + this.getStream());
+        this.controller.getManager().memory().addResult(this.opString.isBlank() ? "" : result + " " + this.getStream());
+        this.clearStrings();
         return result;
     }
 

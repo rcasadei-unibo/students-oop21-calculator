@@ -1,22 +1,17 @@
 package model.calculators;
-
 import java.util.Map;
-
 import utils.CCBinaryOperator;
 import utils.CCUnaryOperator;
 import utils.CalcException;
 import utils.Type;
-//TODO MISSING JAVADOC.
 /**
- *
- * 
- *
+ * This is a static factory for basic operators.
  */
 public final class StandardCalculatorModelFactory {
     private StandardCalculatorModelFactory() {
     }
     /**
-     * @return x
+     * @return a map containing the operator name and a function that applies the before-mentioned operator.
      */
     public static CalculatorModel create() {
         final Map<String, CCBinaryOperator> binaryOpMap = Map.of(

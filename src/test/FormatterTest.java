@@ -8,20 +8,12 @@ import utils.CalcException;
 import utils.NumberFormatter;
 
 /**
- * 
- *
+ * Class to test edge cases correct behavior of the NumberFormatter class.
  */
 public class FormatterTest {
 
     /**
-     * test javadoc.
-     */
-    @org.junit.Test
-    public void initialize() {
-
-    }
-    /**
-     * 
+     * All edge cases.
      */
     @org.junit.Test
     public void testNumberFormat() {
