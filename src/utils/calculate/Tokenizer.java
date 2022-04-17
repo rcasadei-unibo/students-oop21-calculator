@@ -1,7 +1,27 @@
+/*
+ * Copyright 2014 Frank Asseg
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+//https://github.com/fasseg/exp4j/blob/master/src/main/java/net/objecthunter/exp4j/tokenizer/Tokenizer.java 
+//modified some part of the code of the tokenizer
+
+
 package utils.calculate;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -24,7 +44,7 @@ public class Tokenizer {
     private  int lenExpr;
     private boolean isRPN = false;
     private final String variable;
-    private final Set<String> constants;
+    private final Map<String, Double> constants;
     private boolean implicitMultiplication = true;
     private final ExternData data = new ExternData();
 
@@ -200,8 +220,8 @@ public class Tokenizer {
                 if (String.valueOf(c).equals(this.variable)) {
                     newToken = TokensFactory.variableToken(this.variable);
                     previousIndex = newIndex + 1;
-                } else if (constants.contains(String.valueOf(c))) {
-                    newToken = TokensFactory.constantToken(String.valueOf(c));
+                } else if (constants.containsKey(String.valueOf(c))) {
+                    newToken = TokensFactory.numberToken(constants.get(String.valueOf(c)));
                     previousIndex = newIndex + 1;
                 } else if (Function.isFunction(String.valueOf(c))) {
                     newToken = TokensFactory.functionToken(Function.DICTFUNCTIONS.get(String.valueOf(c)));
@@ -214,8 +234,8 @@ public class Tokenizer {
                 } else if (Function.isFunction(this.expr.substring(index, newIndex + 1))) {
                     newToken = TokensFactory.functionToken(Function.DICTFUNCTIONS.get(this.expr.substring(index, newIndex + 1)));
                     previousIndex = newIndex + 1;
-                } else if (constants.contains(this.expr.substring(index, newIndex + 1))) {
-                    newToken = TokensFactory.constantToken(this.expr.substring(index, newIndex + 1));
+                } else if (constants.containsKey(this.expr.substring(index, newIndex + 1))) {
+                    newToken = TokensFactory.numberToken(constants.get(this.expr.substring(index, newIndex + 1)));
                     previousIndex = newIndex + 1;
                 }
             }

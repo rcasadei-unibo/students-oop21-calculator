@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 
 import controller.calculators.CalculatorAdvancedController;
 import controller.calculators.CalculatorAdvancedController.TypeAlgorithm;
+import model.manager.EngineModelInterface.Calculator;
 import controller.calculators.CalculatorController;
 import utils.CCColors;
 import utils.CommandFactory;
@@ -35,11 +36,11 @@ import view.components.CCNumPad;
         private final CalculatorAdvancedController advancedController;
         private final OperationsPanel operationsPanel;
         /**
-         * @param controller
+         *
          */
-        public AdvancedCalculatorPanel(final CalculatorController controller) {
+        public AdvancedCalculatorPanel() {
 
-            this.advancedController = new CalculatorAdvancedController(controller);
+            this.advancedController = new CalculatorAdvancedController(Calculator.ADVANCED.getController());
             final var display = new CCDisplay();
             this.setLayout(new BorderLayout());
             this.add(display, BorderLayout.NORTH);
@@ -53,7 +54,7 @@ import view.components.CCNumPad;
             };
 
             final ActionListener deleteBtn = e -> {
-                this.advancedController.deleteLast();
+                CommandFactory.deleteLast(advancedController).execute();
                 display.updateText(this.advancedController.getCurrentState());
             };
             final ActionListener equalsBtn = e -> {
@@ -63,7 +64,7 @@ import view.components.CCNumPad;
                 final var expression = command1.execute();
                 display.updateText(result);
                 display.updateUpperText(expression + "=" + result);
-                advancedController.addToHistory(expression + "=" + result);
+                CommandFactory.addToHistory(advancedController, expression + "=" + result).execute();
             };
 
             final var numpad = new CCNumPad(numAndOpBtn, equalsBtn, deleteBtn);
@@ -155,17 +156,17 @@ import view.components.CCNumPad;
             private void selectedDerivate() {
                 label1.setText("not needed: ");
                 label2.setText("not needed: ");
-                advancedController.setOperation(TypeAlgorithm.DERIVATE);
+                CommandFactory.selectedOperation(advancedController, TypeAlgorithm.DERIVATE).execute();
             }
             private void selectedIntegrate() {
                 label1.setText("lowerBound: ");
                 label2.setText("upperBound: ");
-                advancedController.setOperation(TypeAlgorithm.INTEGRATE);
+                CommandFactory.selectedOperation(advancedController, TypeAlgorithm.INTEGRATE).execute();
             }
             private void selectedLimit() {
                 label1.setText("x0 \u2250 : ");
                 label2.setText("not needed: ");
-                advancedController.setOperation(TypeAlgorithm.LIMIT);
+                CommandFactory.selectedOperation(advancedController, TypeAlgorithm.LIMIT).execute();
             }
         }
     }

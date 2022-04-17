@@ -43,7 +43,7 @@ public class CCMainGUI extends JFrame implements View {
             Calculator.SCIENTIFIC, new ScientificCalculatorPanel(Calculator.SCIENTIFIC.getController()),
             Calculator.PROGRAMMER, new ProgrammerCalculatorPanel(Calculator.PROGRAMMER.getController()),
             Calculator.GRAPHIC, new GraphicCalculatorPanel(Calculator.GRAPHIC.getController()),
-            Calculator.ADVANCED, new AdvancedCalculatorPanel(Calculator.ADVANCED.getController()),
+            Calculator.ADVANCED, new AdvancedCalculatorPanel(),
             Calculator.COMBINATORICS, new CombinatoricsCalculatorPanel()
             );
     /**

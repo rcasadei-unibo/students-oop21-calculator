@@ -8,7 +8,7 @@ import utils.tokens.SpecialToken;
 
 /**
  * Evaluates every node of the AST using a post oder traversal of the tree.
- *
+ *https://mariusbancila.ro/blog/2009/02/06/evaluate-expressions-%e2%80%93-part-4-evaluate-the-abstract-syntax-tree/
  */
 public class EvaluatorAST {
 
@@ -31,7 +31,7 @@ public class EvaluatorAST {
         case OPERATOR:
             return evaluateOperator(node);
         default:
-            throw new IllegalStateException("Invalid Token Expression");
+            throw new IllegalArgumentException("Invalid Token Expression");
         }
     }
 
@@ -48,7 +48,7 @@ public class EvaluatorAST {
         case "e":
             return OperationsFactory.constant(String.valueOf(Math.E));
         default:
-            throw new IllegalStateException("The constant doesn't exist");
+            throw new IllegalArgumentException("The constant doesn't exist");
         }
 
     }
@@ -61,7 +61,7 @@ public class EvaluatorAST {
     @SuppressWarnings("unchecked")
     private Operation evaluateFunction(final AbstractSyntaxNode node) {
         if (node.getRight().isEmpty()) {
-            throw new IllegalStateException("Function needs arguments");
+            throw new IllegalArgumentException("Function needs arguments");
         }
         final Operation right = evaluateSubTree(node.getRight().get());
         final SpecialToken<Function> token = (SpecialToken<Function>) node.getToken();
@@ -95,7 +95,7 @@ public class EvaluatorAST {
         case "sec":
             return OperationsFactory.sec(right);
         default:
-            throw new IllegalStateException("Function error");
+            throw new IllegalArgumentException("Function error");
         }
     }
 
@@ -129,7 +129,7 @@ public class EvaluatorAST {
             return OperationsFactory.negate(right);
         }
 
-        throw new IllegalStateException("Unary Operator doesn't work");
+        throw new IllegalArgumentException("Unary Operator doesn't work");
     }
 
     /**
@@ -156,7 +156,7 @@ public class EvaluatorAST {
         case "^":
             return OperationsFactory.pow(left, right);
         default:
-            throw new IllegalStateException("Unary Operator doesn't work");
+            throw new IllegalArgumentException("Unary Operator doesn't work");
         }
     }
 
@@ -167,7 +167,7 @@ public class EvaluatorAST {
      */
     public Operation evaluate(final AbstractSyntaxNode root) {
         if (root == null) {
-            throw new IllegalStateException();
+            throw new IllegalArgumentException();
         }
         return evaluateSubTree(root);
     }
