@@ -83,7 +83,6 @@ public class BitwiseOperationsTest {
         //(100001 33 xor 100000 32) = 000001 1
         assertEquals(1.0, op.apply(33.0, 32.0), TOLERANCE);
         //(11111 31 xor 11100000 0) = 11111111 255
-        //System.out.println(not(31,2));
         final var not = this.calculator.getUnaryOpMap().get("not");
         assertEquals(255.0, op.apply(31.0, not.apply(31)), TOLERANCE); 
     }

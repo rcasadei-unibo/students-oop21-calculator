@@ -47,7 +47,6 @@ public class StandardCalculatorPanel extends JPanel {
         final ActionListener btnAl = new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                //System.out.println("btn:engine's " + controller.getManager().memory().getCurrentState().toString());
                 controller.getManager().memory().read(((JButton) e.getSource()).getText());
                 CreateButton.updateDisplay(controller, display);
             }
@@ -55,20 +54,16 @@ public class StandardCalculatorPanel extends JPanel {
         final ActionListener calcAl = new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                System.out.println("pre_calc:engine's memory " + controller.getManager().memory().getCurrentState().toString());
                 if (!controller.getManager().memory().getCurrentState().isEmpty() && !(controller.getManager().memory().getCurrentState().contains("Syntax error") || controller.getManager().memory().getCurrentState().contains("Syntax Error"))) {
                     controller.getManager().engine().calculate();
                 }
-                System.out.println("post_calc:engine's memory " + controller.getManager().memory().getCurrentState().toString());
                 CreateButton.updateDisplay(controller, display);
             }
         };
         final ActionListener backspaceAl = new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                System.out.println("pre_del:engine's " + controller.getManager().memory().getCurrentState().toString());
                 controller.getManager().memory().deleteLast();
-                //System.out.println("post_del:engine's " + controller.getManager().memory().getCurrentState().toString());
                 CreateButton.updateDisplay(controller, display);
 
             }

@@ -144,30 +144,21 @@ public class InputFormatter implements InputFormatterLogics {
     @Override
     public void calculate() {
         if (!this.buffer.isEmpty()) {
-            System.out.println("check for syntax");
             this.removeSyntaxError(this.buffer);
             this.history = this.buffer.stream().reduce("", (a, b) -> a + b);
-            System.out.println("the engine before" + this.controller.getManager().memory().getCurrentState().toString());
             final var temp = this.format();
-            System.out.println("my input to the engine" + temp.toString());
             this.controller.getManager().memory().readAll(temp);
             this.controller.getManager().engine().calculate();
-            System.out.println("the engine's output" + this.controller.getManager().memory().getCurrentState().toString());
             this.buffer.clear();
             
             if (this.controller.getManager().memory().getCurrentState().stream().reduce("", (a, b) -> a + b).contains("-")) {
-                System.out.println("conteneva un val negativo");
                 List.of(this.controller.getManager().memory().getCurrentState().get(0).split("")).stream().forEach((str) -> this.buffer.add(str));
             } else {
                 this.buffer.addAll(this.controller.getManager().memory().getCurrentState());
-                System.out.println("no neg=buffer: " + buffer.toString());
             }
             
-            System.out.println("after calc" + this.buffer.toString());
             this.inverseFormat();
-            System.out.println("after fixing" + this.buffer.toString());
             this.lastNumBuffer = this.buffer.stream().reduce("", (a, b) -> a + b);
-            System.out.println("this is the result : " + lastNumBuffer);
             this.controller.getManager().memory().clear();
         }
     }
@@ -178,7 +169,6 @@ public class InputFormatter implements InputFormatterLogics {
         if (this.conversionBase != 10) {
             final var toChange = new ArrayList<String>();
             String toConv = "";
-            System.out.println("convert:" + this.buffer.toString() + " in base: " + this.conversionBase);
             for (final var num : this.buffer) {
                 if (!this.tokens.contains(num)) {
                     toConv = toConv.concat(num);
@@ -199,7 +189,6 @@ public class InputFormatter implements InputFormatterLogics {
      * if input = "A2+F" it will return the conversion of F=>15
      */
     public long getLastValue() {
-        System.out.println("this is lastNumBuffer in getLastValue: " + this.lastNumBuffer);
         int sign = 1;
         if (this.lastNumBuffer.contains("-")) {
             this.lastNumBuffer = this.lastNumBuffer.replace("-", "");

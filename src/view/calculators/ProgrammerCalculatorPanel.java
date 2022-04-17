@@ -85,7 +85,6 @@ public class ProgrammerCalculatorPanel extends JPanel {
             @Override
             public void actionPerformed(final ActionEvent e) {
                 final String text = ((JButton) e.getSource()).getText();
-                System.out.println("hai premuto " + text);
                 formatter.read(text);
 
                 updateDisplays();
