@@ -30,6 +30,7 @@ public final class NumberFormatter {
             exp = "E" + trimLeadingZeros(value.substring(expPos + 1));
         }
 
+        /* taken from a StackOverflow post https://stackoverflow.com/questions/14984664/remove-trailing-zero-in-java */
         return s.contains(".") ? s.replaceAll("0*$", "").replaceAll("\\.$", "").concat(exp) : s.concat(exp);
     }
 
@@ -49,6 +50,7 @@ public final class NumberFormatter {
      * @return Formatted string representation of the number.
      */
     public static String format(final double number, final int maxIntegerDigits, final int maxDecimalDigits, final int decimalThreshold) throws CalcException {
+        /* handles edge cases. A number too small results in "0" and a number too big in an Exception */
         final double precision = 320;
         if (Math.abs(number) < Math.pow(10, -precision)) {
             return "0";
@@ -56,6 +58,10 @@ public final class NumberFormatter {
         if (Double.isInfinite(number)) {
             throw new CalcException("Out of range");
         }
+        /*
+         * formats the number to a string in decimal notation with enough decimal places to correctly visualize the
+         * smallest number possible.
+         */
         final String value = trimZeros(String.format("%.330f", number).replace(',', '.'));
 
         final DecimalFormatSymbols symbols = new DecimalFormatSymbols();
@@ -63,19 +69,20 @@ public final class NumberFormatter {
         final DecimalFormat df = new DecimalFormat("0", symbols);
         df.setMaximumFractionDigits(maxDecimalDigits);
 
+        /* creates the correct pattern of the formatter according to the values in input */
         final List<String> patt = new ArrayList<>();
         patt.add("0.");
         IntStream.range(0, maxDecimalDigits).forEach(i ->  patt.add("0"));
         final String pattern = patt.stream().reduce("", (a, b) -> a + b);
 
         if (integerDigits(value) > maxIntegerDigits) {
-            //number too big, format in scientific notation 
+            /* number too big, format in scientific notation */ 
             df.applyPattern(pattern + "E000"); 
         } else if (Math.abs(number) < Math.pow(10, -decimalThreshold) && number != 0.0) {
-            //number smaller than the given threshold, format in scientific notation
+            /* number smaller than the given threshold, format in scientific notation */
             df.applyPattern(pattern + "E000");
         } else if (decimalDigits(value) > maxDecimalDigits) {
-            //number with too many decimal digits, round to the maximum amount
+            /* number with too many decimal digits, round to the maximum amount */
             df.applyPattern(pattern); 
         } 
         return trimZeros(df.format(Double.valueOf(value)));
