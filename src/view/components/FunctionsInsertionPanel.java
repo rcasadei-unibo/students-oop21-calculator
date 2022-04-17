@@ -36,11 +36,8 @@ public class FunctionsInsertionPanel extends JPanel {
 
         create1.addActionListener(e -> {
             logic.calculate(t1.getText());
-            try {
-                f.paintFunction(logic.getResults(), true);
-            } catch (CalcException e1) {
-                e1.printStackTrace();
-            }
+            System.out.println(logic.getResults());
+            f.paintFunction(logic.getResults(), true);
         });
 
         delete1.addActionListener(e -> {
@@ -50,16 +47,12 @@ public class FunctionsInsertionPanel extends JPanel {
 
         create2.addActionListener(e -> {
             logic.calculate(t2.getText());
-            try {
-                f.paintFunction(logic.getResults(), false);
-            } catch (CalcException e1) {
-                e1.printStackTrace();
-            }
+            System.out.println(logic.getResults());
+            f.paintFunction(logic.getResults(), false);
         });
 
         delete2.addActionListener(e -> {
             f.deleteFunction(false);
-
         });
 
         this.add(f1);

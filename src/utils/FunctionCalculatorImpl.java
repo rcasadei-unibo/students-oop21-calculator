@@ -62,10 +62,7 @@ public class FunctionCalculatorImpl implements FunctionCalculator {
      * @return a list containing the results (in order)
      * @throws CalcException 
      */
-    public List<Double> getResults() throws CalcException {
-        if (this.results.isEmpty()) {
-            throw new CalcException("SyntaxError");
-        }
+    public List<Double> getResults() {
         return this.results;
     }
 }

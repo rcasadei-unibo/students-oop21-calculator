@@ -17,5 +17,5 @@ public interface FunctionCalculator {
      * @return a list containing the results (in order)
      * @throws CalcException
      */
-    List<Double> getResults() throws CalcException;
+    List<Double> getResults();
 }

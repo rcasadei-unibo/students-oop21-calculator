@@ -28,12 +28,14 @@ public class FunctionGrapher extends JPanel {
     /**
      * 
      */
-    private List<Double> results1 = new ArrayList<>();
-    private List<Double> results2 = new ArrayList<>();
+    private List<Double> results1;
+    private List<Double> results2;
     /**
      *
      */
     public FunctionGrapher() {
+        results1 = new ArrayList<>();
+        results2 = new ArrayList<>();
         this.addMouseWheelListener(m -> {
             if (m.getWheelRotation() > 0 && FunctionGrapher.scale > 16) {
                 FunctionGrapher.scale--;
@@ -53,8 +55,7 @@ public class FunctionGrapher extends JPanel {
         drawGrid(g, w, h);
         drawAxes(g, w, h);
         drawLines(g, w, h);
-        drawFunction1(g, w, h);
-        drawFunction2(g, w, h);
+        drawFunction(g, w, h);
     }
 
     private void drawAxes(final Graphics g, final int w, final int h) {
@@ -73,39 +74,32 @@ public class FunctionGrapher extends JPanel {
      * @param w
      * @param h
      */
-    private void drawFunction1(final Graphics g, final int w, final int h) {
+    private void drawFunction(final Graphics g, final int w, final int h) {
+        final Graphics2D fun = (Graphics2D) g;
         if (!results1.isEmpty()) {
-            final Graphics2D fun1 = (Graphics2D) g;
-            fun1.setStroke(new BasicStroke(1));
-            fun1.setColor(Color.RED);
+            fun.setStroke(new BasicStroke(1));
+            fun.setColor(Color.RED);
             final Polygon p1 = new Polygon();
-            double x = -FunctionCalculatorImpl.RANGE;
+            double x1 = -FunctionCalculatorImpl.RANGE;
             for (final Double y : results1) {
-                    p1.addPoint((int) (w / 2 + x * FunctionGrapher.scale * 2), (int) (h / 2 - y.doubleValue()  * FunctionGrapher.scale * 2));
-                    x += FunctionCalculatorImpl.PRECISION;
+                    p1.addPoint((int) (w / 2 + x1 * FunctionGrapher.scale * 2), (int) (h / 2 - y.doubleValue()  * FunctionGrapher.scale * 2));
+                    x1 += FunctionCalculatorImpl.PRECISION;
                 }
-                fun1.drawPolyline(p1.xpoints, p1.ypoints, p1.npoints);
+                fun.drawPolyline(p1.xpoints, p1.ypoints, p1.npoints);
             }
-        }
-    /**
-     * 
-     * @param g
-     * @param w
-     * @param h
-     */
-    private void drawFunction2(final Graphics g, final int w, final int h) {
         if (!results2.isEmpty()) {
-            double x = -FunctionCalculatorImpl.RANGE;
-                final Graphics2D fun2 = (Graphics2D) g;
-                fun2.setStroke(new BasicStroke(1));
-                fun2.setColor(Color.BLUE);
+            double x2 = -FunctionCalculatorImpl.RANGE;
+                fun.setStroke(new BasicStroke(1));
+                fun.setColor(Color.BLUE);
                 final Polygon p2 = new Polygon();
-                for (final Double y : results2) {
-                    p2.addPoint((int) (w / 2 + x * FunctionGrapher.scale * 2), (int) (h / 2 - y.doubleValue()  * FunctionGrapher.scale * 2));
-                    x += FunctionCalculatorImpl.PRECISION;
+                for (final Double y : results1) {
+                    p2.addPoint((int) (w / 2 + x2 * FunctionGrapher.scale * 2), (int) (h / 2 - y.doubleValue()  * FunctionGrapher.scale * 2));
+                    x2 += FunctionCalculatorImpl.PRECISION;
                 }
-                fun2.drawPolyline(p2.xpoints, p2.ypoints, p2.npoints);
+                fun.drawPolyline(p2.xpoints, p2.ypoints, p2.npoints);
             }
+        System.out.println("prima" + results1);
+        System.out.println("seconda" + results2);
         }
 
     private void drawLines(final Graphics g, final int w, final int h) {
