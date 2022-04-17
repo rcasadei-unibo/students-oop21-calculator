@@ -2,15 +2,17 @@ package view.components;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
+import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JPanel;
 
-import utils.FunctionCalculatorImpl;
+import view.logics.FunctionCalculatorImpl;
 /**
  * 
  * 
@@ -28,12 +30,18 @@ public class FunctionGrapher extends JPanel {
     /**
      * 
      */
-    private List<Double> results1 = new ArrayList<>();
-    private List<Double> results2 = new ArrayList<>();
+    private final List<Double> results1;
+    private final List<Double> results2;
     /**
      *
      */
     public FunctionGrapher() {
+        final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        final double width = screenSize.getWidth() * 0.35;
+        final double height = screenSize.getHeight() / 2;
+        this.setPreferredSize(new Dimension((int) width, (int) height));
+        results1 = new ArrayList<>();
+        results2 = new ArrayList<>();
         this.addMouseWheelListener(m -> {
             if (m.getWheelRotation() > 0 && FunctionGrapher.scale > 16) {
                 FunctionGrapher.scale--;
@@ -53,8 +61,7 @@ public class FunctionGrapher extends JPanel {
         drawGrid(g, w, h);
         drawAxes(g, w, h);
         drawLines(g, w, h);
-        drawFunction1(g, w, h);
-        drawFunction2(g, w, h);
+        drawFunction(g, w, h);
     }
 
     private void drawAxes(final Graphics g, final int w, final int h) {
@@ -73,36 +80,28 @@ public class FunctionGrapher extends JPanel {
      * @param w
      * @param h
      */
-    private void drawFunction1(final Graphics g, final int w, final int h) {
+    private void drawFunction(final Graphics g, final int w, final int h) {
         if (!results1.isEmpty()) {
             final Graphics2D fun1 = (Graphics2D) g;
             fun1.setStroke(new BasicStroke(1));
             fun1.setColor(Color.RED);
             final Polygon p1 = new Polygon();
-            double x = -FunctionCalculatorImpl.RANGE;
+            double x1 = -FunctionCalculatorImpl.RANGE;
             for (final Double y : results1) {
-                    p1.addPoint((int) (w / 2 + x * FunctionGrapher.scale * 2), (int) (h / 2 - y.doubleValue()  * FunctionGrapher.scale * 2));
-                    x += FunctionCalculatorImpl.PRECISION;
+                    p1.addPoint((int) (w / 2 + x1 * FunctionGrapher.scale * 2), (int) (h / 2 - y.doubleValue()  * FunctionGrapher.scale * 2));
+                    x1 += FunctionCalculatorImpl.PRECISION;
                 }
                 fun1.drawPolyline(p1.xpoints, p1.ypoints, p1.npoints);
             }
-        }
-    /**
-     * 
-     * @param g
-     * @param w
-     * @param h
-     */
-    private void drawFunction2(final Graphics g, final int w, final int h) {
         if (!results2.isEmpty()) {
-            double x = -FunctionCalculatorImpl.RANGE;
-                final Graphics2D fun2 = (Graphics2D) g;
+            final Graphics2D fun2 = (Graphics2D) g;
+            double x2 = -FunctionCalculatorImpl.RANGE;
                 fun2.setStroke(new BasicStroke(1));
                 fun2.setColor(Color.BLUE);
                 final Polygon p2 = new Polygon();
                 for (final Double y : results2) {
-                    p2.addPoint((int) (w / 2 + x * FunctionGrapher.scale * 2), (int) (h / 2 - y.doubleValue()  * FunctionGrapher.scale * 2));
-                    x += FunctionCalculatorImpl.PRECISION;
+                    p2.addPoint((int) (w / 2 + x2 * FunctionGrapher.scale * 2), (int) (h / 2 - y.doubleValue()  * FunctionGrapher.scale * 2));
+                    x2 += FunctionCalculatorImpl.PRECISION;
                 }
                 fun2.drawPolyline(p2.xpoints, p2.ypoints, p2.npoints);
             }
@@ -141,9 +140,11 @@ public class FunctionGrapher extends JPanel {
      */
     public void paintFunction(final List<Double> results, final boolean first) {
         if (first) {
-            this.results1 = results;
+            results1.clear();
+            this.results1.addAll(results);
         } else {
-            this.results2 = results;
+            results2.clear();
+            this.results2.addAll(results);
         }
         this.repaint();
     }

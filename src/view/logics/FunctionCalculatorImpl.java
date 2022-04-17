@@ -1,9 +1,10 @@
-package utils;
+package view.logics;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import controller.calculators.CalculatorController;
+import utils.CalcException;
 import utils.calculate.Tokenizer;
 
 /**
@@ -62,10 +63,7 @@ public class FunctionCalculatorImpl implements FunctionCalculator {
      * @return a list containing the results (in order)
      * @throws CalcException 
      */
-    public List<Double> getResults() throws CalcException {
-        if (this.results.isEmpty()) {
-            throw new CalcException("SyntaxError");
-        }
+    public List<Double> getResults() {
         return this.results;
     }
 }
