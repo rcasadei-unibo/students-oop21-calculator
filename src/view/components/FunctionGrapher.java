@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
 
 import view.logics.FunctionCalculatorImpl;
 /**
@@ -30,8 +31,8 @@ public class FunctionGrapher extends JPanel {
     /**
      * 
      */
-    private final List<Double> results1;
-    private final List<Double> results2;
+    private final List<Double> results1 = new ArrayList<>();
+    private final List<Double> results2 = new ArrayList<>();
     /**
      *
      */
@@ -40,10 +41,9 @@ public class FunctionGrapher extends JPanel {
         final double width = screenSize.getWidth() * 0.35;
         final double height = screenSize.getHeight() / 2;
         this.setPreferredSize(new Dimension((int) width, (int) height));
-        results1 = new ArrayList<>();
-        results2 = new ArrayList<>();
+        this.setBorder(new LineBorder(Color.black, 2));
         this.addMouseWheelListener(m -> {
-            if (m.getWheelRotation() > 0 && FunctionGrapher.scale > 16) {
+            if (m.getWheelRotation() > 0 && FunctionGrapher.scale > 10) {
                 FunctionGrapher.scale--;
             } else if (m.getWheelRotation() < 0) {
                 FunctionGrapher.scale++;
@@ -72,7 +72,7 @@ public class FunctionGrapher extends JPanel {
         axes.drawLine(w / 2, 0, w / 2, h);
         axes.drawString("o", w / 2 - 10, h / 2 + 10);
         axes.drawString("x", w - 10, h / 2 + 10);
-        axes.drawString("y", w / 2 - 10, 10);
+        axes.drawString("y", w / 2 - 10, 10 + 3);
     }
     /**
      * 
@@ -109,15 +109,23 @@ public class FunctionGrapher extends JPanel {
 
     private void drawLines(final Graphics g, final int w, final int h) {
         final Graphics2D lines = (Graphics2D) g;
-        lines.setStroke(new BasicStroke(1));
+        lines.setStroke(new BasicStroke());
         lines.setColor(Color.BLACK);
         for (int count = 0; count < FunctionCalculatorImpl.RANGE; count++) {
             lines.drawLine((int) (w / 2 + count * FunctionGrapher.scale * 2), (int) (h / 2 + 3 - 10 / FunctionGrapher.scale), (int) (w / 2 + count * FunctionGrapher.scale * 2), (int) (h / 2 - 3 + 10 / FunctionGrapher.scale));
             lines.drawLine((int) (w / 2 - count * FunctionGrapher.scale * 2), (int) (h / 2 + 3 - 10 / FunctionGrapher.scale), (int) (w / 2 - count * FunctionGrapher.scale * 2), (int) (h / 2 - 3 + 10 / FunctionGrapher.scale));
+            if (count % (4 + 1) == 0 && count != 0) {
+                lines.drawString(Integer.toString(count), (int) (w / 2 + count * FunctionGrapher.scale * 2 - 4 - 2), (int) (h / 2 - 4 - 2 + 10 / FunctionGrapher.scale));
+                lines.drawString(Integer.toString(-(count)), (int) (w / 2 - count * FunctionGrapher.scale * 2 - 4 - 4), (int) (h / 2 - 4 - 2 + 10 / FunctionGrapher.scale));
+            }
         }
         for (int count = 0; count < FunctionCalculatorImpl.RANGE; count++) {
             lines.drawLine((int) (w / 2 + 3 - 10 / FunctionGrapher.scale), (int) (h / 2 + count * FunctionGrapher.scale * 2), (int) (w / 2 - 3 + 10 / FunctionGrapher.scale), (int) (h / 2 + count * FunctionGrapher.scale * 2));
             lines.drawLine((int) (w / 2 + 3 - 10 / FunctionGrapher.scale), (int) (h / 2 - count * FunctionGrapher.scale * 2), (int) (w / 2 - 3 + 10 / FunctionGrapher.scale), (int) (h / 2 - count * FunctionGrapher.scale * 2));
+            if (count % (4 + 1) == 0 && count != 0) {
+                lines.drawString(Integer.toString(-(count)), (int) (w / 2 + 3 - 10 / FunctionGrapher.scale + 4 + 1), (int) (h / 2 + count * FunctionGrapher.scale * 2 + 4 + 1));
+                lines.drawString(Integer.toString(count), (int) (w / 2 + 3 - 10 / FunctionGrapher.scale + 3), (int) (h / 2 - count * FunctionGrapher.scale * 2 + 4 + 1));
+            }
         }
     }
 
