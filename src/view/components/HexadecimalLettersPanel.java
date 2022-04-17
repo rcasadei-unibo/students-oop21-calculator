@@ -1,18 +1,13 @@
 package view.components;
-
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.JButton;
 import javax.swing.JPanel;
-
 import utils.CCColors;
-//TODO javadoc.
 /**
- * MISSING JAVADOC.
- *
+ * This panel contains the Hexadeciamal letters going from A to F.
  */
 public class HexadecimalLettersPanel extends JPanel {
     /**
@@ -21,10 +16,8 @@ public class HexadecimalLettersPanel extends JPanel {
     private static final long serialVersionUID = -2613278018688810576L;
 
     private final List<JButton> hexadecimalLetters = new ArrayList<>();
-    //TODO javadoc.
     /**
-     * 
-     * @param al
+     * @param al This links each letter to the ActionListener
      */
     public HexadecimalLettersPanel(final ActionListener al) {
         final int rows = 6;
@@ -68,7 +61,6 @@ public class HexadecimalLettersPanel extends JPanel {
     public void disableAll() {
         this.hexadecimalLetters.forEach((btn) -> btn.setEnabled(false));
     }
-
     /**
      * This method enables all hexadecimal letter buttons.
      */
