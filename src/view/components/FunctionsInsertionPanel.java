@@ -7,7 +7,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import view.calculators.GraphicCalculatorLogics;
+import utils.CalcException;
+import utils.FunctionCalculator;
 /**
  * 
  * 
@@ -23,7 +24,7 @@ public class FunctionsInsertionPanel extends JPanel {
      *@param logic
      *@param f
      */
-    public FunctionsInsertionPanel(final GraphicCalculatorLogics logic, final FunctionGrapher f) {
+    public FunctionsInsertionPanel(final FunctionCalculator logic, final FunctionGrapher f) {
         this.setLayout(new GridLayout(2, 4));
         final JLabel f1 = new JLabel("F(x) : ");
         final JLabel f2 = new JLabel("G(x) : ");
@@ -31,13 +32,21 @@ public class FunctionsInsertionPanel extends JPanel {
         final JTextField t2 = new JTextField();
         final JButton create1 = new JButton("CREATE");
         create1.addActionListener(e -> {
-            logic.setEquation(t1.getText());
-            f.paintFunction1(logic.getResult());
+            logic.calculate(t1.getText());
+            try {
+                f.paintFunction1(logic.getResults());
+            } catch (CalcException e1) {
+                e1.printStackTrace();
+            }
         });
         final JButton create2 = new JButton("CREATE");
         create2.addActionListener(e -> {
-            logic.setEquation(t2.getText());
-            f.paintFunction2(logic.getResult());
+            logic.calculate(t2.getText());
+            try {
+                f.paintFunction2(logic.getResults());
+            } catch (CalcException e1) {
+                e1.printStackTrace();
+            }
 
         });
         final JButton delete1 = new JButton("DELETE");
