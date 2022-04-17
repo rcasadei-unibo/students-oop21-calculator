@@ -1,5 +1,4 @@
 package view.calculators;
-
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -9,23 +8,21 @@ import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.swing.JButton;
 import javax.swing.JPanel;
-
 import utils.CCColors;
 import utils.InputFormatter;
 import view.components.CCDisplay;
 import view.components.CCNumPad;
 import view.components.ConversionPanel;
 import view.components.HexadecimalLettersPanel;
-
-//TODO MISSING JAVADOC.
 /**
- * 
- * MISSING JAVADOC.
- *
- */
+ * This is ProgrammerCalculatorPanel which holds the following operators:
+ * (Bitwise)
+ * -Not, Nor, Nand, Or, Xor, And, RoR, RoL, ShiftL, ShiftR.
+ * (Conversions)
+ * -Hexadecimal, Octal, Binary.
+*/
 public class ProgrammerCalculatorPanel extends JPanel {
     /**
      * 
@@ -71,9 +68,7 @@ public class ProgrammerCalculatorPanel extends JPanel {
         };
         this.numpad = new CCNumPad(btnAl, calcAl, backspaceAl);
         final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        
         this.numpad.setPreferredSize(new Dimension((int) screenSize.getWidth() / 6, (int) screenSize.getHeight() / 4));
-        
         this.numpad.getButtons().entrySet().forEach((entry) -> {
             if (".".equals(entry.getKey())) {
                 entry.getValue().setEnabled(false);
@@ -93,8 +88,12 @@ public class ProgrammerCalculatorPanel extends JPanel {
     }
 
     /**
-     * 
-     */
+     * This is ProgrammerCalculatorPanel which holds the following operators:
+     * (Bitwise)
+     * -Not, Nor, Nand, Or, Xor, And, RoR, RoL, ShiftL, ShiftR.
+     * (Conversions)
+     * -Hexadecimal, Octal, Binary.
+    */
     public ProgrammerCalculatorPanel() {
         this.formatter = new InputFormatter();
         this.setPanels();
