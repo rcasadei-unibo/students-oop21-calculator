@@ -50,6 +50,7 @@ public class ProgrammerCalculatorPanel extends JPanel {
             @Override
             public void actionPerformed(final ActionEvent e) {
                 try {
+                    display.updateUpperText(formatter.getOutput() + " =");
                     formatter.calculate();
                     formatter.updateHistory();
                 } catch (final Exception exception) {

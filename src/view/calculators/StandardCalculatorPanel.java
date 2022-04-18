@@ -59,6 +59,7 @@ public class StandardCalculatorPanel extends JPanel {
                 if (!controller.getManager().memory().getCurrentState().isEmpty()) {
                     final String history = controller.getManager().memory().getCurrentState().stream().reduce("", (a, b) -> a + b).replace("Syntax error", "");
                     controller.getManager().engine().calculate();
+                    display.updateUpperText(history.concat(" ="));
                     if (!controller.getManager().memory().getCurrentState().contains("Syntax error")) {
                         controller.getManager().memory().addResult(history.concat(" = ").concat(controller.getManager().memory().getCurrentState().stream().reduce("", (a, b) -> a + b)));
                     }
@@ -83,7 +84,13 @@ public class StandardCalculatorPanel extends JPanel {
             operator.add(CreateButton.createOpButton(entry.getKey(), entry.getKey(), entry.getKey(), controller, display));
         }
         for (final var entry : StandardCalculatorModelFactory.create().getUnaryOpMap().entrySet()) {
-            operator.add(CreateButton.createOpButton(entry.getKey(), entry.getKey(), "1/x".equals(entry.getKey()) ? "1/" : entry.getKey(), controller, display));
+            if ("1/x".equals(entry.getKey())) {
+                operator.add(CreateButton.createOpButton(entry.getKey(), entry.getKey(), "1/", controller, display));
+            } else if ("square".equals(entry.getKey())) {
+                operator.add(CreateButton.createOpButton(entry.getKey(), entry.getKey(), "^2", controller, display));
+            } else {
+                operator.add(CreateButton.createOpButton(entry.getKey(), entry.getKey(), entry.getKey(), controller, display));
+            }
         }
         this.add(operator, BorderLayout.EAST);
     }
