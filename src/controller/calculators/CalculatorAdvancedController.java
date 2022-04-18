@@ -102,14 +102,14 @@ public class CalculatorAdvancedController {
     }
 
     /**
-     * Delete the last smbol inserted.
+     * Delete the last symbol inserted.
      */
     public void deleteLast() {
         this.controller.getManager().memory().deleteLast();
     }
 
     /**
-     * @return The current stae in input buffer
+     * @return The current state in input buffer
      */
     public String getCurrentState() {
         return this.controller.getManager().memory().getCurrentState().stream().reduce("", (s1, s2) -> s1 + s2);
@@ -124,7 +124,7 @@ public class CalculatorAdvancedController {
     }
 
     /**
-     * Sets the paramets of the Operation.
+     * Sets the parameters of the Operation.
      * 
      * @param params
      * @throws CalcException
@@ -158,10 +158,10 @@ public class CalculatorAdvancedController {
     public String calculate() throws CalcException {
         final var e = this.controller.getManager().memory().getCurrentState().stream().reduce("", (res, s) -> res + s);
         this.expr.setExpr(e);
-        String res = this.op.calculate(expr);
         this.previousOp = e;
         this.previousParams = this.op.getParameters();
         this.previousType = this.type;
+        String res = this.op.calculate(expr);
         if (!this.type.equals(TypeAlgorithm.DERIVATE)) {
             res = NumberFormatter.format(Double.parseDouble(res), 8, 8, 5);
         }

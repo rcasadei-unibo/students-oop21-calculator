@@ -16,7 +16,6 @@ import javax.swing.JPanel;
 import controller.calculators.CalculatorAdvancedController;
 import controller.calculators.CalculatorAdvancedController.TypeAlgorithm;
 import model.manager.EngineModelInterface.Calculator;
-import controller.calculators.CalculatorController;
 import utils.CCColors;
 import utils.CommandFactory;
 import view.components.CCDisplay;
@@ -63,8 +62,12 @@ import view.components.CCNumPad;
                 final var result = command.execute();
                 final var expression = command1.execute();
                 display.updateText(result);
-                display.updateUpperText(expression + "=" + result);
-                CommandFactory.addToHistory(advancedController, expression + "=" + result).execute();
+                if ("Syntax Error".equals(result)) {
+                    display.updateUpperText(expression + "=");
+                } else {
+                    display.updateUpperText(expression + "=" + result);
+                    CommandFactory.addToHistory(advancedController, expression + "=" + result).execute();
+                }
             };
 
             final var numpad = new CCNumPad(numAndOpBtn, equalsBtn, deleteBtn);
@@ -75,7 +78,9 @@ import view.components.CCNumPad;
 
         private JPanel getOperatorsPanel(final ActionListener al) {
             final JPanel operators = new JPanel();
-            operators.setLayout(new GridLayout(5, 3));
+            final int rows = 5;
+            final int cols = 3;
+            operators.setLayout(new GridLayout(rows, cols));
             final List<String> buttons = List.of("+", "-", "\u00D7", "÷", "^", "sin", "cos", "log", "tan", "√", "abs", "csc", "sec", "cot");
             buttons.forEach(s -> {
                 final var btn = new JButton(s);
