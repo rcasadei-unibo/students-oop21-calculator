@@ -11,7 +11,7 @@ import java.util.Map;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import utils.CCColors;
-import utils.InputFormatter;
+import utils.ProgrammerInputFormatterImpl;
 import view.components.CCDisplay;
 import view.components.CCNumPad;
 import view.components.ConversionPanel;
@@ -33,7 +33,7 @@ public class ProgrammerCalculatorPanel extends JPanel {
     private ConversionPanel convPanel;
     private final CCNumPad numpad;
     private transient ActionListener opAl;
-    private final transient InputFormatter formatter;
+    private final transient ProgrammerInputFormatterImpl formatter;
     private final List<String> topOperators = List.of("roR", "roL", "shiftR", "shiftL", "nand");
     private final List<String> middleOperators = List.of("and", "or", "xor");
     private final List<String> rightOperators = List.of("not", "nor", "+", "-", "×", "÷");
@@ -94,7 +94,7 @@ public class ProgrammerCalculatorPanel extends JPanel {
      * -Hexadecimal, Octal, Binary.
     */
     public ProgrammerCalculatorPanel() {
-        this.formatter = new InputFormatter();
+        this.formatter = new ProgrammerInputFormatterImpl();
         this.setPanels();
     }
     private void setPanels() {
