@@ -1,9 +1,10 @@
-package utils;
+package view.logics;
 import java.util.ArrayList;
 import java.util.List;
 import controller.calculators.CalculatorController;
 import model.calculators.ProgrammerCalculatorModelFactory;
 import model.manager.EngineModelInterface.Calculator;
+import utils.ConversionAlgorithms;
 /**
  * This class acts as an intermediate between the ProgrammerCalculatorPanel and CalculatorController's engine.
  */

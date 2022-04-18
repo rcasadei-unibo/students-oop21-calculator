@@ -1,13 +1,12 @@
-package utils;
-
-
+package view.logics;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import utils.CalcException;
 import javax.swing.JButton;
 
 import controller.calculators.CalculatorController;
+import utils.CCColors;
 import view.components.CCDisplay;
 /**
  * 
@@ -21,7 +20,6 @@ public final class CreateButton {
     private static final List<String> AVOID = List.of("+", "-", "×", "÷", "%");
     private static final Map<String, String> KEYMAP = new HashMap<>();
     private static final Map<String, String> APPEARANCEMAP = new HashMap<>();
-    private static boolean invalidOperation = false;
     private CreateButton() {
     }
    /**
@@ -33,7 +31,7 @@ public final class CreateButton {
     * @return a button linked to its controller and display
     */
 
-   public static JButton createOpButton(final String btnName, final String opName, final String appearance, final CalculatorController controller, final CCDisplay display) {
+   public static JButton createOpButton(final String btnName, final String opName, final String appearance, final CalculatorController controller, final CCDisplay display) throws CalcException {
        KEYMAP.put(btnName, opName);
        APPEARANCEMAP.put(opName, appearance);
        final JButton btn = new JButton(btnName);
@@ -44,8 +42,9 @@ public final class CreateButton {
            final boolean isLastInputNumber = isLastInputANumber(controller);
 
                if (isUnary && isLastInputNumber) {
-                   controller.getManager().memory().clear();
-                   display.updateText("Syntax error");
+                   //controller.getManager().memory().clear();
+                   //display.updateText("Syntax error");
+                   throw new CalcException("");
                } else {
                    controller.getManager().memory().read(op);
                    if (!AVOID.contains(text)) {
