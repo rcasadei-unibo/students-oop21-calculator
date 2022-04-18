@@ -10,7 +10,7 @@ import view.components.CCNumPad;
 import controller.calculators.CalculatorController;
 import model.calculators.StandardCalculatorModelFactory;
 import model.manager.EngineModelInterface.Calculator;
-import utils.CreateButton;
+import view.logics.CreateButton;
 /**
  * This is StandardCalculatorPanel which holds the basic operators:
  * -plus.
@@ -22,7 +22,6 @@ import utils.CreateButton;
  * -modulo.
  */
 public class StandardCalculatorPanel extends JPanel {
-
     /**
      * 
      */
@@ -43,11 +42,9 @@ public class StandardCalculatorPanel extends JPanel {
         this.controller = Calculator.STANDARD.getController();
         this.setLayout(new BorderLayout());
         this.add(display, BorderLayout.NORTH);
-
         this.setNumbers();
         this.setOperators();
     }
-
     private void setNumbers() {
         final ActionListener btnAl = new ActionListener() {
             @Override
@@ -59,10 +56,13 @@ public class StandardCalculatorPanel extends JPanel {
         final ActionListener calcAl = new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                if (!controller.getManager().memory().getCurrentState().isEmpty() && !(controller.getManager().memory().getCurrentState().contains("Syntax error") || controller.getManager().memory().getCurrentState().contains("Syntax Error"))) {
-                    final String history = controller.getManager().memory().getCurrentState().stream().reduce("", (a, b) -> a + b);
+                if (!controller.getManager().memory().getCurrentState().isEmpty()) {
+                    final String history = controller.getManager().memory().getCurrentState().stream().reduce("", (a, b) -> a + b).replace("Syntax error", "");
                     controller.getManager().engine().calculate();
-                    controller.getManager().memory().addResult(history.concat(" = ").concat(controller.getManager().memory().getCurrentState().stream().reduce("", (a, b) -> a + b)));
+                    display.updateUpperText(history.concat(" ="));
+                    if (!controller.getManager().memory().getCurrentState().contains("Syntax error")) {
+                        controller.getManager().memory().addResult(history.concat(" = ").concat(controller.getManager().memory().getCurrentState().stream().reduce("", (a, b) -> a + b)));
+                    }
                 }
                 CreateButton.updateDisplay(controller, display);
             }
@@ -72,22 +72,25 @@ public class StandardCalculatorPanel extends JPanel {
             public void actionPerformed(final ActionEvent e) {
                 controller.getManager().memory().deleteLast();
                 CreateButton.updateDisplay(controller, display);
-
             }
         };
         final JPanel numbers = new CCNumPad(btnAl, calcAl, backspaceAl);
         this.add(numbers, BorderLayout.CENTER);
     }
-
     private void setOperators() {
         final JPanel operator = new JPanel();
         operator.setLayout(new GridLayout(4, 2));
         for (final var entry : StandardCalculatorModelFactory.create().getBinaryOpMap().entrySet()) {
             operator.add(CreateButton.createOpButton(entry.getKey(), entry.getKey(), entry.getKey(), controller, display));
-
         }
         for (final var entry : StandardCalculatorModelFactory.create().getUnaryOpMap().entrySet()) {
-            operator.add(CreateButton.createOpButton(entry.getKey(), entry.getKey(), "1/x".equals(entry.getKey()) ? "1/" : entry.getKey(), controller, display));
+            if ("1/x".equals(entry.getKey())) {
+                operator.add(CreateButton.createOpButton(entry.getKey(), entry.getKey(), "1/", controller, display));
+            } else if ("square".equals(entry.getKey())) {
+                operator.add(CreateButton.createOpButton(entry.getKey(), entry.getKey(), "^2", controller, display));
+            } else {
+                operator.add(CreateButton.createOpButton(entry.getKey(), entry.getKey(), entry.getKey(), controller, display));
+            }
         }
         this.add(operator, BorderLayout.EAST);
     }

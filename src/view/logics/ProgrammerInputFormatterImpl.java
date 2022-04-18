@@ -1,13 +1,14 @@
-package utils;
+package view.logics;
 import java.util.ArrayList;
 import java.util.List;
 import controller.calculators.CalculatorController;
 import model.calculators.ProgrammerCalculatorModelFactory;
 import model.manager.EngineModelInterface.Calculator;
+import utils.ConversionAlgorithms;
 /**
  * This class acts as an intermediate between the ProgrammerCalculatorPanel and CalculatorController's engine.
  */
-public class InputFormatter implements InputFormatterLogics {
+public class ProgrammerInputFormatterImpl implements InputFormatterLogics {
     private int conversionBase = 10;
     private final CalculatorController controller;
     private List<String> buffer;
@@ -17,7 +18,7 @@ public class InputFormatter implements InputFormatterLogics {
     /**
      * 
      */
-    public InputFormatter() {
+    public ProgrammerInputFormatterImpl() {
         this.controller = Calculator.PROGRAMMER.getController();
         this.buffer = new ArrayList<>();
         this.tokens = new ArrayList<>();
@@ -191,8 +192,7 @@ public class InputFormatter implements InputFormatterLogics {
         if (this.lastNumBuffer.contains(".")) {
             return Math.round(Double.parseDouble(lastNumBuffer));
         }
-        if ("Syntax error".equals(lastNumBuffer) || "Syntax Error".equals(lastNumBuffer)
-          || this.lastNumBuffer.contains("Syntax error") || this.lastNumBuffer.contains("Syntax Error")) {
+        if ("Syntax error".equals(lastNumBuffer)) {
             return 0L;
         }
         if (!this.lastNumBuffer.isBlank()) {
@@ -204,6 +204,6 @@ public class InputFormatter implements InputFormatterLogics {
      * Updates the memory's history.
      */
     public void updateHistory() {
-        controller.getManager().memory().addResult(history.concat(" = ").concat(lastNumBuffer));
+        controller.getManager().memory().addResult(history.concat(" =").concat(lastNumBuffer));
     }
 }

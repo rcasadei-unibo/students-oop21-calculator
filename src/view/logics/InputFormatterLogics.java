@@ -1,4 +1,4 @@
-package utils; 
+package view.logics; 
 /**
  * This inferface acts as and intermediate between the panel and the engine.
  * It shares the engine' methods.

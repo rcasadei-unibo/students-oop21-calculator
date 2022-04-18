@@ -4,10 +4,8 @@ import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.swing.JButton;
 import javax.swing.JPanel;
-
 import utils.CCColors;
 import utils.ConversionAlgorithms;
 
@@ -32,7 +30,7 @@ public class ConversionPanel extends JPanel {
 
         final JButton hex = new JButton("HEX");
         hex.addActionListener(conv);
-        hex.setBackground(CCColors.OPERATION_BUTTON);
+        hex.setBackground(CCColors.CONVERSION_BUTTON);
         this.add(hex);
         final CCDisplay hexDisplay = new CCDisplay();
         this.add(hexDisplay);
@@ -40,7 +38,7 @@ public class ConversionPanel extends JPanel {
 
         final JButton dec = new JButton("DEC");
         dec.addActionListener(conv);
-        dec.setBackground(CCColors.OPERATION_BUTTON);
+        dec.setBackground(CCColors.CONVERSION_BUTTON);
         this.add(dec);
         final CCDisplay decDisplay = new CCDisplay();
         this.add(decDisplay);
@@ -48,7 +46,7 @@ public class ConversionPanel extends JPanel {
 
         final JButton oct = new JButton("OCT");
         oct.addActionListener(conv);
-        oct.setBackground(CCColors.OPERATION_BUTTON);
+        oct.setBackground(CCColors.CONVERSION_BUTTON);
         this.add(oct);
         final CCDisplay octDisplay = new CCDisplay();
         this.add(octDisplay);
@@ -56,7 +54,7 @@ public class ConversionPanel extends JPanel {
 
         final JButton bin = new JButton("BIN");
         bin.addActionListener(conv);
-        bin.setBackground(CCColors.OPERATION_BUTTON);
+        bin.setBackground(CCColors.CONVERSION_BUTTON);
         this.add(bin);
         final CCDisplay binDisplay = new CCDisplay();
         this.add(binDisplay);
@@ -75,7 +73,7 @@ public class ConversionPanel extends JPanel {
         case "HEX":
             return ConversionAlgorithms.conversionToStringBase(16, l);
         case "DEC":
-            return String.valueOf(l);
+            return l >= 0 ? "+".concat(String.valueOf(l)) : String.valueOf(l);
         case "OCT":
             return ConversionAlgorithms.conversionToStringBase(8, l);
         case "BIN":

@@ -24,6 +24,10 @@ public final class CCColors {
      */
     public static final Color EXPLANATION_BUTTON = new Color(255, 225, 130);
     /**
+     * Color of the conversion buttons.
+     */
+    public static final Color CONVERSION_BUTTON = new Color(198, 217, 226);
+    /**
      * Background color of the display.
      */
     public static final Color DISPLAY = new Color(230, 230, 230);
