@@ -31,7 +31,7 @@ public final class CreateButton {
     * @return a button linked to its controller and display
     */
 
-   public static JButton createOpButton(final String btnName, final String opName, final String appearance, final CalculatorController controller, final CCDisplay display) throws CalcException {
+   public static JButton createOpButton(final String btnName, final String opName, final String appearance, final CalculatorController controller, final CCDisplay display) {
        KEYMAP.put(btnName, opName);
        APPEARANCEMAP.put(opName, appearance);
        final JButton btn = new JButton(btnName);
@@ -42,9 +42,8 @@ public final class CreateButton {
            final boolean isLastInputNumber = isLastInputANumber(controller);
 
                if (isUnary && isLastInputNumber) {
-                   //controller.getManager().memory().clear();
-                   //display.updateText("Syntax error");
-                   throw new CalcException("");
+                   controller.getManager().memory().clear();
+                   display.updateText("Syntax error");
                } else {
                    controller.getManager().memory().read(op);
                    if (!AVOID.contains(text)) {
