@@ -40,14 +40,34 @@ public final class CreateButton {
        btn.addActionListener(e -> {
            final String text = ((JButton) e.getSource()).getText();
            final String op = KEYMAP.get(text);
-           controller.getManager().memory().read(op);
-           if (!AVOID.contains(text)) {
-                controller.getManager().memory().read("(");
-           }
-           updateDisplay(controller, display);
+           final var isUnary = controller.isUnaryOperator(op);
+           final boolean isLastInputNumber = isLastInputANumber(controller);
+
+               if (isUnary && isLastInputNumber) {
+                   controller.getManager().memory().clear();
+                   display.updateText("Syntax error");
+               } else {
+                   controller.getManager().memory().read(op);
+                   if (!AVOID.contains(text)) {
+                       controller.getManager().memory().read("(");
+                   }
+                   updateDisplay(controller, display);
+               }
        });
        btn.setBackground(CCColors.OPERATION_BUTTON);
        return btn;
+   }
+   private static boolean isLastInputANumber(final CalculatorController controller) {
+       final var buffer = controller.getManager().memory().getCurrentState();
+       if (!buffer.isEmpty()) {
+           try {
+               Double.parseDouble(buffer.get(buffer.size() - 1));
+               return true;
+           } catch (final NumberFormatException e) {
+               return false;
+           }
+       }
+       return false;
    }
    /**
     * Updates the display replacing the operators with their appearance.
