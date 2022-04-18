@@ -56,10 +56,14 @@ public class StandardCalculatorPanel extends JPanel {
         final ActionListener calcAl = new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                if (!controller.getManager().memory().getCurrentState().isEmpty() && !(controller.getManager().memory().getCurrentState().contains("Syntax error") || controller.getManager().memory().getCurrentState().contains("Syntax Error"))) {
-                    final String history = controller.getManager().memory().getCurrentState().stream().reduce("", (a, b) -> a + b);
+                if (!controller.getManager().memory().getCurrentState().isEmpty()) {
+                    System.out.println("pre_calc " + controller.getManager().memory().getCurrentState().toString());
+                    final String history = controller.getManager().memory().getCurrentState().stream().reduce("", (a, b) -> a + b).replace("Syntax error", "");
                     controller.getManager().engine().calculate();
-                    controller.getManager().memory().addResult(history.concat(" = ").concat(controller.getManager().memory().getCurrentState().stream().reduce("", (a, b) -> a + b)));
+                    System.out.println("post_calc " + controller.getManager().memory().getCurrentState().toString());
+                    if (!controller.getManager().memory().getCurrentState().contains("Syntax error")) {
+                        controller.getManager().memory().addResult(history.concat(" = ").concat(controller.getManager().memory().getCurrentState().stream().reduce("", (a, b) -> a + b)));
+                    }
                 }
                 CreateButton.updateDisplay(controller, display);
             }

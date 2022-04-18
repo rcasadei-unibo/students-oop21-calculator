@@ -73,7 +73,7 @@ public class ConversionPanel extends JPanel {
         case "HEX":
             return ConversionAlgorithms.conversionToStringBase(16, l);
         case "DEC":
-            return l >= 0 ? "+".concat(String.valueOf(l)) : "-".concat(String.valueOf(l));
+            return l >= 0 ? "+".concat(String.valueOf(l)) : String.valueOf(l);
         case "OCT":
             return ConversionAlgorithms.conversionToStringBase(8, l);
         case "BIN":

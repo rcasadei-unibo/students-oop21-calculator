@@ -45,14 +45,15 @@ public final class CreateButton {
            final boolean isLastInputNumber = isLastInputANumber(controller);
 
                if (isUnary && isLastInputNumber) {
-                   controller.getManager().memory().read("Syntax error");
+                   controller.getManager().memory().clear();
+                   display.updateText("Syntax error");
                } else {
                    controller.getManager().memory().read(op);
                    if (!AVOID.contains(text)) {
                        controller.getManager().memory().read("(");
                    }
+                   updateDisplay(controller, display);
                }
-               updateDisplay(controller, display);
        });
        btn.setBackground(CCColors.OPERATION_BUTTON);
        return btn;
