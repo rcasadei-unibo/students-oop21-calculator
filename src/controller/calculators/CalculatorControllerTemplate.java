@@ -8,7 +8,6 @@ import model.calculators.CalculatorModel;
 import utils.CCBinaryOperator;
 import utils.CCUnaryOperator;
 import utils.Type;
-import view.components.CCDisplay;
 
 /**
  * 
@@ -23,7 +22,6 @@ public class CalculatorControllerTemplate implements CalculatorController {
      */
     private final CalculatorModel model;
     private CCManager manager;
-    private CCDisplay display;
 
     /**
      * 
@@ -82,16 +80,6 @@ public class CalculatorControllerTemplate implements CalculatorController {
     @Override
     public void setManager(final CCManager mng) {
         this.manager = mng;
-    }
-
-    @Override
-    public void setDisplay(final CCDisplay display) {
-        this.display = display;
-    }
-
-    @Override
-    public CCDisplay getDisplay() {
-        return this.display;
     }
 
     @Override

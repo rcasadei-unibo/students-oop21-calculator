@@ -1,7 +1,6 @@
 package view.calculators;
 
 import java.awt.BorderLayout;
-
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
@@ -15,11 +14,15 @@ import java.util.Map;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JToolTip;
 import javax.swing.ToolTipManager;
 
+import utils.CCColors;
+import utils.CustomJToolTip;
 import view.components.CCDisplay;
 import view.components.CCNumPad;
-import model.manager.EngineModelInterface.Calculator;
+import view.logics.CombinatoricsLogics;
+import view.logics.CombinatoricsLogicsImpl;
 
 /**
  * 
@@ -39,7 +42,6 @@ public class CombinatoricsCalculatorPanel extends JPanel {
         this.setLayout(new BorderLayout());
         this.add(display, BorderLayout.NORTH);
         final var explLabel = new JLabel();
-        Calculator.COMBINATORICS.getController().setDisplay(display);
 
         final ActionListener btnAl = e -> {
             final var btn = (JButton) e.getSource();
@@ -94,18 +96,29 @@ public class CombinatoricsCalculatorPanel extends JPanel {
             btn.addActionListener(e -> {
                 display.updateText(logics.opAction(btnName, opName));
             });
+            btn.setBackground(CCColors.OPERATION_BUTTON);
             this.add(btn);
         }
 
         private void createExplButton(final String opName, final JLabel explLabel) {
             final var file = this.directory + opName;
-            final var btn = new JButton("?");
+            final var btn = new JButton("?") {
+                /**
+                 * 
+                 */
+                private static final long serialVersionUID = 1L;
+                @Override
+                public JToolTip createToolTip() {
+                    return new CustomJToolTip(this);
+                }
+            };
             ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
             btn.setToolTipText(this.readFromFile(file + "(TT)"));
             final String labelText = this.readFromFile(file);
             btn.addActionListener(e -> {
                 explLabel.setText(explLabel.getText().equals(labelText) ? "" : labelText);
             });
+            btn.setBackground(CCColors.EXPLANATION_BUTTON);
             this.add(btn);
         }
 

@@ -1,4 +1,4 @@
-package view.calculators;
+package view.logics;
 
 /**
  * 

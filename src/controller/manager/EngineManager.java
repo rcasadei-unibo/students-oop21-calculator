@@ -8,7 +8,7 @@ import model.manager.EngineModelInterface.Calculator;
 public interface EngineManager {
 
     /**
-     * Mount a selected calculator.
+     * Mount a selected calculator. This calculator will be used for executing future calculations.
      * @param calc Calculator to mount
      */
     void mount(Calculator calc);

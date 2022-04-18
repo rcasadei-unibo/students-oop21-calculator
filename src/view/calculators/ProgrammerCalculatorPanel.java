@@ -1,31 +1,28 @@
 package view.calculators;
-
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.swing.JButton;
 import javax.swing.JPanel;
-
-import controller.calculators.CalculatorController;
-import model.calculators.ProgrammerCalculatorModelFactory;
+import utils.CCColors;
 import utils.InputFormatter;
 import view.components.CCDisplay;
 import view.components.CCNumPad;
 import view.components.ConversionPanel;
 import view.components.HexadecimalLettersPanel;
-
-//TODO MISSING JAVADOC.
 /**
- * 
- * MISSING JAVADOC.
- *
- */
+ * This is ProgrammerCalculatorPanel which holds the following operators:
+ * (Bitwise)
+ * -Not, Nor, Nand, Or, Xor, And, RoR, RoL, ShiftL, ShiftR.
+ * (Conversions)
+ * -Hexadecimal, Octal, Binary.
+*/
 public class ProgrammerCalculatorPanel extends JPanel {
     /**
      * 
@@ -52,7 +49,13 @@ public class ProgrammerCalculatorPanel extends JPanel {
         final ActionListener calcAl = new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                formatter.calculate();
+                try {
+                    formatter.calculate();
+                    formatter.updateHistory();
+                } catch (final Exception exception) {
+                    display.updateText("Syntax error");
+                    formatter.deleteLast();
+                }
                 updateDisplays();
             }
         };
@@ -64,7 +67,8 @@ public class ProgrammerCalculatorPanel extends JPanel {
             }
         };
         this.numpad = new CCNumPad(btnAl, calcAl, backspaceAl);
-        this.numpad.setPreferredSize(null);
+        final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        this.numpad.setPreferredSize(new Dimension((int) screenSize.getWidth() / 6, (int) screenSize.getHeight() / 4));
         this.numpad.getButtons().entrySet().forEach((entry) -> {
             if (".".equals(entry.getKey())) {
                 entry.getValue().setEnabled(false);
@@ -76,7 +80,6 @@ public class ProgrammerCalculatorPanel extends JPanel {
             @Override
             public void actionPerformed(final ActionEvent e) {
                 final String text = ((JButton) e.getSource()).getText();
-                System.out.println("hai premuto " + text);
                 formatter.read(text);
 
                 updateDisplays();
@@ -85,18 +88,22 @@ public class ProgrammerCalculatorPanel extends JPanel {
     }
 
     /**
-     * @param controller
-     */
-    public ProgrammerCalculatorPanel(final CalculatorController controller) {
-        this.formatter = new InputFormatter(controller);
+     * This is ProgrammerCalculatorPanel which holds the following operators:
+     * (Bitwise)
+     * -Not, Nor, Nand, Or, Xor, And, RoR, RoL, ShiftL, ShiftR.
+     * (Conversions)
+     * -Hexadecimal, Octal, Binary.
+    */
+    public ProgrammerCalculatorPanel() {
+        this.formatter = new InputFormatter();
         this.setPanels();
     }
 
     private void setPanels() {
         this.setLayout(new BorderLayout());
         this.add(this.display, BorderLayout.NORTH);
-        //this.add(new ProgrammerPanel(opAl);
-        
+
+
         this.setConversionPanel();
         this.setNumpad();
     }
@@ -141,8 +148,8 @@ public class ProgrammerCalculatorPanel extends JPanel {
         this.convPanel = new ConversionPanel(conv);
         this.convPanel.setPreferredSize(new Dimension(100, 150));
         this.add(this.convPanel, BorderLayout.CENTER);
-        
     }
+
     private void enableButtons(final int i) {
         final var numbers = this.getNumbers();
         numbers.entrySet().stream().filter((entry) -> Integer.parseInt(entry.getKey()) < i)
@@ -178,7 +185,6 @@ public class ProgrammerCalculatorPanel extends JPanel {
         };
 
         this.hexaLetters = new HexadecimalLettersPanel(letterActionListener);
-        //this sets the standard initial base to 10, disabling hexadecimal Letters
         formatter.reset(10);
         hexaLetters.disableAll();
         numpad.add(this.hexaLetters);
@@ -187,28 +193,27 @@ public class ProgrammerCalculatorPanel extends JPanel {
 
         final JPanel numpadAndOperators = new JPanel();
         numpadAndOperators.setLayout(new BorderLayout());
-        //numpadAndOperators.add(this.getBitwiseOperators(), BorderLayout.NORTH);
         numpadAndOperators.add(numpad, BorderLayout.CENTER);
-        
+
         final JPanel oper = new JPanel();
         oper.setLayout(new GridLayout(1, 5));
-        
+
         this.topOperators.forEach((str) -> {
-            
+
             final JButton btn = new JButton(str);
             btn.addActionListener(opAl);
+            btn.setBackground(CCColors.OPERATION_BUTTON);
             oper.add(btn);
-           
+
         });
-        
+
         final JPanel mid = new JPanel();
         mid.setLayout(new BorderLayout());
-        
+
         mid.add(oper, BorderLayout.NORTH);
         mid.add(numpadAndOperators, BorderLayout.CENTER);
-        
+
         this.add(mid, BorderLayout.SOUTH);
-        
 
     }
 
@@ -217,10 +222,11 @@ public class ProgrammerCalculatorPanel extends JPanel {
         final int cols = 1;
         final JPanel operators = new JPanel();
         operators.setLayout(new GridLayout(rows, cols));
-        
+
         this.rightOperators.forEach((op) -> {
             final JButton btn = new JButton(op);
-            btn.addActionListener(opAl); 
+            btn.addActionListener(opAl);
+            btn.setBackground(CCColors.OPERATION_BUTTON);
             operators.add(btn);
         });
         return operators;
@@ -234,12 +240,14 @@ public class ProgrammerCalculatorPanel extends JPanel {
         topMiddleNumpad.setLayout(new GridLayout(1, 3));
         this.middleOperators.forEach((str) -> {
             final JButton btn = new JButton(str);
-            btn.addActionListener(opAl); 
+            btn.addActionListener(opAl);
+            btn.setBackground(CCColors.OPERATION_BUTTON);
             topMiddleNumpad.add(btn);
         });
         panel.add(topMiddleNumpad, BorderLayout.NORTH);
         return panel;
     }
+
     private void updateDisplays() {
         display.updateText(formatter.getOutput());
         convPanel.updateConvDisplays(formatter.getLastValue());
