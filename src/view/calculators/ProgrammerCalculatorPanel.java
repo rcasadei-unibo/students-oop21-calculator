@@ -34,9 +34,9 @@ public class ProgrammerCalculatorPanel extends JPanel {
     private final CCNumPad numpad;
     private transient ActionListener opAl;
     private final transient ProgrammerInputFormatterImpl formatter;
-    private final List<String> topOperators = List.of("roR", "roL", "shiftR", "shiftL", "nand");
-    private final List<String> middleOperators = List.of("and", "or", "xor");
-    private final List<String> rightOperators = List.of("not", "nor", "+", "-", "×", "÷");
+    private final List<String> topOperators = List.of("roR", "roL", "shiftR", "shiftL", "nand", "nor");
+    private final List<String> middleOperators = List.of("not", "xor", "and", "or");
+    private final List<String> rightOperators = List.of("+", "-", "×", "÷");
     {
         final ActionListener btnAl = new ActionListener() {
             @Override
@@ -202,14 +202,14 @@ public class ProgrammerCalculatorPanel extends JPanel {
             btn.setBackground(CCColors.OPERATION_BUTTON);
             operators.add(btn);
         });
-        this.rightOperators.forEach((op) -> {
-            final JButton btn = new JButton(op);
+        this.middleOperators.forEach((str) -> {
+            final JButton btn = new JButton(str);
             btn.addActionListener(opAl);
             btn.setBackground(CCColors.OPERATION_BUTTON);
             operators.add(btn);
         });
-        this.middleOperators.forEach((str) -> {
-            final JButton btn = new JButton(str);
+        this.rightOperators.forEach((op) -> {
+            final JButton btn = new JButton(op);
             btn.addActionListener(opAl);
             btn.setBackground(CCColors.OPERATION_BUTTON);
             operators.add(btn);
