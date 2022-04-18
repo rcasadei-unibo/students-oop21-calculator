@@ -11,11 +11,11 @@ import java.util.Map;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import utils.CCColors;
-import utils.ProgrammerInputFormatterImpl;
 import view.components.CCDisplay;
 import view.components.CCNumPad;
 import view.components.ConversionPanel;
 import view.components.HexadecimalLettersPanel;
+import view.logics.ProgrammerInputFormatterImpl;
 /**
  * This is ProgrammerCalculatorPanel which holds the following operators:
  * (Bitwise)
@@ -178,19 +178,13 @@ public class ProgrammerCalculatorPanel extends JPanel {
         formatter.reset(10);
         hexaLetters.disableAll();
         numpad.add(this.hexaLetters);
-        numpad.add(this.getMiddleNumpad());
+        numpad.add(this.numpad);
         numpad.add(this.getRightNumpad());
         final JPanel numpadAndOperators = new JPanel();
         numpadAndOperators.setLayout(new BorderLayout());
         numpadAndOperators.add(numpad, BorderLayout.CENTER);
         final JPanel oper = new JPanel();
         oper.setLayout(new GridLayout(1, 5));
-        this.topOperators.forEach((str) -> {
-            final JButton btn = new JButton(str);
-            btn.addActionListener(opAl);
-            btn.setBackground(CCColors.OPERATION_BUTTON);
-            oper.add(btn);
-        });
         final JPanel mid = new JPanel();
         mid.setLayout(new BorderLayout());
         mid.add(oper, BorderLayout.NORTH);
@@ -198,32 +192,29 @@ public class ProgrammerCalculatorPanel extends JPanel {
         this.add(mid, BorderLayout.SOUTH);
     }
     private JPanel getRightNumpad() {
-        final int rows = 6;
-        final int cols = 1;
+        final int rows = 7;
+        final int cols = 2;
         final JPanel operators = new JPanel();
         operators.setLayout(new GridLayout(rows, cols));
+        this.topOperators.forEach((str) -> {
+            final JButton btn = new JButton(str);
+            btn.addActionListener(opAl);
+            btn.setBackground(CCColors.OPERATION_BUTTON);
+            operators.add(btn);
+        });
         this.rightOperators.forEach((op) -> {
             final JButton btn = new JButton(op);
             btn.addActionListener(opAl);
             btn.setBackground(CCColors.OPERATION_BUTTON);
             operators.add(btn);
         });
-        return operators;
-    }
-    private JPanel getMiddleNumpad() {
-        final JPanel panel = new JPanel();
-        panel.setLayout(new BorderLayout());
-        panel.add(this.numpad, BorderLayout.CENTER);
-        final JPanel topMiddleNumpad = new JPanel();
-        topMiddleNumpad.setLayout(new GridLayout(1, 3));
         this.middleOperators.forEach((str) -> {
             final JButton btn = new JButton(str);
             btn.addActionListener(opAl);
             btn.setBackground(CCColors.OPERATION_BUTTON);
-            topMiddleNumpad.add(btn);
+            operators.add(btn);
         });
-        panel.add(topMiddleNumpad, BorderLayout.NORTH);
-        return panel;
+        return operators;
     }
     private void updateDisplays() {
         display.updateText(formatter.getOutput());
