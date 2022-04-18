@@ -20,7 +20,7 @@ public interface CombinatoricsLogics {
      * @param opName the name that the same operation uses in Model
      * @return the String to be displayed after clicking on an operation
      */
-    String opAction(String btnName, String opName);
+    String operationAction(String btnName, String opName);
 
     /**
      * 
@@ -32,7 +32,7 @@ public interface CombinatoricsLogics {
      * 
      * @return the current manager buffer made into a String
      */
-    String getStream();
+    String getBufferToString();
 
     /**
      * 
