@@ -4,10 +4,8 @@ import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.swing.JButton;
 import javax.swing.JPanel;
-
 import utils.CCColors;
 import utils.ConversionAlgorithms;
 
@@ -75,7 +73,7 @@ public class ConversionPanel extends JPanel {
         case "HEX":
             return ConversionAlgorithms.conversionToStringBase(16, l);
         case "DEC":
-            return String.valueOf(l);
+            return l >= 0 ? "+".concat(String.valueOf(l)) : "-".concat(String.valueOf(l));
         case "OCT":
             return ConversionAlgorithms.conversionToStringBase(8, l);
         case "BIN":
