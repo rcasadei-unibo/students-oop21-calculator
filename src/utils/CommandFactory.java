@@ -68,10 +68,7 @@ public final class CommandFactory {
                 try {
                     controller.setParameters(params);
                     result = controller.calculate();
-                } catch (CalcException e) {
-                    isError = true;
-                    result = e.getMessage();
-                } catch (IllegalArgumentException e) {
+                } catch (IllegalArgumentException | CalcException e) {
                     isError = true;
                     result = "Syntax Error";
                 }
@@ -135,7 +132,7 @@ public final class CommandFactory {
 
             @Override
             public String execute() {
-                final String lastItem = String.valueOf(controller.getCurrentState().charAt(0));
+                final String lastItem = String.valueOf(controller.getCurrentState().isEmpty() ? "" : controller.getCurrentState().charAt(0));
                 controller.deleteLast();
                 return lastItem;
             }
