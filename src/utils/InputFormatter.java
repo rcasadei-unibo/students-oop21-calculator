@@ -191,8 +191,7 @@ public class InputFormatter implements InputFormatterLogics {
         if (this.lastNumBuffer.contains(".")) {
             return Math.round(Double.parseDouble(lastNumBuffer));
         }
-        if ("Syntax error".equals(lastNumBuffer) || "Syntax Error".equals(lastNumBuffer)
-          || this.lastNumBuffer.contains("Syntax error") || this.lastNumBuffer.contains("Syntax Error")) {
+        if ("Syntax error".equals(lastNumBuffer)) {
             return 0L;
         }
         if (!this.lastNumBuffer.isBlank()) {
