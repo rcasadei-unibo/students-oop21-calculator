@@ -57,10 +57,8 @@ public class StandardCalculatorPanel extends JPanel {
             @Override
             public void actionPerformed(final ActionEvent e) {
                 if (!controller.getManager().memory().getCurrentState().isEmpty()) {
-                    System.out.println("pre_calc " + controller.getManager().memory().getCurrentState().toString());
                     final String history = controller.getManager().memory().getCurrentState().stream().reduce("", (a, b) -> a + b).replace("Syntax error", "");
                     controller.getManager().engine().calculate();
-                    System.out.println("post_calc " + controller.getManager().memory().getCurrentState().toString());
                     if (!controller.getManager().memory().getCurrentState().contains("Syntax error")) {
                         controller.getManager().memory().addResult(history.concat(" = ").concat(controller.getManager().memory().getCurrentState().stream().reduce("", (a, b) -> a + b)));
                     }
