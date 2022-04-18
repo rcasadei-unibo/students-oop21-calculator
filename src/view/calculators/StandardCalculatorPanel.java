@@ -10,7 +10,7 @@ import view.components.CCNumPad;
 import controller.calculators.CalculatorController;
 import model.calculators.StandardCalculatorModelFactory;
 import model.manager.EngineModelInterface.Calculator;
-import utils.CreateButton;
+import view.logics.CreateButton;
 /**
  * This is StandardCalculatorPanel which holds the basic operators:
  * -plus.
