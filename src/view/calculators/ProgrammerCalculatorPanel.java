@@ -81,12 +81,10 @@ public class ProgrammerCalculatorPanel extends JPanel {
             public void actionPerformed(final ActionEvent e) {
                 final String text = ((JButton) e.getSource()).getText();
                 formatter.read(text);
-
                 updateDisplays();
             }
         };
     }
-
     /**
      * This is ProgrammerCalculatorPanel which holds the following operators:
      * (Bitwise)
@@ -98,16 +96,12 @@ public class ProgrammerCalculatorPanel extends JPanel {
         this.formatter = new InputFormatter();
         this.setPanels();
     }
-
     private void setPanels() {
         this.setLayout(new BorderLayout());
         this.add(this.display, BorderLayout.NORTH);
-
-
         this.setConversionPanel();
         this.setNumpad();
     }
-
     private void setConversionPanel() {
         final ActionListener conv = new ActionListener() {
             @Override
@@ -149,7 +143,6 @@ public class ProgrammerCalculatorPanel extends JPanel {
         this.convPanel.setPreferredSize(new Dimension(100, 150));
         this.add(this.convPanel, BorderLayout.CENTER);
     }
-
     private void enableButtons(final int i) {
         final var numbers = this.getNumbers();
         numbers.entrySet().stream().filter((entry) -> Integer.parseInt(entry.getKey()) < i)
@@ -157,7 +150,6 @@ public class ProgrammerCalculatorPanel extends JPanel {
         numbers.entrySet().stream().filter((entry) -> Integer.parseInt(entry.getKey()) >= i)
                 .forEach((entry) -> entry.getValue().setEnabled(false));
     }
-
     private Map<String, JButton> getNumbers() {
         final Map<String, JButton> map = new HashMap<>();
         this.numpad.getButtons().entrySet().stream().filter((entry) -> {
@@ -170,9 +162,7 @@ public class ProgrammerCalculatorPanel extends JPanel {
         }).forEach((entry) -> map.put(entry.getKey(), entry.getValue()));
         return map;
     }
-
     private void setNumpad() {
-
         final JPanel numpad = new JPanel();
         numpad.setLayout(new GridLayout(1, 3));
         final ActionListener letterActionListener = new ActionListener() {
@@ -183,46 +173,34 @@ public class ProgrammerCalculatorPanel extends JPanel {
                 updateDisplays();
             }
         };
-
         this.hexaLetters = new HexadecimalLettersPanel(letterActionListener);
         formatter.reset(10);
         hexaLetters.disableAll();
         numpad.add(this.hexaLetters);
         numpad.add(this.getMiddleNumpad());
         numpad.add(this.getRightNumpad());
-
         final JPanel numpadAndOperators = new JPanel();
         numpadAndOperators.setLayout(new BorderLayout());
         numpadAndOperators.add(numpad, BorderLayout.CENTER);
-
         final JPanel oper = new JPanel();
         oper.setLayout(new GridLayout(1, 5));
-
         this.topOperators.forEach((str) -> {
-
             final JButton btn = new JButton(str);
             btn.addActionListener(opAl);
             btn.setBackground(CCColors.OPERATION_BUTTON);
             oper.add(btn);
-
         });
-
         final JPanel mid = new JPanel();
         mid.setLayout(new BorderLayout());
-
         mid.add(oper, BorderLayout.NORTH);
         mid.add(numpadAndOperators, BorderLayout.CENTER);
-
         this.add(mid, BorderLayout.SOUTH);
-
     }
-
     private JPanel getRightNumpad() {
         final int rows = 6;
         final int cols = 1;
         final JPanel operators = new JPanel();
         operators.setLayout(new GridLayout(rows, cols));
-
         this.rightOperators.forEach((op) -> {
             final JButton btn = new JButton(op);
             btn.addActionListener(opAl);
@@ -231,7 +209,6 @@ public class ProgrammerCalculatorPanel extends JPanel {
         });
         return operators;
     }
-
     private JPanel getMiddleNumpad() {
         final JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
@@ -247,7 +224,6 @@ public class ProgrammerCalculatorPanel extends JPanel {
         panel.add(topMiddleNumpad, BorderLayout.NORTH);
         return panel;
     }
-
     private void updateDisplays() {
         display.updateText(formatter.getOutput());
         convPanel.updateConvDisplays(formatter.getLastValue());
