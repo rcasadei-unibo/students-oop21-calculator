@@ -21,17 +21,16 @@ public final class CreateButton {
     private static final List<String> AVOID = List.of("+", "-", "×", "÷", "%");
     private static final Map<String, String> KEYMAP = new HashMap<>();
     private static final Map<String, String> APPEARANCEMAP = new HashMap<>();
-
+    private static boolean invalidOperation = false;
     private CreateButton() {
     }
    /**
-    * 
-    * @param btnName
-    * @param opName
-    * @param appearance
-    * @param controller
-    * @param display
-    * @return aaaa
+    * @param btnName the button's name
+    * @param opName the mapped's operator name
+    * @param appearance the appearance it will have
+    * @param controller the current controller
+    * @param display the current display
+    * @return a button linked to its controller and display
     */
 
    public static JButton createOpButton(final String btnName, final String opName, final String appearance, final CalculatorController controller, final CCDisplay display) {
@@ -51,9 +50,9 @@ public final class CreateButton {
        return btn;
    }
    /**
-    * 
-    * @param controller 
-    * @param display
+    * Updates the display replacing the operators with their appearance.
+    * @param controller the current controller
+    * @param display the current display
     */
    public static void updateDisplay(final CalculatorController controller, final CCDisplay display) {
        display.updateText(controller.getManager().memory().getCurrentState().stream().map((x) -> {

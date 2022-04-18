@@ -203,6 +203,6 @@ public class InputFormatter implements InputFormatterLogics {
      * Updates the memory's history.
      */
     public void updateHistory() {
-        controller.getManager().memory().addResult(history.concat(" = ").concat(lastNumBuffer));
+        controller.getManager().memory().addResult(history.concat(" =").concat(lastNumBuffer));
     }
 }
