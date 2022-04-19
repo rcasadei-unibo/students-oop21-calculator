@@ -1,10 +1,10 @@
 package view.logics;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import controller.calculators.CalculatorController;
-import utils.CalcException;
 import utils.calculate.Tokenizer;
 
 /**
@@ -45,10 +45,16 @@ public class FunctionCalculatorImpl implements FunctionCalculator {
         while (x <= RANGE) {
             temp = this.replace(eq, x);
             for (final var s: temp) {
-                this.controller.getManager().memory().read(s);
-            }
+                    this.controller.getManager().memory().read(s);
+                }
             this.controller.getManager().engine().calculate();
-            this.results.add(Double.valueOf(this.controller.getManager().memory().getCurrentState().stream().reduce("", (a, b) -> a + b)));
+            try {
+                this.results.add(Double.valueOf(this.controller.getManager().memory().getCurrentState().stream().reduce("", (a, b) -> a + b)));
+            } catch (IllegalArgumentException e) {
+                System.out.println("Syntax error ");
+                x = RANGE;
+                results.clear();
+            }
             this.controller.getManager().memory().clear();
             x += FunctionCalculatorImpl.PRECISION;
         }
@@ -56,7 +62,11 @@ public class FunctionCalculatorImpl implements FunctionCalculator {
 
     private List<String> replace(final String eq, final double value) {
         final Tokenizer tok = new Tokenizer(eq.replace("x", "(" + Double.toString(value) + ")"));
-        return tok.getListSymbol();
+        try {
+            return tok.getListSymbol();
+        } catch (IllegalArgumentException e) {
+            return Collections.emptyList();
+        }
     }
     /**
      * 
