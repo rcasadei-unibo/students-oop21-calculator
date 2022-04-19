@@ -2,6 +2,7 @@ package utils.calculate;
 
 import java.util.List;
 
+import controller.manager.CCEngine;
 import utils.CalcException;
 
 /**
@@ -26,6 +27,11 @@ public interface Algorithm {
      * @return s
      */
     List<String> getParameters();
+
+    /**
+     * @param engine
+     */
+    void setEngine(CCEngine engine);
 
     /**
      * Calculate the final REsult of the expression.

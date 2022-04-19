@@ -1,5 +1,6 @@
 package controller.calculators;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import controller.manager.CCEngine;
@@ -20,6 +21,7 @@ public class CalculatorAdvancedController {
     private Algorithm op;
     private final Expression expr = new Expression();
     private TypeAlgorithm type;
+    private List<String> params = List.of();
     private CalculatorController controller;
     private String previousOp = "";
     private List<String> previousParams = List.of();
@@ -73,6 +75,7 @@ public class CalculatorAdvancedController {
     public void setOperation(final TypeAlgorithm typeOp) {
         this.type = typeOp;
         this.op = typeOp.getAlg();
+        op.setEngine(new CCEngine(controller));
         this.reset();
     }
 
@@ -129,8 +132,8 @@ public class CalculatorAdvancedController {
      * @param params
      * @throws CalcException
      */
-    public void setParameters(final List<String> params) throws CalcException {
-        this.op.setParameters(params);
+    public void setParameters(final List<String> params) {
+        this.params = new LinkedList<>(params);
     }
 
     /**
@@ -159,8 +162,9 @@ public class CalculatorAdvancedController {
         final var e = this.controller.getManager().memory().getCurrentState().stream().reduce("", (res, s) -> res + s);
         this.expr.setExpr(e);
         this.previousOp = e;
-        this.previousParams = this.op.getParameters();
+        this.previousParams = this.params;
         this.previousType = this.type;
+        this.op.setParameters(params);
         String res = this.op.calculate(expr);
         if (!this.type.equals(TypeAlgorithm.DERIVATE)) {
             res = NumberFormatter.format(Double.parseDouble(res), 8, 8, 5);

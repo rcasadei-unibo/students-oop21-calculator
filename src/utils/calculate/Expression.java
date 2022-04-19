@@ -13,9 +13,28 @@ import utils.ast.Operation;
 public class Expression {
 	
 	private String expr;
-	private final EvaluatorAST evaluator = new EvaluatorAST();
-	private final ParserAST parser = new ParserAST();
+	private final EvaluatorAST evaluator;
+	private final ParserAST parser;
 	private Optional<Operation> result = Optional.empty();
+	
+	/**
+	 * 
+	 */
+	public Expression() {
+	    this.evaluator = new EvaluatorAST();
+	    this.parser = new ParserAST();
+	}
+	
+	/**
+	 * @param expr
+	 * @param engine
+	 */
+	public Expression(final String expr, final CCEngine engine) {
+	    this.evaluator = new EvaluatorAST();
+        this.parser = new ParserAST();
+	    this.expr = expr;
+	    this.parser.setEngine(engine);
+	}
 	
 	/**
 	 * sets the expression.
