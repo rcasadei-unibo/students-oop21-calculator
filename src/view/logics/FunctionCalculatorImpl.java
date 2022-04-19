@@ -51,7 +51,6 @@ public class FunctionCalculatorImpl implements FunctionCalculator {
             try {
                 this.results.add(Double.valueOf(this.controller.getManager().memory().getCurrentState().stream().reduce("", (a, b) -> a + b)));
             } catch (IllegalArgumentException e) {
-                System.out.println("Syntax error ");
                 x = RANGE;
                 results.clear();
             }
