@@ -81,7 +81,9 @@ public class StandardCalculatorPanel extends JPanel {
         final JPanel operator = new JPanel();
         operator.setLayout(new GridLayout(4, 2));
         for (final var entry : StandardCalculatorModelFactory.create().getBinaryOpMap().entrySet()) {
-            operator.add(CreateButton.createOpButton(entry.getKey(), entry.getKey(), entry.getKey(), controller, display));
+            final JButton op = CreateButton.createOpButtonFR(entry.getKey());
+            op.addActionListener(e -> controller.getManager().memory().read(entry.getKey()));
+            operator.add(op);
         }
         for (final var entry : StandardCalculatorModelFactory.create().getUnaryOpMap().entrySet()) {
             if ("1/x".equals(entry.getKey())) {
