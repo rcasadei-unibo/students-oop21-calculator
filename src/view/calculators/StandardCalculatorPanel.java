@@ -87,7 +87,7 @@ public class StandardCalculatorPanel extends JPanel {
             if ("1/x".equals(entry.getKey())) {
                 operator.add(CreateButton.createOpButton(entry.getKey(), entry.getKey(), "1/", controller, display));
             } else if ("square".equals(entry.getKey())) {
-                operator.add(CreateButton.createOpButton(entry.getKey(), entry.getKey(), "^2", controller, display));
+                operator.add(CreateButton.createOpButton(entry.getKey(), entry.getKey(), "square", controller, display));
             } else {
                 operator.add(CreateButton.createOpButton(entry.getKey(), entry.getKey(), entry.getKey(), controller, display));
             }
