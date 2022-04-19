@@ -50,7 +50,7 @@ public class CombinatoricsCalculatorPanel extends JPanel {
 
         final ActionListener calculateAl = e -> {
             display.updateUpperText(logics.calculateAction());
-            display.updateText(logics.getStream());
+            display.updateText(logics.getBufferToString());
             explLabel.setText("");
         };
 
@@ -94,7 +94,7 @@ public class CombinatoricsCalculatorPanel extends JPanel {
         private void createOpButton(final String btnName, final String opName, final CombinatoricsLogics logics, final CCDisplay display) {
             final var btn = new JButton(btnName);
             btn.addActionListener(e -> {
-                display.updateText(logics.opAction(btnName, opName));
+                display.updateText(logics.operationAction(btnName, opName));
             });
             btn.setBackground(CCColors.OPERATION_BUTTON);
             this.add(btn);

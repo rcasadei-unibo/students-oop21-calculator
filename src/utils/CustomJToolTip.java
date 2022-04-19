@@ -6,6 +6,7 @@ import javax.swing.JToolTip;
 /**
  * 
  * A JToolTip with a custom background color.
+ * Taken from a StackOverflow answer (https://stackoverflow.com/questions/26906039/how-to-set-the-background-of-tooltip-in-swing)
  *
  */
 public class CustomJToolTip extends JToolTip {
