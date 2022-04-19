@@ -9,6 +9,7 @@ import utils.calculate.Algorithm;
 import utils.calculate.Expression;
 import utils.calculate.Derivate;
 import utils.calculate.Limit;
+import utils.calculate.Tokenizer;
 import utils.NumberFormatter;
 
 import utils.calculate.Integrator;
@@ -105,6 +106,15 @@ public class CalculatorAdvancedController {
     }
 
     /**
+     * @param c
+     */
+    public void readAll(final String c) {
+        final var tok = new Tokenizer(c);
+        final var l = tok.getListSymbol();
+        l.forEach(s -> this.controller.getManager().memory().read(s));
+    }
+
+    /**
      * Delete the last symbol inserted.
      */
     public void deleteLast() {
@@ -167,7 +177,7 @@ public class CalculatorAdvancedController {
         this.op.setParameters(params);
         String res = this.op.calculate(expr);
         if (!this.type.equals(TypeAlgorithm.DERIVATE)) {
-            res = NumberFormatter.format(Double.parseDouble(res), 8, 8, 5);
+            res = NumberFormatter.format(Double.parseDouble(res), 8, 8, 8);
         }
         reset();
         return res;

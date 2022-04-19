@@ -43,9 +43,11 @@ public class Integrator implements Algorithm {
             throw new CalcException("Not enough parameters");
         }
         try {
-            this.lowBound = Double.parseDouble(new Expression(parameters.get(0), engine).getResult().toString());
-            this.upperBound = Double.parseDouble(new Expression(parameters.get(1), engine).getResult().toString());
-        } catch (NumberFormatException e) {
+            final String params1 = this.preprocessParameter(parameters.get(0));
+            final String params2 = this.preprocessParameter(parameters.get(1));
+            this.lowBound = Double.parseDouble(new Expression(params1, engine, false).getResult().getNumericResult(0.0).toString());
+            this.upperBound = Double.parseDouble(new Expression(params2, engine, false).getResult().getNumericResult(0.0).toString());
+        } catch (IllegalArgumentException | CalcException e) {
             throw new CalcException("Bad format Number, only numbers are accepted");
         }
     }

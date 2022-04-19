@@ -61,10 +61,12 @@ import view.components.CCNumPad;
                 final var command1 = CommandFactory.previousState(advancedController);
                 final var result = command.execute();
                 final var expression = command1.execute();
-                display.updateText(result);
                 if ("Syntax Error".equals(result)) {
+                    advancedController.reset();
+                    display.updateText(result);
                     display.updateUpperText(expression + "=");
                 } else {
+                    display.updateText(advancedController.getCurrentState());
                     display.updateUpperText(expression + "=" + result);
                     CommandFactory.addToHistory(advancedController, expression + "=" + result).execute();
                 }
@@ -161,16 +163,22 @@ import view.components.CCNumPad;
             private void selectedDerivate() {
                 label1.setText("not needed: ");
                 label2.setText("not needed: ");
+                param1.setEnabled(false);
+                param2.setEnabled(false);
                 CommandFactory.selectedOperation(advancedController, TypeAlgorithm.DERIVATE).execute();
             }
             private void selectedIntegrate() {
                 label1.setText("lowerBound: ");
                 label2.setText("upperBound: ");
+                param1.setEnabled(true);
+                param2.setEnabled(true);
                 CommandFactory.selectedOperation(advancedController, TypeAlgorithm.INTEGRATE).execute();
             }
             private void selectedLimit() {
                 label1.setText("x0 \u2250 : ");
                 label2.setText("not needed: ");
+                param1.setEnabled(true);
+                param2.setEnabled(false);
                 CommandFactory.selectedOperation(advancedController, TypeAlgorithm.LIMIT).execute();
             }
         }

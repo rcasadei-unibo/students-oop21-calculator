@@ -1,5 +1,6 @@
 package utils.calculate;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -56,8 +57,8 @@ public class Limit implements Algorithm {
             throw new CalcException("Not enough parameters");
         }
         try {
-            //this.x0 = Double.parseDouble(parameters.get(0));
-            this.x0 = Double.parseDouble(new Expression(parameters.get(0), engine).getResult().toString());
+            final String params = this.preprocessParameter(parameters.get(0));
+            this.x0 = Double.parseDouble(new Expression(params, engine, false).getResult().getNumericResult(0.0).toString());
         } catch (NumberFormatException e) {
             throw new CalcException("Bad format Number, only numbers are accepted");
         }

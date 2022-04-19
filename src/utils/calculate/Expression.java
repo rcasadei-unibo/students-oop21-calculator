@@ -37,6 +37,19 @@ public class Expression {
 	}
 	
 	/**
+	 * @param expr
+	 * @param engine
+	 * @param areVariablesAllowed
+	 */
+	public Expression(final String expr, final CCEngine engine, final boolean areVariablesAllowed) {
+        this.evaluator = new EvaluatorAST();
+        this.parser = new ParserAST();
+        this.expr = expr;
+        this.parser.setEngine(engine);
+        this.parser.setAreVariablesAllowed(areVariablesAllowed);
+    }
+	
+	/**
 	 * sets the expression.
 	 * @param expr
 	 */

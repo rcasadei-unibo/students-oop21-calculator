@@ -15,23 +15,23 @@ public class Function {
 	private String name;
 	private int numArgs;
 	
+	/**
+     * 
+     */
+    public static final Map<String, Function> DICTFUNCTIONS = getFunctions().stream()
+            .collect(Collectors.toMap(s -> s, s -> "pow".equals(s) ? new Function(s, 2) : new Function(s)));
+	
 	
 	/**
 	 * @return All functions
 	 */
 	public static Set<String> getFunctions() {
-	   var set = new HashSet<>(ScientificCalculatorModelFactory.create()
+	   final var set = new HashSet<>(ScientificCalculatorModelFactory.create()
 	           .getUnaryOpMap().keySet());
 	           set.addAll(Set.of("abs", "acos", "asin", "atan", "cos",
 	                   "exp", "log", "negate", "pow", "sin", "√", "sqrt", "tan", "csc", "cot", "sec"));
 	   return set;
 	}
-	
-	/**
-	 * 
-	 */
-	public static final Map<String, Function> DICTFUNCTIONS = getFunctions().stream()
-			.collect(Collectors.toMap(s -> s, s -> "pow".equals(s) ? new Function(s, 2) : new Function(s)));
 	
 	/**
 	 * @param name
