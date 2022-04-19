@@ -2,7 +2,6 @@ package utils.calculate;
 
 import java.util.Collections;
 import java.util.Map;
-import java.util.Set;
 
 /**
  *Used for variables and constants.
@@ -10,7 +9,14 @@ import java.util.Set;
  */
 public class ExternData {
 	
-	private final Map<String, Double> constants = Map.of("pi", Math.PI, "e", Math.E);
+	private final Map<String, Double> constants = Map.of(
+	        "pi", Math.PI,
+	        "e", Math.E,
+	        "infinity", 1E5,
+	        "Infinity", 1E5,
+	        "inf", 1E5,
+	        "epsilon", Math.E);
+	
 	private static final String VARIABLE = "x";
 	
 	/**
