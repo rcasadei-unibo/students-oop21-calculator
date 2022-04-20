@@ -1,23 +1,24 @@
 package view.logics;
 
-public class ScientificInputFormatter implements InputFormatterLogics {
+import controller.calculators.CalculatorController;
+import model.manager.EngineModelInterface.Calculator;
 
+public class ScientificInputFormatter implements InputFormatterLogics {
+    private final CalculatorController controller = Calculator.SCIENTIFIC.getController();
+    
     @Override
     public void read(String input) {
-        // TODO Auto-generated method stub
-
+        controller.getManager().memory().read(input);
     }
 
     @Override
     public void deleteLast() {
-        // TODO Auto-generated method stub
-
+        controller.getManager().memory().deleteLast();
     }
 
     @Override
     public void calculate() {
-        // TODO Auto-generated method stub
-
+        controller.getManager().engine().calculate();
     }
 
 }
