@@ -42,6 +42,7 @@ public class Tokenizer {
     private Token lastToken = null;
     private  int lenExpr;
     private boolean isRPN = false;
+    private boolean areVariablesAllowed = true;
     private final String variable;
     private final Map<String, Double> constants;
     private boolean implicitMultiplication = true;
@@ -55,6 +56,15 @@ public class Tokenizer {
         this.lenExpr = expr.replaceAll(" ", "").length();
         this.variable = data.getVariable();
         this.constants = data.getConstants();
+    }
+
+    /**
+     * @param expr
+     * @param areVariablesAllowed
+     */
+    public Tokenizer(final String expr, final boolean areVariablesAllowed) {
+        this(expr);
+        this.areVariablesAllowed = areVariablesAllowed;
     }
 
     /**
@@ -158,9 +168,9 @@ public class Tokenizer {
     }
 
     /**
-     * @param expr
-     * @param residualExpression
-     * @param isRPN
+     * @param expr : the new String
+     * @param residualExpression : If you are calculating the expression through a list of string rather than a string
+     * @param isRPN : if the string is in Reversed polish notation 
      */
     public void reset(final String expr, final boolean residualExpression, final boolean isRPN) {
         this.index = 0;
@@ -252,6 +262,10 @@ public class Tokenizer {
         if (newToken == null) {
             throw new IllegalArgumentException("The variable name or the function doesn't exist");
         }
+        if (newToken.getTypeToken().equals(TokenType.VARIABLE) && !this.areVariablesAllowed) {
+            throw new IllegalArgumentException("Variables arent allowed");
+        }
+
         lastToken = newToken;
         return newToken;
 
@@ -281,5 +295,10 @@ public class Tokenizer {
         final var newOp = Operator.getOperatorBySymbolAndArgs(String.valueOf(c), arguments);
         lastToken = TokensFactory.operatorToken(newOp);
         return lastToken;
+    }
+
+    public static void main(String[] args) {
+        var tok = new Tokenizer("inf+infinity+epsilon", false);
+        System.out.println(tok.getListSymbol());
     }
 }
