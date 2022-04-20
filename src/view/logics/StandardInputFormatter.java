@@ -26,21 +26,32 @@ public class StandardInputFormatter implements InputFormatterLogics {
         } else {
             controller.getManager().memory().read(input);
         }
+        this.checkUselessParenthesys();
+    }
+    private void checkUselessParenthesys() {
+        final List<String> state = new ArrayList<>(controller.getManager().memory().getCurrentState());
+        for (int i = 0; i < state.size() ; i++) {
+            if (i != state.size() - 1) {
+                if ("(".equals(state.get(i)) && ")".equals(state.get(i + 1))) {
+                    state.remove(i);
+                    state.remove(i);
+                }
+            }
+        }
+        controller.getManager().memory().clear();
+        controller.getManager().memory().readAll(state);
     }
     private void wrapNumberInOperator(final String op) {
         final List<String> state = new ArrayList<>(controller.getManager().memory().getCurrentState());
-        System.out.println(state.toString());
         int index = state.size() - 1;
         while (index >= 0) {
             //[1+1.1111,square]
             if (!this.isNumber(index)) {
-                System.out.println("str: " + state.get(index) + " is not num");
                 index++;
                 break;
             }
             index--;
         }
-        System.out.println("start wapping at " + index);
         index = index == -1 ? 0 : index;
         state.add(index, "(");
         if ("square".equals(op)) {
