@@ -12,4 +12,8 @@ public interface OutputFormatter {
      * @return the value to be displayed
      */
     String format();
+    /**
+     * Updates the CCDisplay's upperText.
+     */
+    void updateDisplayUpperText();
 }
