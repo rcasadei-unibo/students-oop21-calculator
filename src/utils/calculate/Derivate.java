@@ -2,6 +2,7 @@ package utils.calculate;
 
 import java.util.List;
 
+import controller.manager.CCEngine;
 import utils.CalcException;
 
 /**
@@ -29,6 +30,10 @@ public class Derivate implements Algorithm {
     @Override
     public List<String> getParameters() {
         return List.of();
+    }
+
+    @Override
+    public void setEngine(final CCEngine engine) {
     }
 
 }

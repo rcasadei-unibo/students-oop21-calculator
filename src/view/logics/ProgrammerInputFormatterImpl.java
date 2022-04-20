@@ -39,7 +39,7 @@ public class ProgrammerInputFormatterImpl implements InputFormatterLogics {
      */
     @Override
     public void read(final String input) {
-        this.removeSyntaxError(this.buffer);
+        //this.removeSyntaxError(this.buffer);
         if ("not".equals(input)) {
             this.buffer.add(0, "(");
             this.buffer.add(0, "not");
@@ -112,7 +112,6 @@ public class ProgrammerInputFormatterImpl implements InputFormatterLogics {
         if ("Syntax error".equals(lastNumBuffer)) {
             this.reset(conversionBase);
         }
-
         if (!this.buffer.isEmpty()) {
             this.buffer.remove(this.buffer.size() - 1);
             final List<String> numbers = new ArrayList<>();
@@ -204,6 +203,8 @@ public class ProgrammerInputFormatterImpl implements InputFormatterLogics {
      * Updates the memory's history.
      */
     public void updateHistory() {
-        controller.getManager().memory().addResult(history.concat(" =").concat(lastNumBuffer));
+        if (!this.lastNumBuffer.contains("Syntax error")) {
+            controller.getManager().memory().addResult(history.concat(" =").concat(lastNumBuffer));
+        }
     }
 }
