@@ -31,6 +31,10 @@ public final class CCColors {
      * Background color of the display.
      */
     public static final Color DISPLAY = new Color(230, 230, 230);
+    /**
+     * Borders color of the GraphicCalculatorPanel and its components.
+     */
+    public static final Color GRAPHIC_BORDERS = Color.LIGHT_GRAY;
 
     private CCColors() { }
 
