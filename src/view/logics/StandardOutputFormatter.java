@@ -1,5 +1,6 @@
 package view.logics;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +16,6 @@ import view.components.CCDisplay;
 public class StandardOutputFormatter implements OutputFormatter {
     private final CalculatorController controller = Calculator.STANDARD.getController();
     private final CCDisplay display;
-    private boolean validSyntax = true;
     private final Map<String, String> appearanceMap = new HashMap<>();
     {
         this.setAppearanceMap();
@@ -36,36 +36,20 @@ public class StandardOutputFormatter implements OutputFormatter {
     }
     @Override
     public String format() {
-        final List<String> output = this.replaceBinaryOp();
-        
-        //IDEA :
-        /*se il numero premuto prima è un numero allora l'operatore unario wrappa il contenuto con il proprio unario
-         * 1+2 => 1/(1+2)       1+2 => (1+2)^2
-         * 
-         * se il numero premuto prima non è un numero allora l'operatore unario viene concatenato con una parentesi
-         * 1+ => 1+(1/(  ))        1+ => 1+( )^2
-         * 
-         */
-        
-        return this.validSyntax ? this.getString(output) : "Syntax error";
+        final List<String> output = this.replaceOp();
+        return this.getString(output);
     }
-    private List<String> replaceBinaryOp() {
-        return controller.getManager().memory().getCurrentState().stream().map((str) -> {
-            if (this.controller.isBinaryOperator(str)) {
-                return this.appearanceMap.get(str);
-            } else {
+    private List<String> replaceOp() {
+        final List<String> state = new ArrayList<>(controller.getManager().memory().getCurrentState());
+        return state.stream().map((str) -> {
+                if (controller.isBinaryOperator(str) || controller.isUnaryOperator(str)) {
+                    return appearanceMap.get(str);
+                }
                 return str;
-            }
         }).collect(Collectors.toList());
     }
     private String getString(final List<String> input) {
         return input.stream().reduce("", (a, b) -> a + b);
-    }
-    /**
-     * @return whether or not there has been an invalid syntax.
-     */
-    public boolean isValidSyntax() {
-        return this.validSyntax;
     }
     private void setAppearanceMap() {
         StandardCalculatorModelFactory.create().getUnaryOpMap().forEach((str, op) -> {
