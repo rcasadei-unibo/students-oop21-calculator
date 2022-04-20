@@ -1,6 +1,5 @@
 package view.components;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
 
@@ -32,15 +31,15 @@ public class FunctionsInsertionPanel extends JPanel {
 
         final JLabel f1 = new JLabel("   f(x) : ");
         f1.setFont(font);
-        f1.setBorder(new LineBorder(Color.LIGHT_GRAY, 1));
+        f1.setBorder(new LineBorder(CCColors.GRAPHIC_BORDERS, 1));
         final JLabel f2 = new JLabel("  g(x) : ");
         f2.setFont(font);
-        f2.setBorder(new LineBorder(Color.LIGHT_GRAY, 1));
+        f2.setBorder(new LineBorder(CCColors.GRAPHIC_BORDERS, 1));
 
         final JTextField t1 = new JTextField("  ");
-        t1.setBorder(new LineBorder(Color.LIGHT_GRAY, 1));
+        t1.setBorder(new LineBorder(CCColors.GRAPHIC_BORDERS, 1));
         final JTextField t2 = new JTextField("  ");
-        t2.setBorder(new LineBorder(Color.LIGHT_GRAY, 1));
+        t2.setBorder(new LineBorder(CCColors.GRAPHIC_BORDERS, 1));
 
         final JButton create1 = new JButton("DRAW");
         create1.setBackground(CCColors.EQUAL_BUTTON);
@@ -54,20 +53,30 @@ public class FunctionsInsertionPanel extends JPanel {
 
         create1.addActionListener(e -> {
             logic.calculate(t1.getText());
-            f.paintFunction(logic.getResults(), true);
+            if (logic.getResults().isEmpty()) {
+                t1.setText(" SyntaxError");
+            } else {
+                f.paintFunction(logic.getResults(), true);
+            }
         });
 
         delete1.addActionListener(e -> {
+            t1.setText(" ");
             f.deleteFunction(true);
 
         });
 
         create2.addActionListener(e -> {
             logic.calculate(t2.getText());
-            f.paintFunction(logic.getResults(), false);
+            if (logic.getResults().isEmpty()) {
+                t2.setText(" SyntaxError");
+            } else {
+                f.paintFunction(logic.getResults(), false);
+            }
         });
 
         delete2.addActionListener(e -> {
+            t2.setText(" ");
             f.deleteFunction(false);
         });
 
