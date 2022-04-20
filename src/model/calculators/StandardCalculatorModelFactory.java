@@ -30,7 +30,7 @@ public final class StandardCalculatorModelFactory {
                         return Double.POSITIVE_INFINITY;
                     }
                 }, 4, Type.RIGHT),
-                "square", new CCUnaryOperator((n) -> square(n), 4, Type.RIGHT)
+                "x²", new CCUnaryOperator((n) -> square(n), 4, Type.RIGHT)
                   );
         return new CalculatorModelTemplate(binaryOpMap, unaryOpMap);
     }

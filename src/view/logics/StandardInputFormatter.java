@@ -54,7 +54,7 @@ public class StandardInputFormatter implements InputFormatterLogics {
         }
         index = index == -1 ? 0 : index;
         state.add(index, "(");
-        if ("square".equals(op)) {
+        if ("x²".equals(op)) {
             state.add(")");
             state.add(op);
         } else {
@@ -66,7 +66,7 @@ public class StandardInputFormatter implements InputFormatterLogics {
     }
     private void readInvalidOperand(final String op) {
         switch (op) {
-            case "square":
+            case "x²":
                 controller.getManager().memory().read("(");
                 controller.getManager().memory().read("0");
                 controller.getManager().memory().read(")");

@@ -3,6 +3,8 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
+
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import view.components.CCDisplay;
@@ -84,22 +86,16 @@ public class StandardCalculatorPanel extends JPanel {
     private void setOperators() {
         final JPanel operator = new JPanel();
         operator.setLayout(new GridLayout(4, 2));
-        for (final var entry : StandardCalculatorModelFactory.create().getBinaryOpMap().entrySet()) {
-            final JButton op = CreateButton.createOpButtonFR(entry.getKey());
-            op.addActionListener(e -> {
-                inFormatter.read(entry.getKey());
-                outFormatter.updateDisplay();
+        final var standardOp = List.of("+", "-", "×", "÷", "%", "1/x", "√", "x²");
+        standardOp.forEach((op) -> {
+            final JButton btn = CreateButton.createOpButtonFR(op);
+            btn.addActionListener(e -> {
+               this.inFormatter.read(op);
+               this.outFormatter.updateDisplay();
             });
-            operator.add(op);
-        }
-        for (final var entry : StandardCalculatorModelFactory.create().getUnaryOpMap().entrySet()) {
-            final JButton op = CreateButton.createOpButtonFR(entry.getKey());
-            op.addActionListener(e -> {
-                inFormatter.read(entry.getKey());
-                outFormatter.updateDisplay();
-            });
-            operator.add(op);
-        }
+            operator.add(btn);
+        });
+        
         this.add(operator, BorderLayout.EAST);
     }
     /**

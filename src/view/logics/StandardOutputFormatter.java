@@ -58,7 +58,7 @@ public class StandardOutputFormatter implements OutputFormatterLogics {
     private void setAppearanceMap() {
         StandardCalculatorModelFactory.create().getUnaryOpMap().forEach((str, op) -> {
             switch (str) {
-                case "square":
+                case "x²":
                     appearanceMap.put(str, "²");
                     break;
                 case "1/x":

@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -11,6 +12,8 @@ import javax.swing.JPanel;
 import model.calculators.ScientificCalculatorModelFactory;
 import model.calculators.StandardCalculatorModelFactory;
 import model.manager.EngineModelInterface.Calculator;
+import utils.CCBinaryOperator;
+import utils.Type;
 import view.components.CCDisplay;
 import view.components.CCNumPad;
 import view.logics.CreateButton;
@@ -61,6 +64,7 @@ public class ScientificCalculatorPanel extends JPanel{
      */
     public ScientificCalculatorPanel() {
         this.setLayout(new BorderLayout());
+        this.add(display, BorderLayout.NORTH);
         this.add(this.getStandardPanel(), BorderLayout.CENTER);
         this.add(this.getScientificOperators(), BorderLayout.WEST);
     }
@@ -71,33 +75,36 @@ public class ScientificCalculatorPanel extends JPanel{
         
         standard.add(this.numpad, BorderLayout.CENTER);
         final JPanel standardOp = new JPanel();
-        standardOp.setLayout(new GridLayout(4, 2));
-        StandardCalculatorModelFactory.create().getBinaryOpMap().entrySet().forEach((entry) -> {
-            standardOp.add(this.setActionListener(entry.getKey()));
+        standardOp.setLayout(new GridLayout(3, 2));
+        final var basicOp = List.of("+", "-", "×", "÷", "%", "1/x");
+        basicOp.stream().forEach((str) -> {
+            standardOp.add(this.setActionListener(str));
         });
-        StandardCalculatorModelFactory.create().getUnaryOpMap().entrySet().forEach((entry) -> {
-            standardOp.add(this.setActionListener(entry.getKey()));
-        });
-        
-        
+        standard.add(standardOp,BorderLayout.EAST);
         return standard;
     }
 
     private JPanel getScientificOperators() {
        final JPanel scientificOperators = new JPanel();
        scientificOperators.setLayout(new GridLayout(4, 3));
-       ScientificCalculatorModelFactory.create().getBinaryOpMap().entrySet().forEach((entry) -> {
-           scientificOperators.add(this.setActionListener(entry.getKey()));
+       final var scientificOp = List.of("log","ln");
+       final var scientificOp2 = List.of("^","nthRoot","abs","!","cos", "sin", "tan" ,"cot", "csc", "sec");
+       scientificOp.stream().forEach((str) -> {
+           scientificOperators.add(this.setActionListener(str));
        });
-       ScientificCalculatorModelFactory.create().getUnaryOpMap().entrySet().forEach((entry) -> {
-           scientificOperators.add(this.setActionListener(entry.getKey()));
+       scientificOp2.stream().forEach((str) -> {
+           scientificOperators.add(this.setActionListener(str));
        });
        return scientificOperators;
     }
     private JButton setActionListener(final String text) {
         final var btn = CreateButton.createOpButtonFR(text);
         btn.addActionListener(e -> {
-            this.inFormatter.read(((JButton)e.getSource()).getText());
+            if ("!".equals(((JButton)e.getSource()).getText())) {
+                this.inFormatter.read("factorial");
+            } else {
+                this.inFormatter.read(((JButton)e.getSource()).getText());
+            }
             this.outFormatter.updateDisplay();
         });
         return btn;

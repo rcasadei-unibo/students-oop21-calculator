@@ -58,6 +58,7 @@ public class ScientificOutputFormatter extends StandardOutputFormatter{
                     appearanceMap.put(str, "!");
                     break;
                 default:
+                    appearanceMap.put(str, str);
                     break;
             }
         });
