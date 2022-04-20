@@ -35,6 +35,10 @@ public class StandardOutputFormatter implements OutputFormatter {
         this.display.updateText(this.format());
     }
     @Override
+    public void updateDisplayUpperText() {
+        this.display.updateUpperText(this.format().concat(" ="));
+    }
+    @Override
     public String format() {
         final List<String> output = this.replaceOp();
         return this.getString(output);
@@ -55,7 +59,7 @@ public class StandardOutputFormatter implements OutputFormatter {
         StandardCalculatorModelFactory.create().getUnaryOpMap().forEach((str, op) -> {
             switch (str) {
                 case "square":
-                    appearanceMap.put(str, "^2");
+                    appearanceMap.put(str, "²");
                     break;
                 case "1/x":
                     appearanceMap.put(str, "1/");

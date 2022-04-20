@@ -27,27 +27,49 @@ public class StandardInputFormatter implements InputFormatterLogics {
             controller.getManager().memory().read(input);
         }
     }
-    private void wrapNumberInOperator(final String input) {
-        
+    private void wrapNumberInOperator(final String op) {
+        final List<String> state = new ArrayList<>(controller.getManager().memory().getCurrentState());
+        System.out.println(state.toString());
+        int index = state.size() - 1;
+        while (index >= 0) {
+            //[1+1.1111,square]
+            if (!this.isNumber(index)) {
+                System.out.println("str: " + state.get(index) + " is not num");
+                index++;
+                break;
+            }
+            index--;
+        }
+        System.out.println("start wapping at " + index);
+        index = index == -1 ? 0 : index;
+        state.add(index, "(");
+        if ("square".equals(op)) {
+            state.add(")");
+            state.add(op);
+        } else {
+            state.add(index, op);
+            state.add(")");
+        }
+        controller.getManager().memory().clear();
+        controller.getManager().memory().readAll(state);
     }
-    private void readInvalidOperand(final String input) {
-
-        switch (input) {
+    private void readInvalidOperand(final String op) {
+        switch (op) {
             case "square":
                 controller.getManager().memory().read("(");
                 controller.getManager().memory().read("0");
                 controller.getManager().memory().read(")");
-                controller.getManager().memory().read(input);
+                controller.getManager().memory().read(op);
                 break;
             case "1/x":
                 controller.getManager().memory().read("(");
-                controller.getManager().memory().read(input);
+                controller.getManager().memory().read(op);
                 controller.getManager().memory().read("1");
                 controller.getManager().memory().read(")");
                 break;
             case "√":
                 controller.getManager().memory().read("(");
-                controller.getManager().memory().read(input);
+                controller.getManager().memory().read(op);
                 controller.getManager().memory().read("0");
                 controller.getManager().memory().read(")");
                 break;
@@ -58,10 +80,20 @@ public class StandardInputFormatter implements InputFormatterLogics {
     }
     private boolean isPreviousValueANumber() {
         final List<String> state = new ArrayList<>(controller.getManager().memory().getCurrentState());
+        return this.isNumber(state.size() - 1);
+    }
+    private boolean isNumber(final int i) {
+        final List<String> state = controller.getManager().memory().getCurrentState();
         try {
-            Double.parseDouble(!state.isEmpty() ? state.get(state.size() - 1) : "X"); //1 significa che lo state
-            return true;                                                              //è vuoto e si può aggiungere
-        } catch (NumberFormatException e) {                                           //un unario correttamente
+            if (state.isEmpty()) { //se lo state è vuoto allora devo ritornare che prima non c'è un numero
+                return false;
+            }
+            if (".".equals(state.get(i)) || ")".equals(state.get(i))) {
+               return true; 
+            }
+            Double.parseDouble(state.get(i));
+            return true; 
+        } catch (NumberFormatException e) {
             return false;
         }
     }
