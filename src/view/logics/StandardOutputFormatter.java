@@ -16,7 +16,7 @@ import view.components.CCDisplay;
 public class StandardOutputFormatter implements OutputFormatterLogics {
     private final CalculatorController controller = Calculator.STANDARD.getController();
     private final CCDisplay display;
-    private final Map<String, String> appearanceMap = new HashMap<>();
+    protected final Map<String, String> appearanceMap = new HashMap<>();
     {
         this.setAppearanceMap();
     }
