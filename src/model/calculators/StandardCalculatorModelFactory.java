@@ -22,15 +22,15 @@ public final class StandardCalculatorModelFactory {
                 "%", new CCBinaryOperator((n1, n2) -> modulo(n1, n2), 3, Type.LEFT)
                           );
         final Map<String, CCUnaryOperator> unaryOpMap = Map.of(
-                "1/x", new CCUnaryOperator((n) -> inverse(n), 1, Type.RIGHT),
+                "1/x", new CCUnaryOperator((n) -> inverse(n), 4, Type.RIGHT),
                 "√", new CCUnaryOperator((n) -> {
                     try {
                         return root(n);
                     } catch (CalcException e) {
                         return Double.POSITIVE_INFINITY;
                     }
-                }, 1, Type.RIGHT),
-                "square", new CCUnaryOperator((n) -> square(n), 1, null)
+                }, 4, Type.RIGHT),
+                "square", new CCUnaryOperator((n) -> square(n), 4, Type.RIGHT)
                   );
         return new CalculatorModelTemplate(binaryOpMap, unaryOpMap);
     }
