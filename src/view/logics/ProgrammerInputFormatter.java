@@ -8,7 +8,7 @@ import utils.ConversionAlgorithms;
 /**
  * This class acts as an intermediate between the ProgrammerCalculatorPanel and CalculatorController's engine.
  */
-public class ProgrammerInputFormatterImpl implements InputFormatterLogics {
+public class ProgrammerInputFormatter implements InputFormatterLogics {
     private int conversionBase = 10;
     private final CalculatorController controller;
     private List<String> buffer;
@@ -18,7 +18,7 @@ public class ProgrammerInputFormatterImpl implements InputFormatterLogics {
     /**
      * 
      */
-    public ProgrammerInputFormatterImpl() {
+    public ProgrammerInputFormatter() {
         this.controller = Calculator.PROGRAMMER.getController();
         this.buffer = new ArrayList<>();
         this.tokens = new ArrayList<>();
