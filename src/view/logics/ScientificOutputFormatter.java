@@ -8,8 +8,10 @@ import controller.calculators.CalculatorController;
 import model.calculators.ScientificCalculatorModelFactory;
 import model.manager.EngineModelInterface.Calculator;
 import view.components.CCDisplay;
-
-public class ScientificOutputFormatter extends StandardOutputFormatter{
+/**
+ *
+ */
+public class ScientificOutputFormatter extends StandardOutputFormatter {
     private final CalculatorController controller = Calculator.SCIENTIFIC.getController();
     private final CCDisplay display;
     {
@@ -19,7 +21,7 @@ public class ScientificOutputFormatter extends StandardOutputFormatter{
      * 
      * @param display
      */
-    public ScientificOutputFormatter(CCDisplay display) {
+    public ScientificOutputFormatter(final CCDisplay display) {
         super(display);
         this.display = display;
     }
