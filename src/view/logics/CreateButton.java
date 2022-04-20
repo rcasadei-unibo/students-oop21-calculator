@@ -55,6 +55,11 @@ public final class CreateButton {
        btn.setBackground(CCColors.OPERATION_BUTTON);
        return btn;
    }
+   public static JButton createOpButtonFR(final String btnName) {
+       final JButton btn = new JButton(btnName);
+       btn.setBackground(CCColors.OPERATION_BUTTON);
+       return btn;
+   }
    private static boolean isLastInputANumber(final CalculatorController controller) {
        final var buffer = controller.getManager().memory().getCurrentState();
        if (!buffer.isEmpty()) {
