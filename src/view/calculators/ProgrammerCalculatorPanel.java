@@ -11,6 +11,7 @@ import java.util.Map;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import utils.CCColors;
+import utils.CalcException;
 import view.components.CCDisplay;
 import view.components.CCNumPad;
 import view.components.ConversionPanel;
@@ -47,14 +48,15 @@ public class ProgrammerCalculatorPanel extends JPanel {
             }
         };
         final ActionListener calcAl = new ActionListener() {
-            @Override
             public void actionPerformed(final ActionEvent e) {
                 try {
                     display.updateUpperText(formatter.getOutput() + " =");
                     formatter.calculate();
                     formatter.updateHistory();
-                } catch (final Exception exception) {
+                } catch (Exception exception) {
+                    System.out.println("excpetion");
                     display.updateText("Syntax error");
+                    display.updateUpperText(formatter.getOutput() + " =");
                     formatter.deleteLast();
                 }
                 updateDisplays();
@@ -113,29 +115,26 @@ public class ProgrammerCalculatorPanel extends JPanel {
                     formatter.reset(16);
                     hexaLetters.enableAll();
                     enableButtons(10);
-                    formatter.reset(16);
                     break;
                 case "DEC":
                     formatter.reset(10);
                     hexaLetters.disableAll();
                     enableButtons(10);
-                    formatter.reset(10);
                     break;
                 case "OCT":
                     formatter.reset(8);
                     hexaLetters.disableAll();
                     enableButtons(8);
-                    formatter.reset(8);
                     break;
                 case "BIN":
                     formatter.reset(2);
                     hexaLetters.disableAll();
                     enableButtons(2);
-                    formatter.reset(2);
                     break;
                 default:
                     break;
                 }
+                convPanel.changeToActive(btn.getText());
                 display.updateText("0");
                 convPanel.updateConvDisplays(0);
             }
@@ -175,8 +174,10 @@ public class ProgrammerCalculatorPanel extends JPanel {
             }
         };
         this.hexaLetters = new HexadecimalLettersPanel(letterActionListener);
+        //start the programmer with 10 as default conversion
         formatter.reset(10);
         hexaLetters.disableAll();
+        convPanel.changeToActive("DEC");
         numpad.add(this.hexaLetters);
         numpad.add(this.numpad);
         numpad.add(this.getRightNumpad());

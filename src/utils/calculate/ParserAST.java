@@ -17,6 +17,7 @@ public class ParserAST {
 
     private Stack<AbstractSyntaxNode> stack;
     private CCEngine engine;
+    private boolean isVariableAllowed = true;
     private final SimplifyingEngine simplify = new SimplifyingEngine();
 
     private AbstractSyntaxNode createNumberOrVariableNode(final Token t) {
@@ -60,20 +61,32 @@ public class ParserAST {
     }
 
     /**
+     * @param cond
+     */
+    public void setAreVariablesAllowed(final boolean cond) {
+        this.isVariableAllowed = cond;
+    }
+
+    /**
      * @param expression
      * @return The root of the AST
      * @throws CalcException
      */
     public AbstractSyntaxNode parseToAST(final String expression) throws CalcException {
         List<Token> output;
-        final Tokenizer tok = new Tokenizer(expression);
+        final Tokenizer tok;
+        if (isVariableAllowed) {
+            tok = new Tokenizer(expression);
+        } else {
+            tok = new Tokenizer(expression, false);
+        }
         this.stack = new Stack<>();
         try {
             final List<String> l = tok.getListSymbol();
             final List<String> l1 = this.engine.parseToRPN(l);
             output = tok.convertToTokens(l1);
         } catch (CalcException e) {
-            throw new CalcException(e.getMessage() + "verified during parsing");
+            throw new IllegalArgumentException(e.getMessage());
         }
         output.forEach(token -> {
             if (token.getTypeToken().equals(TokenType.NUMBER) || token.getTypeToken().equals(TokenType.VARIABLE)

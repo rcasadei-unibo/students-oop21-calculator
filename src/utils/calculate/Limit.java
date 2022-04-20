@@ -1,8 +1,10 @@
 package utils.calculate;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Predicate;
 
+import controller.manager.CCEngine;
 import utils.CalcException;
 
 /**
@@ -11,8 +13,9 @@ import utils.CalcException;
  */
 public class Limit implements Algorithm {
     private Expression expression;
+    private CCEngine engine;
 	private static final double DISTANCE = 5;
-	private static final double MINNUM = 0.00000000001;
+	private static final double MINNUM = 1E-8;
 	private Double x0;
 	
 	private void  parameterDefined() {
@@ -54,7 +57,8 @@ public class Limit implements Algorithm {
             throw new CalcException("Not enough parameters");
         }
         try {
-            this.x0 = Double.parseDouble(parameters.get(0));
+            final String params = this.preprocessParameter(parameters.get(0));
+            this.x0 = Double.parseDouble(new Expression(params, engine, false).getResult().getNumericResult(0.0).toString());
         } catch (NumberFormatException e) {
             throw new CalcException("Bad format Number, only numbers are accepted");
         }
@@ -81,5 +85,10 @@ public class Limit implements Algorithm {
     @Override
     public List<String> getParameters() {
         return List.of(String.valueOf(x0));
+    }
+
+    @Override
+    public void setEngine(final CCEngine engine) {
+        this.engine = engine;
     }
 }

@@ -73,7 +73,7 @@ public final class CommandFactory {
                     result = "Syntax Error";
                 }
                 if (!isError) {
-                    controller.read(result);
+                    controller.readAll(result);
                 }
 
                 return result;

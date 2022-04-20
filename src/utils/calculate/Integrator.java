@@ -3,6 +3,7 @@ package utils.calculate;
 import java.util.List;
 import java.util.stream.IntStream;
 
+import controller.manager.CCEngine;
 import utils.CalcException;
 import utils.ast.Operation;
 
@@ -12,6 +13,7 @@ import utils.ast.Operation;
  */
 public class Integrator implements Algorithm {
 	private Expression expression;
+	private CCEngine engine;
 	private Double lowBound;
 	private Double upperBound;
 	private static final int STEPS = 500;
@@ -41,9 +43,11 @@ public class Integrator implements Algorithm {
             throw new CalcException("Not enough parameters");
         }
         try {
-            this.lowBound = Double.parseDouble(parameters.get(0));
-            this.upperBound = Double.parseDouble(parameters.get(1));
-        } catch (NumberFormatException e) {
+            final String params1 = this.preprocessParameter(parameters.get(0));
+            final String params2 = this.preprocessParameter(parameters.get(1));
+            this.lowBound = Double.parseDouble(new Expression(params1, engine, false).getResult().getNumericResult(0.0).toString());
+            this.upperBound = Double.parseDouble(new Expression(params2, engine, false).getResult().getNumericResult(0.0).toString());
+        } catch (IllegalArgumentException | CalcException e) {
             throw new CalcException("Bad format Number, only numbers are accepted");
         }
     }
@@ -73,6 +77,11 @@ public class Integrator implements Algorithm {
     @Override
     public List<String> getParameters() {
         return List.of(String.valueOf(lowBound), String.valueOf(upperBound));
+    }
+
+    @Override
+    public void setEngine(final CCEngine engine) {
+        this.engine = engine;
     }
 
 	
