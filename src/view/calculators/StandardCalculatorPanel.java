@@ -62,8 +62,8 @@ public class StandardCalculatorPanel extends JPanel {
             public void actionPerformed(final ActionEvent e) {
                 if (!controller.getManager().memory().getCurrentState().isEmpty()) {
                     final String history = controller.getManager().memory().getCurrentState().stream().reduce("", (a, b) -> a + b).replace("Syntax error", "");
+                    outFormatter.updateDisplayUpperText();
                     inFormatter.calculate();
-                    display.updateUpperText(history.concat(" ="));
                     if (!controller.getManager().memory().getCurrentState().contains("Syntax error")) {
                         controller.getManager().memory().addResult(history.concat(" = ").concat(controller.getManager().memory().getCurrentState().stream().reduce("", (a, b) -> a + b)));
                     }
