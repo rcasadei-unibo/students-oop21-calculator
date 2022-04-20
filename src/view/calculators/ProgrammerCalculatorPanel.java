@@ -16,7 +16,7 @@ import view.components.CCDisplay;
 import view.components.CCNumPad;
 import view.components.ConversionPanel;
 import view.components.HexadecimalLettersPanel;
-import view.logics.ProgrammerInputFormatterImpl;
+import view.logics.ProgrammerInputFormatter;
 /**
  * This is ProgrammerCalculatorPanel which holds the following operators:
  * (Bitwise)
@@ -34,7 +34,7 @@ public class ProgrammerCalculatorPanel extends JPanel {
     private ConversionPanel convPanel;
     private final CCNumPad numpad;
     private transient ActionListener opAl;
-    private final transient ProgrammerInputFormatterImpl formatter;
+    private final transient ProgrammerInputFormatter formatter;
     private final List<String> topOperators = List.of("roR", "roL", "shiftR", "shiftL", "nand", "nor");
     private final List<String> middleOperators = List.of("not", "xor", "and", "or");
     private final List<String> rightOperators = List.of("+", "-", "×", "÷");
@@ -54,7 +54,6 @@ public class ProgrammerCalculatorPanel extends JPanel {
                     formatter.calculate();
                     formatter.updateHistory();
                 } catch (Exception exception) {
-                    System.out.println("excpetion");
                     display.updateText("Syntax error");
                     display.updateUpperText(formatter.getOutput() + " =");
                     formatter.deleteLast();
@@ -96,7 +95,7 @@ public class ProgrammerCalculatorPanel extends JPanel {
      * -Hexadecimal, Octal, Binary.
     */
     public ProgrammerCalculatorPanel() {
-        this.formatter = new ProgrammerInputFormatterImpl();
+        this.formatter = new ProgrammerInputFormatter();
         this.setPanels();
     }
     private void setPanels() {

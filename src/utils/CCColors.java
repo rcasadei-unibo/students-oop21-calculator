@@ -35,6 +35,22 @@ public final class CCColors {
      * Background color of the display.
      */
     public static final Color DISPLAY = new Color(230, 230, 230);
+    /**
+     * Borders color of the GraphicCalculatorPanel and its components.
+     */
+    public static final Color GRAPHIC_BORDERS = Color.LIGHT_GRAY;
+    /**
+     * Background color of the FunctionGrapher component.
+     */
+    public static final Color GRAPHIC_BACKGROUND = Color.WHITE;
+    /**
+     * Paint color of the axes of the FunctionGrapher component.
+     */
+    public static final Color GRAPHIC_AXES = Color.BLACK;
+    /**
+     * Paint color of the grid of the FunctionGrapher component.
+     */
+    public static final Color GRAPHIC_GRID = Color.LIGHT_GRAY;
 
     private CCColors() { }
 

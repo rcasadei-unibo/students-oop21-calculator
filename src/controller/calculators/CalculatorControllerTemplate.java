@@ -54,12 +54,16 @@ public class CalculatorControllerTemplate implements CalculatorController {
 
     @Override
     public int getPrecedence(final String op) {
-        return this.getBinaryOperators().get(op).getPrecedence();
+        return !this.getBinaryOperators().containsKey(op) 
+                ? this.getUnaryOperators().get(op).getPrecedence() 
+                        : this.getBinaryOperators().get(op).getPrecedence();
     }
 
     @Override
     public Type getType(final String op) {
-        return this.getBinaryOperators().get(op).getType();
+        return !this.getBinaryOperators().containsKey(op) 
+                ? this.getUnaryOperators().get(op).getType() 
+                        : this.getBinaryOperators().get(op).getType();
     }
 
     @Override
