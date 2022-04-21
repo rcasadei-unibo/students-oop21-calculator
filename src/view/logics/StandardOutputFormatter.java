@@ -13,7 +13,7 @@ import view.components.CCDisplay;
 /**
  * This class handles the display's output.
  */
-public class StandardOutputFormatter implements OutputFormatter {
+public class StandardOutputFormatter implements OutputFormatterLogics {
     private final CalculatorController controller = Calculator.STANDARD.getController();
     private final CCDisplay display;
     private final Map<String, String> appearanceMap = new HashMap<>();
