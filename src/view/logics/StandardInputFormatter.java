@@ -24,9 +24,9 @@ public class StandardInputFormatter implements InputFormatterLogics {
         } else {
             controller.getManager().memory().read(input);
         }
-        this.checkUselessParenthesys();
+        this.checkParenthesis();
     }
-    private void checkUselessParenthesys() {
+    private void checkParenthesis() {
         final List<String> state = new ArrayList<>(controller.getManager().memory().getCurrentState());
         for (int i = 0; i < state.size(); i++) {
             if (i != state.size() - 1) {
