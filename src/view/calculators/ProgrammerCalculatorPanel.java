@@ -58,7 +58,7 @@ public class ProgrammerCalculatorPanel extends JPanel {
                     formatter.addResult(history);
                 } catch (Exception exception) {
                     display.updateText("Syntax error");
-                    display.updateUpperText(formatter.getOutput() + " =");
+                    formatter.updateDisplayUpperText();
                     formatter.deleteLast();
                 }
                 updateDisplays();
