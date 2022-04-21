@@ -34,14 +34,16 @@ public class StandardOutputFormatter implements OutputFormatterLogics {
     }
     @Override
     public void updateDisplayUpperText() {
-        this.display.updateUpperText(this.format().concat(" ="));
+        if (!this.format().isEmpty()) {
+            this.display.updateUpperText(this.format().concat(" ="));
+        }
     }
     @Override
     public String format() {
-        final List<String> output = this.replaceOp();
-        return this.getString(output);
+        final List<String> output = this.replaceWithAppearance();
+        return this.getStringOf(output);
     }
-    private List<String> replaceOp() {
+    private List<String> replaceWithAppearance() {
         final List<String> state = new ArrayList<>(controller.getManager().memory().getCurrentState());
         return state.stream().map((str) -> {
                 if (controller.isBinaryOperator(str) || controller.isUnaryOperator(str)) {
@@ -50,7 +52,7 @@ public class StandardOutputFormatter implements OutputFormatterLogics {
                 return str;
         }).collect(Collectors.toList());
     }
-    private String getString(final List<String> input) {
+    private String getStringOf(final List<String> input) {
         return input.stream().reduce("", (a, b) -> a + b);
     }
     private void setAppearanceMap() {

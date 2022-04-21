@@ -1,6 +1,8 @@
 package view.logics;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
 import controller.calculators.CalculatorController;
 import model.calculators.ProgrammerCalculatorModelFactory;
 import model.manager.EngineModelInterface.Calculator;
@@ -50,13 +52,15 @@ public class ProgrammerFormatter implements InputFormatterLogics, OutputFormatte
                 this.lastNumBuffer = "";
             }
             this.buffer.add(input);
+          this.removeError();
         }
     }
     private void handleNotInput() {
         this.buffer.add(0, "(");
         this.buffer.add(0, "not");
         this.buffer.add(")");
-        final String before = this.getOutput();
+        this.removeError();
+        final String before = this.getBuffer();
         this.updateDisplayUpperText();
         this.calculate();
         this.updateDisplay();
@@ -136,7 +140,7 @@ public class ProgrammerFormatter implements InputFormatterLogics, OutputFormatte
      * 
      * @return a String containing the current buffer converted to String.
      */
-    public String getOutput() {
+    public String getBuffer() {
         return this.buffer.stream().reduce("", (a, b) -> a + b);
     }
     /**
@@ -145,7 +149,7 @@ public class ProgrammerFormatter implements InputFormatterLogics, OutputFormatte
     @Override
     public void calculate() {
         if (!this.buffer.isEmpty()) {
-            this.removeSyntaxError(this.buffer);
+            this.removeError();
             final var temp = this.formatToDecimal();
             this.controller.getManager().memory().readAll(temp);
             this.controller.getManager().engine().calculate();
@@ -160,8 +164,9 @@ public class ProgrammerFormatter implements InputFormatterLogics, OutputFormatte
             this.controller.getManager().memory().clear();
         }
     }
-    private void removeSyntaxError(final List<String> input) {
-        input.remove("Syntax error");
+    private void removeError() {
+        this.buffer.remove("Syntax error");
+        this.buffer.remove("Parenthesis mismatch");
     }
     private void inverseFormat() {
         if (this.conversionBase != 10) {
@@ -206,7 +211,7 @@ public class ProgrammerFormatter implements InputFormatterLogics, OutputFormatte
     }
     @Override
     public void updateDisplay() {
-        this.display.updateText(this.getOutput());
+        this.display.updateText(this.getBuffer());
     }
     @Override
     public String format() {
@@ -214,15 +219,19 @@ public class ProgrammerFormatter implements InputFormatterLogics, OutputFormatte
     }
     @Override
     public void updateDisplayUpperText() {
-        display.updateUpperText(this.getOutput().concat(" ="));
+        if (!this.getBuffer().isBlank()) {
+            display.updateUpperText(this.getBuffer().concat(" ="));
+        }
     }
     /**
      * This method adds the last valid Operation to the History.
      * @param before a string containing the last operation executed.
      */
     public void addResult(final String before) {
-        if (this.checkForError(before)) {
-            this.controller.getManager().memory().addResult(before.concat(" = ").concat(this.format()));
+        if (this.checkForError(before) && !before.isBlank()) {
+            final var baseMap = Map.of(2, "₂", 8, "₈", 10, "₁₀", 16, "₁₆");
+            final var text = before + " = " + this.format() + " " + baseMap.get(this.conversionBase);
+            this.controller.getManager().memory().addResult(text);
         }
     }
 }
