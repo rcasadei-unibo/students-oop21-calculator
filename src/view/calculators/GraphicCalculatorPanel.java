@@ -14,7 +14,6 @@ import view.logics.FunctionCalculatorImpl;
  * 
  * Graphic Calculator GUI.
  * 
- * 
  */
 public class GraphicCalculatorPanel extends JPanel {
     private static final long serialVersionUID = 8441953837746059516L;
@@ -26,9 +25,8 @@ public class GraphicCalculatorPanel extends JPanel {
      */
     public GraphicCalculatorPanel() {
         this.setLayout(new BorderLayout());
-        final FunctionCalculator calc = new FunctionCalculatorImpl(Calculator.GRAPHIC.getController());
         final FunctionGrapher g = new FunctionGrapher();
-        final FunctionsInsertionPanel p = new FunctionsInsertionPanel(calc, g);
+        final FunctionsInsertionPanel p = new FunctionsInsertionPanel(g);
         this.add(g, BorderLayout.CENTER);
         this.add(p, BorderLayout.SOUTH);
     }

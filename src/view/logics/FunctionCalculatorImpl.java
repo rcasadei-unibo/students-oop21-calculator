@@ -6,7 +6,6 @@ import java.util.List;
 
 import controller.calculators.CalculatorController;
 import utils.calculate.Tokenizer;
-
 /**
  * 
  * FunctionCalculator serves the purpose to take a F(x) function and 
