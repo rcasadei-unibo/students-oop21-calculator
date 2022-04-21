@@ -1,9 +1,7 @@
 package test;
 
 import static org.junit.Assert.assertTrue;
-
 import utils.ConversionAlgorithms;
-
 /**
  * This class tests conversions.
  */
@@ -17,7 +15,6 @@ public class ConversionsTest {
         assertTrue("-1010".equals(ConversionAlgorithms.conversionToStringBase(2, (-10))));    
         assertTrue("+1011".equals(ConversionAlgorithms.conversionToStringBase(2, (11))));
         assertTrue("-1011".equals(ConversionAlgorithms.conversionToStringBase(2, (-11))));
-
     }
     /**
      * Test for decimal to hexadecimal conversions.
@@ -62,11 +59,9 @@ public class ConversionsTest {
      */
     @org.junit.Test
     public void baseToUnsignedDecimal() {
-
        assertTrue(15==ConversionAlgorithms.unsignedConversionToDecimal(2, "1111"));
        assertTrue(63==ConversionAlgorithms.unsignedConversionToDecimal(8, "77"));
        assertTrue(255==ConversionAlgorithms.unsignedConversionToDecimal(16, "FF"));
-
     }
 
 }

@@ -46,7 +46,7 @@ import view.components.CCNumPad;
             this.operationsPanel = new OperationsPanel(advancedController, display);
 
             final ActionListener numAndOpBtn = (e) -> {
-                final List<String> buttons = List.of("sin", "cos", "log", "tan", "√", "abs", "csc", "sec", "cot");
+                final List<String> buttons = List.of("sin", "cos", "log", "tan", "√", "abs", "csc", "sec", "cot", "^");
                 final var btn = (JButton) e.getSource();
                 final var command = CommandFactory.insert(btn.getText(), buttons, () -> "(", advancedController);
                 display.updateText(command.execute());
@@ -54,7 +54,7 @@ import view.components.CCNumPad;
 
             final ActionListener deleteBtn = e -> {
                 CommandFactory.deleteLast(advancedController).execute();
-                display.updateText(this.advancedController.getCurrentState());
+                display.updateText(this.advancedController.getCurrentDisplay());
             };
             final ActionListener equalsBtn = e -> {
                 final var command  = CommandFactory.calculate(advancedController, operationsPanel.getParameters());
@@ -66,7 +66,7 @@ import view.components.CCNumPad;
                     display.updateText(result);
                     display.updateUpperText(expression + "=");
                 } else {
-                    display.updateText(advancedController.getCurrentState());
+                    display.updateText(advancedController.getCurrentDisplay());
                     display.updateUpperText(expression + "=" + result);
                     CommandFactory.addToHistory(advancedController, expression + "=" + result).execute();
                 }
@@ -165,6 +165,8 @@ import view.components.CCNumPad;
                 label2.setText("not needed: ");
                 param1.setEnabled(false);
                 param2.setEnabled(false);
+                param1.setText("");
+                param2.setText("");
                 CommandFactory.selectedOperation(advancedController, TypeAlgorithm.DERIVATE).execute();
             }
             private void selectedIntegrate() {
@@ -172,6 +174,8 @@ import view.components.CCNumPad;
                 label2.setText("upperBound: ");
                 param1.setEnabled(true);
                 param2.setEnabled(true);
+                param1.setText("");
+                param2.setText("");
                 CommandFactory.selectedOperation(advancedController, TypeAlgorithm.INTEGRATE).execute();
             }
             private void selectedLimit() {
@@ -179,6 +183,8 @@ import view.components.CCNumPad;
                 label2.setText("not needed: ");
                 param1.setEnabled(true);
                 param2.setEnabled(false);
+                param1.setText("");
+                param2.setText("");
                 CommandFactory.selectedOperation(advancedController, TypeAlgorithm.LIMIT).execute();
             }
         }

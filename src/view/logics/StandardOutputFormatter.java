@@ -1,11 +1,9 @@
 package view.logics;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import controller.calculators.CalculatorController;
 import model.calculators.StandardCalculatorModelFactory;
 import model.manager.EngineModelInterface.Calculator;
@@ -13,7 +11,7 @@ import view.components.CCDisplay;
 /**
  * This class handles the display's output.
  */
-public class StandardOutputFormatter implements OutputFormatter {
+public class StandardOutputFormatter implements OutputFormatterLogics {
     private final CalculatorController controller = Calculator.STANDARD.getController();
     private final CCDisplay display;
     private final Map<String, String> appearanceMap = new HashMap<>();
@@ -79,5 +77,4 @@ public class StandardOutputFormatter implements OutputFormatter {
             }
         });
     }
-
 }

@@ -195,12 +195,12 @@ public class Tokenizer {
         if (index < this.lenExpr && this.expr.charAt(index) == '.') {
             index++;
         }
-        while (index < this.lenExpr && ((Character.isDigit(this.expr.charAt(index)) && this.expr.charAt(index - 1) != 'E') 
+        while (index < this.lenExpr && (Character.isDigit(this.expr.charAt(index))
+                || (Character.isDigit(this.expr.charAt(index)) && this.expr.charAt(index - 1) == 'E') 
                 || this.expr.charAt(index) == 'E'
                 || ((this.expr.charAt(index - 1) == 'E') && (this.expr.charAt(index) == '+' || this.expr.charAt(index) == '-')))) {
             index++;
         }
-
         if (this.index - ind == 0) {
             num = Double.parseDouble(this.expr.substring(ind));
         } else {
@@ -295,10 +295,5 @@ public class Tokenizer {
         final var newOp = Operator.getOperatorBySymbolAndArgs(String.valueOf(c), arguments);
         lastToken = TokensFactory.operatorToken(newOp);
         return lastToken;
-    }
-
-    public static void main(String[] args) {
-        var tok = new Tokenizer("inf+infinity+epsilon", false);
-        System.out.println(tok.getListSymbol());
     }
 }

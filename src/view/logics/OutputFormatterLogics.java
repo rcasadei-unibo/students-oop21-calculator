@@ -2,7 +2,7 @@ package view.logics;
 /**
  * This class handles the engine's memory displaying.
  */
-public interface OutputFormatter {
+public interface OutputFormatterLogics {
     /**
      * This will update the display.
      */
