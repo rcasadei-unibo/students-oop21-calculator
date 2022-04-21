@@ -225,10 +225,4 @@ public class ProgrammerFormatter implements InputFormatterLogics, OutputFormatte
             this.controller.getManager().memory().addResult(before.concat(" = ").concat(this.format()));
         }
     }
-    private boolean checkForError(final String before) {
-        return !(before.contains("Parenthesis mismatch") 
-                || this.format().contains("Parenthesis mismatch")
-                || before.contains("Syntax error") 
-                || this.format().contains("Syntax error"));
-    }
 }

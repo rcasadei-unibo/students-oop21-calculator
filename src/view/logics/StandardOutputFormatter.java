@@ -86,10 +86,4 @@ public class StandardOutputFormatter implements OutputFormatterLogics {
             this.controller.getManager().memory().addResult(history.concat(" = ").concat(this.format()));
         }
     }
-    private boolean checkForError(final String history) {
-        return !(history.contains("Parenthesis mismatch") 
-                || this.format().contains("Parenthesis mismatch")
-                || history.contains("Syntax error") 
-                || this.format().contains("Syntax error"));
-    }
 }
