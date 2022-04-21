@@ -10,10 +10,7 @@ import java.util.List;
 import java.util.Map;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-
-import model.manager.EngineModelInterface.Calculator;
 import utils.CCColors;
-import utils.CalcException;
 import view.components.CCDisplay;
 import view.components.CCNumPad;
 import view.components.ConversionPanel;
