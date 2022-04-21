@@ -21,10 +21,7 @@ public class HistoryPanel extends JPanel {
      */
     public HistoryPanel(final List<String> history) {
         this.setLayout(new GridLayout(1, 1));
-        if (history.isEmpty()) {
-            history.add("Your calculations will be shown here!");
-        }
-        final var list = new JList<Object>(history.toArray());
+        final var list = new JList<Object>(history.isEmpty() ? List.of("Your calculations will be shown here!").toArray() : history.toArray());
 
         final var scroller = new JScrollPane(list);
         this.add(scroller);

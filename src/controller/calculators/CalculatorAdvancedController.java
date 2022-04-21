@@ -2,6 +2,8 @@ package controller.calculators;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import controller.manager.CCEngine;
 import utils.CalcException;
@@ -10,6 +12,7 @@ import utils.calculate.Expression;
 import utils.calculate.Derivate;
 import utils.calculate.Limit;
 import utils.calculate.Tokenizer;
+import utils.tokens.TokenType;
 import utils.NumberFormatter;
 
 import utils.calculate.Integrator;
@@ -21,6 +24,7 @@ import utils.calculate.Integrator;
 public class CalculatorAdvancedController {
     private Algorithm op;
     private final Expression expr = new Expression();
+    private final List<String> displayBuffer = new LinkedList<>();
     private TypeAlgorithm type;
     private List<String> params = List.of();
     private CalculatorController controller;
@@ -102,22 +106,42 @@ public class CalculatorAdvancedController {
      * @param c
      */
     public void read(final String c) {
+        this.displayBuffer.add(c);
         this.controller.getManager().memory().read(c);
     }
 
     /**
-     * @param c
+     * @param c the string to read
      */
     public void readAll(final String c) {
         final var tok = new Tokenizer(c);
-        final var l = tok.getListSymbol();
-        l.forEach(s -> this.controller.getManager().memory().read(s));
+        final var l = tok.getListToken();
+        final var ll = Stream.iterate(0, (i) -> i < l.size(), (i) -> i + 1).map(i -> {
+            if (i < l.size() - 1
+                    && (l.get(i).getTypeToken().equals(TokenType.FUNCTION) && l.get(i + 1).getTypeToken().equals(TokenType.OPENPAR)
+                    || "^".equals(l.get(i).getSymbol()) && l.get(i + 1).getTypeToken().equals(TokenType.OPENPAR))) {
+                return l.get(i).getSymbol() + l.get(i + 1).getSymbol();
+            } else if (i > 0 
+                    && (l.get(i).getTypeToken().equals(TokenType.OPENPAR) && l.get(i - 1).getTypeToken().equals(TokenType.FUNCTION) 
+                    || l.get(i).getTypeToken().equals(TokenType.OPENPAR) && "^".equals(l.get(i - 1).getSymbol()))) {
+                return "";
+            } else {
+                return l.get(i).getSymbol();
+            }
+        }).collect(Collectors.toList());
+        ll.removeIf(s -> s.isBlank());
+        ll.forEach(s -> this.read(s));
     }
 
     /**
      * Delete the last symbol inserted.
      */
     public void deleteLast() {
+        if (!displayBuffer.isEmpty()) {
+            displayBuffer.remove(displayBuffer.size() - 1);
+        } else {
+            this.controller.getManager().memory().clear();
+        }
         this.controller.getManager().memory().deleteLast();
     }
 
@@ -129,11 +153,20 @@ public class CalculatorAdvancedController {
     }
 
     /**
+     * @return the displayBuffer
+     */
+    public String getCurrentDisplay() {
+        return this.displayBuffer.stream().reduce("", (s1, s2) -> s1 + s2);
+    }
+
+    /**
      * 
      */
     public void reset() {
         this.op.unsetParameters();
         this.controller.getManager().memory().clear();
+        this.displayBuffer.clear();
+        this.params = List.of();
     }
 
     /**

@@ -10,13 +10,15 @@ import java.util.List;
 import java.util.Map;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+
+import model.manager.EngineModelInterface.Calculator;
 import utils.CCColors;
 import utils.CalcException;
 import view.components.CCDisplay;
 import view.components.CCNumPad;
 import view.components.ConversionPanel;
 import view.components.HexadecimalLettersPanel;
-import view.logics.ProgrammerInputFormatter;
+import view.logics.ProgrammerFormatter;
 /**
  * This is ProgrammerCalculatorPanel which holds the following operators:
  * (Bitwise)
@@ -34,7 +36,7 @@ public class ProgrammerCalculatorPanel extends JPanel {
     private ConversionPanel convPanel;
     private final CCNumPad numpad;
     private transient ActionListener opAl;
-    private final transient ProgrammerInputFormatter formatter;
+    private final transient ProgrammerFormatter formatter = new ProgrammerFormatter(this.display);
     private final List<String> topOperators = List.of("roR", "roL", "shiftR", "shiftL", "nand", "nor");
     private final List<String> middleOperators = List.of("not", "xor", "and", "or");
     private final List<String> rightOperators = List.of("+", "-", "×", "÷");
@@ -50,9 +52,10 @@ public class ProgrammerCalculatorPanel extends JPanel {
         final ActionListener calcAl = new ActionListener() {
             public void actionPerformed(final ActionEvent e) {
                 try {
-                    display.updateUpperText(formatter.getOutput() + " =");
+                    formatter.updateDisplayUpperText();
+                    final String history = formatter.getOutput();
                     formatter.calculate();
-                    formatter.updateHistory();
+                    formatter.addResult(history);
                 } catch (Exception exception) {
                     display.updateText("Syntax error");
                     display.updateUpperText(formatter.getOutput() + " =");
@@ -95,7 +98,6 @@ public class ProgrammerCalculatorPanel extends JPanel {
      * -Hexadecimal, Octal, Binary.
     */
     public ProgrammerCalculatorPanel() {
-        this.formatter = new ProgrammerInputFormatter();
         this.setPanels();
     }
     private void setPanels() {
@@ -217,7 +219,7 @@ public class ProgrammerCalculatorPanel extends JPanel {
         return operators;
     }
     private void updateDisplays() {
-        display.updateText(formatter.getOutput());
+        formatter.updateDisplay();
         convPanel.updateConvDisplays(formatter.getLastValue());
     }
 }
