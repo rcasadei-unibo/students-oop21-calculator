@@ -1,6 +1,5 @@
 package utils.calculate;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -26,8 +25,8 @@ public class Limit implements Algorithm {
 	
 	/**
 	 * Calculates the limit numerically, i doens't work with all types of limits.
-	 * @param cond
-	 * @param initValue
+	 * @param cond : the condition for continuing evaluating the limit
+	 * @param initValue : the value we start to evaluate the limit
 	 * @return the result of the limit from above or below
 	 * @throws CalcException
 	 */
@@ -58,7 +57,7 @@ public class Limit implements Algorithm {
         }
         try {
             final String params = this.preprocessParameter(parameters.get(0));
-            this.x0 = Double.parseDouble(new Expression(params, engine, false).getResult().getNumericResult(0.0).toString());
+            this.x0 = Double.parseDouble(new Expression(params, engine, false).getResult().getNumericResult(0.0).toString()) + MINNUM;
         } catch (NumberFormatException e) {
             throw new CalcException("Bad format Number, only numbers are accepted");
         }
