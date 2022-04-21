@@ -52,15 +52,15 @@ public class ProgrammerFormatter implements InputFormatterLogics, OutputFormatte
                 this.lastNumBuffer = "";
             }
             this.buffer.add(input);
-          this.removeError(this.buffer);
+          this.removeError();
         }
     }
     private void handleNotInput() {
         this.buffer.add(0, "(");
         this.buffer.add(0, "not");
         this.buffer.add(")");
-        this.removeError(buffer);
-        final String before = this.getOutput();
+        this.removeError();
+        final String before = this.getBuffer();
         this.updateDisplayUpperText();
         this.calculate();
         this.updateDisplay();
@@ -140,7 +140,7 @@ public class ProgrammerFormatter implements InputFormatterLogics, OutputFormatte
      * 
      * @return a String containing the current buffer converted to String.
      */
-    public String getOutput() {
+    public String getBuffer() {
         return this.buffer.stream().reduce("", (a, b) -> a + b);
     }
     /**
@@ -149,7 +149,7 @@ public class ProgrammerFormatter implements InputFormatterLogics, OutputFormatte
     @Override
     public void calculate() {
         if (!this.buffer.isEmpty()) {
-            this.removeError(this.buffer);
+            this.removeError();
             final var temp = this.formatToDecimal();
             this.controller.getManager().memory().readAll(temp);
             this.controller.getManager().engine().calculate();
@@ -164,9 +164,9 @@ public class ProgrammerFormatter implements InputFormatterLogics, OutputFormatte
             this.controller.getManager().memory().clear();
         }
     }
-    private void removeError(final List<String> input) {
-        input.remove("Syntax error");
-        input.remove("Parenthesis mismatch");
+    private void removeError() {
+        this.buffer.remove("Syntax error");
+        this.buffer.remove("Parenthesis mismatch");
     }
     private void inverseFormat() {
         if (this.conversionBase != 10) {
@@ -211,7 +211,7 @@ public class ProgrammerFormatter implements InputFormatterLogics, OutputFormatte
     }
     @Override
     public void updateDisplay() {
-        this.display.updateText(this.getOutput());
+        this.display.updateText(this.getBuffer());
     }
     @Override
     public String format() {
@@ -219,8 +219,8 @@ public class ProgrammerFormatter implements InputFormatterLogics, OutputFormatte
     }
     @Override
     public void updateDisplayUpperText() {
-        if (!this.getOutput().isBlank()) {
-            display.updateUpperText(this.getOutput().concat(" ="));
+        if (!this.getBuffer().isBlank()) {
+            display.updateUpperText(this.getBuffer().concat(" ="));
         }
     }
     /**
