@@ -1,6 +1,8 @@
 package view.logics;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
 import controller.calculators.CalculatorController;
 import model.calculators.ProgrammerCalculatorModelFactory;
 import model.manager.EngineModelInterface.Calculator;
@@ -222,7 +224,9 @@ public class ProgrammerFormatter implements InputFormatterLogics, OutputFormatte
      */
     public void addResult(final String before) {
         if (this.checkForError(before)) {
-            this.controller.getManager().memory().addResult(before.concat(" = ").concat(this.format()));
+            final var baseMap = Map.of(2, "₂", 8, "₈", 10, "₁₀", 16, "₁₆");
+            final var text = before + baseMap.get(this.conversionBase) + " =" + this.format();
+            this.controller.getManager().memory().addResult(text);
         }
     }
 }
