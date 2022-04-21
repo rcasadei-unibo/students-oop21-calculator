@@ -72,6 +72,9 @@ public class Expression {
 	 * @throws CalcException
 	 */
 	public Operation getResult() throws CalcException {
+	    if (result.isPresent()) {
+	        return result.get();
+	    }
 		this.result = Optional.of(evaluator.evaluate(parser.parseToAST(this.expr)));
 		return result.get();
 	}
