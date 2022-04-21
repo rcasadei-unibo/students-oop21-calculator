@@ -46,7 +46,7 @@ public final class CommandFactory {
                 } else {
                     controller.read(text);
                 }
-                return controller.getCurrentState();
+                return controller.getCurrentDisplay();
 
             }
 

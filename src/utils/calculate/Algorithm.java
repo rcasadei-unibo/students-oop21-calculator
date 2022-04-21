@@ -50,7 +50,7 @@ public interface Algorithm {
         final var tok = new Tokenizer(param);
         final List<String> l = new LinkedList<>();
         tok.getListSymbol().forEach(s -> {
-            if ("-".equals(s) && (l.isEmpty() || "(".equals(l.get(l.size())))) {
+            if ("-".equals(s) && (l.isEmpty() || "(".equals(l.get(l.size() - 1)))) {
                 l.add("0.0");
             }
             l.add(s);
