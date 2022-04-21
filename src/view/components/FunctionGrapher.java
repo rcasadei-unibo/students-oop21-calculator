@@ -37,7 +37,6 @@ public class FunctionGrapher extends JPanel {
         final double width = screenSize.getWidth() * 0.35;
         final double height = screenSize.getHeight() / 2;
         this.setPreferredSize(new Dimension((int) width, (int) height));
-        this.setBackground(CCColors.GRAPHIC_BACKGROUND);
         this.setBorder(new LineBorder(CCColors.GRAPHIC_BORDERS, 1));
         this.addMouseWheelListener(m -> {
             if (m.getWheelRotation() > 0 && FunctionGrapher.scale > 10) {
