@@ -10,20 +10,15 @@ import utils.Type;
 
 /**
  * 
- * MISSING JAVADOC.
+ * Static factory for basic operators and scientific operators such as sin, cos, ln, exc...
  *
  */
 
 public final class ScientificCalculatorModelFactory {
-    /**
-     * ScientificCalculatorModel contains all the operations of StandardCalculatorModel
-     * and new operations unique to a scientific calculator.
-     *
-     */
     private ScientificCalculatorModelFactory() {
     }
     /**
-     * @return CalculatorModelTemplate
+     * @return a map containing the operator name and a function that applies the before-mentioned operator.
      */
     public static CalculatorModel create() {
         final Map<String, CCBinaryOperator> binaryOpMap = new HashMap<>(Map.of("log", new CCBinaryOperator((n, b) -> Math.log(n) / Math.log(b), 4, null),

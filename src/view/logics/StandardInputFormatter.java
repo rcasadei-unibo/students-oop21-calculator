@@ -1,7 +1,5 @@
 package view.logics;
-
 import java.util.List;
-
 import controller.calculators.CalculatorController;
 import model.manager.EngineModelInterface.Calculator;
 import java.util.ArrayList;
@@ -30,7 +28,7 @@ public class StandardInputFormatter implements InputFormatterLogics {
     }
     private void checkUselessParenthesys() {
         final List<String> state = new ArrayList<>(controller.getManager().memory().getCurrentState());
-        for (int i = 0; i < state.size() ; i++) {
+        for (int i = 0; i < state.size(); i++) {
             if (i != state.size() - 1) {
                 if ("(".equals(state.get(i)) && ")".equals(state.get(i + 1))) {
                     state.remove(i);

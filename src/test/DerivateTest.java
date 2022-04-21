@@ -9,7 +9,7 @@ import utils.calculate.Derivate;
 import utils.calculate.Expression;
 
 /**
- * @author pesic
+ * 
  *
  */
 public class DerivateTest {
@@ -51,6 +51,6 @@ public class DerivateTest {
         assertEquals(der.calculate(expr), "((x)^(2.0))\u00D7((2.0)÷(x))");
         expr.setExpr("abs(x)");
         assertEquals(der.calculate(expr), "(x)÷(abs(x))");
-        
+
     }
 }
