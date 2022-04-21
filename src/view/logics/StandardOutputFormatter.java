@@ -77,4 +77,19 @@ public class StandardOutputFormatter implements OutputFormatterLogics {
             }
         });
     }
+    /**
+     * This method updates the history.
+     * @param history the value before using calculate.
+     */
+    public void addResult(final String history) {
+        if (this.checkForError(history)) {
+            this.controller.getManager().memory().addResult(history.concat(" = ").concat(this.format()));
+        }
+    }
+    private boolean checkForError(final String history) {
+        return !(history.contains("Parenthesis mismatch") 
+                || this.format().contains("Parenthesis mismatch")
+                || history.contains("Syntax error") 
+                || this.format().contains("Syntax error"));
+    }
 }

@@ -198,13 +198,11 @@ public class ProgrammerFormatter implements InputFormatterLogics, OutputFormatte
         if (this.lastNumBuffer.contains(".")) {
             return Math.round(Double.parseDouble(lastNumBuffer));
         }
-        if ("Syntax error".equals(lastNumBuffer)) {
+        try {
+            return ConversionAlgorithms.unsignedConversionToDecimal(conversionBase, lastNumBuffer);
+        } catch (NumberFormatException e) {
             return 0L;
         }
-        if (!this.lastNumBuffer.isBlank()) {
-            return ConversionAlgorithms.unsignedConversionToDecimal(conversionBase, lastNumBuffer);
-        }
-        return ConversionAlgorithms.unsignedConversionToDecimal(conversionBase, lastNumBuffer);
     }
     @Override
     public void updateDisplay() {
@@ -223,8 +221,14 @@ public class ProgrammerFormatter implements InputFormatterLogics, OutputFormatte
      * @param before a string containing the last operation executed.
      */
     public void addResult(final String before) {
-        if (!(before.contains("Syntax error") || this.format().contains("Syntax error"))) {
+        if (this.checkForError(before)) {
             this.controller.getManager().memory().addResult(before.concat(" = ").concat(this.format()));
         }
+    }
+    private boolean checkForError(final String before) {
+        return !(before.contains("Parenthesis mismatch") 
+                || this.format().contains("Parenthesis mismatch")
+                || before.contains("Syntax error") 
+                || this.format().contains("Syntax error"));
     }
 }
