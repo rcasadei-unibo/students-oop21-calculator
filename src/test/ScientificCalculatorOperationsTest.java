@@ -13,8 +13,8 @@ import model.calculators.ScientificCalculatorModelFactory;
 public class ScientificCalculatorOperationsTest {
     private final CalculatorModel calc = ScientificCalculatorModelFactory.create();
     /**
-     * Method that tests the natural logarithm operation "ln" and the
-     * binary logarithm operation "log"
+     * Method that tests the natural logarithm operator "ln" and the
+     * binary logarithm operatior "log".
      * 
      */
     @org.junit.Test
@@ -28,7 +28,7 @@ public class ScientificCalculatorOperationsTest {
     }
     /**
      * 
-     * Method that tests the absolute value operation "abs".
+     * Method that tests the absolute value operator "abs".
      * 
      */
     @org.junit.Test
@@ -41,7 +41,7 @@ public class ScientificCalculatorOperationsTest {
     }
     /**
      * 
-     * Method that tests the factorial operation "!".
+     * Method that tests the factorial operator "!".
      * 
      */
     @org.junit.Test
@@ -54,7 +54,7 @@ public class ScientificCalculatorOperationsTest {
         assertEquals(1.0, fact.apply(0.56), 0);
     }
     /**
-     * Method that tests the "nthRoot" operation.
+     * Method that tests the "nthRoot" operator.
      */
     @org.junit.Test
     public void rootTest() {
@@ -63,7 +63,7 @@ public class ScientificCalculatorOperationsTest {
         assertEquals(1.0, root.apply(1, 3), 0);
     }
     /**
-     * Method that tests the "potenza" operator.
+     * Method that tests the "^" operator.
      */
     @org.junit.Test
     public void potenzaTest() {
@@ -74,7 +74,7 @@ public class ScientificCalculatorOperationsTest {
         assertEquals(1.0, pot.apply(-1.0, 20), 0);
     }
     /**
-     * Method that tests the sin operation "sin".
+     * Method that tests the sin operator "sin".
      */
     @org.junit.Test
     public void sinTest() {
@@ -82,14 +82,16 @@ public class ScientificCalculatorOperationsTest {
         assertEquals(0, sin.apply(0), 0);
     }
     /**
-     * Method that tests the cos operation "cos".
+     * Method that tests the cos operator "cos".
      */
+    @org.junit.Test
     public void cosTest() {
 
     }
     /**
-     * Method that tests the tan operation "tan".
+     * Method that tests the tan operator "tan".
      */
+    @org.junit.Test
     public void tanTest() {
 
     }

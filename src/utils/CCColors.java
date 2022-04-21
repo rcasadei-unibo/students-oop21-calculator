@@ -40,11 +40,11 @@ public final class CCColors {
      */
     public static final Color GRAPHIC_BORDERS = Color.LIGHT_GRAY;
     /**
-     * Paint color of the axes of the FunctionGrapher component.
+     * Color of the axes of the FunctionGrapher component.
      */
     public static final Color GRAPHIC_AXES = Color.BLACK;
     /**
-     * Paint color of the grid of the FunctionGrapher component.
+     * Color of the grid of the FunctionGrapher component.
      */
     public static final Color GRAPHIC_GRID = Color.LIGHT_GRAY;
 
