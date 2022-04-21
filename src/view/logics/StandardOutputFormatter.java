@@ -34,7 +34,9 @@ public class StandardOutputFormatter implements OutputFormatterLogics {
     }
     @Override
     public void updateDisplayUpperText() {
-        this.display.updateUpperText(this.format().concat(" ="));
+        if (!this.format().isEmpty()) {
+            this.display.updateUpperText(this.format().concat(" ="));
+        }
     }
     @Override
     public String format() {

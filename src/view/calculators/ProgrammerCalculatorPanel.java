@@ -136,7 +136,7 @@ public class ProgrammerCalculatorPanel extends JPanel {
                     break;
                 }
                 convPanel.changeToActive(btn.getText());
-                display.updateText("0");
+                formatter.updateDisplay();
                 convPanel.updateConvDisplays(0);
             }
         };

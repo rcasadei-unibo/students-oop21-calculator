@@ -52,12 +52,14 @@ public class ProgrammerFormatter implements InputFormatterLogics, OutputFormatte
                 this.lastNumBuffer = "";
             }
             this.buffer.add(input);
+          this.removeError(this.buffer);
         }
     }
     private void handleNotInput() {
         this.buffer.add(0, "(");
         this.buffer.add(0, "not");
         this.buffer.add(")");
+        this.removeError(buffer);
         final String before = this.getOutput();
         this.updateDisplayUpperText();
         this.calculate();
@@ -147,7 +149,7 @@ public class ProgrammerFormatter implements InputFormatterLogics, OutputFormatte
     @Override
     public void calculate() {
         if (!this.buffer.isEmpty()) {
-            this.removeSyntaxError(this.buffer);
+            this.removeError(this.buffer);
             final var temp = this.formatToDecimal();
             this.controller.getManager().memory().readAll(temp);
             this.controller.getManager().engine().calculate();
@@ -162,8 +164,9 @@ public class ProgrammerFormatter implements InputFormatterLogics, OutputFormatte
             this.controller.getManager().memory().clear();
         }
     }
-    private void removeSyntaxError(final List<String> input) {
+    private void removeError(final List<String> input) {
         input.remove("Syntax error");
+        input.remove("Parenthesis mismatch");
     }
     private void inverseFormat() {
         if (this.conversionBase != 10) {
@@ -216,16 +219,18 @@ public class ProgrammerFormatter implements InputFormatterLogics, OutputFormatte
     }
     @Override
     public void updateDisplayUpperText() {
-        display.updateUpperText(this.getOutput().concat(" ="));
+        if (!this.getOutput().isBlank()) {
+            display.updateUpperText(this.getOutput().concat(" ="));
+        }
     }
     /**
      * This method adds the last valid Operation to the History.
      * @param before a string containing the last operation executed.
      */
     public void addResult(final String before) {
-        if (this.checkForError(before)) {
+        if (this.checkForError(before) && !before.isBlank()) {
             final var baseMap = Map.of(2, "₂", 8, "₈", 10, "₁₀", 16, "₁₆");
-            final var text = before + baseMap.get(this.conversionBase) + " =" + this.format();
+            final var text = before + " = " + this.format() + " " + baseMap.get(this.conversionBase);
             this.controller.getManager().memory().addResult(text);
         }
     }
