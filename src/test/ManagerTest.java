@@ -12,7 +12,7 @@ import utils.CalcException;
 
 
 /**
- * TODO: javadoc.
+ * Test class for Manager functionalities.
  */
 public class ManagerTest {
     private final CCManager controller = new CCManager();
