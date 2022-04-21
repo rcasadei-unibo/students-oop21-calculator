@@ -1,6 +1,5 @@
 package view.components;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
 
@@ -27,58 +26,38 @@ public class FunctionsInsertionPanel extends JPanel {
      *@param f
      */
     public FunctionsInsertionPanel(final FunctionCalculator logic, final FunctionGrapher f) {
-        this.setLayout(new GridLayout(2, 4));
+        this.setLayout(new GridLayout(1, 4));
         final Font font = new Font("Serif", Font.ITALIC + Font.BOLD, 20);
 
-        final JLabel f1 = new JLabel("   f(x) : ");
-        f1.setFont(font);
-        f1.setBorder(new LineBorder(Color.LIGHT_GRAY, 1));
-        final JLabel f2 = new JLabel("  g(x) : ");
-        f2.setFont(font);
-        f2.setBorder(new LineBorder(Color.LIGHT_GRAY, 1));
+        final JLabel fun = new JLabel("   f(x) : ");
+        fun.setFont(font);
+        fun.setBorder(new LineBorder(CCColors.GRAPHIC_BORDERS, 1));
 
-        final JTextField t1 = new JTextField("  ");
-        t1.setBorder(new LineBorder(Color.LIGHT_GRAY, 1));
-        final JTextField t2 = new JTextField("  ");
-        t2.setBorder(new LineBorder(Color.LIGHT_GRAY, 1));
+        final JTextField t = new JTextField("  ");
+        t.setBorder(new LineBorder(CCColors.GRAPHIC_BORDERS, 1));
 
-        final JButton create1 = new JButton("DRAW");
-        create1.setBackground(CCColors.EQUAL_BUTTON);
-        final JButton create2 = new JButton("DRAW");
-        create2.setBackground(CCColors.EQUAL_BUTTON);
+        final JButton draw = new JButton("ADD");
+        draw.setBackground(CCColors.EQUAL_BUTTON);
 
-        final JButton delete1 = new JButton("DELETE");
-        delete1.setBackground(CCColors.NUMBER_BUTTON);
-        final JButton delete2 = new JButton("DELETE");
-        delete2.setBackground(CCColors.NUMBER_BUTTON);
+        final JButton delete = new JButton("DELETE LAST");
+        delete.setBackground(CCColors.NUMBER_BUTTON);
 
-        create1.addActionListener(e -> {
-            logic.calculate(t1.getText());
-            f.paintFunction(logic.getResults(), true);
+        draw.addActionListener(e -> {
+            logic.calculate(t.getText());
+            if (logic.getResults().isEmpty()) {
+                t.setText(" SyntaxError");
+            } else {
+                f.addFunction(logic.getResults());
+            }
         });
 
-        delete1.addActionListener(e -> {
-            f.deleteFunction(true);
-
+        delete.addActionListener(e -> {
+            f.deleteFunction();
         });
 
-        create2.addActionListener(e -> {
-            logic.calculate(t2.getText());
-            f.paintFunction(logic.getResults(), false);
-        });
-
-        delete2.addActionListener(e -> {
-            f.deleteFunction(false);
-        });
-
-        this.add(f1);
-        this.add(t1);
-        this.add(create1);
-        this.add(delete1);
-
-        this.add(f2);
-        this.add(t2);
-        this.add(create2);
-        this.add(delete2);
+        this.add(fun);
+        this.add(t);
+        this.add(draw);
+        this.add(delete);
     }
 }

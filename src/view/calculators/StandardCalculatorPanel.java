@@ -10,7 +10,9 @@ import view.components.CCNumPad;
 import controller.calculators.CalculatorController;
 import model.calculators.StandardCalculatorModelFactory;
 import model.manager.EngineModelInterface.Calculator;
-import utils.CreateButton;
+import view.logics.CreateButton;
+import view.logics.StandardInputFormatter;
+import view.logics.StandardOutputFormatter;
 /**
  * This is StandardCalculatorPanel which holds the basic operators:
  * -plus.
@@ -22,13 +24,14 @@ import utils.CreateButton;
  * -modulo.
  */
 public class StandardCalculatorPanel extends JPanel {
-
     /**
      * 
      */
     private static final long serialVersionUID = -3801351406960094788L;
     private final CCDisplay display = new CCDisplay();
     private final CalculatorController controller;
+    private final StandardInputFormatter inFormatter = new StandardInputFormatter();
+    private final StandardOutputFormatter outFormatter = new StandardOutputFormatter(this.display);
     /**
       * This is StandardCalculatorPanel which holds the basic operators:
       * -plus.
@@ -43,51 +46,59 @@ public class StandardCalculatorPanel extends JPanel {
         this.controller = Calculator.STANDARD.getController();
         this.setLayout(new BorderLayout());
         this.add(display, BorderLayout.NORTH);
-
         this.setNumbers();
         this.setOperators();
     }
-
     private void setNumbers() {
         final ActionListener btnAl = new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                controller.getManager().memory().read(((JButton) e.getSource()).getText());
-                CreateButton.updateDisplay(controller, display);
+                inFormatter.read(((JButton) e.getSource()).getText());
+                outFormatter.updateDisplay();
             }
         };
         final ActionListener calcAl = new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                if (!controller.getManager().memory().getCurrentState().isEmpty() && !(controller.getManager().memory().getCurrentState().contains("Syntax error") || controller.getManager().memory().getCurrentState().contains("Syntax Error"))) {
-                    final String history = controller.getManager().memory().getCurrentState().stream().reduce("", (a, b) -> a + b);
-                    controller.getManager().engine().calculate();
-                    controller.getManager().memory().addResult(history.concat(" = ").concat(controller.getManager().memory().getCurrentState().stream().reduce("", (a, b) -> a + b)));
+                if (!controller.getManager().memory().getCurrentState().isEmpty()) {
+                    final String history = outFormatter.format();
+                    outFormatter.updateDisplayUpperText();
+                    inFormatter.calculate();
+                    if (!controller.getManager().memory().getCurrentState().contains("Syntax error")) {
+                        controller.getManager().memory().addResult(history.concat(" = ").concat(controller.getManager().memory().getCurrentState().stream().reduce("", (a, b) -> a + b)));
+                    }
                 }
-                CreateButton.updateDisplay(controller, display);
+                outFormatter.updateDisplay();
             }
         };
         final ActionListener backspaceAl = new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                controller.getManager().memory().deleteLast();
-                CreateButton.updateDisplay(controller, display);
-
+                inFormatter.deleteLast();
+                outFormatter.updateDisplay();
             }
         };
         final JPanel numbers = new CCNumPad(btnAl, calcAl, backspaceAl);
         this.add(numbers, BorderLayout.CENTER);
     }
-
     private void setOperators() {
         final JPanel operator = new JPanel();
         operator.setLayout(new GridLayout(4, 2));
         for (final var entry : StandardCalculatorModelFactory.create().getBinaryOpMap().entrySet()) {
-            operator.add(CreateButton.createOpButton(entry.getKey(), entry.getKey(), entry.getKey(), controller, display));
-
+            final JButton op = CreateButton.createOpButtonFR(entry.getKey());
+            op.addActionListener(e -> {
+                inFormatter.read(entry.getKey());
+                outFormatter.updateDisplay();
+            });
+            operator.add(op);
         }
         for (final var entry : StandardCalculatorModelFactory.create().getUnaryOpMap().entrySet()) {
-            operator.add(CreateButton.createOpButton(entry.getKey(), entry.getKey(), "1/x".equals(entry.getKey()) ? "1/" : entry.getKey(), controller, display));
+            final JButton op = CreateButton.createOpButtonFR(entry.getKey());
+            op.addActionListener(e -> {
+                inFormatter.read(entry.getKey());
+                outFormatter.updateDisplay();
+            });
+            operator.add(op);
         }
         this.add(operator, BorderLayout.EAST);
     }

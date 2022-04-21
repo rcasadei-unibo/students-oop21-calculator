@@ -23,38 +23,20 @@ public class HexadecimalLettersPanel extends JPanel {
         final int rows = 6;
         final int cols = 1;
         this.setLayout(new GridLayout(rows, cols));
-        final JButton a = new JButton("A");
-        a.addActionListener(al);
-        a.setBackground(CCColors.NUMBER_BUTTON);
-        this.hexadecimalLetters.add(a);
-        this.add(a);
-        final JButton b = new JButton("B");
-        b.addActionListener(al);
-        b.setBackground(CCColors.NUMBER_BUTTON);
-        this.hexadecimalLetters.add(b);
-        this.add(b);
-        final JButton c = new JButton("C");
-        c.addActionListener(al);
-        c.setBackground(CCColors.NUMBER_BUTTON);
-        this.hexadecimalLetters.add(c);
-        this.add(c);
-        final JButton d = new JButton("D");
-        d.addActionListener(al);
-        d.setBackground(CCColors.NUMBER_BUTTON);
-        this.hexadecimalLetters.add(d);
-        this.add(d);
-        final JButton e = new JButton("E");
-        e.addActionListener(al);
-        e.setBackground(CCColors.NUMBER_BUTTON);
-        this.hexadecimalLetters.add(e);
-        this.add(e);
-        final JButton f = new JButton("F");
-        f.addActionListener(al);
-        f.setBackground(CCColors.NUMBER_BUTTON);
-        this.hexadecimalLetters.add(f);
-        this.add(f);
+        this.createButton("A", al);
+        this.createButton("B", al);
+        this.createButton("C", al);
+        this.createButton("D", al);
+        this.createButton("E", al);
+        this.createButton("F", al);
     }
-
+    private void createButton(final String text, final ActionListener al) {
+        final JButton btn = new JButton(text);
+        btn.addActionListener(al);
+        btn.setBackground(CCColors.NUMBER_BUTTON);
+        this.hexadecimalLetters.add(btn);
+        this.add(btn);
+    }
     /**
      * This method disables all hexadecimal letter buttons.
      */

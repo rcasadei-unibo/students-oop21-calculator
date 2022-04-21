@@ -6,7 +6,7 @@ import javax.swing.JPanel;
 
 import controller.calculators.CalculatorController;
 import model.manager.EngineModelInterface.Calculator;
-import utils.CreateButton;
+import view.logics.CreateButton;
 /**
  * 
  * MISSING JAVADOC.

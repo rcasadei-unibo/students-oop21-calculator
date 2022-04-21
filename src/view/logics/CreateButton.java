@@ -1,13 +1,12 @@
-package utils;
-
-
+package view.logics;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import utils.CalcException;
 import javax.swing.JButton;
 
 import controller.calculators.CalculatorController;
+import utils.CCColors;
 import view.components.CCDisplay;
 /**
  * 
@@ -21,17 +20,15 @@ public final class CreateButton {
     private static final List<String> AVOID = List.of("+", "-", "×", "÷", "%");
     private static final Map<String, String> KEYMAP = new HashMap<>();
     private static final Map<String, String> APPEARANCEMAP = new HashMap<>();
-
     private CreateButton() {
     }
    /**
-    * 
-    * @param btnName
-    * @param opName
-    * @param appearance
-    * @param controller
-    * @param display
-    * @return aaaa
+    * @param btnName the button's name
+    * @param opName the mapped's operator name
+    * @param appearance the appearance it will have
+    * @param controller the current controller
+    * @param display the current display
+    * @return a button linked to its controller and display
     */
 
    public static JButton createOpButton(final String btnName, final String opName, final String appearance, final CalculatorController controller, final CCDisplay display) {
@@ -45,15 +42,21 @@ public final class CreateButton {
            final boolean isLastInputNumber = isLastInputANumber(controller);
 
                if (isUnary && isLastInputNumber) {
-                   controller.getManager().memory().read("Syntax error");
+                   controller.getManager().memory().clear();
+                   display.updateText("Syntax error");
                } else {
                    controller.getManager().memory().read(op);
                    if (!AVOID.contains(text)) {
                        controller.getManager().memory().read("(");
                    }
+                   updateDisplay(controller, display);
                }
-               updateDisplay(controller, display);
        });
+       btn.setBackground(CCColors.OPERATION_BUTTON);
+       return btn;
+   }
+   public static JButton createOpButtonFR(final String btnName) {
+       final JButton btn = new JButton(btnName);
        btn.setBackground(CCColors.OPERATION_BUTTON);
        return btn;
    }
@@ -70,9 +73,9 @@ public final class CreateButton {
        return false;
    }
    /**
-    * 
-    * @param controller 
-    * @param display
+    * Updates the display replacing the operators with their appearance.
+    * @param controller the current controller
+    * @param display the current display
     */
    public static void updateDisplay(final CalculatorController controller, final CCDisplay display) {
        display.updateText(controller.getManager().memory().getCurrentState().stream().map((x) -> {
