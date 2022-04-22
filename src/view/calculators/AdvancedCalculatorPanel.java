@@ -67,10 +67,10 @@ import view.logics.AdvancedLogicsImpl;
                 final var result = command.execute();
                 final var expression = command1.execute();
                 display.updateUpperText(expression + "=");
-                if ("Syntax Error".equals(result) || "Infinity".equals(result)) {
+                if ("Syntax Error".equals(result)) {
                     advancedController.reset();
                     display.updateText(result);
-                } else if ("Infinity".equals(result)) {
+                } else if ("Infinity".equals(result) || "-Infinity".equals(result)) {
                     advancedController.reset();
                     display.updateText(result);
                     commands.addToHistory(expression + "=" + result).execute();
