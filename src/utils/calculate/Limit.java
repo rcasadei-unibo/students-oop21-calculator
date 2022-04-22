@@ -24,6 +24,8 @@ public class Limit implements Algorithm {
 	    }
 	}
 	
+	//took inspiration from
+	//https://stackoverflow.com/questions/31330898/calculus-limits-with-java
 	/**
 	 * Calculates the limit numerically, i doens't work with all types of limits.
 	 * @param cond : the condition for continuing evaluating the limit
@@ -68,7 +70,7 @@ public class Limit implements Algorithm {
         expression = expr;
         final double aroundBelow = calculateLimit((num) -> num <= x0, x0 - DISTANCE);
         final double aroundAbove = calculateLimit((num) -> num >= x0, x0 + DISTANCE);
-        return aroundBelow == aroundAbove ? aroundAbove : Double.NaN;
+        return aroundBelow == aroundAbove ? Math.abs(aroundAbove) <= DELTA ? 0.0 : aroundAbove : Double.NaN;
     }
 
     @Override
