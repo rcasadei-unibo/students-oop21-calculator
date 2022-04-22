@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.function.Supplier;
 
 import controller.calculators.CalculatorAdvancedController.TypeAlgorithm;
-import view.logics.AdvancedLogics;
+import controller.calculators.logics.AdvancedLogics;
 /**
  * Command Factory produces commands that in this case have they have logic
  * integrated in it.
