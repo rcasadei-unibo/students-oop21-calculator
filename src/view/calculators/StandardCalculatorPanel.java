@@ -4,17 +4,17 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
-
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import view.components.CCDisplay;
 import view.components.CCNumPad;
 import controller.calculators.CalculatorController;
-import model.calculators.StandardCalculatorModelFactory;
 import model.manager.EngineModelInterface.Calculator;
 import view.logics.CreateButton;
-import view.logics.StandardInputFormatter;
-import view.logics.StandardOutputFormatter;
+import view.logics.InputFormatterLogics;
+import view.logics.InputFormatterLogicsImpl;
+import view.logics.OutputFormatterLogics;
+import view.logics.OutputFormatterLogicsImpl;
 /**
  * This is StandardCalculatorPanel which holds the basic operators:
  * -plus.
@@ -31,9 +31,9 @@ public class StandardCalculatorPanel extends JPanel {
      */
     private static final long serialVersionUID = -3801351406960094788L;
     private final CCDisplay display = new CCDisplay();
-    private final CalculatorController controller;
-    private final StandardInputFormatter inFormatter = new StandardInputFormatter();
-    private final StandardOutputFormatter outFormatter = new StandardOutputFormatter(this.display);
+    private final CalculatorController controller = Calculator.STANDARD.getController();
+    private final InputFormatterLogics inFormatter;
+    private final OutputFormatterLogics outFormatter;
     /**
       * This is StandardCalculatorPanel which holds the basic operators:
       * -plus.
@@ -45,7 +45,8 @@ public class StandardCalculatorPanel extends JPanel {
       * -modulo.
      */
     public StandardCalculatorPanel() {
-        this.controller = Calculator.STANDARD.getController();
+        this.inFormatter = new InputFormatterLogicsImpl(this.controller);
+        this.outFormatter = new OutputFormatterLogicsImpl(this.controller, this.display);
         this.setLayout(new BorderLayout());
         this.add(display, BorderLayout.NORTH);
         this.setNumbers();
@@ -93,7 +94,7 @@ public class StandardCalculatorPanel extends JPanel {
             });
             operator.add(btn);
         });
-        
+
         this.add(operator, BorderLayout.EAST);
     }
     /**
