@@ -20,9 +20,8 @@ import utils.CCColors;
 import utils.CommandFactory;
 import view.components.CCDisplay;
 import view.components.CCNumPad;
-import view.logics.AdvancedLogics;
-import view.logics.AdvancedLogicsImpl;
-
+import controller.calculators.logics.AdvancedLogicsImpl;
+import controller.calculators.logics.AdvancedLogics;
     /**
      * 
     * The Advanced Calculator Panel.
