@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 
 import javax.swing.JPanel;
 
+import controller.calculators.logics.FunctionCalculator;
+import controller.calculators.logics.FunctionCalculatorImpl;
 import view.components.FunctionGrapher;
 import view.components.FunctionsInsertionPanel;
 /**

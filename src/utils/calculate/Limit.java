@@ -15,6 +15,7 @@ public class Limit implements Algorithm {
     private CCEngine engine;
 	private static final double DISTANCE = 5;
 	private static final double MINNUM = 1E-8;
+	private static final double DELTA = 1E-11;
 	private Double x0;
 	
 	private void  parameterDefined() {
@@ -57,7 +58,7 @@ public class Limit implements Algorithm {
         }
         try {
             final String params = this.preprocessParameter(parameters.get(0));
-            this.x0 = Double.parseDouble(new Expression(params, engine, false).getResult().getNumericResult(0.0).toString()) + MINNUM;
+            this.x0 = Double.parseDouble(new Expression(params, engine, false).getResult().getNumericResult(0.0).toString()) + DELTA;
         } catch (NumberFormatException e) {
             throw new CalcException("Bad format Number, only numbers are accepted");
         }

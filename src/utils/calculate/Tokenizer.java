@@ -75,7 +75,7 @@ public class Tokenizer {
     }
 
     /**
-     * Gives you back the token associated with the char or characters in the string or lis of strings.
+     * Gives you back the token associated with the char or characters in the string or list of strings.
      * @return Token
      */
     public Token getNextToken() {

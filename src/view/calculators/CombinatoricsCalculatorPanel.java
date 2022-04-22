@@ -74,7 +74,7 @@ public class CombinatoricsCalculatorPanel extends JPanel {
 
         private static final long serialVersionUID = 1L;
         private final String sep = File.separator;
-        private final String directory = System.getProperty("user.dir") + this.sep + "src" + this.sep + "resources" + this.sep;
+        private final String directory = System.getProperty("user.dir") + this.sep + "resources" + this.sep;
 
         OperationsPanel(final CombinatoricsLogics logics, final CCDisplay display, final JLabel explLabel) {
             this.setLayout(new GridLayout(8, 2));
