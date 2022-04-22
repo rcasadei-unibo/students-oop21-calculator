@@ -1,11 +1,9 @@
 package view.logics;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import controller.calculators.CalculatorController;
 import model.calculators.StandardCalculatorModelFactory;
 import model.manager.EngineModelInterface.Calculator;
@@ -39,14 +37,16 @@ public class StandardOutputFormatter implements OutputFormatterLogics {
     }
     @Override
     public void updateDisplayUpperText() {
-        this.display.updateUpperText(this.format().concat(" ="));
+        if (!this.format().isEmpty()) {
+            this.display.updateUpperText(this.format().concat(" ="));
+        }
     }
     @Override
     public String format() {
-        final List<String> output = this.replaceOp();
-        return this.getString(output);
+        final List<String> output = this.replaceWithAppearance();
+        return this.getStringOf(output);
     }
-    private List<String> replaceOp() {
+    private List<String> replaceWithAppearance() {
         final List<String> state = new ArrayList<>(controller.getManager().memory().getCurrentState());
         return state.stream().map((str) -> {
                 if (controller.isBinaryOperator(str) || controller.isUnaryOperator(str)) {
@@ -55,7 +55,7 @@ public class StandardOutputFormatter implements OutputFormatterLogics {
                 return str;
         }).collect(Collectors.toList());
     }
-    private String getString(final List<String> input) {
+    private String getStringOf(final List<String> input) {
         return input.stream().reduce("", (a, b) -> a + b);
     }
     private void setAppearanceMap() {
@@ -82,5 +82,13 @@ public class StandardOutputFormatter implements OutputFormatterLogics {
             }
         });
     }
-
+    /**
+     * This method updates the history.
+     * @param history the value before using calculate.
+     */
+    public void addResult(final String history) {
+        if (this.checkForError(history)) {
+            this.controller.getManager().memory().addResult(history.concat(" = ").concat(this.format()));
+        }
+    }
 }

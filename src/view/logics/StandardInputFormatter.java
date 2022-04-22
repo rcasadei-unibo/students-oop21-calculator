@@ -1,7 +1,5 @@
 package view.logics;
-
 import java.util.List;
-
 import controller.calculators.CalculatorController;
 import model.manager.EngineModelInterface.Calculator;
 import java.util.ArrayList;
@@ -12,9 +10,9 @@ public class StandardInputFormatter implements InputFormatterLogics {
     private final CalculatorController controller = Calculator.STANDARD.getController();
     @Override
     public void read(final String input) {
-        /*se il bottone premuto prima è un numero allora l'operatore unario wrappa il contenuto con il proprio unario
+        /*se il numero premuto prima è un numero allora l'operatore unario wrappa il contenuto con il proprio unario
          * 1+2 => 1+(1/(2))       1+2 => 1+((2)^2)
-         * se il bottone premuto prima non è un numero allora l'operatore unario viene concatenato con una parentesi
+         * se il numero premuto prima non è un numero allora l'operatore unario viene concatenato con una parentesi
          * 1+ => 1+(1/(1))        1+ => 1+(0)^2
          */
         if (controller.isUnaryOperator(input)) {
@@ -26,12 +24,9 @@ public class StandardInputFormatter implements InputFormatterLogics {
         } else {
             controller.getManager().memory().read(input);
         }
-        this.checkUselessParenthesys();
+        this.checkParenthesis();
     }
-    /**
-     * This methods removes any sequential ["(",")"].
-     */
-    private void checkUselessParenthesys() {
+    private void checkParenthesis() {
         final List<String> state = new ArrayList<>(controller.getManager().memory().getCurrentState());
         for (int i = 0; i < state.size(); i++) {
             if (i != state.size() - 1) {
@@ -47,19 +42,17 @@ public class StandardInputFormatter implements InputFormatterLogics {
     private void wrapNumberInOperator(final String op) {
         final List<String> state = new ArrayList<>(controller.getManager().memory().getCurrentState());
         int index = state.size() - 1;
-        //itera finchè non trova un operatore
         while (index >= 0) {
+            //[1+1.1111,square]
             if (!this.isNumber(index)) {
                 index++;
                 break;
             }
             index--;
         }
-        //piccolo fix sul indice
         index = index == -1 ? 0 : index;
         state.add(index, "(");
-        //il "²" va messo dopo la parentesi
-        if ("x²".equals(op)) {
+        if ("square".equals(op)) {
             state.add(")");
             state.add(op);
         } else {
@@ -69,28 +62,21 @@ public class StandardInputFormatter implements InputFormatterLogics {
         controller.getManager().memory().clear();
         controller.getManager().memory().readAll(state);
     }
-    /**
-     * This method handles unary invalid Operands.
-     * @param op
-     */
     private void readInvalidOperand(final String op) {
         switch (op) {
-            case "x²":
-                //fa legger al manager (0)²
+            case "square":
                 controller.getManager().memory().read("(");
                 controller.getManager().memory().read("0");
                 controller.getManager().memory().read(")");
                 controller.getManager().memory().read(op);
                 break;
             case "1/x":
-              //fa legger al manager (1/1)
                 controller.getManager().memory().read("(");
                 controller.getManager().memory().read(op);
                 controller.getManager().memory().read("1");
                 controller.getManager().memory().read(")");
                 break;
             case "√":
-              //fa legger al manager √(0)
                 controller.getManager().memory().read("(");
                 controller.getManager().memory().read(op);
                 controller.getManager().memory().read("0");
@@ -107,11 +93,6 @@ public class StandardInputFormatter implements InputFormatterLogics {
     }
     private boolean isNumber(final int i) {
         final List<String> state = controller.getManager().memory().getCurrentState();
-        /*
-         * Qui provo un parseDouble di tutti i valori che possono essere nello state
-         * I numeri passano e ritornano true, Operatori e parentesi invece generano un 
-         * eccezione NumberFormatException
-         */
         try {
             if (state.isEmpty()) { //se lo state è vuoto allora devo ritornare che prima non c'è un numero
                 return false;
