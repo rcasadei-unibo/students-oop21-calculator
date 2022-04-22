@@ -29,11 +29,10 @@ public class StandardInputFormatter implements InputFormatterLogics {
     private void checkParenthesis() {
         final List<String> state = new ArrayList<>(controller.getManager().memory().getCurrentState());
         for (int i = 0; i < state.size(); i++) {
-            if (i != state.size() - 1) {
-                if ("(".equals(state.get(i)) && ")".equals(state.get(i + 1))) {
-                    state.remove(i);
-                    state.remove(i);
-                }
+            if (i != state.size() - 1 
+                    && "(".equals(state.get(i)) && ")".equals(state.get(i + 1))) {
+                state.remove(i);
+                state.remove(i);
             }
         }
         controller.getManager().memory().clear();
@@ -52,7 +51,7 @@ public class StandardInputFormatter implements InputFormatterLogics {
         }
         index = index == -1 ? 0 : index;
         state.add(index, "(");
-        if ("square".equals(op)) {
+        if ("x²".equals(op)) {
             state.add(")");
             state.add(op);
         } else {
@@ -64,7 +63,7 @@ public class StandardInputFormatter implements InputFormatterLogics {
     }
     private void readInvalidOperand(final String op) {
         switch (op) {
-            case "square":
+            case "x²":
                 controller.getManager().memory().read("(");
                 controller.getManager().memory().read("0");
                 controller.getManager().memory().read(")");
