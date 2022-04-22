@@ -10,11 +10,11 @@ import javax.swing.JPanel;
 import view.components.CCDisplay;
 import view.components.CCNumPad;
 import controller.calculators.CalculatorController;
+import controller.calculators.logics.CreateButton;
+import controller.calculators.logics.StandardInputFormatter;
+import controller.calculators.logics.StandardOutputFormatter;
 import model.calculators.StandardCalculatorModelFactory;
 import model.manager.EngineModelInterface.Calculator;
-import view.logics.CreateButton;
-import view.logics.StandardInputFormatter;
-import view.logics.StandardOutputFormatter;
 /**
  * This is StandardCalculatorPanel which holds the basic operators:
  * -plus.
