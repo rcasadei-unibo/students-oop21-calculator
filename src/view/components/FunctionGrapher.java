@@ -14,8 +14,8 @@ import java.util.Random;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
+import controller.calculators.logics.FunctionCalculatorImpl;
 import utils.CCColors;
-import view.logics.FunctionCalculatorImpl;
 /**
  * 
  * Given one or more lists of Doubles ( f(x)'s ) from view.logics.FunctionCalculator, draws or deletes the functions in this JPanel.

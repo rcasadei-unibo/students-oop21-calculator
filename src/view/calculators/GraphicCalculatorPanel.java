@@ -6,10 +6,10 @@ import model.manager.EngineModelInterface.Calculator;
 
 import javax.swing.JPanel;
 
+import controller.calculators.logics.FunctionCalculator;
+import controller.calculators.logics.FunctionCalculatorImpl;
 import view.components.FunctionGrapher;
 import view.components.FunctionsInsertionPanel;
-import view.logics.FunctionCalculator;
-import view.logics.FunctionCalculatorImpl;
 /**
  * 
  * Graphic Calculator GUI.

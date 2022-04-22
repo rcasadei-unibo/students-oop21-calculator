@@ -7,12 +7,13 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+
+import controller.calculators.logics.CreateButton;
+import controller.calculators.logics.ScientificInputFormatter;
+import controller.calculators.logics.ScientificOutputFormatter;
 import model.manager.EngineModelInterface.Calculator;
 import view.components.CCDisplay;
 import view.components.CCNumPad;
-import view.logics.CreateButton;
-import view.logics.ScientificInputFormatter;
-import view.logics.ScientificOutputFormatter;
 /**
  * 
  * MISSING JAVADOC.

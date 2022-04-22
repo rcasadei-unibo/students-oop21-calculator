@@ -1,19 +1,23 @@
-package view.logics;
-
+package controller.calculators.logics;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
-
 import controller.calculators.CalculatorController;
-import model.calculators.ScientificCalculatorModelFactory;
+import model.calculators.StandardCalculatorModelFactory;
 import model.manager.EngineModelInterface.Calculator;
 import view.components.CCDisplay;
 /**
- *
+ * This class handles the display's output.
  */
-public class ScientificOutputFormatter extends StandardOutputFormatter {
-    private final CalculatorController controller = Calculator.SCIENTIFIC.getController();
+public class StandardOutputFormatter implements OutputFormatterLogics {
+    private final CalculatorController controller = Calculator.STANDARD.getController();
     private final CCDisplay display;
+    /**
+     * StandardCalculator's appearance map.
+     */
+    protected final Map<String, String> appearanceMap = new HashMap<>();
     {
         this.setAppearanceMap();
     }
@@ -21,8 +25,7 @@ public class ScientificOutputFormatter extends StandardOutputFormatter {
      * 
      * @param display
      */
-    public ScientificOutputFormatter(final CCDisplay display) {
-        super(display);
+    public StandardOutputFormatter(final CCDisplay display) {
         this.display = display;
     }
     /**
@@ -34,14 +37,16 @@ public class ScientificOutputFormatter extends StandardOutputFormatter {
     }
     @Override
     public void updateDisplayUpperText() {
-        this.display.updateUpperText(this.format().concat(" ="));
+        if (!this.format().isEmpty()) {
+            this.display.updateUpperText(this.format().concat(" ="));
+        }
     }
     @Override
     public String format() {
-        final List<String> output = this.replaceOp();
-        return this.getString(output);
+        final List<String> output = this.replaceWithAppearance();
+        return this.getStringOf(output);
     }
-    private List<String> replaceOp() {
+    private List<String> replaceWithAppearance() {
         final List<String> state = new ArrayList<>(controller.getManager().memory().getCurrentState());
         return state.stream().map((str) -> {
                 if (controller.isBinaryOperator(str) || controller.isUnaryOperator(str)) {
@@ -50,21 +55,24 @@ public class ScientificOutputFormatter extends StandardOutputFormatter {
                 return str;
         }).collect(Collectors.toList());
     }
-    private String getString(final List<String> input) {
+    private String getStringOf(final List<String> input) {
         return input.stream().reduce("", (a, b) -> a + b);
     }
     private void setAppearanceMap() {
-        ScientificCalculatorModelFactory.create().getUnaryOpMap().forEach((str, op) -> {
+        StandardCalculatorModelFactory.create().getUnaryOpMap().forEach((str, op) -> {
             switch (str) {
-                case "factorial":
-                    appearanceMap.put(str, "!");
+                case "x²":
+                    appearanceMap.put(str, "²");
+                    break;
+                case "1/x":
+                    appearanceMap.put(str, "1/");
                     break;
                 default:
                     appearanceMap.put(str, str);
                     break;
             }
         });
-        ScientificCalculatorModelFactory.create().getBinaryOpMap().forEach((str, op) -> {
+        StandardCalculatorModelFactory.create().getBinaryOpMap().forEach((str, op) -> {
             switch (str) {
                 case "test":
                     break;
@@ -74,5 +82,13 @@ public class ScientificOutputFormatter extends StandardOutputFormatter {
             }
         });
     }
-
+    /**
+     * This method updates the history.
+     * @param history the value before using calculate.
+     */
+    public void addResult(final String history) {
+        if (this.checkForError(history)) {
+            this.controller.getManager().memory().addResult(history.concat(" = ").concat(this.format()));
+        }
+    }
 }

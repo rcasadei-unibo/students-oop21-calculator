@@ -15,12 +15,12 @@ import javax.swing.JPanel;
 import javax.swing.JToolTip;
 import javax.swing.ToolTipManager;
 
+import controller.calculators.logics.CombinatoricsLogics;
+import controller.calculators.logics.CombinatoricsLogicsImpl;
 import utils.CCColors;
 import utils.CustomJToolTip;
 import view.components.CCDisplay;
 import view.components.CCNumPad;
-import view.logics.CombinatoricsLogics;
-import view.logics.CombinatoricsLogicsImpl;
 
 /**
  * 
@@ -74,7 +74,7 @@ public class CombinatoricsCalculatorPanel extends JPanel {
 
         private static final long serialVersionUID = 1L;
         private final String sep = File.separator;
-        private final String directory = System.getProperty("user.dir") + this.sep + "src" + this.sep + "resources" + this.sep;
+        private final String directory = System.getProperty("user.dir") + this.sep + "resources" + this.sep;
 
         OperationsPanel(final CombinatoricsLogics logics, final CCDisplay display, final JLabel explLabel) {
             this.setLayout(new GridLayout(8, 2));
