@@ -9,12 +9,12 @@ import javax.swing.JPanel;
 import view.components.CCDisplay;
 import view.components.CCNumPad;
 import controller.calculators.CalculatorController;
+import controller.calculators.logics.CreateButton;
+import controller.calculators.logics.InputFormatterLogics;
+import controller.calculators.logics.InputFormatterLogicsImpl;
+import controller.calculators.logics.OutputFormatterLogics;
+import controller.calculators.logics.OutputFormatterLogicsImpl;
 import model.manager.EngineModelInterface.Calculator;
-import view.logics.CreateButton;
-import view.logics.InputFormatterLogics;
-import view.logics.InputFormatterLogicsImpl;
-import view.logics.OutputFormatterLogics;
-import view.logics.OutputFormatterLogicsImpl;
 /**
  * This is StandardCalculatorPanel which holds the basic operators:
  * -plus.

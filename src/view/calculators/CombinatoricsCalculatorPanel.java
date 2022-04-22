@@ -15,12 +15,12 @@ import javax.swing.JPanel;
 import javax.swing.JToolTip;
 import javax.swing.ToolTipManager;
 
+import controller.calculators.logics.CombinatoricsLogics;
+import controller.calculators.logics.CombinatoricsLogicsImpl;
 import utils.CCColors;
 import utils.CustomJToolTip;
 import view.components.CCDisplay;
 import view.components.CCNumPad;
-import view.logics.CombinatoricsLogics;
-import view.logics.CombinatoricsLogicsImpl;
 
 /**
  * 

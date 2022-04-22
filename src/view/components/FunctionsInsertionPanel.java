@@ -9,9 +9,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
+import controller.calculators.logics.FunctionCalculator;
+import controller.calculators.logics.FunctionCalculatorImpl;
 import utils.CCColors;
-import view.logics.FunctionCalculator;
-import view.logics.FunctionCalculatorImpl;
 /**
  * 
  * This component gives the user a JTextField which can be used to write the function he wants and draw them on the FunctionGrapher panel or delete them using two JButtons.

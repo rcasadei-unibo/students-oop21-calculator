@@ -1,4 +1,4 @@
-package view.logics;
+package controller.calculators.logics;
 
 import java.util.ArrayList;
 import java.util.HashMap;
