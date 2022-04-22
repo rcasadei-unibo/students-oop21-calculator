@@ -11,7 +11,6 @@ import javax.swing.border.LineBorder;
 
 import controller.calculators.logics.FunctionCalculator;
 import controller.calculators.logics.FunctionCalculatorImpl;
-import model.manager.EngineModelInterface.Calculator;
 import utils.CCColors;
 /**
  * 
