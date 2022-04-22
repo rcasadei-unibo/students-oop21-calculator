@@ -2,8 +2,6 @@ package view.calculators;
 
 import java.awt.BorderLayout;
 
-import model.manager.EngineModelInterface.Calculator;
-
 import javax.swing.JPanel;
 
 import controller.calculators.logics.FunctionCalculator;

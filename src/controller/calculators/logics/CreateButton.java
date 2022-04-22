@@ -55,6 +55,11 @@ public final class CreateButton {
        btn.setBackground(CCColors.OPERATION_BUTTON);
        return btn;
    }
+   /**
+    * 
+    * @param btnName
+    * @return aaaaaaaaaaa
+    */
    public static JButton createOpButtonFR(final String btnName) {
        final JButton btn = new JButton(btnName);
        btn.setBackground(CCColors.OPERATION_BUTTON);

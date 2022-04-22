@@ -2,6 +2,7 @@ package controller.calculators.logics;
 
 /**
  * 
+ *
  * Interface of the Controller which CombinatoricsCalculatorPanel interacts to handle input.
  *
  */

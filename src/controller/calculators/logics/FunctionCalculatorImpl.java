@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import controller.calculators.CalculatorController;
+import model.manager.EngineModelInterface.Calculator;
 import utils.calculate.Tokenizer;
 /**
  * 
@@ -24,13 +25,10 @@ public class FunctionCalculatorImpl implements FunctionCalculator {
     public static final double RANGE = 100;
     private final CalculatorController controller;
     private final List<Double> results;
-    /**
-     * 
-     * @param controller
-     */
-    public FunctionCalculatorImpl(final CalculatorController controller) {
-        this.controller = controller;
+
+    public FunctionCalculatorImpl() {
         this.results = new ArrayList<>();
+        this.controller = Calculator.GRAPHIC.getController();
     }
     /**
      * 
