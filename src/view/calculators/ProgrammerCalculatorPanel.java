@@ -52,7 +52,6 @@ public class ProgrammerCalculatorPanel extends JPanel {
                     formatter.calculate();
                     formatter.addResult(history);
                 } catch (NumberFormatException exception) {
-                    System.err.println("exception");
                     display.updateText("Syntax error");
                     formatter.updateDisplayUpperText();
                     formatter.deleteLast();
