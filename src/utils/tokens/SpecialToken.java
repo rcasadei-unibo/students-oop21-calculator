@@ -7,7 +7,6 @@ package utils.tokens;
  * @param <T>
  */
 public interface SpecialToken<T> extends Token {
-	
 	/**
 	 * @return a specific object that belogns o a specific token.
 	 */

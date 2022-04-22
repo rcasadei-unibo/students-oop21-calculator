@@ -88,7 +88,7 @@ public class ScientificCalculatorPanel extends JPanel {
         operator.setLayout(new GridLayout(4, 2));
         final var standardOp = List.of("+", "-", "×", "÷", "%", "1/x", "√", "x²");
         standardOp.forEach((op) -> {
-            final JButton btn = CreateButton.createOpButtonFR(op);
+            final JButton btn = CreateButton.createOpButton(op);
             btn.addActionListener(e -> {
                this.inFormatter.read(op);
                this.outFormatter.updateDisplay();
@@ -104,7 +104,7 @@ public class ScientificCalculatorPanel extends JPanel {
         scientificOperator.setLayout(new GridLayout(4 + 2, 2));
         final var scientificOp = List.of("log", "ln", "nthRoot", "^", "abs", "factorial", "sin", "cos", "tan", "csc", "sec", "cot");
         scientificOp.forEach((op) -> {
-            final JButton btn = CreateButton.createOpButtonFR(op);
+            final JButton btn = CreateButton.createOpButton(op);
             btn.addActionListener(e -> {
                this.inFormatter.read(op);
                this.outFormatter.updateDisplay();

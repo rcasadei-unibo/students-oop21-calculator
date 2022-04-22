@@ -25,7 +25,9 @@ public class FunctionCalculatorImpl implements FunctionCalculator {
     public static final double RANGE = 100;
     private final CalculatorController controller;
     private final List<Double> results;
-
+    /**
+     * 
+     */
     public FunctionCalculatorImpl() {
         this.results = new ArrayList<>();
         this.controller = Calculator.GRAPHIC.getController();
