@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import java.util.Map;
 import java.util.Optional;
 import java.awt.Dimension;
+import java.lang.reflect.InvocationTargetException;
 
 import model.manager.EngineModelInterface.Calculator;
 import utils.CCColors;
@@ -38,14 +39,13 @@ public class CCMainGUI extends JFrame implements View {
     private transient boolean historyOn;
 
     private final JLabel title = new JLabel("");
-
-    private final Map<Calculator, JPanel> views = Map.of(
-            Calculator.STANDARD, new StandardCalculatorPanel(),
-            Calculator.SCIENTIFIC, new ScientificCalculatorPanel(),
-            Calculator.PROGRAMMER, new ProgrammerCalculatorPanel(),
-            Calculator.GRAPHIC, new GraphicCalculatorPanel(),
-            Calculator.ADVANCED, new AdvancedCalculatorPanel(),
-            Calculator.COMBINATORICS, new CombinatoricsCalculatorPanel()
+    private final Map<Calculator, Class<? extends JPanel>> viewClasses = Map.of(
+            Calculator.STANDARD, StandardCalculatorPanel.class,
+            Calculator.SCIENTIFIC, ScientificCalculatorPanel.class,
+            Calculator.PROGRAMMER, ProgrammerCalculatorPanel.class,
+            Calculator.GRAPHIC, GraphicCalculatorPanel.class,
+            Calculator.ADVANCED, AdvancedCalculatorPanel.class,
+            Calculator.COMBINATORICS, CombinatoricsCalculatorPanel.class
             );
     /**
      * Creates the JFrame of the application and sets it visible.
@@ -112,15 +112,17 @@ public class CCMainGUI extends JFrame implements View {
         this.historyOn = false;
 
         this.mountedPanel.ifPresent((mounted) -> this.getContentPane().remove(mounted));
-        final JPanel panel = this.views.get(calc);
-        this.getContentPane().add(panel);
-
-        this.setMinimumSize(new Dimension(0, 0));
-        this.pack();
-        this.setMinimumSize(this.getSize());
-
-        this.current = Optional.of(calc);
-        this.mountedPanel = Optional.of(panel);
+        try {
+            final JPanel newPanel = this.viewClasses.get(calc).getDeclaredConstructor().newInstance();
+            this.getContentPane().add(newPanel);
+            this.setMinimumSize(new Dimension(0, 0));
+            this.pack();
+            this.setMinimumSize(this.getSize());
+            this.current = Optional.of(calc);
+            this.mountedPanel = Optional.of(newPanel);
+        } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+            this.getContentPane().add(mountedPanel.get());
+        }
 
         this.revalidate();
         this.repaint();

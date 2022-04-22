@@ -10,10 +10,7 @@ import java.util.List;
 import java.util.Map;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-
-import model.manager.EngineModelInterface.Calculator;
 import utils.CCColors;
-import utils.CalcException;
 import view.components.CCDisplay;
 import view.components.CCNumPad;
 import view.components.ConversionPanel;
@@ -53,12 +50,12 @@ public class ProgrammerCalculatorPanel extends JPanel {
             public void actionPerformed(final ActionEvent e) {
                 try {
                     formatter.updateDisplayUpperText();
-                    final String history = formatter.getOutput();
+                    final String history = formatter.getBuffer();
                     formatter.calculate();
                     formatter.addResult(history);
                 } catch (Exception exception) {
                     display.updateText("Syntax error");
-                    display.updateUpperText(formatter.getOutput() + " =");
+                    formatter.updateDisplayUpperText();
                     formatter.deleteLast();
                 }
                 updateDisplays();
@@ -136,7 +133,7 @@ public class ProgrammerCalculatorPanel extends JPanel {
                     break;
                 }
                 convPanel.changeToActive(btn.getText());
-                display.updateText("0");
+                formatter.updateDisplay();
                 convPanel.updateConvDisplays(0);
             }
         };

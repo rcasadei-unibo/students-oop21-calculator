@@ -15,7 +15,7 @@ import utils.CCUnaryOperator;
  */
 public final class CombinatoricsCalculatorModelFactory {
 
-    private static final double BELLNUMBERMAX = 30;
+    private static final double BELL_NUMBER_MAX = 30;
 
     private CombinatoricsCalculatorModelFactory() {
     }
@@ -132,7 +132,7 @@ public final class CombinatoricsCalculatorModelFactory {
      * @return the number of partitions of the set A which equals Bell(n)
      */
     private static double bellNumber(final double n) {
-        if (n > BELLNUMBERMAX) {
+        if (n > BELL_NUMBER_MAX) {
             return Double.POSITIVE_INFINITY;
         }
         if (n == 0) {
