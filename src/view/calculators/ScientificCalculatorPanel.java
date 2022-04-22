@@ -5,15 +5,9 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
-
 import javax.swing.JButton;
 import javax.swing.JPanel;
-
-import model.calculators.ScientificCalculatorModelFactory;
-import model.calculators.StandardCalculatorModelFactory;
 import model.manager.EngineModelInterface.Calculator;
-import utils.CCBinaryOperator;
-import utils.Type;
 import view.components.CCDisplay;
 import view.components.CCNumPad;
 import view.logics.CreateButton;
@@ -40,8 +34,8 @@ public class ScientificCalculatorPanel extends JPanel{
         opAl = new ActionListener() {
             
             @Override
-            public void actionPerformed(ActionEvent e) {
-                inFormatter.read(((JButton)e.getSource()).getText());
+            public void actionPerformed(final ActionEvent e) {
+                inFormatter.read(((JButton) e.getSource()).getText());
                 outFormatter.updateDisplay();
             }
         };
@@ -53,7 +47,7 @@ public class ScientificCalculatorPanel extends JPanel{
             inFormatter.calculate();
             outFormatter.updateDisplay();
             Calculator.SCIENTIFIC.getController().getManager().memory().addResult(history.concat("=").concat(history).concat(
-                    Calculator.SCIENTIFIC.getController().getManager().memory().getCurrentState().stream().reduce("", (a,b) -> a + b)));
+                    Calculator.SCIENTIFIC.getController().getManager().memory().getCurrentState().stream().reduce("", (a, b) -> a + b)));
         }, deleteAl -> {
             inFormatter.deleteLast();
             outFormatter.updateDisplay();
