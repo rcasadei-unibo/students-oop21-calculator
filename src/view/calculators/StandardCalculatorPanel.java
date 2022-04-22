@@ -97,11 +97,4 @@ public class StandardCalculatorPanel extends JPanel {
 
         this.add(operator, BorderLayout.EAST);
     }
-    /**
-     * Returns the StandardCalculatorPanel's display.
-     * @return display 
-     */
-    public CCDisplay getDisplay() {
-        return this.display;
-    }
 }
