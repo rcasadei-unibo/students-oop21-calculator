@@ -40,7 +40,7 @@ public class CCMemoryModel implements MemoryModelInterface {
 
     @Override
     public List<String> getHistory() {
-        return this.history;
+        return List.copyOf(this.history);
     }
 
 }

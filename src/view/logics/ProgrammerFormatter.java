@@ -1,24 +1,28 @@
 package view.logics;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
 import controller.calculators.CalculatorController;
 import model.calculators.ProgrammerCalculatorModelFactory;
 import model.manager.EngineModelInterface.Calculator;
 import utils.ConversionAlgorithms;
+import view.components.CCDisplay;
 /**
  * This class acts as an intermediate between the ProgrammerCalculatorPanel and CalculatorController's engine.
  */
-public class ProgrammerInputFormatter implements InputFormatterLogics {
+public class ProgrammerFormatter implements InputFormatterLogics, OutputFormatterLogics {
     private int conversionBase = 10;
     private final CalculatorController controller;
     private List<String> buffer;
     private final List<String> tokens;
     private String lastNumBuffer = "";
-    private String history = "";
+    private final CCDisplay display;
     /**
-     * 
+     * @param display
      */
-    public ProgrammerInputFormatter() {
+    public ProgrammerFormatter(final CCDisplay display) {
+        this.display = display;
         this.controller = Calculator.PROGRAMMER.getController();
         this.buffer = new ArrayList<>();
         this.tokens = new ArrayList<>();
@@ -39,13 +43,8 @@ public class ProgrammerInputFormatter implements InputFormatterLogics {
      */
     @Override
     public void read(final String input) {
-        //this.removeSyntaxError(this.buffer);
         if ("not".equals(input)) {
-            this.buffer.add(0, "(");
-            this.buffer.add(0, "not");
-            this.buffer.add(")");
-            this.calculate();
-            this.updateHistory();
+            this.handleNotInput();
         } else {
             if (!this.tokens.contains(input)) {
                 this.lastNumBuffer = this.lastNumBuffer.concat(input);
@@ -53,7 +52,19 @@ public class ProgrammerInputFormatter implements InputFormatterLogics {
                 this.lastNumBuffer = "";
             }
             this.buffer.add(input);
+          this.removeError();
         }
+    }
+    private void handleNotInput() {
+        this.buffer.add(0, "(");
+        this.buffer.add(0, "not");
+        this.buffer.add(")");
+        this.removeError();
+        final String before = this.getBuffer();
+        this.updateDisplayUpperText();
+        this.calculate();
+        this.updateDisplay();
+        this.addResult(before);
     }
     /**
      * Usually called when switching from a conversion base to another.
@@ -77,7 +88,7 @@ public class ProgrammerInputFormatter implements InputFormatterLogics {
      * 
      * @return the new converted list.
      */
-    private List<String> format() {
+    private List<String> formatToDecimal() {
         if (this.conversionBase == 10) {
             return this.buffer;
         }
@@ -129,7 +140,7 @@ public class ProgrammerInputFormatter implements InputFormatterLogics {
      * 
      * @return a String containing the current buffer converted to String.
      */
-    public String getOutput() {
+    public String getBuffer() {
         return this.buffer.stream().reduce("", (a, b) -> a + b);
     }
     /**
@@ -138,9 +149,8 @@ public class ProgrammerInputFormatter implements InputFormatterLogics {
     @Override
     public void calculate() {
         if (!this.buffer.isEmpty()) {
-            this.removeSyntaxError(this.buffer);
-            this.history = this.buffer.stream().reduce("", (a, b) -> a + b);
-            final var temp = this.format();
+            this.removeError();
+            final var temp = this.formatToDecimal();
             this.controller.getManager().memory().readAll(temp);
             this.controller.getManager().engine().calculate();
             this.buffer.clear();
@@ -154,8 +164,9 @@ public class ProgrammerInputFormatter implements InputFormatterLogics {
             this.controller.getManager().memory().clear();
         }
     }
-    private void removeSyntaxError(final List<String> input) {
-        input.remove("Syntax error");
+    private void removeError() {
+        this.buffer.remove("Syntax error");
+        this.buffer.remove("Parenthesis mismatch");
     }
     private void inverseFormat() {
         if (this.conversionBase != 10) {
@@ -188,23 +199,39 @@ public class ProgrammerInputFormatter implements InputFormatterLogics {
         return sign * value;
     }
     private long adjust() {
+        //since the IEEE754 hasn't been implemented I simply round the number
         if (this.lastNumBuffer.contains(".")) {
             return Math.round(Double.parseDouble(lastNumBuffer));
         }
-        if ("Syntax error".equals(lastNumBuffer)) {
+        try {
+            return ConversionAlgorithms.unsignedConversionToDecimal(conversionBase, lastNumBuffer);
+        } catch (NumberFormatException e) {
             return 0L;
         }
-        if (!this.lastNumBuffer.isBlank()) {
-            return ConversionAlgorithms.unsignedConversionToDecimal(conversionBase, lastNumBuffer);
+    }
+    @Override
+    public void updateDisplay() {
+        this.display.updateText(this.getBuffer());
+    }
+    @Override
+    public String format() {
+        return this.lastNumBuffer;
+    }
+    @Override
+    public void updateDisplayUpperText() {
+        if (!this.getBuffer().isBlank()) {
+            display.updateUpperText(this.getBuffer().concat(" ="));
         }
-        return ConversionAlgorithms.unsignedConversionToDecimal(conversionBase, lastNumBuffer);
     }
     /**
-     * Updates the memory's history.
+     * This method adds the last valid Operation to the History.
+     * @param before a string containing the last operation executed.
      */
-    public void updateHistory() {
-        if (!this.lastNumBuffer.contains("Syntax error")) {
-            controller.getManager().memory().addResult(history.concat(" =").concat(lastNumBuffer));
+    public void addResult(final String before) {
+        if (this.checkForError(before) && !before.isBlank()) {
+            final var baseMap = Map.of(2, "₂", 8, "₈", 10, "₁₀", 16, "₁₆");
+            final var text = before + " = " + this.format() + " " + baseMap.get(this.conversionBase);
+            this.controller.getManager().memory().addResult(text);
         }
     }
 }

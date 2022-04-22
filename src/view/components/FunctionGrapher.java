@@ -18,7 +18,7 @@ import utils.CCColors;
 import view.logics.FunctionCalculatorImpl;
 /**
  * 
- * 
+ * Given one or more lists of Doubles ( f(x)'s ) from view.logics.FunctionCalculator, draws or deletes the functions in this JPanel.
  *
  */
 public class FunctionGrapher extends JPanel {
@@ -30,14 +30,13 @@ public class FunctionGrapher extends JPanel {
     private final List<List<Double>> buffer = new ArrayList<>();
     private final List<Color> colors = new ArrayList<>();
     /**
-     *
+     * Initialize the screen size, sets the border and adds a mouse wheel listenere used to zoom in the panel.
      */
     public FunctionGrapher() {
         final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         final double width = screenSize.getWidth() * 0.35;
         final double height = screenSize.getHeight() / 2;
         this.setPreferredSize(new Dimension((int) width, (int) height));
-        this.setBackground(CCColors.GRAPHIC_BACKGROUND);
         this.setBorder(new LineBorder(CCColors.GRAPHIC_BORDERS, 1));
         this.addMouseWheelListener(m -> {
             if (m.getWheelRotation() > 0 && FunctionGrapher.scale > 10) {
@@ -49,7 +48,7 @@ public class FunctionGrapher extends JPanel {
         });
     }
     /**
-     * @param gr
+     * @param gr is the param that gives the possibility to draw in this JPanel
      */
     public void paintComponent(final Graphics gr) {
         final int w = this.getWidth();
@@ -120,7 +119,10 @@ public class FunctionGrapher extends JPanel {
         }
     }
     /**
-     *@param result
+     * 
+     * Adds the given list to the buffer and then calls the repaint method.
+     *@param result is a list which contains all the f(x) inside a certain range from a function written in the FunctionInsertionPanel and then calculated by FunctionCalculator.
+     *
      */
     public void addFunction(final List<Double> result) {
         this.colors.add(new Color(rand.nextFloat(), rand.nextFloat(), rand.nextFloat()));
@@ -130,7 +132,7 @@ public class FunctionGrapher extends JPanel {
         this.repaint();
     }
     /**
-     *
+     * Removes the last function anc color from the buffer and calls the repaint method.
      */
     public void deleteFunction() {
         if (!this.buffer.isEmpty()) {

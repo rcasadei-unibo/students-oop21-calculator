@@ -9,23 +9,25 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
+import model.manager.EngineModelInterface.Calculator;
 import utils.CCColors;
 import view.logics.FunctionCalculator;
+import view.logics.FunctionCalculatorImpl;
 /**
  * 
+ * This component gives the user a JTextField which can be used to write the function he wants and draw them on the FunctionGrapher panel or delete them using two JButtons.
+ * This component communicates with both the FunctionGrapher and the FunctionCalculator in order to give the FunctionGrapher the data he needs to paint the functions.
  * 
- *
  */
 public class FunctionsInsertionPanel extends JPanel {
-    /**
-     * 
-     */
     private static final long serialVersionUID = -7104626977730130720L;
     /**
-     *@param logic
-     *@param f
+     *
+     *@param f is the component where the function will be paint.
+     *
      */
-    public FunctionsInsertionPanel(final FunctionCalculator logic, final FunctionGrapher f) {
+    public FunctionsInsertionPanel(final FunctionGrapher f) {
+        final FunctionCalculator calc = new FunctionCalculatorImpl(Calculator.GRAPHIC.getController());
         this.setLayout(new GridLayout(1, 4));
         final Font font = new Font("Serif", Font.ITALIC + Font.BOLD, 20);
 
@@ -43,11 +45,11 @@ public class FunctionsInsertionPanel extends JPanel {
         delete.setBackground(CCColors.NUMBER_BUTTON);
 
         draw.addActionListener(e -> {
-            logic.calculate(t.getText());
-            if (logic.getResults().isEmpty()) {
+            calc.calculate(t.getText());
+            if (calc.getResults().isEmpty()) {
                 t.setText(" SyntaxError");
             } else {
-                f.addFunction(logic.getResults());
+                f.addFunction(calc.getResults());
             }
         });
 
