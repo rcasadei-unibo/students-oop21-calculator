@@ -15,8 +15,10 @@ import utils.Type;
 public class CCEngine implements EngineInterface {
 
     private static final String SYNTAX_ERROR = "Syntax error";
-    private final CalculatorController calcController;
+    private static final String PARENTHESIS_ERROR = "Parenthesis mismatch";
     private static final String VARIABLE = "x";
+    private final CalculatorController calcController;
+
 
     /**
      * Construct a new CCEngine that will use the given CalculatorController to perform the calculations.
@@ -44,11 +46,6 @@ public class CCEngine implements EngineInterface {
         return NumberFormatter.format(result, maxIntDigits, maxDecDigits, decimalThreshold);
     }
 
-    /**
-     * Parses an expression in infix notation, stored as a list of strings, to an equivalent expression in reverse polish notation.
-     * This method uses the shunting-yard algorithm. The main reference was the pseudocode on the Wikipedia page https://en.wikipedia.org/wiki/Shunting-yard_algorithm.
-     * @throws CalcException If there is a parenthesis mismatch.
-     */
     @Override
     public List<String> parseToRPN(final List<String> infix) throws CalcException {
 
@@ -87,7 +84,7 @@ public class CCEngine implements EngineInterface {
                 if (!stack.isEmpty() && "(".equals(stack.lastElement())) {
                     stack.pop();
                 } else {
-                    throw new CalcException("Parenthesis mismatch");
+                    throw new CalcException(PARENTHESIS_ERROR);
                 }
                 if (!stack.isEmpty() && isUnaryOperator(stack.lastElement())) {
                     output.add(stack.pop());
@@ -98,7 +95,7 @@ public class CCEngine implements EngineInterface {
 
         while (!stack.isEmpty()) {
             if ("(".equals(stack.lastElement())) {
-                throw new CalcException("Parenthesis mismatch");
+                throw new CalcException(PARENTHESIS_ERROR);
             }
             output.add(stack.pop());
         }
@@ -107,7 +104,6 @@ public class CCEngine implements EngineInterface {
 
     private List<String> unifyTerms(final List<String> input) throws CalcException {
         final List<String> unified = new ArrayList<>();
-
         final List<String> currentNumber = new ArrayList<>();
 
         for (final String s : input) {
@@ -115,8 +111,7 @@ public class CCEngine implements EngineInterface {
                 currentNumber.add(s);
             } else {
                  if (!currentNumber.isEmpty()) {
-                    double actualNum;
-                    actualNum = convert(currentNumber);
+                    final double actualNum = convert(currentNumber);
                     currentNumber.clear();
                     unified.add(String.valueOf(actualNum));
                  }
@@ -138,16 +133,8 @@ public class CCEngine implements EngineInterface {
         }
         final String num = currentNumber.stream().reduce("", (a, b) -> a + b);
         return Double.parseDouble(num);
-
     }
 
-    /**
-     * Evaluates the result of an expression in reverse polish notation.
-     * The algorithm is based on the implementation on the Rosetta Code web page https://rosettacode.org/wiki/Parsing/RPN_calculator_algorithm#Java_2.
-     * @param rpn List of string representing the expression to evaluate.
-     * @return double result of the expression.
-     * @throws CalcException If the expression contains too many operands.
-     */
     private double evaluateRPN(final List<String> rpn) throws CalcException {
         final Stack<Double> stack = new Stack<>();
 
@@ -199,6 +186,7 @@ public class CCEngine implements EngineInterface {
             return false;
         }
     }
+
     private Type type(final String token) {
         return getCalculator().getType(token);
     }

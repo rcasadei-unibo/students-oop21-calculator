@@ -7,6 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import java.util.Map;
@@ -34,7 +35,6 @@ public class CCMainGUI extends JFrame implements View {
     private static final long serialVersionUID = -4510924334938545109L;
     private final transient ViewLogics logics = new ViewLogicsImpl(this);
 
-    private transient Optional<JPanel> mountedPanel = Optional.empty();
     private transient Optional<Calculator> current = Optional.empty();
     private transient boolean historyOn;
 
@@ -81,23 +81,15 @@ public class CCMainGUI extends JFrame implements View {
     }
 
     private void toggleHistory() {
-
-        this.mountedPanel.ifPresent((mounted) -> {
-            if (this.historyOn) {
-                this.logics.mount(this.current.get());
-            } else {
-                this.getContentPane().remove(mounted);
-                final var panel = new HistoryPanel(this.logics.getHistory());
-                this.getContentPane().add(panel);
-
-                this.mountedPanel = Optional.of(panel);
-
-                this.revalidate();
-                this.repaint();
-                this.historyOn = true;
-            }
-        });
-
+        if (this.historyOn) {
+            this.logics.mount(this.current.get());
+        } else {
+            final var panel = new HistoryPanel(this.logics.getHistory());
+            this.setContentPane(panel);
+            this.revalidate();
+            this.repaint();
+            this.historyOn = true;
+        }
     }
 
     private JMenuItem createMenuItem(final String text, final Calculator calcName) {
@@ -110,18 +102,18 @@ public class CCMainGUI extends JFrame implements View {
     public void show(final Calculator calc) {
         title.setText(calc.name());
         this.historyOn = false;
-
-        this.mountedPanel.ifPresent((mounted) -> this.getContentPane().remove(mounted));
         try {
             final JPanel newPanel = this.viewClasses.get(calc).getDeclaredConstructor().newInstance();
-            this.getContentPane().add(newPanel);
+            this.setContentPane(newPanel);
             this.setMinimumSize(new Dimension(0, 0));
             this.pack();
             this.setMinimumSize(this.getSize());
             this.current = Optional.of(calc);
-            this.mountedPanel = Optional.of(newPanel);
         } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
-            this.getContentPane().add(mountedPanel.get());
+            JOptionPane.showMessageDialog(this, 
+                    "Error creating the calculator visual interface", 
+                    "Error", 
+                    JOptionPane.ERROR_MESSAGE);
         }
 
         this.revalidate();

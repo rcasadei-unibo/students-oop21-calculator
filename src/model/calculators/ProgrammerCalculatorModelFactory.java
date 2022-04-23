@@ -40,22 +40,22 @@ public final class ProgrammerCalculatorModelFactory {
         return x;
     }
     private static double and(final double n1, final double n2) {
-        return (int) n1 & (int) n2;
+        return (long) n1 & (long) n2;
     }
     private static double or(final double n1, final double n2) {
-        return (int) n1 | (int) n2;
+        return (long) n1 | (long) n2;
     }
     private static double xor(final double n1, final double n2) {
-        return (int) n1 ^ (int) n2;
+        return (long) n1 ^ (long) n2;
     }
     private static double shiftR(final double n1, final double n2) {
-        return (int) n1 >> (int) n2;
+        return (long) n1 >> (long) n2;
     }
     private static double shiftL(final double n1, final double n2) {
-        return (int) n1 << (int) n2;
+        return (long) n1 << (long) n2;
     }
     private static double not(final double n1) {
-        var stringBits = ConversionAlgorithms.conversionToStringBase(2, (int) n1);
+        var stringBits = ConversionAlgorithms.conversionToStringBase(2, (long) n1);
         stringBits = addLeadingZerosToByte(stringBits);
         final var bits = stringBits.toCharArray();
         String toConvert = String.valueOf(bits[0]);
@@ -83,15 +83,15 @@ public final class ProgrammerCalculatorModelFactory {
     private static double nor(final double n1, final double n2) {
         return not(or(n1, n2));
     }
-    private static int rollingCheck(final int length, final double n) {
+    private static int rollingCheck(final long length, final double n) {
         //in case it is asked to roll 9 on a byte it rolls 9-8
-        if (length - 1 < (int) n) {
+        if (length - 1 < (long) n) {
             return (int) (n % 8);
         }
         return (int) (n);
     }
     private static double roR(final double n1, final double n2) {
-        String bits = addLeadingZerosToByte(ConversionAlgorithms.conversionToStringBase(2, (int) n1));
+        String bits = addLeadingZerosToByte(ConversionAlgorithms.conversionToStringBase(2, (long) n1));
         final int rorOf = rollingCheck(bits.length(), n2);
         final String sign = String.valueOf(bits.charAt(0));
         bits = bits.substring(1);
@@ -100,7 +100,7 @@ public final class ProgrammerCalculatorModelFactory {
         return ConversionAlgorithms.conversionToDecimal(2, sign.concat(bits));
     }
     private static double roL(final double n1, final double n2) {
-        String bits = addLeadingZerosToByte(ConversionAlgorithms.conversionToStringBase(2, (int) n1));
+        String bits = addLeadingZerosToByte(ConversionAlgorithms.conversionToStringBase(2, (long) n1));
         final int rolOf = rollingCheck(bits.length(), n2);
         final String sign = String.valueOf(bits.charAt(0));
         bits = bits.substring(1);

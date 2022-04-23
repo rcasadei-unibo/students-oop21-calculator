@@ -1,5 +1,7 @@
 package controller.manager;
 
+import java.util.Optional;
+
 import model.manager.CCEngineModel;
 import model.manager.EngineModelInterface;
 import model.manager.EngineModelInterface.Calculator;
@@ -30,13 +32,13 @@ public class CCEngineManager implements EngineManager {
     }
 
     @Override
-    public Calculator getMounted() {
+    public Optional<Calculator> getMounted() {
         return this.model.getMounted();
     }
 
     @Override
     public void calculate() {
-        final var engine = new CCEngine(this.model.getMounted().getController());
+        final var engine = new CCEngine(this.model.getMounted().get().getController());
         try {
             final String formatted = engine.calculateAndFormat(this.memManager.getCurrentState());
             if (Double.parseDouble(formatted) >= 0 && !formatted.contains("E")) {
@@ -46,7 +48,6 @@ public class CCEngineManager implements EngineManager {
             }
         } catch (CalcException e) {
             this.memManager.setErrorState(e.getMessage());
-//            this.memManager.setCurrentState(e.getMessage());
         }
     }
 

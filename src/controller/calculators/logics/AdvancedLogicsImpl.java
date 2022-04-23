@@ -1,4 +1,4 @@
-package view.logics;
+package controller.calculators.logics;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -50,6 +50,9 @@ public class AdvancedLogicsImpl implements AdvancedLogics {
             if (num >= new ExternData().getConstants().get(String.valueOf(Double.POSITIVE_INFINITY))) {
                 isInfinity = true;
                 result = "Infinity";
+            } else if (num <= -new ExternData().getConstants().get(String.valueOf(Double.POSITIVE_INFINITY))) {
+                isInfinity = true;
+                result = "-Infinity";
             }
         } catch (NumberFormatException e) {
             isInfinity = false;

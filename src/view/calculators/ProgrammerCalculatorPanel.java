@@ -11,7 +11,7 @@ import java.util.Map;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import controller.calculators.logics.ProgrammerFormatter;
+import controller.calculators.logics.ProgrammerLogicsImpl;
 import utils.CCColors;
 import view.components.CCDisplay;
 import view.components.CCNumPad;
@@ -34,10 +34,7 @@ public class ProgrammerCalculatorPanel extends JPanel {
     private ConversionPanel convPanel;
     private final CCNumPad numpad;
     private transient ActionListener opAl;
-    private final transient ProgrammerFormatter formatter = new ProgrammerFormatter(this.display);
-    private final List<String> topOperators = List.of("roR", "roL", "shiftR", "shiftL", "nand", "nor");
-    private final List<String> middleOperators = List.of("not", "xor", "and", "or");
-    private final List<String> rightOperators = List.of("+", "-", "×", "÷");
+    private final transient ProgrammerLogicsImpl formatter = new ProgrammerLogicsImpl(this.display);
     {
         final ActionListener btnAl = new ActionListener() {
             @Override
@@ -54,7 +51,7 @@ public class ProgrammerCalculatorPanel extends JPanel {
                     final String history = formatter.getBuffer();
                     formatter.calculate();
                     formatter.addResult(history);
-                } catch (Exception exception) {
+                } catch (NumberFormatException exception) {
                     display.updateText("Syntax error");
                     formatter.updateDisplayUpperText();
                     formatter.deleteLast();
@@ -70,8 +67,8 @@ public class ProgrammerCalculatorPanel extends JPanel {
             }
         };
         this.numpad = new CCNumPad(btnAl, calcAl, backspaceAl);
-        final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        this.numpad.setPreferredSize(new Dimension((int) screenSize.getWidth() / 6, (int) screenSize.getHeight() / 4));
+        final Dimension size = this.numpad.getPreferredSize();
+        this.numpad.setPreferredSize(new Dimension((int) size.getWidth() / 3, (int) size.getHeight() / 3));
         this.numpad.getButtons().entrySet().forEach((entry) -> {
             if (".".equals(entry.getKey())) {
                 entry.getValue().setEnabled(false);
@@ -142,6 +139,11 @@ public class ProgrammerCalculatorPanel extends JPanel {
         this.convPanel.setPreferredSize(new Dimension(100, 150));
         this.add(this.convPanel, BorderLayout.CENTER);
     }
+    /**
+     * 
+     * This method enables and disables the numpad buttons' below.
+     * @param i .
+     */
     private void enableButtons(final int i) {
         final var numbers = this.getNumbers();
         numbers.entrySet().stream().filter((entry) -> Integer.parseInt(entry.getKey()) < i)
@@ -180,41 +182,32 @@ public class ProgrammerCalculatorPanel extends JPanel {
         numpad.add(this.hexaLetters);
         numpad.add(this.numpad);
         numpad.add(this.getRightNumpad());
-        final JPanel numpadAndOperators = new JPanel();
-        numpadAndOperators.setLayout(new BorderLayout());
-        numpadAndOperators.add(numpad, BorderLayout.CENTER);
-        final JPanel oper = new JPanel();
-        oper.setLayout(new GridLayout(1, 5));
-        final JPanel mid = new JPanel();
-        mid.setLayout(new BorderLayout());
-        mid.add(oper, BorderLayout.NORTH);
-        mid.add(numpadAndOperators, BorderLayout.CENTER);
-        this.add(mid, BorderLayout.SOUTH);
+        this.add(numpad, BorderLayout.SOUTH);
     }
     private JPanel getRightNumpad() {
         final int rows = 7;
         final int cols = 2;
         final JPanel operators = new JPanel();
         operators.setLayout(new GridLayout(rows, cols));
-        this.topOperators.forEach((str) -> {
-            final JButton btn = new JButton(str);
-            btn.addActionListener(opAl);
-            btn.setBackground(CCColors.OPERATION_BUTTON);
-            operators.add(btn);
+        final List<String> topOperators = List.of("roR", "roL", "shiftR", "shiftL", "nand", "nor");
+        final List<String> middleOperators = List.of("not", "xor", "and", "or");
+        final List<String> rightOperators = List.of("+", "-", "×", "÷");
+        topOperators.forEach((str) -> {
+            operators.add(this.createButton(str));
         });
-        this.middleOperators.forEach((str) -> {
-            final JButton btn = new JButton(str);
-            btn.addActionListener(opAl);
-            btn.setBackground(CCColors.OPERATION_BUTTON);
-            operators.add(btn);
+        middleOperators.forEach((str) -> {
+            operators.add(this.createButton(str));
         });
-        this.rightOperators.forEach((op) -> {
-            final JButton btn = new JButton(op);
-            btn.addActionListener(opAl);
-            btn.setBackground(CCColors.OPERATION_BUTTON);
-            operators.add(btn);
+        rightOperators.forEach((str) -> {
+            operators.add(this.createButton(str));
         });
         return operators;
+    }
+    private JButton createButton(final String btnName) {
+        final JButton btn = new JButton(btnName);
+        btn.addActionListener(opAl);
+        btn.setBackground(CCColors.OPERATION_BUTTON);
+        return btn;
     }
     private void updateDisplays() {
         formatter.updateDisplay();

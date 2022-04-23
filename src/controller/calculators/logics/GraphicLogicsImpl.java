@@ -13,7 +13,7 @@ import utils.calculate.Tokenizer;
  * track the results of the "x" substitution from a certain range of values.
  *
  */
-public class FunctionCalculatorImpl implements FunctionCalculator {
+public class GraphicLogicsImpl implements GraphicLogics {
     /**
      * PRECISION is the value the method "calculate" add to the value x everytime 
      * it calculates the equation.
@@ -28,7 +28,7 @@ public class FunctionCalculatorImpl implements FunctionCalculator {
     /**
      * 
      */
-    public FunctionCalculatorImpl() {
+    public GraphicLogicsImpl() {
         this.results = new ArrayList<>();
         this.controller = Calculator.GRAPHIC.getController();
     }
@@ -54,7 +54,7 @@ public class FunctionCalculatorImpl implements FunctionCalculator {
                 results.clear();
             }
             this.controller.getManager().memory().clear();
-            x += FunctionCalculatorImpl.PRECISION;
+            x += GraphicLogicsImpl.PRECISION;
         }
     }
 
