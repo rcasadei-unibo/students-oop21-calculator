@@ -4,7 +4,7 @@ import java.util.function.UnaryOperator;
 
 /**
  * 
- * The generic operator for binary operations. It contains a UnaryOperator(with his function), a int for the precedence and a Type for the type of association.
+ * The generic operator for unary operations. It contains a UnaryOperator(with his function), a int for the precedence and a Type for the type of association.
  *
  */
 public class CCUnaryOperator {

@@ -4,7 +4,7 @@ import model.calculators.CalculatorModel;
 
 /**
  * 
- * Simple Factory that creates a controller given the model.
+ * Simple Factory that creates a CalculatorController given the model.
  *
  */
 public interface ControllerFactory {
