@@ -1,8 +1,8 @@
 package controller.calculators.logics;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import controller.calculators.CalculatorController;
 import model.calculators.ProgrammerCalculatorModelFactory;
 import model.manager.EngineModelInterface.Calculator;
@@ -55,6 +55,9 @@ public class ProgrammerLogicsImpl implements InputFormatterLogics, OutputFormatt
           this.removeError();
         }
     }
+    /**
+     * handles "not" operand by wrapping the current buffer and calculating the result.
+     */
     private void handleNotInput() {
         this.buffer.add(0, "(");
         this.buffer.add(0, "not");
@@ -68,10 +71,7 @@ public class ProgrammerLogicsImpl implements InputFormatterLogics, OutputFormatt
     }
     /**
      * Usually called when switching from a conversion base to another.
-     * This method clears:
-     * -the engine's memory
-     * -the value converted
-     * -the current buffer
+     * Resets the current state.
      * @param base will be the new conversionBase.
      */
     public void reset(final int base) {
@@ -137,7 +137,6 @@ public class ProgrammerLogicsImpl implements InputFormatterLogics, OutputFormatt
         }
     }
     /**
-     * 
      * @return a String containing the current buffer converted to String.
      */
     public String getBuffer() {
@@ -168,6 +167,9 @@ public class ProgrammerLogicsImpl implements InputFormatterLogics, OutputFormatt
         this.buffer.remove("Syntax error");
         this.buffer.remove("Parenthesis mismatch");
     }
+    /**
+     * This method changes the controller's memory back to the current conversionBase.
+     */
     private void inverseFormat() {
         if (this.conversionBase != 10) {
             final var toChange = new ArrayList<String>();
@@ -224,7 +226,7 @@ public class ProgrammerLogicsImpl implements InputFormatterLogics, OutputFormatt
         }
     }
     /**
-     * This method adds the last valid Operation to the History.
+     * This method adds the last valid Operation to the History and adds the conversion base of the operation.
      * @param before a string containing the last operation executed.
      */
     public void addResult(final String before) {
