@@ -90,14 +90,42 @@ public class ScientificCalculatorPanel extends JPanel {
     private void setScientificOperators() {
         final JPanel scientificOperator = new JPanel();
         scientificOperator.setLayout(new GridLayout(4 + 2, 2));
-        final var scientificOp = List.of("log", "ln", "ʸ√x", "xʸ", "Abs", "!n", "Sin", "Cos", "Tan", "Csc", "Sec", "Cot");
+        final var scientificOp = List.of("log", "ln", "root", "^", "abs", "factorial", "sin", "cos", "tan", "csc", "sec", "cot");
         scientificOp.forEach((op) -> {
-            final JButton btn = CreateButton.createOpButton(op);
-            btn.addActionListener(e -> {
-               this.inFormatter.read(op);
-               this.outFormatter.updateDisplay();
-            });
-            scientificOperator.add(btn);
+            switch (op) {
+               case "root":
+                   final JButton btn1 = CreateButton.createOpButton("ʸ√x");
+                   btn1.addActionListener(e -> {
+                       this.inFormatter.read(op);
+                       this.outFormatter.updateDisplay();
+                    });
+                    scientificOperator.add(btn1);
+                   break;
+               case "factorial":
+                   final JButton btn2 = CreateButton.createOpButton("!n");
+                   btn2.addActionListener(e -> {
+                       this.inFormatter.read(op);
+                       this.outFormatter.updateDisplay();
+                    });
+                    scientificOperator.add(btn2);
+                   break;
+               case "^":
+                   final JButton btn3 = CreateButton.createOpButton("xʸ");
+                   btn3.addActionListener(e -> {
+                       this.inFormatter.read(op);
+                       this.outFormatter.updateDisplay();
+                    });
+                    scientificOperator.add(btn3);
+                   break;
+               default :
+                   final JButton btn = CreateButton.createOpButton(op);
+                   btn.addActionListener(e -> {
+                       this.inFormatter.read(op);
+                       this.outFormatter.updateDisplay();
+                    });
+                    scientificOperator.add(btn);
+                    break;
+            }
         });
 
         this.add(scientificOperator, BorderLayout.WEST);
