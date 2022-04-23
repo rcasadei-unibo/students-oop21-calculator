@@ -4,6 +4,7 @@ package utils.ast;
  *Operaion inteface used for calculating derivateves and geneal results.
  *
  */
+//https://github.com/Ivan-Capponi/Tesi_di_Laurea/tree/master/Derivate/src/ast
 public interface Operation {
 	/**
 	 * @param val

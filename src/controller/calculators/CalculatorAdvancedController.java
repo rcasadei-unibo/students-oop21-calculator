@@ -9,7 +9,6 @@ import controller.manager.CCEngine;
 import utils.CalcException;
 import utils.calculate.Algorithm;
 import utils.calculate.Expression;
-import utils.calculate.ExternData;
 import utils.calculate.Derivate;
 import utils.calculate.Limit;
 import utils.calculate.Tokenizer;
