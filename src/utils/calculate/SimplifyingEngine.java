@@ -9,7 +9,7 @@ import utils.tokens.Token;
  * simplifies Expression during the parsing of the AS (e.g. 5 + 0 => 5)
  *
  */
-public class SimplifyingEngine {
+public class SimplifyingEngine implements Simplifier {
 
     /**
      * every binary operator has a simplification process.

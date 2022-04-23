@@ -10,7 +10,7 @@ import utils.tokens.SpecialToken;
  * Evaluates every node of the AST using a post oder traversal of the tree.
  *https://mariusbancila.ro/blog/2009/02/06/evaluate-expressions-%e2%80%93-part-4-evaluate-the-abstract-syntax-tree/
  */
-public class EvaluatorAST {
+public class EvaluatorAST implements TreeEvaluator<Operation> {
 
     /**it is called recursively until you reach the root of the tree.
      * @param node
@@ -160,10 +160,10 @@ public class EvaluatorAST {
         }
     }
 
-    /**
-     * Starts the evaluation process.
+    /**Starts the evaluation process.
      * @param root
      * @return the result of the entire expression
+     * 
      */
     public Operation evaluate(final AbstractSyntaxNode root) {
         if (root == null) {
@@ -171,5 +171,6 @@ public class EvaluatorAST {
         }
         return evaluateSubTree(root);
     }
+
 
 }
