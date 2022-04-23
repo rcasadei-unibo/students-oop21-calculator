@@ -9,8 +9,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
-import controller.calculators.logics.FunctionCalculator;
-import controller.calculators.logics.FunctionCalculatorImpl;
+import controller.calculators.logics.GraphicLogics;
+import controller.calculators.logics.GraphicLogicsImpl;
 import utils.CCColors;
 /**
  * 
@@ -26,7 +26,7 @@ public class FunctionsInsertionPanel extends JPanel {
      *
      */
     public FunctionsInsertionPanel(final FunctionGrapher f) {
-        final FunctionCalculator calc = new FunctionCalculatorImpl();
+        final GraphicLogics calc = new GraphicLogicsImpl();
         this.setLayout(new GridLayout(1, 4));
         final Font font = new Font("Serif", Font.ITALIC + Font.BOLD, 20);
 

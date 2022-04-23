@@ -11,7 +11,7 @@ import java.util.Map;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import controller.calculators.logics.ProgrammerFormatter;
+import controller.calculators.logics.ProgrammerLogicsImpl;
 import utils.CCColors;
 import view.components.CCDisplay;
 import view.components.CCNumPad;
@@ -34,7 +34,7 @@ public class ProgrammerCalculatorPanel extends JPanel {
     private ConversionPanel convPanel;
     private final CCNumPad numpad;
     private transient ActionListener opAl;
-    private final transient ProgrammerFormatter formatter = new ProgrammerFormatter(this.display);
+    private final transient ProgrammerLogicsImpl formatter = new ProgrammerLogicsImpl(this.display);
     {
         final ActionListener btnAl = new ActionListener() {
             @Override
