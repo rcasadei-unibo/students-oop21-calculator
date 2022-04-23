@@ -1,5 +1,7 @@
 package controller.manager;
 
+import java.util.Optional;
+
 import model.manager.EngineModelInterface.Calculator;
 
 /**
@@ -15,9 +17,9 @@ public interface EngineManager {
 
     /**
      * Returns the currently mounted calculator.
-     * @return Calculator currently mounted
+     * @return Optional of the calculator currently mounted
      */
-    Calculator getMounted();
+    Optional<Calculator> getMounted();
 
     /**
      * Calculates the result of the expression currently in memory. The result will be stored in the input buffer.

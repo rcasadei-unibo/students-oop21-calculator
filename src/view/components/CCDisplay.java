@@ -37,7 +37,6 @@ public class CCDisplay extends JPanel {
         this.mainBox.setPreferredSize(new Dimension((int) width, (int) height));
         this.mainBox.setFont(new Font(mainBox.getFont().getName(), Font.PLAIN, 32));
         this.mainBox.setBorder(new EmptyBorder(0, 10, 0, 10));
-        this.mainBox.setAlignmentX(1.0f);
         this.add(mainBox, BorderLayout.CENTER);
 
         this.upperBox.setBorder(new EmptyBorder(10, 10, 0, 10));

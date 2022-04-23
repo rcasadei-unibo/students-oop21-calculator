@@ -66,8 +66,8 @@ public class CCNumPad extends JPanel {
         return btn;
     }
     /**
-     * Returns the mapping from a string to the button that has that string as text.
-     * @return Map from a string to a button
+     * Returns the mapping from a string to the JButton that has that string as text.
+     * @return Map from a string to a JButton
      */
     public Map<String, JButton> getButtons() {
         return this.buttons;
