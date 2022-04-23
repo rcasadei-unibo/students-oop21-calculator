@@ -8,8 +8,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -17,12 +15,12 @@ import javax.swing.JPanel;
 import javax.swing.JToolTip;
 import javax.swing.ToolTipManager;
 
+import controller.calculators.logics.CombinatoricsLogics;
+import controller.calculators.logics.CombinatoricsLogicsImpl;
 import utils.CCColors;
 import utils.CustomJToolTip;
 import view.components.CCDisplay;
 import view.components.CCNumPad;
-import view.logics.CombinatoricsLogics;
-import view.logics.CombinatoricsLogicsImpl;
 
 /**
  * 
@@ -76,19 +74,14 @@ public class CombinatoricsCalculatorPanel extends JPanel {
 
         private static final long serialVersionUID = 1L;
         private final String sep = File.separator;
-        private final String directory = System.getProperty("user.dir") + this.sep + "src" + this.sep + "resources" + this.sep;
-        private final Map<String, String> opMap = Map.of("Sequences", "sequencesNumber", "Dispositions", "factorial",
-                "Subsets", "binomialCoefficient", "Derangements", "derangement", "Partitions", "bellNumber",
-                "Partitions(binary)", "stirlingNumber", "Fibonacci", "fibonacci", "Fibonacci(binary)", "binaryFibonacci");
-        private final List<String> opList = List.of("Sequences", "Dispositions", "Subsets",
-                "Derangements", "Partitions", "Partitions(binary)", "Fibonacci", "Fibonacci(binary)");
+        private final String directory = System.getProperty("user.dir") + this.sep + "resources" + this.sep;
 
         OperationsPanel(final CombinatoricsLogics logics, final CCDisplay display, final JLabel explLabel) {
             this.setLayout(new GridLayout(8, 2));
-            this.opList.forEach(str -> {
-                this.createOpButton(str, this.opMap.get(str), logics, display);
-                this.createExplButton(str, explLabel);
-            });
+            for (final CombinatoricsLogics.Operations op : CombinatoricsLogics.Operations.values()) {
+                this.createOpButton(op.getOpBtnName(), op.getOpModelName(), logics, display);
+                this.createExplButton(op.getOpBtnName(), explLabel);
+            }
         }
 
         private void createOpButton(final String btnName, final String opName, final CombinatoricsLogics logics, final CCDisplay display) {
@@ -103,9 +96,6 @@ public class CombinatoricsCalculatorPanel extends JPanel {
         private void createExplButton(final String opName, final JLabel explLabel) {
             final var file = this.directory + opName;
             final var btn = new JButton("?") {
-                /**
-                 * 
-                 */
                 private static final long serialVersionUID = 1L;
                 @Override
                 public JToolTip createToolTip() {

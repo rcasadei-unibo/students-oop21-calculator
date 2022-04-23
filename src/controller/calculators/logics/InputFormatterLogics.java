@@ -1,10 +1,9 @@
-package view.logics; 
+package controller.calculators.logics; 
 /**
  * This inferface acts as and intermediate between the panel and the engine. PROXY PATTERN.
  * It shares the engine' methods.
  */
 public interface InputFormatterLogics {
-
     /**
      * This method will call the memory's read().
      * @param input the value to be read.
@@ -20,5 +19,4 @@ public interface InputFormatterLogics {
      * This method will call the engine's calculate().
      */
     void calculate();
-
 }

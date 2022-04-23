@@ -15,6 +15,7 @@ public class Limit implements Algorithm {
     private CCEngine engine;
 	private static final double DISTANCE = 5;
 	private static final double MINNUM = 1E-8;
+	private static final double DELTA = 1E-11;
 	private Double x0;
 	
 	private void  parameterDefined() {
@@ -23,6 +24,8 @@ public class Limit implements Algorithm {
 	    }
 	}
 	
+	//took inspiration from
+	//https://stackoverflow.com/questions/31330898/calculus-limits-with-java
 	/**
 	 * Calculates the limit numerically, i doens't work with all types of limits.
 	 * @param cond : the condition for continuing evaluating the limit
@@ -57,7 +60,7 @@ public class Limit implements Algorithm {
         }
         try {
             final String params = this.preprocessParameter(parameters.get(0));
-            this.x0 = Double.parseDouble(new Expression(params, engine, false).getResult().getNumericResult(0.0).toString()) + MINNUM;
+            this.x0 = Double.parseDouble(new Expression(params, engine, false).getResult().getNumericResult(0.0).toString()) + DELTA;
         } catch (NumberFormatException e) {
             throw new CalcException("Bad format Number, only numbers are accepted");
         }
@@ -67,7 +70,7 @@ public class Limit implements Algorithm {
         expression = expr;
         final double aroundBelow = calculateLimit((num) -> num <= x0, x0 - DISTANCE);
         final double aroundAbove = calculateLimit((num) -> num >= x0, x0 + DISTANCE);
-        return aroundBelow == aroundAbove ? aroundAbove : Double.NaN;
+        return aroundBelow == aroundAbove ? Math.abs(aroundAbove) <= DELTA ? 0.0 : aroundAbove : Double.NaN;
     }
 
     @Override

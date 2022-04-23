@@ -20,7 +20,8 @@ import utils.CCColors;
 import utils.CommandFactory;
 import view.components.CCDisplay;
 import view.components.CCNumPad;
-
+import controller.calculators.logics.AdvancedLogicsImpl;
+import controller.calculators.logics.AdvancedLogics;
     /**
      * 
     * The Advanced Calculator Panel.
@@ -32,43 +33,49 @@ import view.components.CCNumPad;
          * 
          */
         private static final long serialVersionUID = 1L;
-        private final CalculatorAdvancedController advancedController;
+        private final CalculatorAdvancedController advancedController = new CalculatorAdvancedController(Calculator.ADVANCED.getController());
         private final OperationsPanel operationsPanel;
+        private final CommandFactory commands;
         /**
          *
          */
         public AdvancedCalculatorPanel() {
 
-            this.advancedController = new CalculatorAdvancedController(Calculator.ADVANCED.getController());
+            final AdvancedLogics logics = new AdvancedLogicsImpl(advancedController);
+            this.commands = new CommandFactory(logics);
+
             final var display = new CCDisplay();
             this.setLayout(new BorderLayout());
             this.add(display, BorderLayout.NORTH);
-            this.operationsPanel = new OperationsPanel(advancedController, display);
+            this.operationsPanel = new OperationsPanel(commands, display);
 
             final ActionListener numAndOpBtn = (e) -> {
                 final List<String> buttons = List.of("sin", "cos", "log", "tan", "√", "abs", "csc", "sec", "cot", "^");
                 final var btn = (JButton) e.getSource();
-                final var command = CommandFactory.insert(btn.getText(), buttons, () -> "(", advancedController);
+                final var command = commands.insert(btn.getText(), buttons, () -> "(");
                 display.updateText(command.execute());
             };
 
             final ActionListener deleteBtn = e -> {
-                CommandFactory.deleteLast(advancedController).execute();
+                commands.deleteLast().execute();
                 display.updateText(this.advancedController.getCurrentDisplay());
             };
             final ActionListener equalsBtn = e -> {
-                final var command  = CommandFactory.calculate(advancedController, operationsPanel.getParameters());
-                final var command1 = CommandFactory.previousState(advancedController);
+                final var command  = commands.calculate(operationsPanel.getParameters());
+                final var command1 = commands.previousState();
                 final var result = command.execute();
                 final var expression = command1.execute();
+                display.updateUpperText(expression + "=");
                 if ("Syntax Error".equals(result)) {
                     advancedController.reset();
                     display.updateText(result);
-                    display.updateUpperText(expression + "=");
+                } else if ("Infinity".equals(result) || "-Infinity".equals(result)) {
+                    advancedController.reset();
+                    display.updateText(result);
+                    commands.addToHistory(expression + "=" + result).execute();
                 } else {
                     display.updateText(advancedController.getCurrentDisplay());
-                    display.updateUpperText(expression + "=" + result);
-                    CommandFactory.addToHistory(advancedController, expression + "=" + result).execute();
+                    commands.addToHistory(expression + "=" + result).execute();
                 }
             };
 
@@ -112,13 +119,13 @@ import view.components.CCNumPad;
             private final JLabel label1 = new JLabel("Param1: ");
             private final JFormattedTextField param2 = new JFormattedTextField();
             private final JLabel label2 = new JLabel("Param2: ");
-            private final CalculatorAdvancedController advancedController;
+            private final CommandFactory commands;
             /**
-             * @param advancedController
+             * @param commands
              * @param display
              */
-            public OperationsPanel(final CalculatorAdvancedController advancedController, final CCDisplay display) {
-                this.advancedController = advancedController;
+            public OperationsPanel(final CommandFactory commands, final CCDisplay display) {
+                this.commands = commands;
                 this.setLayout(new GridBagLayout());
                 c.weightx = 1;
                 c.weighty = 1;
@@ -167,7 +174,7 @@ import view.components.CCNumPad;
                 param2.setEnabled(false);
                 param1.setText("");
                 param2.setText("");
-                CommandFactory.selectedOperation(advancedController, TypeAlgorithm.DERIVATE).execute();
+                commands.selectedOperation(TypeAlgorithm.DERIVATE).execute();
             }
             private void selectedIntegrate() {
                 label1.setText("lowerBound: ");
@@ -176,7 +183,7 @@ import view.components.CCNumPad;
                 param2.setEnabled(true);
                 param1.setText("");
                 param2.setText("");
-                CommandFactory.selectedOperation(advancedController, TypeAlgorithm.INTEGRATE).execute();
+                commands.selectedOperation(TypeAlgorithm.INTEGRATE).execute();
             }
             private void selectedLimit() {
                 label1.setText("x0 \u2250 : ");
@@ -185,7 +192,7 @@ import view.components.CCNumPad;
                 param2.setEnabled(false);
                 param1.setText("");
                 param2.setText("");
-                CommandFactory.selectedOperation(advancedController, TypeAlgorithm.LIMIT).execute();
+                commands.selectedOperation(TypeAlgorithm.LIMIT).execute();
             }
         }
     }

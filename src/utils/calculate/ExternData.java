@@ -12,9 +12,10 @@ public class ExternData {
 	private final Map<String, Double> constants = Map.of(
 	        "pi", Math.PI,
 	        "e", Math.E,
-	        "infinity", 1E+8,
-	        "Infinity", 1E+8,
-	        "inf", 1E+8);
+	        "infinity", 1E+12,
+	        "Infinity", 1E+12,
+	        "inf", 1E+12,
+	        "NaN", Double.NaN);
 	
 	private static final String VARIABLE = "x";
 	

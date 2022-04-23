@@ -9,10 +9,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
-import model.manager.EngineModelInterface.Calculator;
+import controller.calculators.logics.FunctionCalculator;
+import controller.calculators.logics.FunctionCalculatorImpl;
 import utils.CCColors;
-import view.logics.FunctionCalculator;
-import view.logics.FunctionCalculatorImpl;
 /**
  * 
  * This component gives the user a JTextField which can be used to write the function he wants and draw them on the FunctionGrapher panel or delete them using two JButtons.
@@ -23,11 +22,11 @@ public class FunctionsInsertionPanel extends JPanel {
     private static final long serialVersionUID = -7104626977730130720L;
     /**
      *
-     *@param f is the component where the function will be paint.
+     *@param f is the component where the function will be visualized.
      *
      */
     public FunctionsInsertionPanel(final FunctionGrapher f) {
-        final FunctionCalculator calc = new FunctionCalculatorImpl(Calculator.GRAPHIC.getController());
+        final FunctionCalculator calc = new FunctionCalculatorImpl();
         this.setLayout(new GridLayout(1, 4));
         final Font font = new Font("Serif", Font.ITALIC + Font.BOLD, 20);
 
@@ -35,7 +34,7 @@ public class FunctionsInsertionPanel extends JPanel {
         fun.setFont(font);
         fun.setBorder(new LineBorder(CCColors.GRAPHIC_BORDERS, 1));
 
-        final JTextField t = new JTextField("  ");
+        final JTextField t = new JTextField("");
         t.setBorder(new LineBorder(CCColors.GRAPHIC_BORDERS, 1));
 
         final JButton draw = new JButton("ADD");
