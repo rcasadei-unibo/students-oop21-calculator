@@ -24,7 +24,8 @@ import view.components.CCNumPad;
 
 /**
  * 
- * Combinatorics Calculator GUI.
+ * A BorderLayout JPanel: the display is North, the numpad is in the center,
+ * a new JPanel containing all the buttons for the Combinatorics Operations is East and the label with examples for the operations is South.
  *
  */
 public class CombinatoricsCalculatorPanel extends JPanel {
@@ -32,7 +33,7 @@ public class CombinatoricsCalculatorPanel extends JPanel {
     private static final long serialVersionUID = 1L;
 
     /**
-     * It creates a BorderLayout panel: the display is North, the buttons are in the center and the label with examples for the operations is South.
+     * It creates the Combinatorics Calculator GUI.
      */
     public CombinatoricsCalculatorPanel() {
         final CombinatoricsLogics logics = new CombinatoricsLogicsImpl();
@@ -67,7 +68,7 @@ public class CombinatoricsCalculatorPanel extends JPanel {
 
     /**
      * 
-     * JPanel containing the buttons of the operations(and the explanation buttons).
+     * JPanel containing the buttons of the operations and the explanation buttons.
      *
      */
     static class OperationsPanel extends JPanel {

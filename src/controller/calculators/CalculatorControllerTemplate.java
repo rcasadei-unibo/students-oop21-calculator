@@ -11,15 +11,11 @@ import utils.Type;
 
 /**
  * 
- * Implementation of the generic Controller.
+ * Implementation of the generic Controller. It is used with Standard, Scientific, Programmer and Combinatorics models
  * 
  */
 public class CalculatorControllerTemplate implements CalculatorController {
-    /**
-     * 
-     * MISSING JAVADOC.
-     *
-     */
+
     private final CalculatorModel model;
     private CCManager manager;
 
@@ -48,7 +44,7 @@ public class CalculatorControllerTemplate implements CalculatorController {
     }
 
     @Override
-    public double applyBinaryOperation(final String op, final Double a, final Double b) {
+    public double applyBinaryOperation(final String op, final double a, final double b) {
         return this.getBinaryOperators().get(op).apply(a, b);
     }
 
