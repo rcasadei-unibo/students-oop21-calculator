@@ -65,6 +65,9 @@ public class OutputFormatterLogicsImpl implements OutputFormatterLogics {
             case "factorial":
                 appearanceMap.put(str, "!");
                 break;
+            case "log":
+                appearanceMap.put(str, "log₁₀");
+                break;
             default:
                 appearanceMap.put(str, str);
                 break;
