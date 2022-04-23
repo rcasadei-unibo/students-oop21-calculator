@@ -10,7 +10,7 @@ import utils.ast.Operation;
  * Expression class is used for calculating he result of an mathematical expression.
  *
  */
-public class Expression implements MathematicalExpressions {
+public class Expression implements MathematicalExpression {
 	
 	private String expr;
 	private final TreeEvaluator<Operation> evaluator;
