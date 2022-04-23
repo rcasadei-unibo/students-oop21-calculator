@@ -23,7 +23,7 @@ public interface EngineInterface {
      * 
      * @param infix List of strings representing the expression in infix notation to parse.
      * @return List of strings representing the reverse polish notation of the input
-     * @throws CalcException
+     * @throws CalcException If there is a parenthesis mismatch.
      */
     List<String> parseToRPN(List<String> infix) throws CalcException;
 
