@@ -16,14 +16,7 @@ import controller.calculators.logics.OutputFormatterLogics;
 import controller.calculators.logics.OutputFormatterLogicsImpl;
 import model.manager.EngineModelInterface.Calculator;
 /**
- * This is StandardCalculatorPanel which holds the basic operators:
- * -plus.
- * -subtraction.
- * -multiplication.
- * -division.
- * -square.
- * -inverse.
- * -modulo.
+ * 
  */
 public class ScientificCalculatorPanel extends JPanel {
     /**
@@ -35,14 +28,7 @@ public class ScientificCalculatorPanel extends JPanel {
     private final InputFormatterLogics inFormatter;
     private final OutputFormatterLogics outFormatter;
     /**
-      * This is StandardCalculatorPanel which holds the basic operators:
-      * -plus.
-      * -subtraction.
-      * -multiplication.
-      * -division.
-      * -square.
-      * -inverse.
-      * -modulo.
+      * 
      */
     public ScientificCalculatorPanel() {
         this.inFormatter = new InputFormatterLogicsImpl(this.controller);
@@ -53,6 +39,7 @@ public class ScientificCalculatorPanel extends JPanel {
         this.setOperators();
         this.setScientificOperators();
     }
+
     private void setNumbers() {
         final ActionListener btnAl = new ActionListener() {
             @Override
@@ -83,6 +70,7 @@ public class ScientificCalculatorPanel extends JPanel {
         final JPanel numbers = new CCNumPad(btnAl, calcAl, backspaceAl);
         this.add(numbers, BorderLayout.CENTER);
     }
+
     private void setOperators() {
         final JPanel operator = new JPanel();
         operator.setLayout(new GridLayout(4, 2));
@@ -102,7 +90,7 @@ public class ScientificCalculatorPanel extends JPanel {
     private void setScientificOperators() {
         final JPanel scientificOperator = new JPanel();
         scientificOperator.setLayout(new GridLayout(4 + 2, 2));
-        final var scientificOp = List.of("log", "ln", "nthRoot", "^", "abs", "factorial", "sin", "cos", "tan", "csc", "sec", "cot");
+        final var scientificOp = List.of("log", "ln", "ʸ√x", "xʸ", "Abs", "!n", "Sin", "Cos", "Tan", "Csc", "Sec", "Cot");
         scientificOp.forEach((op) -> {
             final JButton btn = CreateButton.createOpButton(op);
             btn.addActionListener(e -> {
@@ -113,13 +101,6 @@ public class ScientificCalculatorPanel extends JPanel {
         });
 
         this.add(scientificOperator, BorderLayout.WEST);
-    }
-    /**
-     * Returns the StandardCalculatorPanel's display.
-     * @return display 
-     */
-    public CCDisplay getDisplay() {
-        return this.display;
     }
 }
 

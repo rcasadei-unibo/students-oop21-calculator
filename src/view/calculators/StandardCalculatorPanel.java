@@ -31,9 +31,9 @@ public class StandardCalculatorPanel extends JPanel {
      */
     private static final long serialVersionUID = -3801351406960094788L;
     private final CCDisplay display = new CCDisplay();
-    private final CalculatorController controller = Calculator.STANDARD.getController();
-    private final InputFormatterLogics inFormatter;
-    private final OutputFormatterLogics outFormatter;
+    private final transient CalculatorController controller = Calculator.STANDARD.getController();
+    private final transient InputFormatterLogics inFormatter;
+    private final transient OutputFormatterLogics outFormatter;
     /**
       * This is StandardCalculatorPanel which holds the basic operators:
       * -plus.
@@ -96,12 +96,5 @@ public class StandardCalculatorPanel extends JPanel {
         });
 
         this.add(operator, BorderLayout.EAST);
-    }
-    /**
-     * Returns the StandardCalculatorPanel's display.
-     * @return display 
-     */
-    public CCDisplay getDisplay() {
-        return this.display;
     }
 }

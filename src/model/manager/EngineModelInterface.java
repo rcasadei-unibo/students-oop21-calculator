@@ -1,5 +1,7 @@
 package model.manager;
 
+import java.util.Optional;
+
 import controller.calculators.CalculatorController;
 import controller.calculators.ControllerFactoryImpl;
 import model.calculators.CalculatorModel;
@@ -66,8 +68,8 @@ public interface EngineModelInterface {
 
     /**
      * Returns the calculator currently in use.
-     * @return Currently mounted calculator
+     * @return Optional of the currently mounted calculator
      */
-    Calculator getMounted();
+    Optional<Calculator> getMounted();
 
 }

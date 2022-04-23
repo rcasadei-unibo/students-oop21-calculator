@@ -11,7 +11,7 @@ import view.components.CCDisplay;
 /**
  * This class acts as an intermediate between the ProgrammerCalculatorPanel and CalculatorController's engine.
  */
-public class ProgrammerFormatter implements InputFormatterLogics, OutputFormatterLogics {
+public class ProgrammerLogicsImpl implements InputFormatterLogics, OutputFormatterLogics {
     private int conversionBase = 10;
     private final CalculatorController controller;
     private List<String> buffer;
@@ -21,7 +21,7 @@ public class ProgrammerFormatter implements InputFormatterLogics, OutputFormatte
     /**
      * @param display
      */
-    public ProgrammerFormatter(final CCDisplay display) {
+    public ProgrammerLogicsImpl(final CCDisplay display) {
         this.display = display;
         this.controller = Calculator.PROGRAMMER.getController();
         this.buffer = new ArrayList<>();

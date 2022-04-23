@@ -14,7 +14,7 @@ import java.util.Random;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
-import controller.calculators.logics.FunctionCalculatorImpl;
+import controller.calculators.logics.GraphicLogicsImpl;
 import utils.CCColors;
 /**
  * 
@@ -48,7 +48,7 @@ public class FunctionGrapher extends JPanel {
         });
     }
     /**
-     * @param gr is the param that gives the possibility to draw in this JPanel
+     * @param gr is the param that allows to draw in this JPanel
      */
     public void paintComponent(final Graphics gr) {
         final int w = this.getWidth();
@@ -87,7 +87,7 @@ public class FunctionGrapher extends JPanel {
         final Graphics2D lines = (Graphics2D) gr;
         lines.setStroke(new BasicStroke());
         lines.setColor(CCColors.GRAPHIC_AXES);
-        for (int count = 0; count < FunctionCalculatorImpl.RANGE; count++) {
+        for (int count = 0; count < GraphicLogicsImpl.RANGE; count++) {
             lines.drawLine((int) (w / 2 + count * FunctionGrapher.scale * 2), (int) (h / 2 + bound), (int) (w / 2 + count * FunctionGrapher.scale * 2), (int) (h / 2 - 3 + 10 / FunctionGrapher.scale));
             lines.drawLine((int) (w / 2 - count * FunctionGrapher.scale * 2), (int) (h / 2 + bound), (int) (w / 2 - count * FunctionGrapher.scale * 2), (int) (h / 2 - 3 + 10 / FunctionGrapher.scale));
             if (count % FunctionGrapher.LINES_DISTANCE == 0 && count != 0) {
@@ -95,7 +95,7 @@ public class FunctionGrapher extends JPanel {
                 lines.drawString(Integer.toString(-(count)), (int) (w / 2 - count * FunctionGrapher.scale * 2 - 4 - 4), (int) (h / 2 - 4 - 2 + 10 / FunctionGrapher.scale));
             }
         }
-        for (int count = 0; count < FunctionCalculatorImpl.RANGE; count++) {
+        for (int count = 0; count < GraphicLogicsImpl.RANGE; count++) {
             lines.drawLine((int) (w / 2 + bound), (int) (h / 2 + count * FunctionGrapher.scale * 2), (int) (w / 2 - 3 + 10 / FunctionGrapher.scale), (int) (h / 2 + count * FunctionGrapher.scale * 2));
             lines.drawLine((int) (w / 2 + bound), (int) (h / 2 - count * FunctionGrapher.scale * 2), (int) (w / 2 - 3 + 10 / FunctionGrapher.scale), (int) (h / 2 - count * FunctionGrapher.scale * 2));
             if (count % FunctionGrapher.LINES_DISTANCE == 0 && count != 0) {
@@ -109,11 +109,11 @@ public class FunctionGrapher extends JPanel {
         final Graphics2D grid = (Graphics2D) gr;
         grid.setStroke(new BasicStroke(1));
         grid.setColor(CCColors.GRAPHIC_GRID);
-        for (int count = 0; count < FunctionCalculatorImpl.RANGE; count++) {
+        for (int count = 0; count < GraphicLogicsImpl.RANGE; count++) {
             grid.drawLine((int) (w / 2 + count * FunctionGrapher.scale), 0, (int) (w / 2 + count * FunctionGrapher.scale), h);
             grid.drawLine((int) (w / 2 - count * FunctionGrapher.scale), 0, (int) (w / 2 - count * FunctionGrapher.scale), h);
         }
-        for (int count = 0; count < FunctionCalculatorImpl.RANGE; count++) {
+        for (int count = 0; count < GraphicLogicsImpl.RANGE; count++) {
             grid.drawLine(0, (int) (h / 2 + count * FunctionGrapher.scale), w, (int) (h / 2 + count * FunctionGrapher.scale));
             grid.drawLine(0, (int) (h / 2 - count * FunctionGrapher.scale), w, (int) (h / 2 - count * FunctionGrapher.scale));
         }
@@ -132,7 +132,7 @@ public class FunctionGrapher extends JPanel {
         this.repaint();
     }
     /**
-     * Removes the last function anc color from the buffer and calls the repaint method.
+     * Removes the last function and color from the buffer and calls the repaint method.
      */
     public void deleteFunction() {
         if (!this.buffer.isEmpty()) {
@@ -144,10 +144,10 @@ public class FunctionGrapher extends JPanel {
 
     private Polygon getPolygon(final List<Double> results, final int w, final int h) {
         final Polygon polygon = new Polygon();
-        double x = -FunctionCalculatorImpl.RANGE;
+        double x = -GraphicLogicsImpl.RANGE;
         for (final Double y : results) {
                 polygon.addPoint((int) (w / 2 + x * FunctionGrapher.scale * 2), (int) (h / 2 - y.doubleValue()  * FunctionGrapher.scale * 2));
-                x += FunctionCalculatorImpl.PRECISION;
+                x += GraphicLogicsImpl.PRECISION;
         }
         return polygon;
     }

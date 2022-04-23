@@ -8,7 +8,7 @@ import java.util.List;
  * Then the results can be obtained by calling the method getResults.
  *
  */
-public interface FunctionCalculator {
+public interface GraphicLogics {
     /**
      * 
      * @param eq is the equation which will be calculated and then the results will be put in a List of Doubles.

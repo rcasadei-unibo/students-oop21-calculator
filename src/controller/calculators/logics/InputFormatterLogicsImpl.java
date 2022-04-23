@@ -65,7 +65,6 @@ public class InputFormatterLogicsImpl implements InputFormatterLogics {
         final List<String> state = new ArrayList<>(controller.getManager().memory().getCurrentState());
         int index = state.size() - 1;
         while (index >= 0) {
-            //[1+1.1111,square]
             if (!this.isNumber(index)) {
                 index++;
                 break;

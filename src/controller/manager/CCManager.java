@@ -1,5 +1,7 @@
 package controller.manager;
 
+import java.util.Arrays;
+
 import model.manager.EngineModelInterface.Calculator;
 
 /**
@@ -19,9 +21,7 @@ public class CCManager implements ManagerInterface {
         this.memManager = new CCMemoryManager();
         this.engineManager = new CCEngineManager(this.memManager);
 
-        for (final Calculator calc : Calculator.values()) {
-            calc.getController().setManager(this);
-        }
+        Arrays.asList(Calculator.values()).forEach(calc -> calc.getController().setManager(this));
     }
 
     @Override
