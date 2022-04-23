@@ -197,11 +197,11 @@ public class ProgrammerLogicsImpl implements InputFormatterLogics, OutputFormatt
             this.lastNumBuffer = this.lastNumBuffer.replace("-", "");
             sign = -1;
         }
-        final var value = this.adjust();
+        final var value = this.getCurrentValue();
         return sign * value;
     }
-    private long adjust() {
-        //since the IEEE754 hasn't been implemented I simply round the number
+    private long getCurrentValue() {
+        //since the IEEE754 hasn't been implemented, I simply round the number
         if (this.lastNumBuffer.contains(".")) {
             return Math.round(Double.parseDouble(lastNumBuffer));
         }
