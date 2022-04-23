@@ -62,7 +62,7 @@ public class OutputFormatterLogicsImpl implements OutputFormatterLogics {
             case "1/x":
                 appearanceMap.put(str, "1/");
                 break;
-            case "factorial":
+            case "!n":
                 appearanceMap.put(str, "!");
                 break;
             default:
@@ -72,7 +72,11 @@ public class OutputFormatterLogicsImpl implements OutputFormatterLogics {
         });
         ScientificCalculatorModelFactory.create().getBinaryOpMap().forEach((str, op) -> {
             switch (str) {
-                case "test":
+                case "ʸ√x":
+                    appearanceMap.put(str, "√");
+                    break;
+                case "xʸ":
+                    appearanceMap.put(str, "^");
                     break;
                 default:
                     appearanceMap.put(str, str);

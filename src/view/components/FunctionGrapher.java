@@ -48,7 +48,7 @@ public class FunctionGrapher extends JPanel {
         });
     }
     /**
-     * @param gr is the param that gives the possibility to draw in this JPanel
+     * @param gr is the param that allows to draw in this JPanel
      */
     public void paintComponent(final Graphics gr) {
         final int w = this.getWidth();
@@ -132,7 +132,7 @@ public class FunctionGrapher extends JPanel {
         this.repaint();
     }
     /**
-     * Removes the last function anc color from the buffer and calls the repaint method.
+     * Removes the last function and color from the buffer and calls the repaint method.
      */
     public void deleteFunction() {
         if (!this.buffer.isEmpty()) {
