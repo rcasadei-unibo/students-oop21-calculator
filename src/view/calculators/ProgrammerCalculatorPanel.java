@@ -2,7 +2,6 @@ package view.calculators;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
@@ -10,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-
 import controller.calculators.logics.ProgrammerLogicsImpl;
 import utils.CCColors;
 import view.components.CCDisplay;
@@ -68,7 +66,8 @@ public class ProgrammerCalculatorPanel extends JPanel {
         };
         this.numpad = new CCNumPad(btnAl, calcAl, backspaceAl);
         final Dimension size = this.numpad.getPreferredSize();
-        this.numpad.setPreferredSize(new Dimension((int) (size.getWidth() / 1.75), (int) (size.getHeight() / 2)));
+        final double xProportion = 1.75, yProportion = 2;
+        this.numpad.setPreferredSize(new Dimension((int) (size.getWidth() / xProportion), (int) (size.getHeight() / yProportion)));
         this.numpad.getButtons().entrySet().forEach((entry) -> {
             if (".".equals(entry.getKey())) {
                 entry.getValue().setEnabled(false);

@@ -1,5 +1,4 @@
 package utils;
-
 /**
  * This class contains methods for conversions, such as:
  * -Decimal to Binary
@@ -49,10 +48,11 @@ public final class ConversionAlgorithms {
             case "F":
                 return 15.0;
             default:
-                if ("0".equals(bit))
+                if ("0".equals(bit)) {
                     return 0.0;
-                else
+                } else {
                     return Long.parseLong(bit);
+                }
         } 
     }
     /**
