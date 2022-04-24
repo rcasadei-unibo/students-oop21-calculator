@@ -5,7 +5,8 @@ import utils.Type;
 
 /**
  * 
- * Generic Controller used by Standard, Scientific, Combinatorics calculators.
+ * Generic Controller that communicates with Manager.
+ * Given the operation name the controller can give every information about it and solve it
  *
  */
 public interface CalculatorController {
@@ -17,7 +18,7 @@ public interface CalculatorController {
      * @param b second operand
      * @return result of the given operation
      */
-    double applyBinaryOperation(String op, Double a, Double b);
+    double applyBinaryOperation(String op, double a, double b);
 
     /**
      * 

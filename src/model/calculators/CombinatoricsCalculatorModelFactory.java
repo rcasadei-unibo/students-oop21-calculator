@@ -10,7 +10,7 @@ import utils.CCUnaryOperator;
 
 /**
  * 
- * Static Factory that creates the maps with the Combinatorics Operations and puts them in a Calculator Model.
+ * Static Factory that creates the maps with the Combinatorics Operations and puts them in a CalculatorModel.
  *
  */
 public final class CombinatoricsCalculatorModelFactory {
@@ -30,7 +30,7 @@ public final class CombinatoricsCalculatorModelFactory {
 
     /**
      * 
-     * @return a class(CalculatorModel)that has two maps that contain all the operators of this calculator
+     * @return a CalculatorModel that has two maps containing all the operators of this calculator
      */
     public static CalculatorModel create() {
         final Map<String, CCBinaryOperator> binaryOpMap = Map.of(
