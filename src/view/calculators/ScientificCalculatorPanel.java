@@ -15,20 +15,33 @@ import controller.calculators.logics.InputFormatterLogicsImpl;
 import controller.calculators.logics.OutputFormatterLogics;
 import controller.calculators.logics.OutputFormatterLogicsImpl;
 import model.manager.EngineModelInterface.Calculator;
+import utils.CCColors;
 /**
  * 
  */
 public class ScientificCalculatorPanel extends JPanel {
     /**
+     * This is ScientificCalculatorPanel which holds the basic operators of the StandardCalculatorPanel and the scientific operators, as well as the PI and E constants:
+     * 
+     * -log₁₀ and ln.
+     * -nthRoot.
+     * -xʸ .
+     * -absolute value .
+     * -factorial.
+     * -Sin, Cos and Tan operators.
+     * -Csc, Sec and Cot operators.
+     * -PI and Euler's constants.
      * 
      */
     private static final long serialVersionUID = -3801351406960094788L;
+    private static final int COLUMNS = 2;
+    private static final int LINES = 7;
     private final CCDisplay display = new CCDisplay();
-    private final CalculatorController controller = Calculator.SCIENTIFIC.getController();
-    private final InputFormatterLogics inFormatter;
-    private final OutputFormatterLogics outFormatter;
+    private final transient CalculatorController controller = Calculator.SCIENTIFIC.getController();
+    private final transient InputFormatterLogics inFormatter;
+    private final transient OutputFormatterLogics outFormatter;
     /**
-      * 
+     * Initialize and add all the components.
      */
     public ScientificCalculatorPanel() {
         this.inFormatter = new InputFormatterLogicsImpl(this.controller);
@@ -89,7 +102,8 @@ public class ScientificCalculatorPanel extends JPanel {
 
     private void setScientificOperators() {
         final JPanel scientificOperator = new JPanel();
-        scientificOperator.setLayout(new GridLayout(4 + 2, 2));
+        scientificOperator.setLayout(new GridLayout(LINES, COLUMNS));
+        this.addConstants(scientificOperator);
         final var scientificOp = List.of("log", "ln", "root", "^", "abs", "factorial", "sin", "cos", "tan", "csc", "sec", "cot");
         scientificOp.forEach((op) -> {
             switch (op) {
@@ -127,8 +141,24 @@ public class ScientificCalculatorPanel extends JPanel {
                     break;
             }
         });
-
         this.add(scientificOperator, BorderLayout.WEST);
+    }
+
+    private void addConstants(final JPanel panel) {
+        final JButton pi = new JButton("\u03C0");
+        pi.setBackground(CCColors.OPERATION_BUTTON);
+        pi.addActionListener(e -> {
+            inFormatter.read(Double.toString(Math.PI));
+            outFormatter.updateDisplay();
+        });
+        final JButton eul = new JButton("\u2107");
+        eul.setBackground(CCColors.OPERATION_BUTTON);
+        eul.addActionListener(e -> {
+            inFormatter.read(Double.toString(Math.E));
+            outFormatter.updateDisplay();
+        });
+        panel.add(eul);
+        panel.add(pi);
     }
 }
 
