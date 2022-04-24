@@ -8,7 +8,7 @@ import utils.ast.Operation;
  *Expression class is used for calculating he result of an mathematical expression.
  *
  */
-public interface MathematicalExpressions {
+public interface MathematicalExpression {
 
     /**
      * sets the expression.

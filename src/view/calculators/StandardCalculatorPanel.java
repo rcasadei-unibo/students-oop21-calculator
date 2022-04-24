@@ -1,8 +1,6 @@
 package view.calculators;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -53,33 +51,21 @@ public class StandardCalculatorPanel extends JPanel {
         this.setOperators();
     }
     private void setNumbers() {
-        final ActionListener btnAl = new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent e) {
-                inFormatter.read(((JButton) e.getSource()).getText());
-                outFormatter.updateDisplay();
+        final JPanel numbers = new CCNumPad(e -> {
+            inFormatter.read(((JButton) e.getSource()).getText());
+            outFormatter.updateDisplay();
+        }, e -> {
+            if (!controller.getManager().memory().getCurrentState().isEmpty()) {
+                final String history = outFormatter.format();
+                outFormatter.updateDisplayUpperText();
+                inFormatter.calculate();
+                outFormatter.addResult(history);
             }
-        };
-        final ActionListener calcAl = new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent e) {
-                if (!controller.getManager().memory().getCurrentState().isEmpty()) {
-                    final String history = outFormatter.format();
-                    outFormatter.updateDisplayUpperText();
-                    inFormatter.calculate();
-                    outFormatter.addResult(history);
-                }
-                outFormatter.updateDisplay();
-            }
-        };
-        final ActionListener backspaceAl = new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent e) {
-                inFormatter.deleteLast();
-                outFormatter.updateDisplay();
-            }
-        };
-        final JPanel numbers = new CCNumPad(btnAl, calcAl, backspaceAl);
+            outFormatter.updateDisplay();
+        }, e -> {
+            inFormatter.deleteLast();
+            outFormatter.updateDisplay();
+        });
         this.add(numbers, BorderLayout.CENTER);
     }
     private void setOperators() {
