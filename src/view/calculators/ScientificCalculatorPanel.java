@@ -37,16 +37,14 @@ public class ScientificCalculatorPanel extends JPanel {
     private static final long serialVersionUID = -3801351406960094788L;
     private final CCDisplay display = new CCDisplay();
     private final transient CalculatorController controller = Calculator.SCIENTIFIC.getController();
-    private final transient InputFormatterLogics inFormatter;
-    private final transient OutputFormatterLogics outFormatter;
+    private final transient InputFormatterLogics inFormatter = new InputFormatterLogicsImpl(controller);
+    private final transient OutputFormatterLogics outFormatter = new OutputFormatterLogicsImpl(controller, display);
     /**
      * Initialize and add all the components.
      */
     public ScientificCalculatorPanel() {
         this.setLayout(new BorderLayout());
-        this.inFormatter = new InputFormatterLogicsImpl(this.controller);
-        this.outFormatter = new OutputFormatterLogicsImpl(this.controller, this.display);
-        final ScientificOperatorsPanel scientificOp = new ScientificOperatorsPanel(this.inFormatter, this.outFormatter);
+        final ScientificOperatorsPanel scientificOp = new ScientificOperatorsPanel(inFormatter, outFormatter);
         this.add(scientificOp, BorderLayout.WEST);
         this.add(display, BorderLayout.NORTH);
         this.setNumbers();

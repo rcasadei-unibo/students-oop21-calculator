@@ -125,6 +125,26 @@ public class InputFormatterLogicsImpl implements InputFormatterLogics {
                 controller.getManager().memory().read("0");
                 controller.getManager().memory().read(")");
                 break;
+            case "cos":
+            case "tan":
+            case "abs":
+            case "sin":
+                controller.getManager().memory().read(op);
+                controller.getManager().memory().read("(");
+                controller.getManager().memory().read("0");
+                controller.getManager().memory().read(")");
+                break;
+            case "csc":
+            case "sec":
+            case "cot":
+            case "factorial":
+            case "log":
+            case "ln":
+                controller.getManager().memory().read(op);
+                controller.getManager().memory().read("(");
+                controller.getManager().memory().read("1");
+                controller.getManager().memory().read(")");
+                break;
             default :
                 break;
         }
