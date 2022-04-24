@@ -8,6 +8,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import view.components.CCDisplay;
 import view.components.CCNumPad;
+import view.components.ScientificOperatorsPanel;
 import controller.calculators.CalculatorController;
 import controller.calculators.logics.InputFormatterLogics;
 import controller.calculators.logics.InputFormatterLogicsImpl;
@@ -16,6 +17,7 @@ import controller.calculators.logics.OutputFormatterLogicsImpl;
 import model.manager.EngineModelInterface.Calculator;
 import utils.CCColors;
 import utils.CreateButton;
+
 /**
  * 
  */
@@ -34,8 +36,6 @@ public class ScientificCalculatorPanel extends JPanel {
      * 
      */
     private static final long serialVersionUID = -3801351406960094788L;
-    private static final int COLUMNS = 2;
-    private static final int LINES = 7;
     private final CCDisplay display = new CCDisplay();
     private final transient CalculatorController controller = Calculator.SCIENTIFIC.getController();
     private final transient InputFormatterLogics inFormatter;
@@ -44,13 +44,14 @@ public class ScientificCalculatorPanel extends JPanel {
      * Initialize and add all the components.
      */
     public ScientificCalculatorPanel() {
+        this.setLayout(new BorderLayout());
         this.inFormatter = new InputFormatterLogicsImpl(this.controller);
         this.outFormatter = new OutputFormatterLogicsImpl(this.controller, this.display);
-        this.setLayout(new BorderLayout());
+        final ScientificOperatorsPanel scientificOp = new ScientificOperatorsPanel(this.inFormatter, this.outFormatter);
+        this.add(scientificOp, BorderLayout.WEST);
         this.add(display, BorderLayout.NORTH);
         this.setNumbers();
         this.setOperators();
-        this.setScientificOperators();
     }
 
     private void setNumbers() {
@@ -98,67 +99,6 @@ public class ScientificCalculatorPanel extends JPanel {
         });
 
         this.add(operator, BorderLayout.EAST);
-    }
-
-    private void setScientificOperators() {
-        final JPanel scientificOperator = new JPanel();
-        scientificOperator.setLayout(new GridLayout(LINES, COLUMNS));
-        this.addConstants(scientificOperator);
-        final var scientificOp = List.of("log", "ln", "root", "^", "abs", "factorial", "sin", "cos", "tan", "csc", "sec", "cot");
-        scientificOp.forEach((op) -> {
-            switch (op) {
-               case "root":
-                   final JButton btn1 = CreateButton.createOpButton("ʸ√x");
-                   btn1.addActionListener(e -> {
-                       this.inFormatter.read(op);
-                       this.outFormatter.updateDisplay();
-                    });
-                    scientificOperator.add(btn1);
-                   break;
-               case "factorial":
-                   final JButton btn2 = CreateButton.createOpButton("!n");
-                   btn2.addActionListener(e -> {
-                       this.inFormatter.read(op);
-                       this.outFormatter.updateDisplay();
-                    });
-                    scientificOperator.add(btn2);
-                   break;
-               case "^":
-                   final JButton btn3 = CreateButton.createOpButton("xʸ");
-                   btn3.addActionListener(e -> {
-                       this.inFormatter.read(op);
-                       this.outFormatter.updateDisplay();
-                    });
-                    scientificOperator.add(btn3);
-                   break;
-               default :
-                   final JButton btn = CreateButton.createOpButton(op);
-                   btn.addActionListener(e -> {
-                       this.inFormatter.read(op);
-                       this.outFormatter.updateDisplay();
-                    });
-                    scientificOperator.add(btn);
-                    break;
-            }
-        });
-        this.add(scientificOperator, BorderLayout.WEST);
-    }
-
-    private void addConstants(final JPanel panel) {
-        final JButton pi = new JButton("\u03C0");
-        pi.setBackground(CCColors.OPERATION_BUTTON);
-        pi.addActionListener(e -> {
-            inFormatter.read(Double.toString(Math.PI));
-            outFormatter.updateDisplay();
-        });
-        final JButton eul = new JButton("\u2107");
-        eul.setBackground(CCColors.OPERATION_BUTTON);
-        eul.addActionListener(e -> {
-            inFormatter.read(Double.toString(Math.E));
-            outFormatter.updateDisplay();
-        });
-        panel.add(eul);
-        panel.add(pi);
     }
 }
 
