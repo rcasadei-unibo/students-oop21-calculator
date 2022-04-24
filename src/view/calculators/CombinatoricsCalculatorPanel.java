@@ -3,11 +3,7 @@ package view.calculators;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -19,6 +15,7 @@ import controller.calculators.logics.CombinatoricsLogics;
 import controller.calculators.logics.CombinatoricsLogicsImpl;
 import utils.CCColors;
 import utils.CustomJToolTip;
+import utils.FileResourcesUtils;
 import view.components.CCDisplay;
 import view.components.CCNumPad;
 
@@ -75,7 +72,7 @@ public class CombinatoricsCalculatorPanel extends JPanel {
 
         private static final long serialVersionUID = 1L;
         private final String sep = File.separator;
-        private final String directory = System.getProperty("user.dir") + this.sep + "resources" + this.sep;
+        private final String directory = "resources" + this.sep;
 
         OperationsPanel(final CombinatoricsLogics logics, final CCDisplay display, final JLabel explLabel) {
             this.setLayout(new GridLayout(8, 2));
@@ -104,29 +101,13 @@ public class CombinatoricsCalculatorPanel extends JPanel {
                 }
             };
             ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
-            btn.setToolTipText(this.readFromFile(file + "(TT)"));
-            final String labelText = this.readFromFile(file);
+            btn.setToolTipText(FileResourcesUtils.readFromFile(file + "(TT).txt"));
+            final String labelText = FileResourcesUtils.readFromFile(file + ".txt");
             btn.addActionListener(e -> {
                 explLabel.setText(explLabel.getText().equals(labelText) ? "" : labelText);
             });
             btn.setBackground(CCColors.EXPLANATION_BUTTON);
             this.add(btn);
-        }
-
-        private String readFromFile(final String file) {
-            String result = "<html><p width=\"500\">";
-            try (BufferedReader br = new BufferedReader(new FileReader(file + ".txt"))) {
-                String str = br.readLine();
-                while (str != null) {
-                    result = result.concat(str + "<br>");
-                    str = br.readLine();
-                }
-            } catch (FileNotFoundException e1) {
-                return "FILE NOT FOUND " + file;
-            } catch (IOException e1) {
-                return "I/O ERROR";
-            }
-            return result + "</p></html>";
         }
     }
 }
