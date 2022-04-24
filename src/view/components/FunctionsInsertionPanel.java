@@ -47,7 +47,10 @@ public class FunctionsInsertionPanel extends JPanel {
             calc.calculate(t.getText());
             if (calc.getResults().isEmpty()) {
                 t.setText(" SyntaxError");
+            } else if (calc.getResults().size() == 1) {
+                t.setText("Out of range");
             } else {
+
                 f.addFunction(calc.getResults());
             }
         });

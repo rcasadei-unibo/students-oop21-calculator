@@ -52,6 +52,9 @@ public class GraphicLogicsImpl implements GraphicLogics {
             } catch (IllegalArgumentException e) {
                 x = RANGE;
                 results.clear();
+                if ("Out of range".equals(this.controller.getManager().memory().getCurrentState().stream().reduce("", (a, b) -> a + b))) {
+                    results.add(1.0);
+                }
             }
             this.controller.getManager().memory().clear();
             x += GraphicLogicsImpl.PRECISION;
