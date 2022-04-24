@@ -27,7 +27,7 @@ public final class ConversionAlgorithms {
      * @param number
      * @return the string correspoding to the hexadecimal conversion of the number.
      *         Whereas: 
-     *         "10" would become "0A"
+     *         "10" would become "+A"
      *         "-10" would become "-A"
      */
     private static String conversionToStringHexadecimal(final long number) {
@@ -49,7 +49,10 @@ public final class ConversionAlgorithms {
             case "F":
                 return 15.0;
             default:
-                return bit.equals("0") ? 0.0 : Long.parseLong(bit);
+                if ("0".equals(bit))
+                    return 0.0;
+                else
+                    return Long.parseLong(bit);
         } 
     }
     /**
@@ -57,8 +60,8 @@ public final class ConversionAlgorithms {
      * @param number
      * @return the string correspoding to the octal conversion of the number.
      *         Whereas: 
-     *         "10" would become "012"
-     *         "-10" would become "112"
+     *         "10" would become "+12"
+     *         "-10" would become "-12"
      */
     private static String conversionToStringOctal(final long number) {
         final String value = Long.toOctalString(Math.abs(number));
@@ -84,7 +87,6 @@ public final class ConversionAlgorithms {
         }
     }
     /**
-     * 
      * @param base the starting base of conversion
      * @param number to be converted
      * @return an Integer containing the decimal conversion of the number
@@ -101,13 +103,13 @@ public final class ConversionAlgorithms {
                 ret += Integer.parseInt(String.valueOf(bits[i])) * Math.pow(base, bits.length - 1 - i);
             }
         }
-        return !String.valueOf(bits[0]).equals("-") ? ret : (-1) * ret;
+        return !("-".equals(String.valueOf(bits[0]))) ? ret : (-1) * ret;
     }
     /**
-     * 
-     * @param base
+     * Unsigned conversion of a number.
+     * @param base of conversion
      * @param number
-     * @return a.
+     * @return a long representing the converted value.
      */
     public static long unsignedConversionToDecimal(final int base, final String number) {
         long ret = 0;
