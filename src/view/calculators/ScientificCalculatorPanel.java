@@ -15,7 +15,6 @@ import controller.calculators.logics.InputFormatterLogicsImpl;
 import controller.calculators.logics.OutputFormatterLogics;
 import controller.calculators.logics.OutputFormatterLogicsImpl;
 import model.manager.EngineModelInterface.Calculator;
-import utils.CCColors;
 import utils.CreateButton;
 
 /**
