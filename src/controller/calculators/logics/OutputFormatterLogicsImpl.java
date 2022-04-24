@@ -18,8 +18,8 @@ public class OutputFormatterLogicsImpl implements OutputFormatterLogics {
     private final CCDisplay display;
     /**
      * 
-     * @param controller
-     * @param display
+     * @param controller the current controller
+     * @param display the current display
      * 
      */
     public OutputFormatterLogicsImpl(final CalculatorController controller, final CCDisplay display) {

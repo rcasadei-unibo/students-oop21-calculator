@@ -11,8 +11,8 @@ public final class CreateButton {
     }
    /**
     * 
-    * @param btnName
-    * @return aaaaaaaaaaa
+    * @param btnName is the name to be displayed on the button
+    * @return a new JButton
     */
    public static JButton createOpButton(final String btnName) {
        final JButton btn = new JButton(btnName);

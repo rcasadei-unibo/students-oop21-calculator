@@ -21,6 +21,16 @@ import utils.CCColors;
  */
 public class ScientificCalculatorPanel extends JPanel {
     /**
+     * This is ScientificCalculatorPanel which holds the basic operators of the StandardCalculatorPanel and the scientific operators, as well as the PI and E constants:
+     * 
+     * -log₁₀ and ln.
+     * -nthRoot.
+     * -xʸ .
+     * -absolute value .
+     * -factorial.
+     * -Sin, Cos and Tan operators.
+     * -Csc, Sec and Cot operators.
+     * -PI and Euler's constants.
      * 
      */
     private static final long serialVersionUID = -3801351406960094788L;
@@ -31,7 +41,7 @@ public class ScientificCalculatorPanel extends JPanel {
     private final transient InputFormatterLogics inFormatter;
     private final transient OutputFormatterLogics outFormatter;
     /**
-      * 
+     * Initialize and add all the components.
      */
     public ScientificCalculatorPanel() {
         this.inFormatter = new InputFormatterLogicsImpl(this.controller);

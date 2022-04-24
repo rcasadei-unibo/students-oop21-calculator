@@ -13,13 +13,13 @@ public class InputFormatterLogicsImpl implements InputFormatterLogics {
     private final CalculatorController controller;
     /**
      * 
-     * @param controller
+     * @param controller the current controller
      */
     public InputFormatterLogicsImpl(final CalculatorController controller) {
         this.controller = controller;
     }
     /**
-     * @param input
+     * @param input the string to be read
      */
     public void read(final String input) {
         /*se il numero premuto prima è un numero allora l'operatore unario wrappa il contenuto con il proprio unario
