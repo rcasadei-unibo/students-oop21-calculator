@@ -68,7 +68,7 @@ public class ProgrammerCalculatorPanel extends JPanel {
         };
         this.numpad = new CCNumPad(btnAl, calcAl, backspaceAl);
         final Dimension size = this.numpad.getPreferredSize();
-        this.numpad.setPreferredSize(new Dimension((int) size.getWidth() / 3, (int) size.getHeight() / 3));
+        this.numpad.setPreferredSize(new Dimension((int) (size.getWidth() / 1.75), (int) (size.getHeight() / 2)));
         this.numpad.getButtons().entrySet().forEach((entry) -> {
             if (".".equals(entry.getKey())) {
                 entry.getValue().setEnabled(false);
@@ -136,7 +136,8 @@ public class ProgrammerCalculatorPanel extends JPanel {
             }
         };
         this.convPanel = new ConversionPanel(conv);
-        this.convPanel.setPreferredSize(new Dimension(100, 150));
+        final var numpadDim = this.numpad.getPreferredSize();
+        this.convPanel.setPreferredSize(new Dimension(numpadDim));
         this.add(this.convPanel, BorderLayout.CENTER);
     }
     /**
