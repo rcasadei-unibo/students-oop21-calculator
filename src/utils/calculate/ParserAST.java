@@ -13,7 +13,7 @@ import utils.tokens.TokenType;
  * Given a List in reversed polished notation it builds an AST.
  *
  */
-public class ParserAST {
+public class ParserAST implements MathematicalParser {
 
     private Stack<AbstractSyntaxNode> stack;
     private CCEngine engine;
@@ -56,6 +56,7 @@ public class ParserAST {
      * 
      * @param engine
      */
+    @Override
     public void setEngine(final CCEngine engine) {
         this.engine = engine;
     }
@@ -63,6 +64,7 @@ public class ParserAST {
     /**
      * @param cond
      */
+    @Override
     public void setAreVariablesAllowed(final boolean cond) {
         this.isVariableAllowed = cond;
     }
@@ -72,6 +74,7 @@ public class ParserAST {
      * @return The root of the AST
      * @throws CalcException
      */
+    @Override
     public AbstractSyntaxNode parseToAST(final String expression) throws CalcException {
         List<Token> output;
         final Tokenizer tok;

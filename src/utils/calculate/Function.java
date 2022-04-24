@@ -46,7 +46,7 @@ public class Function {
 	   final var set = new HashSet<>(ScientificCalculatorModelFactory.create()
 	           .getUnaryOpMap().keySet());
 	           set.addAll(Set.of("abs", "acos", "asin", "atan", "cos",
-	                   "exp", "log", "negate", "pow", "sin", "√", "sqrt", "tan", "csc", "cot", "sec"));
+	                   "exp", "log", "negate", "pow", "sin", "√", "sqrt", "tan", "csc", "cot", "sec", "root"));
 	   return set;
 	}
 	
