@@ -20,6 +20,8 @@ public class ScientificOperatorsPanel extends JPanel {
     private static final long serialVersionUID = 268436559888047832L;
     private static final int COLUMNS = 2;
     private static final int LINES = 7;
+    private final transient InputFormatterLogics inFormatter;
+    private final transient OutputFormatterLogics outFormatter;
     /**
      * 
      * @param inFormatter
@@ -27,8 +29,14 @@ public class ScientificOperatorsPanel extends JPanel {
      * 
      */
     public ScientificOperatorsPanel(final InputFormatterLogics inFormatter, final OutputFormatterLogics outFormatter) {
+        this.inFormatter = inFormatter;
+        this.outFormatter = outFormatter;
         this.setLayout(new GridLayout(LINES, COLUMNS));
+        this.addConstants();
+        this.addOperators();
+    }
 
+    private void addConstants() {
         final JButton pi = new JButton("\u03C0");
         pi.setBackground(CCColors.OPERATION_BUTTON);
         pi.addActionListener(e -> {
@@ -43,7 +51,9 @@ public class ScientificOperatorsPanel extends JPanel {
         });
         this.add(eul);
         this.add(pi);
+    }
 
+    private void addOperators() {
         final var scientificOp = List.of("log", "ln", "root", "^", "abs", "factorial", "sin", "cos", "tan", "csc", "sec", "cot");
         scientificOp.forEach((op) -> {
             switch (op) {
