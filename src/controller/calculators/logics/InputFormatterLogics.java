@@ -1,6 +1,6 @@
 package controller.calculators.logics; 
 /**
- * This inferface acts as and intermediate between the panel and the engine. PROXY PATTERN.
+ * This inferface acts as and intermediate between the panel and the engine.
  * It shares the engine' methods.
  */
 public interface InputFormatterLogics {
