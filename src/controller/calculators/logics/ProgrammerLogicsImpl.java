@@ -139,7 +139,7 @@ public class ProgrammerLogicsImpl implements InputFormatterLogics, OutputFormatt
     /**
      * @return a String containing the current buffer converted to String.
      */
-    public String getBuffer() {
+    private String getBuffer() {
         return this.buffer.stream().reduce("", (a, b) -> a + b);
     }
     /**
@@ -217,7 +217,7 @@ public class ProgrammerLogicsImpl implements InputFormatterLogics, OutputFormatt
     }
     @Override
     public String format() {
-        return this.lastNumBuffer;
+        return this.getBuffer();
     }
     @Override
     public void updateDisplayUpperText() {

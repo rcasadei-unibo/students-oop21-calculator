@@ -51,7 +51,7 @@ public class ProgrammerCalculatorPanel extends JPanel {
             //calculate
             try {
                 formatter.updateDisplayUpperText();
-                final String history = formatter.getBuffer();
+                final String history = formatter.format();
                 formatter.calculate();
                 formatter.addResult(history);
             } catch (NumberFormatException exception) {
